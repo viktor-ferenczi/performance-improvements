@@ -9,11 +9,12 @@ namespace DedicatedPlugin
     // ReSharper disable once UnusedType.Global
     public class Plugin : IPlugin
     {
-        private const string Name = "PluginName";
+        private const string Name = "PerformanceImprovements";
         private static readonly IPluginLogger Log = new KeenPluginLogger(Name);
         private static readonly Harmony Harmony = new Harmony(Name);
         private static readonly object InitializationMutex = new object();
         private static bool initialized;
+        private static bool failed;
         public static Plugin Instance;
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
@@ -31,6 +32,7 @@ namespace DedicatedPlugin
             catch (Exception ex)
             {
                 Log.Critical("Patching failed", ex);
+                return;
             }
 
             Log.Debug("Successfully loaded");
@@ -56,11 +58,13 @@ namespace DedicatedPlugin
             EnsureInitialized();
             try
             {
-                CustomUpdate();
+                if (!failed)
+                    CustomUpdate();
             }
             catch (Exception ex)
             {
                 Log.Critical("Update failed", ex);
+                failed = true;
             }
         }
 
@@ -68,7 +72,7 @@ namespace DedicatedPlugin
         {
             lock (InitializationMutex)
             {
-                if (initialized)
+                if (initialized || failed)
                     return;
 
                 Log.Info("Initializing");
@@ -79,6 +83,8 @@ namespace DedicatedPlugin
                 catch (Exception ex)
                 {
                     Log.Critical("Failed to initialize plugin", ex);
+                    failed = true;
+                    return;
                 }
                 Log.Debug("Successfully initialized");
                 initialized = true;

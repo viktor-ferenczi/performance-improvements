@@ -15,93 +15,93 @@ namespace TorchPlugin
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Trace(string message, object[] data, Exception ex = null)
+        public void Trace(Exception ex, string message, params object[] data)
         {
             if (!logger.IsTraceEnabled)
                 return;
 
-            logger.Trace(Format(message, data, ex));
+            logger.Trace(Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Debug(string message, object[] data, Exception ex = null)
+        public void Debug(Exception ex, string message, params object[] data)
         {
             if (!logger.IsDebugEnabled)
                 return;
 
-            logger.Debug(Format(message, data, ex));
+            logger.Debug(Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Info(string message, object[] data, Exception ex = null)
+        public void Info(Exception ex, string message, params object[] data)
         {
             if (!logger.IsInfoEnabled)
                 return;
 
-            logger.Info(Format(message, data, ex));
+            logger.Info(Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Warning(string message, object[] data, Exception ex = null)
+        public void Warning(Exception ex, string message, params object[] data)
         {
             if (!logger.IsWarnEnabled)
                 return;
 
-            logger.Warn(Format(message, data, ex));
+            logger.Warn(Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Error(string message, object[] data, Exception ex = null)
+        public void Error(Exception ex, string message, params object[] data)
         {
             if (!logger.IsErrorEnabled)
                 return;
 
-            logger.Error(Format(message, data, ex));
+            logger.Error(Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Critical(string message, object[] data, Exception ex = null)
+        public void Critical(Exception ex, string message, params object[] data)
         {
             if (!logger.IsFatalEnabled)
                 return;
 
-            logger.Fatal(Format(message, data, ex));
+            logger.Fatal(Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Trace(string message, Exception ex = null)
+        public void Trace(string message, params object[] data)
         {
-            Trace(message, null, ex);
+            Trace(null, message, data);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Debug(string message, Exception ex = null)
+        public void Debug(string message, params object[] data)
         {
-            Debug(message, null, ex);
+            Debug(null, message, data);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Info(string message, Exception ex = null)
+        public void Info(string message, params object[] data)
         {
-            Info(message, null, ex);
+            Info(null, message, data);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Warning(string message, Exception ex = null)
+        public void Warning(string message, params object[] data)
         {
-            Warning(message, null, ex);
+            Warning(null, message, data);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Error(string message, Exception ex = null)
+        public void Error(string message, params object[] data)
         {
-            Error(message, null, ex);
+            Error(null, message, data);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Critical(string message, Exception ex = null)
+        public void Critical(string message, params object[] data)
         {
-            Critical(message, null, ex);
+            Critical(null, message, data);
         }
     }
 }

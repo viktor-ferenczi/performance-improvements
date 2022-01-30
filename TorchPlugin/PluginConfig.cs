@@ -56,9 +56,9 @@ namespace TorchPlugin
                     ConfigSerializer.Serialize(streamWriter, __instance);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Log.Error("Failed to save configuration file: {0}", new object[] { path }, e);
+                Log.Error(ex, "Failed to save configuration file: {0}", path);
             }
         }
 
@@ -69,7 +69,7 @@ namespace TorchPlugin
             {
                 if (!File.Exists(path))
                 {
-                    Log.Warning("Missing configuration file, saving defaults: {0}", new object[] { path });
+                    Log.Warning("Missing configuration file, saving defaults: {0}", path);
                     Save();
                     return;
                 }
@@ -78,16 +78,16 @@ namespace TorchPlugin
                 {
                     if (!(ConfigSerializer.Deserialize(streamReader) is PluginConfig config))
                     {
-                        Log.Error("Failed to deserialize configuration file: {0}", new object[] {path});
+                        Log.Error("Failed to deserialize configuration file: {0}", path);
                         return;
                     }
 
                     __instance = config;
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Log.Error("Failed to load configuration file:", new object[] { path }, e);
+                Log.Error(ex, "Failed to load configuration file:", path);
             }
         }
 

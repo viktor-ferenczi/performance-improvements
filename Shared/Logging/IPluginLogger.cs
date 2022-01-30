@@ -4,18 +4,18 @@ namespace Shared.Logging
 {
     public interface IPluginLogger
     {
-        void Trace(string message, object[] data, Exception ex = null);
-        void Debug(string message, object[] data, Exception ex = null);
-        void Info(string message, object[] data, Exception ex = null);
-        void Warning(string message, object[] data, Exception ex = null);
-        void Error(string message, object[] data, Exception ex = null);
-        void Critical(string message, object[] data, Exception ex = null);
+        void Trace(Exception ex, string message, params object[] data);
+        void Debug(Exception ex, string message, params object[] data);
+        void Info(Exception ex, string message, params object[] data);
+        void Warning(Exception ex, string message, params object[] data);
+        void Error(Exception ex, string message, params object[] data);
+        void Critical(Exception ex, string message, params object[] data);
 
-        void Trace(string message, Exception ex = null);
-        void Debug(string message, Exception ex = null);
-        void Info(string message, Exception ex = null);
-        void Warning(string message, Exception ex = null);
-        void Error(string message, Exception ex = null);
-        void Critical(string message, Exception ex = null);
+        void Trace(string message, params object[] data);
+        void Debug(string message, params object[] data);
+        void Info(string message, params object[] data);
+        void Warning(string message, params object[] data);
+        void Error(string message, params object[] data);
+        void Critical(string message, params object[] data);
     }
 }

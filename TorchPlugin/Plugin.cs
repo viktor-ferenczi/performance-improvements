@@ -10,7 +10,7 @@ namespace TorchPlugin
     // ReSharper disable once ClassNeverInstantiated.Global
     public class Plugin : TorchPluginBase
     {
-        public const string PluginName = "PluginName";
+        public const string PluginName = "PerformanceImprovements";
         public static readonly IPluginLogger Log = new TorchPluginLogger(PluginName);
         public static Plugin Instance;
 
