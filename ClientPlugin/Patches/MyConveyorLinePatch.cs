@@ -9,7 +9,7 @@ namespace ClientPlugin.Patches
     {
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
-        [HarmonyPatch("UpdateIsWorking")]
+        [HarmonyPatch(nameof(MyConveyorLine.UpdateIsWorking))]
         private static bool UpdateIsWorkingPrefix()
         {
             return MyCubeGridPatch.IsConveyorUpdateEnabled;
