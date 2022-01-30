@@ -10,7 +10,7 @@ namespace ClientPlugin
     public class Plugin : IPlugin
     {
         private const string Name = "PerformanceImprovements";
-        private static readonly IPluginLogger Log = new KeenPluginLogger(Name);
+        public static readonly IPluginLogger Log = new KeenPluginLogger(Name);
         private static readonly Harmony Harmony = new Harmony(Name);
         private static readonly object InitializationMutex = new object();
         private static bool initialized;
