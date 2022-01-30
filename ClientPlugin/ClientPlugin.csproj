@@ -529,6 +529,7 @@
         <Compile Include="Extensions\MySessionExtensions.cs" />
         <Compile Include="Patches\MyConveyorLinePatch.cs" />
         <Compile Include="Patches\MyCubeGridPatch.cs" />
+        <Compile Include="Patches\MyMechanicalConnectionBlockBasePatch.cs" />
         <Compile Include="Patches\MySpinWaitPatch.cs" />
         <Compile Include="Plugin.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
