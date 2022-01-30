@@ -9,7 +9,7 @@ namespace ClientPlugin
     // ReSharper disable once UnusedType.Global
     public class Plugin : IPlugin
     {
-        private const string Name = "PluginTemplate";
+        private const string Name = "PluginName";
         private static readonly IPluginLogger Log = new KeenPluginLogger(Name);
         private static readonly Harmony Harmony = new Harmony(Name);
         private static readonly object InitializationMutex = new object();
