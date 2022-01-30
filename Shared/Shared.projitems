@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>B127E405-3C0F-48C3-9F8E-7437E8F4E106</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\IPluginLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\LogFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\KeenPluginLogger.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)..\README.md">
+      <Link>README.md</Link>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)..\ReplaceGuidsAndRename.py">
+      <Link>ReplaceGuidsAndRename.py</Link>
+    </Content>
+  </ItemGroup>
+</Project>
