@@ -9,13 +9,15 @@ namespace ClientPlugin
     // ReSharper disable once UnusedType.Global
     public class Plugin : IPlugin
     {
-        private const string Name = "PerformanceImprovements";
+        public const string Name = "PerformanceImprovements";
         public static readonly IPluginLogger Log = new KeenPluginLogger(Name);
+        public static Plugin Instance;
+
         private static readonly Harmony Harmony = new Harmony(Name);
+
         private static readonly object InitializationMutex = new object();
         private static bool initialized;
         private static bool failed;
-        public static Plugin Instance;
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public void Init(object gameInstance)
@@ -31,7 +33,7 @@ namespace ClientPlugin
             }
             catch (Exception ex)
             {
-                Log.Critical("Patching failed", ex);
+                Log.Critical(ex, "Patching failed");
                 return;
             }
 
@@ -47,7 +49,7 @@ namespace ClientPlugin
             }
             catch (Exception ex)
             {
-                Log.Critical("Dispose failed", ex);
+                Log.Critical(ex, "Dispose failed");
             }
 
             Instance = null;
@@ -63,7 +65,7 @@ namespace ClientPlugin
             }
             catch (Exception ex)
             {
-                Log.Critical("Update failed", ex);
+                Log.Critical(ex, "Update failed");
                 failed = true;
             }
         }
@@ -82,7 +84,7 @@ namespace ClientPlugin
                 }
                 catch (Exception ex)
                 {
-                    Log.Critical("Failed to initialize plugin", ex);
+                    Log.Critical(ex, "Failed to initialize plugin");
                     failed = true;
                     return;
                 }
