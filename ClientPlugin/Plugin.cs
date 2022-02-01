@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using ClientPlugin.Patches;
 using HarmonyLib;
 using Shared.Logging;
 using VRage.Plugins;
@@ -12,6 +13,7 @@ namespace ClientPlugin
         public const string Name = "PerformanceImprovements";
         public static readonly IPluginLogger Log = new KeenPluginLogger(Name);
         public static Plugin Instance;
+        public static long Tick;
 
         private static readonly Harmony Harmony = new Harmony(Name);
 
@@ -61,7 +63,10 @@ namespace ClientPlugin
             try
             {
                 if (!failed)
+                {
                     CustomUpdate();
+                    Tick++;
+                }
             }
             catch (Exception ex)
             {
@@ -101,7 +106,7 @@ namespace ClientPlugin
 
         private void CustomUpdate()
         {
-            // TODO: Put your update code here. It is called on every simulation frame!
+            MySpinWaitPatch.LogStatistics(600);
         }
     }
 }
