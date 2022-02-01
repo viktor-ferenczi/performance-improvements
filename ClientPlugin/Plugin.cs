@@ -106,7 +106,11 @@ namespace ClientPlugin
 
         private void CustomUpdate()
         {
-            MySpinWaitPatch.LogStatistics(600);
+            #if DEBUG
+            MySpinWaitPatch.LogStats(600);
+            #else
+            MySpinWaitPatch.LogStats(36000);
+            #endif
         }
     }
 }

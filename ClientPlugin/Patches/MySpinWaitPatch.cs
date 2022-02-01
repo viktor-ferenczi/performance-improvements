@@ -10,57 +10,115 @@ namespace ClientPlugin.Patches
     [HarmonyPatch(typeof(MySpinWait))]
     public static class MySpinWaitPatch
     {
-        private static readonly bool Multiprocessor = Environment.ProcessorCount > 1;
-        private static long waitCount;
-        private static long totalSpinCount;
-        private static int maxSpinCount;
-
-        public static void LogStatistics(int period)
+        // ReSharper disable once MemberCanBePrivate.Local
+        private struct Stats
         {
-            if (Plugin.Tick % period != 0 || waitCount == 0)
+            public long Count;
+            public long Max;
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public void Increment()
+            {
+                Interlocked.Increment(ref Count);
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public void UpdateMax(long count)
+            {
+                Interlocked.CompareExchange(ref Max, count, count - 1);
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public void Reset()
+            {
+                Count = 0;
+                Max = 0;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public string Format(int seconds)
+            {
+                return $"{(Count + (seconds >> 1)) / seconds}/s";
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public string Format(int seconds, long waits)
+            {
+                return $"{(Count + (seconds >> 1)) / seconds}/s, {(Count + (waits >> 1)) / waits}/w, {Max} max";
+            }
+        }
+
+        private static Stats wait;
+        private static Stats spin;
+        private static Stats yield;
+        private static Stats sleep;
+
+        private static readonly bool Multiprocessor = Environment.ProcessorCount > 1;
+
+        public static void LogStats(int period)
+        {
+            if (!Plugin.Log.IsDebugEnabled ||
+                Plugin.Tick % period != 0 ||
+                wait.Count == 0)
                 return;
 
-            // There can be some minimal inconsistency, that's okay for logging purposes
-            var statWaitCount = Interlocked.Exchange(ref waitCount, 0);
-            var statTotalSpinCount = Interlocked.Exchange(ref totalSpinCount, 0);
-            var statMaxSpinCount = Interlocked.Exchange(ref maxSpinCount, 0);
-
             var seconds = period / 60;
-            Plugin.Log.Debug("SpinWait: {0} waits/second, {1} spins/second, {2} spins/wait, max {3} spins/wait",
-                statWaitCount / seconds,
-                statTotalSpinCount / seconds,
-                statTotalSpinCount / statWaitCount,
-                statMaxSpinCount);
+            var waits = wait.Count;
+
+            // There can be some minimal inconsistency, but that's okay for logging purposes
+            Plugin.Log.Debug("SpinWait: wait {0}; spin {1}; yield {2}; sleep {3}",
+                wait.Format(seconds),
+                spin.Format(seconds, waits),
+                yield.Format(seconds, waits),
+                sleep.Format(seconds, waits));
+
+            wait.Reset();
+            spin.Reset();
+            yield.Reset();
+            sleep.Reset();
         }
 
         // ReSharper disable once UnusedMember.Local
-        // ReSharper disable once InconsistentNaming
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MySpinWait.SpinOnce))]
-        private static bool SpinOncePrefix(ref int ___m_count)
+        private static bool SpinOncePrefix(
+            // ReSharper disable once InconsistentNaming
+            ref int ___m_count,
+            // ReSharper disable once InconsistentNaming
+            ref long ___m_startTime)
         {
-            if (___m_count == 0)
-                Interlocked.Increment(ref waitCount);
+            if (___m_startTime == 0)
+                wait.Increment();
 
-            Interlocked.Increment(ref totalSpinCount);
+            spin.Increment();
 
-            var spinCount = ___m_count < 1_000_000_000 ? ++___m_count : ___m_count;
+            var count = ++___m_startTime;
+            spin.UpdateMax(count);
 
-            var oldMaxSpinCount = maxSpinCount;
-            if (spinCount > oldMaxSpinCount)
-                Interlocked.CompareExchange(ref maxSpinCount, spinCount, oldMaxSpinCount);
-
+            long yields;
             if (Multiprocessor)
             {
-                if (spinCount < 6)
+                if (count < 6)
                 {
-                    BusyWait(1 << spinCount);
+                    BusyWait(1 << (int)count);
                     return false;
                 }
+
+                yields = count - 5;
+            }
+            else
+            {
+                yields = count;
             }
 
+            yield.Increment();
+            yield.UpdateMax(yields);
             if (!Thread.Yield())
+            {
+                sleep.Increment();
+                sleep.UpdateMax(++___m_count);
                 Thread.Sleep(1);
+            }
 
             return false;
         }
