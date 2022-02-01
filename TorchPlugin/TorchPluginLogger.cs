@@ -14,10 +14,17 @@ namespace TorchPlugin
             logger = LogManager.GetLogger(pluginName);
         }
 
+        public bool IsTraceEnabled => logger.IsTraceEnabled;
+        public bool IsDebugEnabled => logger.IsDebugEnabled;
+        public bool IsInfoEnabled => logger.IsInfoEnabled;
+        public bool IsWarningEnabled => logger.IsWarnEnabled;
+        public bool IsErrorEnabled => logger.IsErrorEnabled;
+        public bool IsCriticalEnabled => logger.IsFatalEnabled;
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Trace(Exception ex, string message, params object[] data)
         {
-            if (!logger.IsTraceEnabled)
+            if (!IsTraceEnabled)
                 return;
 
             logger.Trace(Format(ex, message, data));
@@ -26,7 +33,7 @@ namespace TorchPlugin
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Debug(Exception ex, string message, params object[] data)
         {
-            if (!logger.IsDebugEnabled)
+            if (!IsDebugEnabled)
                 return;
 
             logger.Debug(Format(ex, message, data));
@@ -35,7 +42,7 @@ namespace TorchPlugin
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Info(Exception ex, string message, params object[] data)
         {
-            if (!logger.IsInfoEnabled)
+            if (!IsInfoEnabled)
                 return;
 
             logger.Info(Format(ex, message, data));
@@ -44,7 +51,7 @@ namespace TorchPlugin
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Warning(Exception ex, string message, params object[] data)
         {
-            if (!logger.IsWarnEnabled)
+            if (!IsWarningEnabled)
                 return;
 
             logger.Warn(Format(ex, message, data));
@@ -53,7 +60,7 @@ namespace TorchPlugin
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Error(Exception ex, string message, params object[] data)
         {
-            if (!logger.IsErrorEnabled)
+            if (!IsErrorEnabled)
                 return;
 
             logger.Error(Format(ex, message, data));
@@ -62,7 +69,7 @@ namespace TorchPlugin
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Critical(Exception ex, string message, params object[] data)
         {
-            if (!logger.IsFatalEnabled)
+            if (!IsCriticalEnabled)
                 return;
 
             logger.Fatal(Format(ex, message, data));

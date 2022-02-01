@@ -11,10 +11,17 @@ namespace Shared.Logging
         {
         }
 
+        public bool IsTraceEnabled => MyLog.Default.LogEnabled;
+        public bool IsDebugEnabled => MyLog.Default.LogEnabled;
+        public bool IsInfoEnabled => MyLog.Default.LogEnabled;
+        public bool IsWarningEnabled => MyLog.Default.LogEnabled;
+        public bool IsErrorEnabled => MyLog.Default.LogEnabled;
+        public bool IsCriticalEnabled => MyLog.Default.LogEnabled;
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Trace(Exception ex, string message, params object[] data)
         {
-            if (!MyLog.Default.LogEnabled)
+            if (!IsTraceEnabled)
                 return;
 
             // Keen does not have a Trace log level, using Debug instead
@@ -24,7 +31,7 @@ namespace Shared.Logging
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Debug(Exception ex, string message, params object[] data)
         {
-            if (!MyLog.Default.LogEnabled)
+            if (!IsDebugEnabled)
                 return;
 
             MyLog.Default.Log(MyLogSeverity.Debug, Format(ex, message, data));
@@ -33,7 +40,7 @@ namespace Shared.Logging
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Info(Exception ex, string message, params object[] data)
         {
-            if (!MyLog.Default.LogEnabled)
+            if (!IsInfoEnabled)
                 return;
 
             MyLog.Default.Log(MyLogSeverity.Info, Format(ex, message, data));
@@ -42,7 +49,7 @@ namespace Shared.Logging
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Warning(Exception ex, string message, params object[] data)
         {
-            if (!MyLog.Default.LogEnabled)
+            if (!IsWarningEnabled)
                 return;
 
             MyLog.Default.Log(MyLogSeverity.Warning, Format(ex, message, data));
@@ -51,7 +58,7 @@ namespace Shared.Logging
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Error(Exception ex, string message, params object[] data)
         {
-            if (!MyLog.Default.LogEnabled)
+            if (!IsErrorEnabled)
                 return;
 
             MyLog.Default.Log(MyLogSeverity.Error, Format(ex, message, data));
@@ -60,7 +67,7 @@ namespace Shared.Logging
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Critical(Exception ex, string message, params object[] data)
         {
-            if (!MyLog.Default.LogEnabled)
+            if (!IsCriticalEnabled)
                 return;
 
             MyLog.Default.Log(MyLogSeverity.Critical, Format(ex, message, data));

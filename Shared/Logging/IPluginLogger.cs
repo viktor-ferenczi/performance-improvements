@@ -4,6 +4,13 @@ namespace Shared.Logging
 {
     public interface IPluginLogger
     {
+        bool IsTraceEnabled { get; }
+        bool IsDebugEnabled { get; }
+        bool IsInfoEnabled { get; }
+        bool IsWarningEnabled { get; }
+        bool IsErrorEnabled { get; }
+        bool IsCriticalEnabled { get; }
+
         void Trace(Exception ex, string message, params object[] data);
         void Debug(Exception ex, string message, params object[] data);
         void Info(Exception ex, string message, params object[] data);
