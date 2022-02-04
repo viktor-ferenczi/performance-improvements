@@ -1,4 +1,4 @@
-#if DISABLE_EOS_P2P
+#if !DISABLE_NETWORK_STATISTICS
 
 using System.Reflection;
 using System.Threading;
@@ -19,13 +19,15 @@ namespace ClientPlugin.Patches
             return AccessTools.Method(type, "UpdateStats");
         }
 
-        // Replace 95% of stats updates with 1ms sleeps
+        // Replaces most of stats updates with sleeps
         // ReSharper disable once UnusedMember.Local
         private static bool Prefix()
         {
-            if (counter-- == 0)
+            // The very first call must pass through,
+            // otherwise the game crashes where it depends on the output data!
+            if (--counter < 0)
             {
-                counter = 20;
+                counter = 49;
                 return true;
             }
 

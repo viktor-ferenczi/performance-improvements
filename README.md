@@ -54,15 +54,17 @@ is running. It eliminates the useless computations until the paste is done, maki
 
 These two fixes combined makes grid merge and paste operations ~60-70% faster.
 
-### EOS_P2P
+### NETWORK_STATISTICS
 
-Eliminates 95% of the ~45% constant CPU core load imposed by the
-`VRage.EOS.MyP2PQoSAdapter.UpdateStats` method. It is done by 
-replacing 19 out of 20 calls with a `Thread.Sleep(1)`. 
+Eliminates 98% of the ~50% constant CPU core load imposed by the
+`VRage.EOS.MyP2PQoSAdapter.UpdateStats` method, even during **offline** games.
+It is done by replacing 49 out of 50 calls with a `Thread.Sleep(1)`.
+It limits the outer loop's frequency to less than 1000/s and spends
+less CPU power on gathering statistics.
 
-It make the game faster only if you have 4 or less CPU cores, since this
+It makes the game faster only if you have 4 or less CPU cores, since this
 method is called repeatedly in a loop on its own thread. It still helps to
-reduce CPU power consumption and cache misses even if you have more than 4
-CPU cores.
+reduce CPU power consumption and cache misses if you have more than 4 cores.
 
-How it affects the stability of networked multiplayer is yet to be measured.
+Whether it affects the stability of multiplayer networking or any other EOS
+related functionality is yet to be seen.
