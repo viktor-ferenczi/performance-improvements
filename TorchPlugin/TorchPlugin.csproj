@@ -401,7 +401,7 @@
           <HintPath>..\Torch\DedicatedServer64\VRage.EOS.XmlSerializers.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Bin64\VRage.Game.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\VRage.Game.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Game.XmlSerializers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Torch\DedicatedServer64\VRage.Game.XmlSerializers.dll</HintPath>
