@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using System.Threading;
 
-namespace ClientPlugin.Patches
+namespace Shared.Patches
 {
     // ReSharper disable once MemberCanBePrivate.Global
     public struct Stats

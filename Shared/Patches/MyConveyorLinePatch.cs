@@ -3,7 +3,7 @@
 using HarmonyLib;
 using Sandbox.Game.GameSystems.Conveyors;
 
-namespace ClientPlugin.Patches
+namespace Shared.Patches
 {
     // ReSharper disable once UnusedType.Global
     [HarmonyPatch(typeof(MyConveyorLine))]

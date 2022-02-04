@@ -1,17 +1,19 @@
 #if !DISABLE_USELESS_UPDATES
 
 using System.Threading;
-using ClientPlugin.Extensions;
 using HarmonyLib;
 using Sandbox.Game.Entities;
 using Sandbox.Game.World;
+using Shared.Extensions;
+using Shared.Logging;
 
-namespace ClientPlugin.Patches
+namespace Shared.Patches
 {
     // ReSharper disable once UnusedType.Global
     [HarmonyPatch(typeof(MyCubeGrid))]
     public static class MyCubeGridPatch
     {
+        public static IPluginLogger Log;
         private static readonly ThreadLocal<bool> IsMerging = new ThreadLocal<bool>();
         public static bool IsMergingInProgress => IsMerging.Value;
 
@@ -22,7 +24,7 @@ namespace ClientPlugin.Patches
         {
             if (IsMerging.Value)
             {
-                Plugin.Log.Warning("Ignoring recursive MyCubeGrid.MergeGridInternal call!");
+                Log.Warning("Ignoring recursive MyCubeGrid.MergeGridInternal call!");
                 return false;
             }
 
@@ -39,7 +41,7 @@ namespace ClientPlugin.Patches
         {
             if (!IsMerging.Value)
             {
-                Plugin.Log.Warning("Leaving MyCubeGrid.MergeGridInternal without entering before (it should not happen)");
+                Log.Warning("Leaving MyCubeGrid.MergeGridInternal without entering before (it should not happen)");
                 return;
             }
 

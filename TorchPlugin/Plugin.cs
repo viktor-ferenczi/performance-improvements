@@ -1,4 +1,8 @@
-﻿using Shared.Logging;
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
+using Shared.Logging;
+using Shared.Patches;
 using Torch;
 using Torch.API;
 using Torch.API.Managers;
@@ -13,6 +17,9 @@ namespace TorchPlugin
         public const string PluginName = "PerformanceImprovements";
         public static readonly IPluginLogger Log = new TorchPluginLogger(PluginName);
         public static Plugin Instance;
+        public static long Tick;
+
+        private static readonly Harmony Harmony = new Harmony(PluginName);
 
         private TorchSessionManager sessionManager;
         private bool Initialized => sessionManager != null;
@@ -28,6 +35,20 @@ namespace TorchPlugin
             Instance = this;
 
             Log.Info("Init");
+
+            MySpinWaitPatch.Log = Log;
+            MyCubeGridPatch.Log = Log;
+
+            Log.Debug("Patching");
+            try
+            {
+                Harmony.PatchAll(Assembly.GetExecutingAssembly());
+            }
+            catch (Exception ex)
+            {
+                Log.Critical(ex, "Patching failed");
+                return;
+            }
 
             sessionManager = torch.Managers.GetManager<TorchSessionManager>();
             sessionManager.SessionStateChanged += SessionStateChanged;
@@ -86,7 +107,14 @@ namespace TorchPlugin
 
         public override void Update()
         {
-            // TODO: Put your update processing here. It is called on every simulation frame!
+#if DEBUG
+            MySpinWaitPatch.LogStats(Tick, 600);
+#endif
+
+            // MyPathFindingSystemPatch.LogStats(300);
+            // MyPathFindingSystemEnumeratorPatch.LogStats(300);
+
+            Tick++;
         }
     }
 }

@@ -5,13 +5,16 @@ using System.Runtime.CompilerServices;
 using HarmonyLib;
 using System.Threading;
 using ParallelTasks;
+using Shared.Logging;
 
-namespace ClientPlugin.Patches
+namespace Shared.Patches
 {
     // ReSharper disable once UnusedType.Global
     [HarmonyPatch(typeof(MySpinWait))]
     public static class MySpinWaitPatch
     {
+        public static IPluginLogger Log;
+        
         private static Stats wait;
         private static Stats spin;
         private static Stats yield;
@@ -19,10 +22,10 @@ namespace ClientPlugin.Patches
 
         private static readonly bool Multiprocessor = Environment.ProcessorCount > 1;
 
-        public static void LogStats(int period)
+        public static void LogStats(long tick, int period)
         {
-            if (!Plugin.Log.IsDebugEnabled ||
-                Plugin.Tick % period != 0 ||
+            if (!Log.IsDebugEnabled ||
+                tick % period != 0 ||
                 wait.Count == 0)
                 return;
 
@@ -30,7 +33,7 @@ namespace ClientPlugin.Patches
             var waits = wait.Count;
 
             // There can be some minimal inconsistency, but that's okay for logging purposes
-            Plugin.Log.Debug("SpinWait: wait {0}; spin {1}; yield {2}; sleep {3}",
+            Log.Debug("SpinWait: wait {0}; spin {1}; yield {2}; sleep {3}",
                 wait.Format(seconds),
                 spin.Format(seconds, waits),
                 yield.Format(seconds, waits),

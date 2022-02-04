@@ -2,6 +2,7 @@
 using System.Reflection;
 using HarmonyLib;
 using Shared.Logging;
+using Shared.Patches;
 using VRage.Plugins;
 
 namespace DedicatedPlugin
@@ -12,6 +13,7 @@ namespace DedicatedPlugin
         public const string Name = "PerformanceImprovements";
         public static readonly IPluginLogger Log = new KeenPluginLogger(Name);
         public static Plugin Instance;
+        public static long Tick;
 
         private static readonly Harmony Harmony = new Harmony(Name);
 
@@ -26,6 +28,9 @@ namespace DedicatedPlugin
             Instance = this;
 
             Log.Info("Loading");
+
+            MySpinWaitPatch.Log = Log;
+            MyCubeGridPatch.Log = Log;
 
             Log.Debug("Patching");
             try
@@ -62,7 +67,10 @@ namespace DedicatedPlugin
             try
             {
                 if (!failed)
+                {
                     CustomUpdate();
+                    Tick++;
+                }
             }
             catch (Exception ex)
             {
@@ -101,7 +109,12 @@ namespace DedicatedPlugin
 
         private void CustomUpdate()
         {
-            // TODO: Put your update code here. It is called on every simulation frame!
+#if DEBUG
+            MySpinWaitPatch.LogStats(Tick, 600);
+#endif
+
+            // MyPathFindingSystemPatch.LogStats(300);
+            // MyPathFindingSystemEnumeratorPatch.LogStats(300);
         }
     }
 }

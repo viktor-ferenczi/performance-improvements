@@ -9,9 +9,17 @@
     <Import_RootNamespace>Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\MySessionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\IPluginLogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\LogFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\KeenPluginLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyConveyorLinePatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyCubeGridPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyP2PQoSAdapterPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyPathFindingSystemEnumeratorPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyPathFindingSystemPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MySpinWaitPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\Stats.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)..\README.md">

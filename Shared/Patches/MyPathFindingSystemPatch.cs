@@ -4,7 +4,7 @@ using HarmonyLib;
 using Sandbox.Game.GameSystems.Conveyors;
 using VRage.Algorithms;
 
-namespace ClientPlugin.Patches
+namespace Shared.Patches
 {
     // ReSharper disable once UnusedType.Global
     [HarmonyPatch(typeof(MyPathFindingSystem<IMyConveyorEndpoint>))]

@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Threading;
 using HarmonyLib;
 
-namespace ClientPlugin.Patches
+namespace Shared.Patches
 {
     // ReSharper disable once UnusedType.Global
     [HarmonyPatch]

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Reflection;
-using ClientPlugin.Patches;
 using HarmonyLib;
 using Shared.Logging;
+using Shared.Patches;
 using VRage.Plugins;
 
 namespace ClientPlugin
@@ -27,6 +27,9 @@ namespace ClientPlugin
             Instance = this;
 
             Log.Info("Loading");
+
+            MySpinWaitPatch.Log = Log;
+            MyCubeGridPatch.Log = Log;
 
             Log.Debug("Patching");
             try
@@ -107,9 +110,7 @@ namespace ClientPlugin
         private void CustomUpdate()
         {
             #if DEBUG
-            MySpinWaitPatch.LogStats(600);
-            #else
-            MySpinWaitPatch.LogStats(36000);
+            MySpinWaitPatch.LogStats(Tick, 600);
             #endif
 
             // MyPathFindingSystemPatch.LogStats(300);
