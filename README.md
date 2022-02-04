@@ -32,3 +32,37 @@ Select the **Performance Improvements** plugin from the plugin list inside the T
 5. Right click on all the DLLs extracted and select **Unblock** from the file's **Properties** dialog.
 6. Start the Dedicated Server.
 7. Add the `PerformanceImprovements.dll` from the `Bin64/Plugins` folder to the Plugins list.
+
+## Technical details of the optimizations
+
+### SPINWAIT
+
+Replaces `MySpinWait.SpinOnce` with more energy efficient code, which consumes less CPU time
+while waiting on locks to be released. While it reduces CPU consumption (and some cache misses),
+it does not make anything completing any faster (no measurable difference).
+
+### USELESS_UPDATES
+
+Disables the `MyConveyorLine.UpdateIsWorking` method while any grid merging operation is in
+progress. It considerably reduces the merge time of grids with long conveyor systems. At the
+end of `MyCubeGrid.MergeGridInternal` it calls `GridSystems.ConveyorSystem.FlagForRecomputation()`
+on the grid to force recalculating all `IsWorking` values to fix any side-effects of the 
+optimization.
+
+It also sets `MySession.Static.m_updateAllowed` to `false` while `MyCubeGrid.PasteBlocksServer`
+is running. It eliminates the useless computations until the paste is done, making it faster.
+
+These two fixes combined makes grid merge and paste operations ~60-70% faster.
+
+### EOS_P2P
+
+Eliminates 95% of the ~45% constant CPU core load imposed by the
+`VRage.EOS.MyP2PQoSAdapter.UpdateStats` method. It is done by 
+replacing 19 out of 20 calls with a `Thread.Sleep(1)`. 
+
+It make the game faster only if you have 4 or less CPU cores, since this
+method is called repeatedly in a loop on its own thread. It still helps to
+reduce CPU power consumption and cache misses even if you have more than 4
+CPU cores.
+
+How it affects the stability of networked multiplayer is yet to be measured.

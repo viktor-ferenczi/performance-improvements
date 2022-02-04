@@ -111,6 +111,9 @@ namespace ClientPlugin
             #else
             MySpinWaitPatch.LogStats(36000);
             #endif
+
+            // MyPathFindingSystemPatch.LogStats(300);
+            // MyPathFindingSystemEnumeratorPatch.LogStats(300);
         }
     }
 }

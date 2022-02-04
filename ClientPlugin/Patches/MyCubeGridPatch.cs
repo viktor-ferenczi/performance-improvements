@@ -1,3 +1,5 @@
+#if !DISABLE_USELESS_UPDATES
+
 using System.Threading;
 using ClientPlugin.Extensions;
 using HarmonyLib;
@@ -11,7 +13,7 @@ namespace ClientPlugin.Patches
     public static class MyCubeGridPatch
     {
         private static readonly ThreadLocal<bool> IsMerging = new ThreadLocal<bool>();
-        public static bool IsConveyorUpdateEnabled => !IsMerging.Value;
+        public static bool IsMergingInProgress => IsMerging.Value;
 
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
@@ -71,3 +73,5 @@ namespace ClientPlugin.Patches
         }
     }
 }
+
+#endif

@@ -1,3 +1,5 @@
+#if DISABLE_EOS_P2P
+
 using System.Reflection;
 using System.Threading;
 using HarmonyLib;
@@ -32,3 +34,5 @@ namespace ClientPlugin.Patches
         }
     }
 }
+
+#endif

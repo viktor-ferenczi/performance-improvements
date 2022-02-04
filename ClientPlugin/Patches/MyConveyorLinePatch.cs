@@ -1,3 +1,5 @@
+#if !DISABLE_USELESS_UPDATES
+
 using HarmonyLib;
 using Sandbox.Game.GameSystems.Conveyors;
 
@@ -12,7 +14,9 @@ namespace ClientPlugin.Patches
         [HarmonyPatch(nameof(MyConveyorLine.UpdateIsWorking))]
         private static bool UpdateIsWorkingPrefix()
         {
-            return MyCubeGridPatch.IsConveyorUpdateEnabled;
+            return !MyCubeGridPatch.IsMergingInProgress;
         }
     }
 }
+
+#endif
