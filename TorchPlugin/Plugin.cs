@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define USE_HARMONY
+
+using System;
 using System.Reflection;
 using HarmonyLib;
 using Shared.Logging;
@@ -19,10 +21,13 @@ namespace TorchPlugin
         public static Plugin Instance;
         public static long Tick;
 
+#if USE_HARMONY
         private static readonly Harmony Harmony = new Harmony(PluginName);
+#endif
 
         private TorchSessionManager sessionManager;
         private bool Initialized => sessionManager != null;
+        private bool failed;
 
         // ReSharper disable once UnusedMember.Local
         private readonly TorchCommands commands = new TorchCommands();
@@ -39,6 +44,7 @@ namespace TorchPlugin
             MySpinWaitPatch.Log = Log;
             MyCubeGridPatch.Log = Log;
 
+#if USE_HARMONY
             Log.Debug("Patching");
             try
             {
@@ -47,8 +53,10 @@ namespace TorchPlugin
             catch (Exception ex)
             {
                 Log.Critical(ex, "Patching failed");
+                failed = true;
                 return;
             }
+#endif
 
             sessionManager = torch.Managers.GetManager<TorchSessionManager>();
             sessionManager.SessionStateChanged += SessionStateChanged;
@@ -82,30 +90,64 @@ namespace TorchPlugin
         {
             Instance = null;
 
-            if (!Initialized)
-                return;
+            if (Initialized)
+            {
+                Log.Debug("Disposing");
 
-            Log.Debug("Disposing");
+                sessionManager.SessionStateChanged -= SessionStateChanged;
+                sessionManager = null;
 
-            sessionManager.SessionStateChanged -= SessionStateChanged;
-            sessionManager = null;
-
-            Log.Debug("Disposed");
+                Log.Debug("Disposed");
+            }
 
             base.Dispose();
         }
 
         private void OnLoaded()
         {
-            // TODO: Put your one time initialization here
+            try
+            {
+                // TODO: Put your one time initialization here
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "OnLoaded failed");
+                failed = true;
+            }
         }
 
         private void OnUnloading()
         {
-            // TODO: Make sure to save any persistent modifications here
+            try
+            {
+                // TODO: Make sure to save any persistent modifications here
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "OnUnloading failed");
+                failed = true;
+            }
         }
 
         public override void Update()
+        {
+            // TODO: Put your update processing here. It is called on every simulation frame!
+            try
+            {
+                if (!failed)
+                {
+                    CustomUpdate();
+                    Tick++;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "Update failed");
+                failed = true;
+            }
+        }
+
+        private void CustomUpdate()
         {
 #if DEBUG
             MySpinWaitPatch.LogStats(Tick, 600);
@@ -113,8 +155,6 @@ namespace TorchPlugin
 
             // MyPathFindingSystemPatch.LogStats(300);
             // MyPathFindingSystemEnumeratorPatch.LogStats(300);
-
-            Tick++;
         }
     }
 }

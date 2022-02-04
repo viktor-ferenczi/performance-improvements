@@ -40,6 +40,7 @@ namespace DedicatedPlugin
             catch (Exception ex)
             {
                 Log.Critical(ex, "Patching failed");
+                failed = true;
                 return;
             }
 
