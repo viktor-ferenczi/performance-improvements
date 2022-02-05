@@ -2,8 +2,8 @@
 
 ## Features (performance fixes)
 
-- MySpinWait optimization (lower CPU consumption during heavy load)
-- Suppressing useless updates during grid merge and paste (~60-70% time saving)   
+- `MySpinWait` optimization (lower CPU consumption during heavy load)
+- Suppressing useless updates during grid merge and paste (~60-70% time saving)
 - Reducing CPU load of network statistics updates (saves ~0.5 constant core load)
 
 Please see below for the technical details.
@@ -13,7 +13,7 @@ More optimizations are planned.
 ## Prerequisites
 
 - Space Engineers with [Plugin Loader](https://steamcommunity.com/sharedfiles/filedetails/?id=2407984968) installed or
-- [Torch Server](https://torchapi.net/) or 
+- [Torch Server](https://torchapi.net/) or
 - Dedicated Server
 
 ## Installation
@@ -51,13 +51,13 @@ it does not make anything completing any faster (no measurable difference).
 Disables the `MyConveyorLine.UpdateIsWorking` method while any grid merging operation is in
 progress. It considerably reduces the merge time of grids with long conveyor systems. At the
 end of `MyCubeGrid.MergeGridInternal` it calls `GridSystems.ConveyorSystem.FlagForRecomputation()`
-on the grid to force recalculating all `IsWorking` values to fix any side-effects of the 
+on the grid to force recalculating all `IsWorking` values to fix any side-effects of the
 optimization.
 
 It also sets `MySession.Static.m_updateAllowed` to `false` while `MyCubeGrid.PasteBlocksServer`
 is running. It eliminates the useless computations until the paste is done, making it faster.
 
-These two fixes combined makes grid merge and paste operations ~60-70% faster.
+These two fixes combined make grid merge and paste operations ~60-70% faster.
 
 ### NETWORK_STATISTICS
 
