@@ -2,8 +2,13 @@
 
 ## Features (performance fixes)
 
-- Conveyor system
-- Pasting grids over another grids (merge)
+- MySpinWait optimization (lower CPU consumption during heavy load)
+- Suppressing useless updates during grid merge and paste (~60-70% time saving)   
+- Reducing CPU load of network statistics updates (saves ~0.5 constant core load)
+
+Please see below for the technical details.
+
+More optimizations are planned.
 
 ## Prerequisites
 
