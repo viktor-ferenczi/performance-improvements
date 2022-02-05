@@ -3,7 +3,7 @@
 ## Features (performance fixes)
 
 - `MySpinWait` optimization (lower CPU consumption during heavy load)
-- Suppressing useless updates during grid merge and paste (about twice as fast for grids with lots of conveyors)
+- Suppressing useless updates during grid merge and paste (about twice as fast for grids with lots of terminal blocks)
 - Reducing CPU load of network statistics updates (saves ~50% constant load on a CPU core)
 
 Please see below for the technical details.
