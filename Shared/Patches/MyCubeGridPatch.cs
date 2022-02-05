@@ -1,4 +1,4 @@
-#if !DISABLE_USELESS_UPDATES
+#if !DISABLE_MERGE_PASTE_UPDATES
 
 using System.Threading;
 using HarmonyLib;

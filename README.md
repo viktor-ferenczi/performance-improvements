@@ -6,15 +6,15 @@
 - Suppressing useless updates during grid merge and paste (about twice as fast for grids with lots of terminal blocks)
 - Reducing CPU load of network statistics updates (saves ~50% constant load on a CPU core)
 
-Please see below for the technical details.
+**Please see below** for the technical details and the **Keen bug tickets to vote on**.
 
 More optimizations are planned.
 
 ## Prerequisites
 
-- Space Engineers with [Plugin Loader](https://steamcommunity.com/sharedfiles/filedetails/?id=2407984968) installed or
+- [Space Engineers](https://store.steampowered.com/app/244850/Space_Engineers/) with [Plugin Loader](https://steamcommunity.com/sharedfiles/filedetails/?id=2407984968) or
 - [Torch Server](https://torchapi.net/) or
-- Dedicated Server
+- [Dedicated Server](https://www.spaceengineersgame.com/dedicated-servers/)
 
 ## Installation
 
@@ -46,7 +46,9 @@ Replaces `MySpinWait.SpinOnce` with more energy efficient code, which consumes l
 while waiting on locks to be released. While it reduces CPU consumption (and some cache misses),
 it does not make anything completing any faster (no measurable difference).
 
-### USELESS_UPDATES
+Please vote on [Keen's Support Ticket](https://support.keenswh.com/spaceengineers/pc/topic/22799-performance-myspinwait-spinonce-is-eating-the-cpu)
+
+### MERGE_PASTE_UPDATES
 
 Disables the `MyConveyorLine.UpdateIsWorking` method while any grid merging operation is in
 progress. It considerably reduces the merge time of grids with long conveyor systems. At the
@@ -55,9 +57,12 @@ on the grid to force recalculating all `IsWorking` values to fix any side-effect
 optimization.
 
 It also sets `MySession.Static.m_updateAllowed` to `false` while `MyCubeGrid.PasteBlocksServer`
-is running. It eliminates the useless computations until the paste is done, making it faster.
+is running. It eliminates a lot of unnecessary computations until the paste is done.
 
-These two fixes combined make grid merge and paste operations ~60-70% faster.
+These two fixes combined make grid merge and paste operations ~60-70% faster in my test world,
+at least for grids with lots of terminal blocks and conveyor ports.
+
+Please vote on [Keen's Support Ticket](https://support.keenswh.com/spaceengineers/pc/topic/22823-performance-unnecessary-updates-during-grid-merge-and-paste-operations)
 
 ### NETWORK_STATISTICS
 
@@ -73,3 +78,5 @@ reduce CPU power consumption and cache misses if you have more than 4 cores.
 
 Whether it affects the stability of multiplayer networking or any other EOS
 related functionality is yet to be seen.
+
+Please vote on [Keen's Support Ticket](https://support.keenswh.com/spaceengineers/pc/topic/22802-performance-constant-50-core-load-by-vrage-eos-myp2pqosadapter-updatestats)
