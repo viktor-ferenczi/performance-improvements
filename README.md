@@ -28,6 +28,9 @@ More optimizations are planned.
 
 Select the **Performance Improvements** plugin from the plugin list inside the Torch GUI.
 
+Please note, that the plugin is using Harmony to patch the game code. Once Keen fixes the issues 
+these patches are expected to be removed anyway, so I did not bother using Torch's patching mechanism.
+
 ### Dedicated Server plugin
 
 1. Download the latest ZIP from [Releases](https://github.com/viktor-ferenczi/performance-improvements/releases).
