@@ -1,22 +1,25 @@
 using System;
 using System.Runtime.CompilerServices;
+using NLog;
 using Shared.Logging;
-using VRage.Utils;
 
-namespace Shared.Logging
+namespace TorchPlugin
 {
-    public class KeenPluginLogger : LogFormatter, IPluginLogger
+    public class PluginLogger : LogFormatter, IPluginLogger
     {
-        public KeenPluginLogger(string pluginName) : base($"{pluginName}: ")
+        private readonly Logger logger;
+
+        public PluginLogger(string pluginName) : base("")
         {
+            logger = LogManager.GetLogger(pluginName);
         }
 
-        public bool IsTraceEnabled => MyLog.Default.LogEnabled;
-        public bool IsDebugEnabled => MyLog.Default.LogEnabled;
-        public bool IsInfoEnabled => MyLog.Default.LogEnabled;
-        public bool IsWarningEnabled => MyLog.Default.LogEnabled;
-        public bool IsErrorEnabled => MyLog.Default.LogEnabled;
-        public bool IsCriticalEnabled => MyLog.Default.LogEnabled;
+        public bool IsTraceEnabled => logger.IsTraceEnabled;
+        public bool IsDebugEnabled => logger.IsDebugEnabled;
+        public bool IsInfoEnabled => logger.IsInfoEnabled;
+        public bool IsWarningEnabled => logger.IsWarnEnabled;
+        public bool IsErrorEnabled => logger.IsErrorEnabled;
+        public bool IsCriticalEnabled => logger.IsFatalEnabled;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Trace(Exception ex, string message, params object[] data)
@@ -24,8 +27,7 @@ namespace Shared.Logging
             if (!IsTraceEnabled)
                 return;
 
-            // Keen does not have a Trace log level, using Debug instead
-            MyLog.Default.Log(MyLogSeverity.Debug, Format(ex, message, data));
+            logger.Trace(Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -34,7 +36,7 @@ namespace Shared.Logging
             if (!IsDebugEnabled)
                 return;
 
-            MyLog.Default.Log(MyLogSeverity.Debug, Format(ex, message, data));
+            logger.Debug(Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -43,7 +45,7 @@ namespace Shared.Logging
             if (!IsInfoEnabled)
                 return;
 
-            MyLog.Default.Log(MyLogSeverity.Info, Format(ex, message, data));
+            logger.Info(Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -52,7 +54,7 @@ namespace Shared.Logging
             if (!IsWarningEnabled)
                 return;
 
-            MyLog.Default.Log(MyLogSeverity.Warning, Format(ex, message, data));
+            logger.Warn(Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -61,7 +63,7 @@ namespace Shared.Logging
             if (!IsErrorEnabled)
                 return;
 
-            MyLog.Default.Log(MyLogSeverity.Error, Format(ex, message, data));
+            logger.Error(Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -70,7 +72,7 @@ namespace Shared.Logging
             if (!IsCriticalEnabled)
                 return;
 
-            MyLog.Default.Log(MyLogSeverity.Critical, Format(ex, message, data));
+            logger.Fatal(Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

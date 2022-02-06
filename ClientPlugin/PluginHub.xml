@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<PluginData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="GitHubPlugin">
+  <Id>viktor-ferenczi/performance-improvements</Id>
+  <GroupId>viktor-ferenczi/performance-improvements</GroupId>
+  <FriendlyName>Performance Improvements</FriendlyName>
+  <Author>Viktor</Author>
+  <Commit>596ed22d69dbb5b8f2fe505b0ed8b1dfb56ff858</Commit>
+  <SourceDirectories>
+    <Directory>Shared</Directory>
+    <Directory>ClientPlugin</Directory>
+  </SourceDirectories>
+  <Tooltip>Various performance improvements to let the game run smoother.</Tooltip>
+  <Description>Please see the GitHub page for the features, technical details and the Keen bug tickets to vote on.
+
+    This plugin is available for Torch and Dedicated Server as well.
+
+    For support join the SE Mods Discord: https://discord.gg/PYPFPGf3Ca
+
+    Thank you for supporting my work.
+  </Description>
+</PluginData>

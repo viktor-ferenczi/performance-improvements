@@ -1,6 +1,7 @@
 #if !DISABLE_MERGE_PASTE_UPDATES
 
 using System.Threading;
+using ClientPlugin.PerformanceImprovements.Shared.Config;
 using HarmonyLib;
 using Sandbox.Game.Entities;
 using Sandbox.Game.World;
@@ -14,6 +15,7 @@ namespace Shared.Patches
     public static class MyCubeGridPatch
     {
         public static IPluginLogger Log;
+        public static IPluginConfig Config;
         private static readonly ThreadLocal<bool> IsMerging = new ThreadLocal<bool>();
         public static bool IsMergingInProgress => IsMerging.Value;
 
@@ -22,6 +24,9 @@ namespace Shared.Patches
         [HarmonyPatch("MergeGridInternal")]
         private static bool MergeGridInternalPrefix()
         {
+            if (!Config.FixGridMerge)
+                return true;
+
             if (IsMerging.Value)
             {
                 Log.Warning("Ignoring recursive MyCubeGrid.MergeGridInternal call!");
@@ -39,11 +44,9 @@ namespace Shared.Patches
         [HarmonyPatch("MergeGridInternal")]
         private static void MergeGridInternalPostfix(MyCubeGrid __instance)
         {
+            // Skip the postfix if the prefix did not run
             if (!IsMerging.Value)
-            {
-                Log.Warning("Leaving MyCubeGrid.MergeGridInternal without entering before (it should not happen)");
                 return;
-            }
 
             IsMerging.Value = false;
 
@@ -56,8 +59,11 @@ namespace Shared.Patches
         // ReSharper disable once RedundantAssignment
         [HarmonyPrefix]
         [HarmonyPatch("PasteBlocksServer")]
-        private static bool PasteBlocksServerPrefix(ref bool __state)
+        private static bool PasteBlocksServerPrefix(ref bool? __state)
         {
+            if (!Config.FixGridPaste)
+                return true;
+
             // Disable updates for the duration of the paste,
             // it eliminates most spin lock contention
             __state = MySession.Static.IsUpdateAllowed();
@@ -69,9 +75,12 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
         [HarmonyPatch("PasteBlocksServer")]
-        private static void PasteBlocksServerPostfix(bool __state)
+        private static void PasteBlocksServerPostfix(bool? __state)
         {
-            MySession.Static.SetUpdateAllowed(__state);
+            if (__state == null)
+                return;
+
+            MySession.Static.SetUpdateAllowed((bool)__state);
         }
     }
 }

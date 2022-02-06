@@ -1,3 +1,4 @@
+#if UNTESTED
 #if !TORCH
 
 using System;
@@ -53,4 +54,5 @@ namespace Shared.Patches
     }
 }
 
+#endif
 #endif

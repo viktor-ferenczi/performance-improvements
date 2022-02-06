@@ -1,96 +1,56 @@
 using System;
-using System.IO;
-using System.Xml.Serialization;
-using Shared.Logging;
+using ClientPlugin.PerformanceImprovements.Shared.Config;
 using Torch;
 using Torch.Views;
 
 namespace TorchPlugin
 {
     [Serializable]
-    public class PluginConfig : ViewModel
+    public class PluginConfig : ViewModel, IPluginConfig
     {
-        private static IPluginLogger Log => Plugin.Log;
-        private static readonly string ConfigFileName = $"{Plugin.PluginName}.cfg";
-        private static string ConfigFilePath => Path.Combine(Plugin.Instance.StoragePath, ConfigFileName);
-
-        // ReSharper disable once InconsistentNaming
-        private static PluginConfig __instance;
-        public static PluginConfig Instance => __instance ?? (__instance = new PluginConfig());
-
-        private static XmlSerializer ConfigSerializer => new XmlSerializer(typeof(PluginConfig));
-
-        #region Properties
-
-        private bool enabled = true;
-
-        [Display(Description = "Enables/disables the plugin", Name = "Enable Plugin", Order = 1)]
+        [Display(GroupName = "General", Name = "Enable plugin", Order = 1, Description = "Enables/disables the plugin")]
         public bool Enabled
         {
             get => enabled;
-            set
-            {
-                enabled = value;
-                OnPropertyChanged(nameof(Enabled));
-            }
+            set => SetValue(ref enabled, value);
         }
 
-        // TODO: Define your properties here
+        private bool enabled = true;
 
-        #endregion
-
-        #region Persistence
-
-        protected override void OnPropertyChanged(string propName = "")
+        [Display(GroupName = "Fixes", Name = "Spin lock", Order = 1, Description = "Enables the MySpinWait.SpinOnce fix")]
+        public bool FixSpinWait
         {
-            Save();
+            get => fixSpinWait;
+            set => SetValue(ref fixSpinWait, value);
         }
 
-        public void Save()
+        private bool fixSpinWait = true;
+
+        [Display(GroupName = "Fixes", Name = "Grid merge", Order = 1, Description = "Enables the MyCubeGrid.MergeGridInternal fix")]
+        public bool FixGridMerge
         {
-            var path = ConfigFilePath;
-            try
-            {
-                using (var streamWriter = new StreamWriter(path))
-                {
-                    ConfigSerializer.Serialize(streamWriter, __instance);
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Failed to save configuration file: {0}", path);
-            }
+            get => fixMerge;
+            set => SetValue(ref fixMerge, value);
         }
 
-        public void Load()
+        private bool fixMerge = true;
+
+        [Display(GroupName = "Fixes", Name = "Grid paste", Order = 1, Description = "Enables the MyCubeGrid.PasteBlocksServer fix")]
+        public bool FixGridPaste
         {
-            var path = ConfigFilePath;
-            try
-            {
-                if (!File.Exists(path))
-                {
-                    Log.Warning("Missing configuration file, saving defaults: {0}", path);
-                    Save();
-                    return;
-                }
-
-                using (var streamReader = new StreamReader(path))
-                {
-                    if (!(ConfigSerializer.Deserialize(streamReader) is PluginConfig config))
-                    {
-                        Log.Error("Failed to deserialize configuration file: {0}", path);
-                        return;
-                    }
-
-                    __instance = config;
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Failed to load configuration file:", path);
-            }
+            get => fixPast;
+            set => SetValue(ref fixPast, value);
         }
 
-        #endregion
+        private bool fixPast = true;
+
+        [Display(GroupName = "Fixes", Name = "P2P stats update", Order = 1, Description = "Enables the VRage.EOS.MyP2PQoSAdapter.UpdateStats fix")]
+        public bool FixP2PUpdateStats
+        {
+            get => fixUpdateStat;
+            set => SetValue(ref fixUpdateStat, value);
+        }
+
+        private bool fixUpdateStat = true;
     }
 }

@@ -20,7 +20,8 @@ IF %ERRORLEVEL% NEQ 0 GOTO :RETRY
 echo Copying "%SRC%\manifest.xml" into "%TARGET%\"
 copy /y "%SRC%\manifest.xml" "%TARGET%\"
 
-REM TODO: Disable or remove the next two lines if
+REM USE_HARMONY
+REM Comment out or remove the next two lines if
 REM your plugin does not use Harmony for patching:
 echo Copying "%SRC%\0Harmony.dll" into "%TARGET%\"
 copy /y "%SRC%\0Harmony.dll" "%TARGET%\"

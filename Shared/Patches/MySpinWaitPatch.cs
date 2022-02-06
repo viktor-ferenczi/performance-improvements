@@ -4,6 +4,7 @@ using System;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
 using System.Threading;
+using ClientPlugin.PerformanceImprovements.Shared.Config;
 using ParallelTasks;
 using Shared.Logging;
 
@@ -14,6 +15,7 @@ namespace Shared.Patches
     public static class MySpinWaitPatch
     {
         public static IPluginLogger Log;
+        public static IPluginConfig Config;
         
         private static Stats wait;
         private static Stats spin;
@@ -24,6 +26,9 @@ namespace Shared.Patches
 
         public static void LogStats(long tick, int period)
         {
+            if (!Config.FixSpinWait)
+                return;
+
             if (!Log.IsDebugEnabled ||
                 tick % period != 0 ||
                 wait.Count == 0)
@@ -54,6 +59,9 @@ namespace Shared.Patches
             // ReSharper disable once InconsistentNaming
             ref long ___m_startTime)
         {
+            if (!Config.FixSpinWait)
+                return true;
+
             if (___m_startTime == 0)
                 wait.Increment();
 

@@ -1,25 +1,23 @@
+#if !TORCH
+
 using System;
 using System.Runtime.CompilerServices;
-using NLog;
-using Shared.Logging;
+using VRage.Utils;
 
-namespace TorchPlugin
+namespace Shared.Logging
 {
-    public class TorchPluginLogger : LogFormatter, IPluginLogger
+    public class PluginLogger : LogFormatter, IPluginLogger
     {
-        private readonly Logger logger;
-
-        public TorchPluginLogger(string pluginName) : base("")
+        public PluginLogger(string pluginName) : base($"{pluginName}: ")
         {
-            logger = LogManager.GetLogger(pluginName);
         }
 
-        public bool IsTraceEnabled => logger.IsTraceEnabled;
-        public bool IsDebugEnabled => logger.IsDebugEnabled;
-        public bool IsInfoEnabled => logger.IsInfoEnabled;
-        public bool IsWarningEnabled => logger.IsWarnEnabled;
-        public bool IsErrorEnabled => logger.IsErrorEnabled;
-        public bool IsCriticalEnabled => logger.IsFatalEnabled;
+        public bool IsTraceEnabled => MyLog.Default.LogEnabled;
+        public bool IsDebugEnabled => MyLog.Default.LogEnabled;
+        public bool IsInfoEnabled => MyLog.Default.LogEnabled;
+        public bool IsWarningEnabled => MyLog.Default.LogEnabled;
+        public bool IsErrorEnabled => MyLog.Default.LogEnabled;
+        public bool IsCriticalEnabled => MyLog.Default.LogEnabled;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Trace(Exception ex, string message, params object[] data)
@@ -27,7 +25,8 @@ namespace TorchPlugin
             if (!IsTraceEnabled)
                 return;
 
-            logger.Trace(Format(ex, message, data));
+            // Keen does not have a Trace log level, using Debug instead
+            MyLog.Default.Log(MyLogSeverity.Debug, Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -36,7 +35,7 @@ namespace TorchPlugin
             if (!IsDebugEnabled)
                 return;
 
-            logger.Debug(Format(ex, message, data));
+            MyLog.Default.Log(MyLogSeverity.Debug, Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -45,7 +44,7 @@ namespace TorchPlugin
             if (!IsInfoEnabled)
                 return;
 
-            logger.Info(Format(ex, message, data));
+            MyLog.Default.Log(MyLogSeverity.Info, Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -54,7 +53,7 @@ namespace TorchPlugin
             if (!IsWarningEnabled)
                 return;
 
-            logger.Warn(Format(ex, message, data));
+            MyLog.Default.Log(MyLogSeverity.Warning, Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -63,7 +62,7 @@ namespace TorchPlugin
             if (!IsErrorEnabled)
                 return;
 
-            logger.Error(Format(ex, message, data));
+            MyLog.Default.Log(MyLogSeverity.Error, Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -72,7 +71,7 @@ namespace TorchPlugin
             if (!IsCriticalEnabled)
                 return;
 
-            logger.Fatal(Format(ex, message, data));
+            MyLog.Default.Log(MyLogSeverity.Critical, Format(ex, message, data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -112,3 +111,5 @@ namespace TorchPlugin
         }
     }
 }
+
+#endif

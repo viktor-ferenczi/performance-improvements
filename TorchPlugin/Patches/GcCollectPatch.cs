@@ -1,3 +1,5 @@
+#if UNTESTED
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -59,3 +61,5 @@ namespace TorchPlugin.Patches
         }
     }
 }
+
+#endif

@@ -440,6 +440,7 @@
         <Reference Include="System.Xml.ReaderWriter, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
           <HintPath>..\Bin64\System.Xml.ReaderWriter.dll</HintPath>
         </Reference>
+        <Reference Include="System.Xml.Serialization" />
         <Reference Include="System.Xml.XDocument, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
           <HintPath>..\Bin64\System.Xml.XDocument.dll</HintPath>
         </Reference>
@@ -491,9 +492,6 @@
         <Reference Include="VRage.Mod.Io, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Bin64\VRage.Mod.Io.dll</HintPath>
         </Reference>
-        <Reference Include="VRage.NativeAftermath, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Bin64\VRage.NativeAftermath.dll</HintPath>
-        </Reference>
         <Reference Include="VRage.NativeWrapper, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Bin64\VRage.NativeWrapper.dll</HintPath>
         </Reference>
@@ -528,6 +526,7 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="deploy.bat" />
+      <Content Include="PluginHub.xml" />
     </ItemGroup>
     <ItemGroup>
       <None Include="App.config" />

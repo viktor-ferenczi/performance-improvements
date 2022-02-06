@@ -10,10 +10,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\MySessionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\IPluginConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\PersistentConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\PluginConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\IPluginLogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\LogFormatter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Logging\KeenPluginLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\PluginLogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\GcCollectPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\PatchHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyConveyorLinePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyCubeGridPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyP2PQoSAdapterPatch.cs" />
@@ -23,6 +27,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Stats.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)..\Edit-and-run-before-opening-solution.bat">
+      <Link>Edit-and-run-before-opening-solution.bat</Link>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)..\README.md">
       <Link>README.md</Link>
     </Content>

@@ -2,14 +2,17 @@
 
 using System.Reflection;
 using System.Threading;
+using ClientPlugin.PerformanceImprovements.Shared.Config;
 using HarmonyLib;
 
 namespace Shared.Patches
 {
     // ReSharper disable once UnusedType.Global
     [HarmonyPatch]
-    public class MyP2PQoSAdapterPatch
+    public static class MyP2PQoSAdapterPatch
     {
+        public static IPluginConfig Config;
+
         private static int counter;
 
         // ReSharper disable once UnusedMember.Local
@@ -23,6 +26,9 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         private static bool Prefix()
         {
+            if (!Config.FixP2PUpdateStats)
+                return true;
+
             // The very first call must pass through,
             // otherwise the game crashes where it depends on the output data!
             if (--counter < 0)

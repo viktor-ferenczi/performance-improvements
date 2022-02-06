@@ -1,0 +1,71 @@
+<UserControl x:Class="TorchPlugin.ConfigView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:TorchPlugin"
+      mc:Ignorable="d"
+      d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" SharedSizeGroup="Labels"/>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="Labels"/>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="Buttons"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Performance Improvements" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" Margin="5"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Enabled" VerticalAlignment="Center" Margin="5"/>
+        <CheckBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Name="Enabled" IsChecked="{Binding Enabled}" Margin="5"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Fixes" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" Margin="5"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="Alternative spin wait algorithm to reduce CPU load (MySpinWait.SpinOnce)" VerticalAlignment="Center" Margin="5"/>
+        <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Name="FixSpinWait" IsChecked="{Binding FixSpinWait}" Margin="5"/>
+
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="Disable conveyor updates during grid merge (MyCubeGrid.MergeGridInternal)" VerticalAlignment="Center" Margin="5"/>
+        <CheckBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Name="FixGridMerge" IsChecked="{Binding FixGridMerge}" Margin="5"/>
+
+        <TextBlock Grid.Row="5" Grid.Column="1" Text="Disable updates during grid paste (MyCubeGrid.PasteBlocksServer)" VerticalAlignment="Center" Margin="5"/>
+        <CheckBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Name="FixGridPaste" IsChecked="{Binding FixGridPaste}" Margin="5"/>
+
+        <TextBlock Grid.Row="6" Grid.Column="1" Text="Eliminate 98% of EOS P2P network statistics updates (VRage.EOS.MyP2PQoSAdapter.UpdateStats)" VerticalAlignment="Center" Margin="5"/>
+        <CheckBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Name="FixP2PUpdateStats" IsChecked="{Binding FixP2PUpdateStats}" Margin="5"/>
+
+        <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" Text="Configuration changes are saved automatically." VerticalAlignment="Center" Margin="5"/>
+        <TextBlock Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" Text="Chat commands:" VerticalAlignment="Center" Margin="5"/>
+        <TextBlock Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Text="!help pfi" VerticalAlignment="Center" Margin="5"/>
+        <TextBlock Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2" Text="!pfi info" VerticalAlignment="Center" Margin="5"/>
+        <TextBlock Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="2" Text="!pfi fix name bool" VerticalAlignment="Center" Margin="5"/>
+
+        <TextBlock Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="3" Text="Available names: spin_lock, grid_merge, grid_paste, p2p_update_stats" VerticalAlignment="Center" Margin="5"/>
+
+        <TextBlock Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="3" Text="Accepted bool values:" VerticalAlignment="Center" Margin="5"/>
+        <TextBlock Grid.Row="14" Grid.Column="1" Grid.ColumnSpan="2" Text="False: 0 off no n false f" VerticalAlignment="Center" Margin="5"/>
+        <TextBlock Grid.Row="15" Grid.Column="1" Grid.ColumnSpan="2" Text="True: 1 on yes y false f" VerticalAlignment="Center" Margin="5"/>
+
+    </Grid>
+</UserControl>
