@@ -10,7 +10,7 @@
     <Grid>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20" SharedSizeGroup="Labels"/>
+            <ColumnDefinition Width="20" SharedSizeGroup="Checkboxes"/>
             <ColumnDefinition Width="Auto" SharedSizeGroup="Labels"/>
             <ColumnDefinition Width="Auto" SharedSizeGroup="Buttons"/>
         </Grid.ColumnDefinitions>
@@ -55,7 +55,7 @@
         <!-- <TextBlock Grid.Row="6" Grid.Column="1" Text="Eliminate 98% of EOS P2P network statistics updates (VRage.EOS.MyP2PQoSAdapter.UpdateStats)" VerticalAlignment="Center" Margin="5"/> -->
         <!-- <CheckBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Name="FixP2PUpdateStats" IsChecked="{Binding FixP2PUpdateStats}" Margin="5"/> -->
 
-        <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" Text="Configuration changes are saved automatically." VerticalAlignment="Center" Margin="5"/>
+        <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" Text="Configuration changes are saved automatically. It is safe to change them while the game is running." VerticalAlignment="Center" Margin="5"/>
         <TextBlock Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" Text="Chat commands:" VerticalAlignment="Center" Margin="5"/>
         <TextBlock Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Text="!help pfi" VerticalAlignment="Center" Margin="5"/>
         <TextBlock Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2" Text="!pfi info" VerticalAlignment="Center" Margin="5"/>
