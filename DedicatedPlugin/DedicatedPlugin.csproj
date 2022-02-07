@@ -8,7 +8,7 @@
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>DedicatedPlugin</RootNamespace>
-        <AssemblyName>DedicatedPlugin</AssemblyName>
+        <AssemblyName>PerformanceImprovements</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <LangVersion>latest</LangVersion>

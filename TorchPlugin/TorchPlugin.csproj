@@ -8,7 +8,7 @@
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>TorchPlugin</RootNamespace>
-        <AssemblyName>TorchPlugin</AssemblyName>
+        <AssemblyName>PerformanceImprovements</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <LangVersion>latest</LangVersion>

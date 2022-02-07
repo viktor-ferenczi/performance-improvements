@@ -3,11 +3,11 @@ if [%2] == [] goto EOF
 
 echo Parameters: %*
 
-set TARGET=..\..\..\Torch\Plugins\%NAME%\%2
-mkdir %TARGET% >NUL 2>&1
-
 set SRC=%~p1
 set NAME=%~2
+
+set TARGET=..\..\..\Torch\Plugins\%NAME%
+mkdir %TARGET% >NUL 2>&1
 
 echo.
 echo Deploying TORCH SERVER plugin binary:
