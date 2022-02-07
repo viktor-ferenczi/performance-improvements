@@ -26,7 +26,7 @@ namespace Shared.Patches
 
         public static void LogStats(long tick, int period)
         {
-            if (!Config.FixSpinWait)
+            if (!Config.Enabled || !Config.FixSpinWait)
                 return;
 
             if (!Log.IsDebugEnabled ||
@@ -59,7 +59,7 @@ namespace Shared.Patches
             // ReSharper disable once InconsistentNaming
             ref long ___m_startTime)
         {
-            if (!Config.FixSpinWait)
+            if (!Config.Enabled || !Config.FixSpinWait)
                 return true;
 
             if (___m_startTime == 0)

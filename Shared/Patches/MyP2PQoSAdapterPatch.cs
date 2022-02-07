@@ -26,7 +26,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         private static bool Prefix()
         {
-            if (!Config.FixP2PUpdateStats)
+            if (!Config.Enabled || !Config.FixP2PUpdateStats)
                 return true;
 
             // The very first call must pass through,

@@ -24,7 +24,7 @@ namespace Shared.Patches
         [HarmonyPatch("MergeGridInternal")]
         private static bool MergeGridInternalPrefix()
         {
-            if (!Config.FixGridMerge)
+            if (!Config.Enabled || !Config.FixGridMerge)
                 return true;
 
             if (IsMerging.Value)
@@ -61,7 +61,7 @@ namespace Shared.Patches
         [HarmonyPatch("PasteBlocksServer")]
         private static bool PasteBlocksServerPrefix(ref bool? __state)
         {
-            if (!Config.FixGridPaste)
+            if (!Config.Enabled || !Config.FixGridPaste)
                 return true;
 
             // Disable updates for the duration of the paste,
