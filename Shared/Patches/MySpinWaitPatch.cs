@@ -29,8 +29,8 @@ namespace Shared.Patches
             if (!Config.Enabled || !Config.FixSpinWait)
                 return;
 
-            if (!Log.IsDebugEnabled ||
-                tick % period != 0 ||
+            if (tick % period != 0 ||
+                !Log.IsInfoEnabled ||
                 wait.Count == 0)
                 return;
 
@@ -38,7 +38,7 @@ namespace Shared.Patches
             var waits = wait.Count;
 
             // There can be some minimal inconsistency, but that's okay for logging purposes
-            Log.Debug("SpinWait: wait {0}; spin {1}; yield {2}; sleep {3}",
+            Log.Info("SpinWait: wait {0}; spin {1}; yield {2}; sleep {3}",
                 wait.Format(seconds),
                 spin.Format(seconds, waits),
                 yield.Format(seconds, waits),
