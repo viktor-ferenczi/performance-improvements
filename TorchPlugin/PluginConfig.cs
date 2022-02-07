@@ -1,5 +1,5 @@
 using System;
-using ClientPlugin.PerformanceImprovements.Shared.Config;
+using Shared.Config;
 using Torch;
 using Torch.Views;
 

@@ -2,43 +2,38 @@
 
 using System;
 using System.IO;
-using System.Reflection;
 using System.Windows.Controls;
-using ClientPlugin.PerformanceImprovements.Shared.Config;
 using HarmonyLib;
+using Shared.Config;
 using Shared.Logging;
 using Shared.Patches;
+using Shared.Plugin;
 using Torch;
 using Torch.API;
 using Torch.API.Managers;
 using Torch.API.Plugins;
 using Torch.API.Session;
 using Torch.Session;
-using TorchPlugin;
 
 namespace TorchPlugin
 {
     // ReSharper disable once ClassNeverInstantiated.Global
-    public class Plugin : TorchPluginBase, IWpfPlugin
+    public class Plugin : TorchPluginBase, IWpfPlugin, ICommonPlugin
     {
         public const string PluginName = "PerformanceImprovements";
-        public static readonly IPluginLogger Log = new PluginLogger(PluginName);
         public static long Tick { get; private set; }
+        public static Plugin Instance { get; private set; }
 
-        private static readonly string ConfigFileName = $"{PluginName}.cfg";
+        public IPluginLogger Log => Logger;
+        private static readonly IPluginLogger Logger = new PluginLogger(PluginName);
+
+        public IPluginConfig Config => config?.Data;
         private PersistentConfig<PluginConfig> config;
-        public static PluginConfig Config => instance?.config?.Data;
-
-        private static Plugin instance;
+        private static readonly string ConfigFileName = $"{PluginName}.cfg";
 
         // ReSharper disable once UnusedMember.Global
         public UserControl GetControl() => control ?? (control = new ConfigView());
         private ConfigView control;
-
-
-#if USE_HARMONY
-        private static readonly Harmony Harmony = new Harmony(PluginName);
-#endif
 
         private TorchSessionManager sessionManager;
         private bool Initialized => sessionManager != null;
@@ -52,27 +47,18 @@ namespace TorchPlugin
         {
             base.Init(torch);
 
-            instance = this;
+            Instance = this;
 
             Log.Info("Init");
 
             var configPath = Path.Combine(StoragePath, ConfigFileName);
             config = PersistentConfig<PluginConfig>.Load(Log, configPath);
 
-            PatchHelpers.Init(Log, Config);
+            Common.SetPlugin(this);
 
 #if USE_HARMONY
-            Log.Debug("Patching");
-            try
-            {
-                Harmony.PatchAll(Assembly.GetExecutingAssembly());
-            }
-            catch (Exception ex)
-            {
-                Log.Critical(ex, "Patching failed");
+            if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
                 failed = true;
-                return;
-            }
 #endif
 
             sessionManager = torch.Managers.GetManager<TorchSessionManager>();
@@ -105,7 +91,7 @@ namespace TorchPlugin
 
         public override void Dispose()
         {
-            instance = null;
+            Instance = null;
 
             if (Initialized)
             {

@@ -1,3 +1,5 @@
+using Shared.Config;
+using Shared.Plugin;
 using Torch.Commands;
 using Torch.Commands.Permissions;
 using VRage.Game.ModAPI;
@@ -7,6 +9,8 @@ namespace TorchPlugin
     [Category("pfi")]
     public class Commands : CommandModule
     {
+        private static IPluginConfig Config => Common.Config;
+
         private void Respond(string message)
         {
             Context?.Respond(message);
@@ -14,7 +18,7 @@ namespace TorchPlugin
 
         private void RespondWithInfo()
         {
-            var config = Plugin.Config;
+            var config = Plugin.Instance.Config;
             Respond($"{Plugin.PluginName} plugin is enabled: {Format(config.Enabled)}");
             Respond($"Fix spin_lock: {Format(config.FixSpinWait)}");
             Respond($"Fix grid_merge: {Format(config.FixGridMerge)}");
@@ -22,79 +26,11 @@ namespace TorchPlugin
             Respond($"Fix p2p_update_stats: {Format(config.FixP2PUpdateStats)}");
         }
 
+        // Custom formatters
         private static string Format(bool value) => value ? "Yes" : "No";
 
-        // ReSharper disable once UnusedMember.Global
-        [Command("info", "Prints the current settings")]
-        [Permission(MyPromoteLevel.None)]
-        public void Info()
-        {
-            RespondWithInfo();
-        }
-
-        // ReSharper disable once UnusedMember.Global
-        [Command("enable", "Enables the plugin")]
-        [Permission(MyPromoteLevel.Admin)]
-        public void Enable()
-        {
-            Plugin.Config.Enabled = true;
-            RespondWithInfo();
-        }
-
-        // ReSharper disable once UnusedMember.Global
-        [Command("disable", "Disables the plugin")]
-        [Permission(MyPromoteLevel.Admin)]
-        public void Disable()
-        {
-            Plugin.Config.Enabled = false;
-            RespondWithInfo();
-        }
-
-        // ReSharper disable once UnusedMember.Global
-        [Command("fix", "Enables or disables a fix")]
-        [Permission(MyPromoteLevel.Admin)]
-        public void Fix(string name, string flag)
-        {
-            var config = Plugin.Config;
-
-            if (!TryParseBoolean(flag, out var parsedFlag))
-            {
-                Respond($"Invalid boolean value: {flag}");
-                return;
-            }
-
-            switch (name)
-            {
-                case "spin_lock":
-                    config.FixSpinWait = parsedFlag;
-                    break;
-
-                case "grid_merge":
-                    config.FixGridMerge = parsedFlag;
-                    break;
-
-                case "grid_paste":
-                    config.FixGridPaste = parsedFlag;
-                    break;
-
-                case "p2p_update_stats":
-                    config.FixP2PUpdateStats = parsedFlag;
-                    break;
-
-                default:
-                    Respond($"Unknown fix: {name}");
-                    Respond($"Valid fix names:");
-                    Respond($"  spin_lock");
-                    Respond($"  grid_merge");
-                    Respond($"  grid_paste");
-                    Respond($"  p2p_update_stats");
-                    return;
-            }
-
-            RespondWithInfo();
-        }
-
-        private static bool TryParseBoolean(string text, out bool result)
+        // Custom parsers
+        private static bool TryParseBool(string text, out bool result)
         {
             switch (text.ToLower())
             {
@@ -119,6 +55,74 @@ namespace TorchPlugin
 
             result = false;
             return false;
+        }
+
+        // ReSharper disable once UnusedMember.Global
+        [Command("info", "Prints the current settings")]
+        [Permission(MyPromoteLevel.None)]
+        public void Info()
+        {
+            RespondWithInfo();
+        }
+
+        // ReSharper disable once UnusedMember.Global
+        [Command("enable", "Enables the plugin")]
+        [Permission(MyPromoteLevel.Admin)]
+        public void Enable()
+        {
+            Config.Enabled = true;
+            RespondWithInfo();
+        }
+
+        // ReSharper disable once UnusedMember.Global
+        [Command("disable", "Disables the plugin")]
+        [Permission(MyPromoteLevel.Admin)]
+        public void Disable()
+        {
+            Config.Enabled = false;
+            RespondWithInfo();
+        }
+
+        // ReSharper disable once UnusedMember.Global
+        [Command("fix", "Enables or disables a fix")]
+        [Permission(MyPromoteLevel.Admin)]
+        public void Fix(string name, string flag)
+        {
+            if (!TryParseBool(flag, out var parsedFlag))
+            {
+                Respond($"Invalid boolean value: {flag}");
+                return;
+            }
+
+            switch (name)
+            {
+                case "spin_lock":
+                    Config.FixSpinWait = parsedFlag;
+                    break;
+
+                case "grid_merge":
+                    Config.FixGridMerge = parsedFlag;
+                    break;
+
+                case "grid_paste":
+                    Config.FixGridPaste = parsedFlag;
+                    break;
+
+                case "p2p_update_stats":
+                    Config.FixP2PUpdateStats = parsedFlag;
+                    break;
+
+                default:
+                    Respond($"Unknown fix: {name}");
+                    Respond($"Valid fix names:");
+                    Respond($"  spin_lock");
+                    Respond($"  grid_merge");
+                    Respond($"  grid_paste");
+                    Respond($"  p2p_update_stats");
+                    return;
+            }
+
+            RespondWithInfo();
         }
     }
 }

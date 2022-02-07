@@ -2,8 +2,9 @@
 
 using System.Reflection;
 using System.Threading;
-using ClientPlugin.PerformanceImprovements.Shared.Config;
 using HarmonyLib;
+using Shared.Config;
+using Shared.Plugin;
 
 namespace Shared.Patches
 {
@@ -11,7 +12,7 @@ namespace Shared.Patches
     [HarmonyPatch]
     public static class MyP2PQoSAdapterPatch
     {
-        public static IPluginConfig Config;
+        private static IPluginConfig Config => Common.Config;
 
         private static int counter;
 
@@ -26,7 +27,8 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         private static bool Prefix()
         {
-            if (!Config.Enabled || !Config.FixP2PUpdateStats)
+            var config = Config;
+            if (!config.Enabled || !config.FixP2PUpdateStats)
                 return true;
 
             // The very first call must pass through,

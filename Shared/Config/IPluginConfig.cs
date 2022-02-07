@@ -1,4 +1,4 @@
-namespace ClientPlugin.PerformanceImprovements.Shared.Config
+namespace Shared.Config
 {
     public interface IPluginConfig
     {

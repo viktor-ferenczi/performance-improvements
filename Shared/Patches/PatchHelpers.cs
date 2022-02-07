@@ -1,19 +1,31 @@
-using ClientPlugin.PerformanceImprovements.Shared.Config;
+using System;
+using System.Reflection;
+using HarmonyLib;
 using Shared.Logging;
 
 namespace Shared.Patches
 {
+    // ReSharper disable once UnusedType.Global
     public static class PatchHelpers
     {
-        public static void Init(IPluginLogger log, IPluginConfig cfg)
+        public static bool HarmonyPatchAll(IPluginLogger log, Harmony harmony)
         {
-            MySpinWaitPatch.Log = log;
-            MyCubeGridPatch.Log = log;
+#if DEBUG
+            Harmony.DEBUG = true;
+#endif
 
-            MySpinWaitPatch.Config = cfg;
-            MySpinWaitPatch.Config = cfg;
-            MyCubeGridPatch.Config = cfg;
-            MyP2PQoSAdapterPatch.Config = cfg;
+            log.Debug("Applying Harmony patches");
+            try
+            {
+                harmony.PatchAll(Assembly.GetExecutingAssembly());
+            }
+            catch (Exception ex)
+            {
+                log.Critical(ex, "Failed to apply Harmony patches");
+                return false;
+            }
+
+            return true;
         }
     }
 }

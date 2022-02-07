@@ -18,12 +18,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Logging\PluginLogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\GcCollectPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\PatchHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Plugin\ICommonPlugin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyConveyorLinePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyCubeGridPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyP2PQoSAdapterPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyPathFindingSystemEnumeratorPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyPathFindingSystemPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MySpinWaitPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Plugin\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Stats.cs" />
   </ItemGroup>
   <ItemGroup>

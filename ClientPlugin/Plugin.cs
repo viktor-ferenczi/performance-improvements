@@ -1,29 +1,29 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
-using ClientPlugin.PerformanceImprovements.Shared.Config;
 using HarmonyLib;
+using Shared.Config;
 using Shared.Logging;
 using Shared.Patches;
+using Shared.Plugin;
 using VRage.FileSystem;
 using VRage.Plugins;
 
 namespace ClientPlugin
 {
     // ReSharper disable once UnusedType.Global
-    public class Plugin : IPlugin
+    public class Plugin : IPlugin, ICommonPlugin
     {
         public const string Name = "PerformanceImprovements";
-        public static readonly IPluginLogger Log = new PluginLogger(Name);
         public static long Tick { get; private set; }
+        public static Plugin Instance { get; private set; }
 
-        private static readonly Harmony Harmony = new Harmony(Name);
+        public IPluginLogger Log => Logger;
+        private static readonly IPluginLogger Logger = new PluginLogger(Name);
 
-        private static readonly string ConfigFileName = $"{Name}.cfg";
+        public IPluginConfig Config => config?.Data;
         private PersistentConfig<PluginConfig> config;
-        public static PluginConfig Config => instance?.config?.Data;
+        private static readonly string ConfigFileName = $"{Name}.cfg";
 
-        private static Plugin instance;
         private static readonly object InitializationMutex = new object();
         private static bool initialized;
         private static bool failed;
@@ -31,26 +31,17 @@ namespace ClientPlugin
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public void Init(object gameInstance)
         {
-            instance = this;
+            Instance = this;
 
             Log.Info("Loading");
 
             var configPath = Path.Combine(MyFileSystem.UserDataPath, ConfigFileName);
             config = PersistentConfig<PluginConfig>.Load(Log, configPath);
 
-            PatchHelpers.Init(Log, Config);
+            Common.SetPlugin(this);
 
-            Log.Debug("Patching");
-            try
-            {
-                Harmony.PatchAll(Assembly.GetExecutingAssembly());
-            }
-            catch (Exception ex)
-            {
-                Log.Critical(ex, "Patching failed");
+            if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
                 failed = true;
-                return;
-            }
 
             Log.Debug("Successfully loaded");
         }
@@ -67,7 +58,7 @@ namespace ClientPlugin
                 Log.Critical(ex, "Dispose failed");
             }
 
-            instance = null;
+            Instance = null;
         }
 
         public void Update()
@@ -119,9 +110,9 @@ namespace ClientPlugin
 
         private void CustomUpdate()
         {
-            #if DEBUG
+#if DEBUG
             MySpinWaitPatch.LogStats(Tick, 600);
-            #endif
+#endif
 
             // MyPathFindingSystemPatch.LogStats(300);
             // MyPathFindingSystemEnumeratorPatch.LogStats(300);

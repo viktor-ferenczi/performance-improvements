@@ -1,4 +1,5 @@
 using System.Windows.Controls;
+using Shared.Plugin;
 
 namespace TorchPlugin
 {
@@ -9,7 +10,7 @@ namespace TorchPlugin
         public ConfigView()
         {
             InitializeComponent();
-            DataContext = Plugin.Config;
+            DataContext = Common.Config;
         }
     }
 }

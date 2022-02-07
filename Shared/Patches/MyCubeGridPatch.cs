@@ -1,12 +1,13 @@
 #if !DISABLE_MERGE_PASTE_UPDATES
 
 using System.Threading;
-using ClientPlugin.PerformanceImprovements.Shared.Config;
 using HarmonyLib;
 using Sandbox.Game.Entities;
 using Sandbox.Game.World;
+using Shared.Config;
 using Shared.Extensions;
 using Shared.Logging;
+using Shared.Plugin;
 
 namespace Shared.Patches
 {
@@ -14,8 +15,8 @@ namespace Shared.Patches
     [HarmonyPatch(typeof(MyCubeGrid))]
     public static class MyCubeGridPatch
     {
-        public static IPluginLogger Log;
-        public static IPluginConfig Config;
+        private static IPluginLogger Log => Common.Logger;
+        private static IPluginConfig Config => Common.Config;
         private static readonly ThreadLocal<bool> IsMerging = new ThreadLocal<bool>();
         public static bool IsMergingInProgress => IsMerging.Value;
 

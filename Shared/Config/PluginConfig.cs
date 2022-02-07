@@ -1,6 +1,6 @@
 #if !TORCH
 
-namespace ClientPlugin.PerformanceImprovements.Shared.Config
+namespace Shared.Config
 {
     public class PluginConfig: IPluginConfig
     {
