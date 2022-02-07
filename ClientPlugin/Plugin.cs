@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using ClientPlugin.GUI;
 using HarmonyLib;
+using Sandbox.Graphics.GUI;
 using Shared.Config;
 using Shared.Logging;
 using Shared.Patches;
@@ -116,6 +118,12 @@ namespace ClientPlugin
 
             // MyPathFindingSystemPatch.LogStats(300);
             // MyPathFindingSystemEnumeratorPatch.LogStats(300);
+        }
+
+        // ReSharper disable once UnusedMember.Global
+        public void OpenConfigDialog()
+        {
+            MyGuiSandbox.AddScreen(new MyPluginConfigDialog());
         }
     }
 }

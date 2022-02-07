@@ -46,13 +46,13 @@
         <TextBlock Grid.Row="3" Grid.Column="1" Text="Alternative spin wait algorithm to reduce CPU load (MySpinWait.SpinOnce)" VerticalAlignment="Center" Margin="5"/>
         <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Name="FixSpinWait" IsChecked="{Binding FixSpinWait}" Margin="5"/>
 
-        <TextBlock Grid.Row="4" Grid.Column="1" Text="Disable conveyor updates during grid merge (MyCubeGrid.MergeGridInternal)" VerticalAlignment="Center" Margin="5"/>
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="Disables conveyor updates during grid merge (MyCubeGrid.MergeGridInternal)" VerticalAlignment="Center" Margin="5"/>
         <CheckBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Name="FixGridMerge" IsChecked="{Binding FixGridMerge}" Margin="5"/>
 
-        <TextBlock Grid.Row="5" Grid.Column="1" Text="Disable updates during grid paste (MyCubeGrid.PasteBlocksServer)" VerticalAlignment="Center" Margin="5"/>
+        <TextBlock Grid.Row="5" Grid.Column="1" Text="Disables updates during grid paste (MyCubeGrid.PasteBlocksServer)" VerticalAlignment="Center" Margin="5"/>
         <CheckBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Name="FixGridPaste" IsChecked="{Binding FixGridPaste}" Margin="5"/>
 
-        <!-- <TextBlock Grid.Row="6" Grid.Column="1" Text="Eliminate 98% of EOS P2P network statistics updates (VRage.EOS.MyP2PQoSAdapter.UpdateStats)" VerticalAlignment="Center" Margin="5"/> -->
+        <!-- <TextBlock Grid.Row="6" Grid.Column="1" Text="Eliminates 98% of EOS P2P network statistics updates (VRage.EOS.MyP2PQoSAdapter.UpdateStats)" VerticalAlignment="Center" Margin="5"/> -->
         <!-- <CheckBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Name="FixP2PUpdateStats" IsChecked="{Binding FixP2PUpdateStats}" Margin="5"/> -->
 
         <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" Text="Configuration changes are saved automatically. It is safe to change them while the game is running." VerticalAlignment="Center" Margin="5"/>

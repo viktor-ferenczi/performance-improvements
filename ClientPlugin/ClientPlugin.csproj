@@ -521,6 +521,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="GUI\MyPluginConfigDialog.cs" />
         <Compile Include="Plugin.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
