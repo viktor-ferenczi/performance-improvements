@@ -1,8 +1,8 @@
 # Space Engineers Performance Improvements Plugin
 
-## Features (performance fixes)
+## Features
 
-- `MySpinWait` optimization (lower CPU consumption during heavy load)
+- `MySpinWait` optimization (lower CPU consumption during heavy load, but potentially higher simulation wall clock time)
 - Suppressing useless updates during grid merge and paste (about twice as fast for grids with lots of terminal blocks)
 - Reducing CPU load of network statistics updates (saves ~50% constant load on a CPU core)
 
@@ -41,9 +41,9 @@ these patches are expected to be removed anyway, so I did not bother using Torch
 6. Start the Dedicated Server.
 7. Add the `PerformanceImprovements.dll` from the `Bin64/Plugins` folder to the Plugins list.
 
-## Technical details of the optimizations
+## Technical details
 
-### SPINWAIT
+### SPINWAIT (both client and server)
 
 Replaces `MySpinWait.SpinOnce` with more energy efficient code, which consumes less CPU time
 while waiting on locks to be released. While it reduces CPU consumption (and some cache misses),
@@ -51,7 +51,7 @@ it does not make anything completing any faster (no measurable difference).
 
 Please vote on [Keen's Support Ticket](https://support.keenswh.com/spaceengineers/pc/topic/22799-performance-myspinwait-spinonce-is-eating-the-cpu)
 
-### MERGE_PASTE_UPDATES
+### MERGE_PASTE_UPDATES (server and offline games)
 
 Disables the `MyConveyorLine.UpdateIsWorking` method while any grid merging operation is in
 progress. It considerably reduces the merge time of grids with long conveyor systems. At the
@@ -67,7 +67,7 @@ at least for grids with lots of terminal blocks and conveyor ports.
 
 Please vote on [Keen's Support Ticket](https://support.keenswh.com/spaceengineers/pc/topic/22823-performance-unnecessary-updates-during-grid-merge-and-paste-operations)
 
-### NETWORK_STATISTICS
+### NETWORK_STATISTICS (client only)
 
 Eliminates 98% of the ~50% constant CPU core load imposed by the
 `VRage.EOS.MyP2PQoSAdapter.UpdateStats` method, even during **offline** games.
