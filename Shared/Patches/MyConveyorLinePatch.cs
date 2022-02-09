@@ -1,5 +1,3 @@
-#if !DISABLE_MERGE_PASTE_UPDATES
-
 using HarmonyLib;
 using Sandbox.Game.GameSystems.Conveyors;
 
@@ -19,5 +17,3 @@ namespace Shared.Patches
         }
     }
 }
-
-#endif

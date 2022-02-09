@@ -1,7 +1,6 @@
 # Space Engineers Performance Improvements Plugin
 
 ## Features
-
 - `MySpinWait` optimization (lower CPU consumption during heavy load, but potentially higher simulation wall clock time)
 - Suppressing useless updates during grid merge and paste (about twice as fast for grids with lots of terminal blocks)
 - Reducing CPU load of network statistics updates (saves ~50% constant load on a CPU core)
@@ -11,7 +10,6 @@
 More optimizations are planned.
 
 ## Prerequisites
-
 - [Space Engineers](https://store.steampowered.com/app/244850/Space_Engineers/) with [Plugin Loader](https://steamcommunity.com/sharedfiles/filedetails/?id=2407984968) or
 - [Torch Server](https://torchapi.net/) or
 - [Dedicated Server](https://www.spaceengineersgame.com/dedicated-servers/)
@@ -19,7 +17,6 @@ More optimizations are planned.
 ## Installation
 
 ### Client plugin
-
 1. Install [Plugin Loader](https://steamcommunity.com/sharedfiles/filedetails/?id=2407984968) into Space Engineers (add launch option)
 2. Enable the **Performance Improvements** plugin from the **Plugins** dialog
 3. Apply, restart the game
@@ -32,7 +29,6 @@ Please note, that the plugin is using Harmony to patch the game code. Once Keen 
 these patches are expected to be removed anyway, so I did not bother using Torch's patching mechanism.
 
 ### Dedicated Server plugin
-
 1. Download the latest ZIP from [Releases](https://github.com/viktor-ferenczi/performance-improvements/releases).
 2. Open the `Bin64` folder of your Dedicated Server installation.
 3. Create a `Plugins` folder if it does not exists.
@@ -41,17 +37,47 @@ these patches are expected to be removed anyway, so I did not bother using Torch
 6. Start the Dedicated Server.
 7. Add the `PerformanceImprovements.dll` from the `Bin64/Plugins` folder to the Plugins list.
 
+## Credits
+
+### Patreon
+
+#### Admiral level supporters
+- BetaMark
+- Casinost
+- wafoxxx
+
+#### Captain level supporters
+- Lotan
+- ransomthetoaster
+- Lazul
+- mkaito
+
+### Developers
+- Z__ (zznty) for providing the Torch server code for these fixes: 
+  * Disabling explicit GC calls to avoid long freezes during startup/shutdown
+  * Disabling statistics collection on every API call from mods
+  * Fix for the Safe Zone performance issue
+- Avaness for the client side Plugin Loader
+- Bishbash77 for keeping Torch alive + Torch contributors
+
+### Testers
+- CaveBadgerMan (SG Dimensions, Torch servers)
+- Robot10 (client side)
+- mkaito (testing with his heavy offline world)
+- Multiple server admins for discussion and feedback 
+
 ## Technical details
 
-### SPINWAIT (both client and server)
+### Spin wait overhead (both client and server)
 
 Replaces `MySpinWait.SpinOnce` with more energy efficient code, which consumes less CPU time
-while waiting on locks to be released. While it reduces CPU consumption (and some cache misses),
-it does not make anything completing any faster (no measurable difference).
+while waiting on locks to be released. It observably reduces the overall CPU consumption, but
+may not make the game much faster in general. It may reduce CPU cache misses a bit by not 
+making that many memory accesses in SpinOnce.
 
 Please vote on [Keen's Support Ticket](https://support.keenswh.com/spaceengineers/pc/topic/22799-performance-myspinwait-spinonce-is-eating-the-cpu)
 
-### MERGE_PASTE_UPDATES (server and offline games)
+### Conveyor updates while merging grids (server and offline games)
 
 Disables the `MyConveyorLine.UpdateIsWorking` method while any grid merging operation is in
 progress. It considerably reduces the merge time of grids with long conveyor systems. At the
@@ -59,15 +85,19 @@ end of `MyCubeGrid.MergeGridInternal` it calls `GridSystems.ConveyorSystem.FlagF
 on the grid to force recalculating all `IsWorking` values to fix any side-effects of the
 optimization.
 
-It also sets `MySession.Static.m_updateAllowed` to `false` while `MyCubeGrid.PasteBlocksServer`
-is running. It eliminates a lot of unnecessary computations until the paste is done.
+### Update while pasting grids (server and offline games)
 
-These two fixes combined make grid merge and paste operations ~60-70% faster in my test world,
-at least for grids with lots of terminal blocks and conveyor ports.
+Disables updates while pasting grids by setting `MySession.Static.m_updateAllowed` to 
+`false` while `MyCubeGrid.PasteBlocksServer` is running. It eliminates a lot of 
+unnecessary computations until the paste is done.
+
+This one and the previous fix combined make grid merge and paste operations ~60-70% faster 
+in my test world, at least for grids with lots of blocks and conveyor ports. It adds up
+on multiplayer servers, especially if NPC are pasted automatically.
 
 Please vote on [Keen's Support Ticket](https://support.keenswh.com/spaceengineers/pc/topic/22823-performance-unnecessary-updates-during-grid-merge-and-paste-operations)
 
-### NETWORK_STATISTICS (client only)
+### EOS P2P UpdateStats (client only)
 
 Eliminates 98% of the ~50% constant CPU core load imposed by the
 `VRage.EOS.MyP2PQoSAdapter.UpdateStats` method, even during **offline** games.

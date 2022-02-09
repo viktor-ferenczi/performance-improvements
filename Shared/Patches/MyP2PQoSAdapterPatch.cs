@@ -1,5 +1,3 @@
-#if !DISABLE_NETWORK_STATISTICS
-
 using System.Reflection;
 using System.Threading;
 using HarmonyLib;
@@ -44,5 +42,3 @@ namespace Shared.Patches
         }
     }
 }
-
-#endif

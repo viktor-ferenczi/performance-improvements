@@ -1,5 +1,3 @@
-#if !DISABLE_SPINWAIT
-
 using System;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
@@ -111,5 +109,3 @@ namespace Shared.Patches
         }
     }
 }
-
-#endif
