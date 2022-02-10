@@ -23,7 +23,8 @@ namespace TorchPlugin
             Respond($"Fix spin_lock: {Format(config.FixSpinWait)}");
             Respond($"Fix grid_merge: {Format(config.FixGridMerge)}");
             Respond($"Fix grid_paste: {Format(config.FixGridPaste)}");
-            Respond($"Fix p2p_update_stats: {Format(config.FixP2PUpdateStats)}");
+            Respond($"Fix p2p_stats: {Format(config.FixP2PUpdateStats)}");
+            Respond($"Fix gc: {Format(config.FixGarbageCollection)}");
         }
 
         // Custom formatters
@@ -108,8 +109,12 @@ namespace TorchPlugin
                     Config.FixGridPaste = parsedFlag;
                     break;
 
-                case "p2p_update_stats":
+                case "p2p_stats":
                     Config.FixP2PUpdateStats = parsedFlag;
+                    break;
+
+                case "gc":
+                    Config.FixGarbageCollection = parsedFlag;
                     break;
 
                 default:
@@ -118,7 +123,8 @@ namespace TorchPlugin
                     Respond($"  spin_lock");
                     Respond($"  grid_merge");
                     Respond($"  grid_paste");
-                    Respond($"  p2p_update_stats");
+                    Respond($"  p2p_stats");
+                    Respond($"  gc");
                     return;
             }
 

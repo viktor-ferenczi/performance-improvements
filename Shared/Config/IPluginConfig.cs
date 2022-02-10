@@ -16,5 +16,8 @@ namespace Shared.Config
 
         // Enables the VRage.EOS.MyP2PQoSAdapter.UpdateStats fix
         bool FixP2PUpdateStats { get; set; }
+
+        // Disables selected calls to GC.Collect()
+        bool FixGarbageCollection { get; set; }
     }
 }

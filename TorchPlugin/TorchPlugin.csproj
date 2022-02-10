@@ -468,7 +468,6 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="ConfigView.xaml.cs" />
-        <Compile Include="Patches\GcCollectPatch.cs" />
         <Compile Include="Plugin.cs" />
         <Compile Include="PluginConfig.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />

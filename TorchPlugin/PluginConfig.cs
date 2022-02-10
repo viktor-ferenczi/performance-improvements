@@ -52,5 +52,14 @@ namespace TorchPlugin
         }
 
         private bool fixUpdateStat = true;
+
+        [Display(GroupName = "Fixes", Name = "Disables GC.Collect calls", Order = 1, Description = "Disables all GC.Collect calls, which may cause long pauses on starting and stopping large worlds")]
+        public bool FixGarbageCollection
+        {
+            get => fixGarbageCollection;
+            set => SetValue(ref fixGarbageCollection, value);
+        }
+
+        private bool fixGarbageCollection = true;
     }
 }

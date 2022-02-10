@@ -32,6 +32,9 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel fixP2PUpdateStatsLabel;
         private MyGuiControlCheckbox fixP2PUpdateStatsCheckbox;
 
+        private MyGuiControlLabel fixGarbageCollectionLabel;
+        private MyGuiControlCheckbox fixGarbageCollectionCheckbox;
+
         private MyGuiControlMultilineText infoText;
         private MyGuiControlButton closeButton;
 
@@ -70,6 +73,7 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out fixGridMergeLabel, out fixGridMergeCheckbox, config.FixGridMerge, value => config.FixGridMerge = value, "Fix grid merge", "Disables conveyor updates during grid merge (MyCubeGrid.MergeGridInternal)");
             CreateCheckbox(out fixGridPasteLabel, out fixGridPasteCheckbox, config.FixGridPaste, value => config.FixGridPaste = value, "Fix grid paste", "Disables updates during grid paste (MyCubeGrid.PasteBlocksServer)");
             CreateCheckbox(out fixP2PUpdateStatsLabel, out fixP2PUpdateStatsCheckbox, config.FixP2PUpdateStats, value => config.FixP2PUpdateStats = value, "Fix P2P update stats", "Eliminates 98% of EOS P2P network statistics updates (VRage.EOS.MyP2PQoSAdapter.UpdateStats)");
+            CreateCheckbox(out fixGarbageCollectionLabel, out fixGarbageCollectionCheckbox, config.FixGarbageCollection, value => config.FixGarbageCollection = value, "Disables GC.Collect calls", "Disables all GC.Collect calls, which may cause long pauses on starting and stopping large worlds");
 
             EnableDisableFixes();
 
@@ -114,6 +118,7 @@ namespace ClientPlugin.GUI
             fixGridMergeCheckbox.Enabled = enabled;
             fixGridPasteCheckbox.Enabled = enabled;
             fixP2PUpdateStatsCheckbox.Enabled = enabled;
+            fixGarbageCollectionCheckbox.Enabled = enabled;
         }
 
         private void LayoutControls()
@@ -121,7 +126,7 @@ namespace ClientPlugin.GUI
             var size = Size ?? Vector2.One;
             layoutTable = new MyLayoutTable(this, -0.3f * size, 0.6f * size);
             layoutTable.SetColumnWidths(400f, 100f);
-            layoutTable.SetRowHeights(90f, 60f, 60f, 60f, 60f, 150f, 60f);
+            layoutTable.SetRowHeights(90f, 60f, 60f, 60f, 60f, 60f, 150f, 60f);
 
             var row = 0;
 
@@ -143,6 +148,10 @@ namespace ClientPlugin.GUI
 
             layoutTable.Add(fixP2PUpdateStatsLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
             layoutTable.Add(fixP2PUpdateStatsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
+            row++;
+
+            layoutTable.Add(fixGarbageCollectionLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(fixGarbageCollectionCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
             layoutTable.Add(infoText, MyAlignH.Left, MyAlignV.Top, row, 0, colSpan: 2);

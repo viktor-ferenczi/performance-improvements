@@ -9,6 +9,7 @@ namespace Shared.Config
         public bool FixGridMerge { get; set; } = true;
         public bool FixGridPaste { get; set; } = true;
         public bool FixP2PUpdateStats { get; set; } = true;
+        public bool FixGarbageCollection { get; set; } = true;
     }
 }
 

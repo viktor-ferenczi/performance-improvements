@@ -54,7 +54,7 @@ these patches are expected to be removed anyway, so I did not bother using Torch
 
 ### Developers
 - Z__ (zznty) for providing the Torch server code for these fixes: 
-  * Disabling explicit GC calls to avoid long freezes during startup/shutdown
+  * Disabling GC.Collect calls to avoid pauses during startup/shutdown
   * Disabling statistics collection on every API call from mods
   * Fix for the Safe Zone performance issue
 - Avaness for the client side Plugin Loader
@@ -113,3 +113,22 @@ Whether it affects the stability of multiplayer networking or any other EOS
 related functionality is yet to be seen.
 
 Please vote on [Keen's Support Ticket](https://support.keenswh.com/spaceengineers/pc/topic/22802-performance-constant-50-core-load-by-vrage-eos-myp2pqosadapter-updatestats)
+
+### GC.Collect calls (both client and server)
+
+Contributed by: `Z__` (zznty)
+
+The game makes explicit calls to `GC.Collect`, which may cause long pauses 
+while starting or stopping large worlds. It mostly affects large multiplayer 
+servers where worlds are big, but it can shave off a few hundred milliseconds
+of world load (and close) time in case of loading offline games as well.
+
+There are also calls elsewhere, for example in `MyPlanetTextureMapProvider` and
+`MySimpleProfiler.LogPerformanceTestResults`, which may be invoked during gameplay.
+The patched calls are now logged at the DEBUG log level, so we can see them and
+measure how much we save by eliminating them. 
+
+Parallel GC should happen later and free up memory anyway. No explicit garbage
+collection calls should be needed anymore.
+
+TODO: Add a Keen support ticket after gathering profiling data. 
