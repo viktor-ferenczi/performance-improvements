@@ -58,7 +58,10 @@ namespace TorchPlugin
 
 #if USE_HARMONY
             if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
+            {
                 failed = true;
+                return;
+            }
 #endif
 
             sessionManager = torch.Managers.GetManager<TorchSessionManager>();

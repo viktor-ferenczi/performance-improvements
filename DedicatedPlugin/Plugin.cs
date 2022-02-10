@@ -41,7 +41,10 @@ namespace DedicatedPlugin
             Common.SetPlugin(this);
 
             if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
+            {
                 failed = true;
+                return;
+            }
 
             Log.Debug("Successfully loaded");
         }
