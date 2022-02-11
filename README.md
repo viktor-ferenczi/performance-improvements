@@ -55,7 +55,7 @@ these patches are expected to be removed anyway, so I did not bother using Torch
 ### Developers
 - Z__ (zznty) for providing the Torch server code for these fixes: 
   * Disabling GC.Collect calls to avoid pauses during startup/shutdown
-  * Disabling statistics collection on every API call from mods
+  * Disabling statistics collection on Mod API calls
   * Fix for the Safe Zone performance issue
 - Avaness for the client side Plugin Loader
 - Bishbash77 for keeping Torch alive + Torch contributors
@@ -131,4 +131,21 @@ measure how much we save by eliminating them.
 Parallel GC should happen later and free up memory anyway. No explicit garbage
 collection calls should be needed anymore.
 
+Consider disabling this setting if your PC or server does not have at least 8GB RAM.
+
 TODO: Add a Keen support ticket after gathering profiling data. 
+
+### Mod API call statistics overhead (both client and server)
+
+It may be a performance hog if many mods are used. This fix disables the
+`VRage.Scripting.Rewriters.PerfCountingRewriter.Rewrite` method, so the
+API calls are not rewritten, removing the overhead.
+
+I hope it will not be a problem for Keen, as long as only a small minority
+of players are using plugins. It is not a bug, it is a feature. Therefore
+no support ticket is needed.
+
+Measured 10% lower simulation CPU load in a heavily modded test world after
+loading it with this fix enabled.
+
+TODO: Profiling on big multiplayer server worlds.

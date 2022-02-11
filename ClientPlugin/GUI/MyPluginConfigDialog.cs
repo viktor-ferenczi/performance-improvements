@@ -35,6 +35,9 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel fixGarbageCollectionLabel;
         private MyGuiControlCheckbox fixGarbageCollectionCheckbox;
 
+        private MyGuiControlLabel disableModApiStatisticsLabel;
+        private MyGuiControlCheckbox disableModApiStatisticsCheckbox;
+
         private MyGuiControlMultilineText infoText;
         private MyGuiControlButton closeButton;
 
@@ -67,13 +70,14 @@ namespace ClientPlugin.GUI
             AddCaption(Caption);
 
             var config = Common.Config;
-            CreateCheckbox(out enabledLabel, out enabledCheckbox, true, value => config.Enabled = value, "Enabled", "Enables the plugin");
+            CreateCheckbox(out enabledLabel, out enabledCheckbox, config.Enabled, value => config.Enabled = value, "Enabled", "Enables the plugin");
 
             CreateCheckbox(out fixSpinWaitLabel, out fixSpinWaitCheckbox, config.FixSpinWait, value => config.FixSpinWait = value, "Fix spin wait", "Alternative spin wait algorithm to reduce CPU load (MySpinWait.SpinOnce)");
             CreateCheckbox(out fixGridMergeLabel, out fixGridMergeCheckbox, config.FixGridMerge, value => config.FixGridMerge = value, "Fix grid merge", "Disables conveyor updates during grid merge (MyCubeGrid.MergeGridInternal)");
             CreateCheckbox(out fixGridPasteLabel, out fixGridPasteCheckbox, config.FixGridPaste, value => config.FixGridPaste = value, "Fix grid paste", "Disables updates during grid paste (MyCubeGrid.PasteBlocksServer)");
             CreateCheckbox(out fixP2PUpdateStatsLabel, out fixP2PUpdateStatsCheckbox, config.FixP2PUpdateStats, value => config.FixP2PUpdateStats = value, "Fix P2P update stats", "Eliminates 98% of EOS P2P network statistics updates (VRage.EOS.MyP2PQoSAdapter.UpdateStats)");
-            CreateCheckbox(out fixGarbageCollectionLabel, out fixGarbageCollectionCheckbox, config.FixGarbageCollection, value => config.FixGarbageCollection = value, "Disables GC.Collect calls", "Disables all GC.Collect calls, which may cause long pauses on starting and stopping large worlds");
+            CreateCheckbox(out fixGarbageCollectionLabel, out fixGarbageCollectionCheckbox, config.FixGarbageCollection, value => config.FixGarbageCollection = value, "Disables GC.Collect calls", "Disables selected GC.Collect calls, which may cause long pauses on starting and stopping large worlds");
+            CreateCheckbox(out disableModApiStatisticsLabel, out disableModApiStatisticsCheckbox, config.DisableModApiStatistics, value => config.DisableModApiStatistics = value, "Disables Mod API statistics", "Disables the collection of Mod API call statistics to eliminate the overhead (affects only world loading)");
 
             EnableDisableFixes();
 
@@ -119,14 +123,15 @@ namespace ClientPlugin.GUI
             fixGridPasteCheckbox.Enabled = enabled;
             fixP2PUpdateStatsCheckbox.Enabled = enabled;
             fixGarbageCollectionCheckbox.Enabled = enabled;
+            disableModApiStatisticsCheckbox.Enabled = enabled;
         }
 
         private void LayoutControls()
         {
             var size = Size ?? Vector2.One;
-            layoutTable = new MyLayoutTable(this, -0.3f * size, 0.6f * size);
+            layoutTable = new MyLayoutTable(this, -0.35f * size, 0.7f * size);
             layoutTable.SetColumnWidths(400f, 100f);
-            layoutTable.SetRowHeights(90f, 60f, 60f, 60f, 60f, 60f, 150f, 60f);
+            layoutTable.SetRowHeights(90f, 60f, 60f, 60f, 60f, 60f, 60f, 150f, 60f);
 
             var row = 0;
 
@@ -152,6 +157,10 @@ namespace ClientPlugin.GUI
 
             layoutTable.Add(fixGarbageCollectionLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
             layoutTable.Add(fixGarbageCollectionCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
+            row++;
+
+            layoutTable.Add(disableModApiStatisticsLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(disableModApiStatisticsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
             layoutTable.Add(infoText, MyAlignH.Left, MyAlignV.Top, row, 0, colSpan: 2);

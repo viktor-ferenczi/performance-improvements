@@ -1,6 +1,8 @@
+using System.ComponentModel;
+
 namespace Shared.Config
 {
-    public interface IPluginConfig
+    public interface IPluginConfig: INotifyPropertyChanged
     {
         // Enables the plugin
         bool Enabled { get; set; }
@@ -19,5 +21,8 @@ namespace Shared.Config
 
         // Disables selected calls to GC.Collect()
         bool FixGarbageCollection { get; set; }
+
+        // Disables Mod API statistics
+        bool DisableModApiStatistics { get; set; }
     }
 }

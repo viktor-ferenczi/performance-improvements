@@ -49,6 +49,12 @@
         <Reference Include="Markdown.Xaml, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Torch\Markdown.Xaml.dll</HintPath>
         </Reference>
+        <Reference Include="Microsoft.CodeAnalysis, Version=2.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+          <HintPath>..\Torch\DedicatedServer64\Microsoft.CodeAnalysis.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=2.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+          <HintPath>..\Torch\DedicatedServer64\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+        </Reference>
         <Reference Include="Microsoft.Win32.Primitives, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
           <HintPath>..\Torch\Microsoft.Win32.Primitives.dll</HintPath>
         </Reference>

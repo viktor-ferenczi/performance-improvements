@@ -93,11 +93,16 @@ namespace Shared.Patches
         {
             if (Config.Enabled && Config.FixGarbageCollection)
             {
+#if DEBUG
                 Log.Debug("Skipping GC.Collect()");
+#endif
                 return;
             }
 
+#if DEBUG
             Log.Debug("Calling GC.Collect()");
+#endif
+
             GC.Collect();
         }
 
