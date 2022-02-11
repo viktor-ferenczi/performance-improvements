@@ -1,4 +1,4 @@
-#if DISABLE_PATHFINDING
+#if UNTESTED
 
 using HarmonyLib;
 using Sandbox.Game.GameSystems.Conveyors;

@@ -1,6 +1,8 @@
+using System.ComponentModel;
+
 namespace Shared.Config
 {
-    public interface IPluginConfig
+    public interface IPluginConfig: INotifyPropertyChanged
     {
         // Enables the plugin
         bool Enabled { get; set; }
@@ -16,5 +18,11 @@ namespace Shared.Config
 
         // Enables the VRage.EOS.MyP2PQoSAdapter.UpdateStats fix
         bool FixP2PUpdateStats { get; set; }
+
+        // Disables selected calls to GC.Collect()
+        bool FixGarbageCollection { get; set; }
+
+        // Disables Mod API statistics
+        bool DisableModApiStatistics { get; set; }
     }
 }

@@ -11,25 +11,24 @@ namespace Shared.Config
     // Simple class that manages saving <see cref="P:Torch.Persistent`1.Data" /> to disk using XML serialization.
     // Can automatically save on changes by implementing <see cref="T:System.ComponentModel.INotifyPropertyChanged" /> in the data class.
     /// <typeparam name="T">Data class type</typeparam>
-    public class PersistentConfig<T> : IDisposable where T : class, new()
+    public class PersistentConfig<T> : IDisposable where T : class, INotifyPropertyChanged, new()
     {
         private T data;
         private Timer saveConfigTimer;
         private const int SaveDelay = 500;
 
-        public string Path { get; }
+        private string Path { get; }
 
         public T Data
         {
             get => data;
             private set
             {
-                if (data is INotifyPropertyChanged data1)
-                    data1.PropertyChanged -= OnPropertyChanged;
+                if (data != null)
+                    data.PropertyChanged -= OnPropertyChanged;
+
                 data = value;
-                if (!(data is INotifyPropertyChanged data2))
-                    return;
-                data2.PropertyChanged += OnPropertyChanged;
+                data.PropertyChanged += OnPropertyChanged;
             }
         }
 

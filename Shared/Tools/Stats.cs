@@ -7,7 +7,6 @@ namespace Shared.Patches
     public struct Stats
     {
         public long Count;
-        public long Max;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Increment()
@@ -16,28 +15,21 @@ namespace Shared.Patches
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void UpdateMax(long count)
-        {
-            Interlocked.CompareExchange(ref Max, count, count - 1);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Reset()
         {
-            Count = 0;
-            Max = 0;
+            Interlocked.Exchange(ref Count, 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string Format(int seconds)
+        public string Format(float seconds)
         {
-            return $"{(Count + (seconds >> 1)) / seconds}/s";
+            return $"{Count / seconds:0.00}/s";
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string Format(int seconds, long waits)
+        public string Format(float seconds, long waits)
         {
-            return $"{(Count + (seconds >> 1)) / seconds}/s, {(Count + (waits >> 1)) / waits}/w, {Max} max";
+            return $"{Count / seconds:0.00}/s, {Count / (float)waits:0.00}/w";
         }
     }
 }

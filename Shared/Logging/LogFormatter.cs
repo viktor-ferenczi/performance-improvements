@@ -36,8 +36,6 @@ namespace Shared.Logging
 
             FormatException(sb, ex);
 
-            sb.Append("\r\n");
-
             var text = sb.ToString();
             sb.Clear();
 

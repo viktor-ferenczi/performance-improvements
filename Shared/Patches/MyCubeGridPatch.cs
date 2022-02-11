@@ -1,12 +1,9 @@
-#if !DISABLE_MERGE_PASTE_UPDATES
-
 using System.Threading;
 using HarmonyLib;
 using Sandbox.Game.Entities;
 using Sandbox.Game.World;
 using Shared.Config;
 using Shared.Extensions;
-using Shared.Logging;
 using Shared.Plugin;
 
 namespace Shared.Patches
@@ -15,10 +12,10 @@ namespace Shared.Patches
     [HarmonyPatch(typeof(MyCubeGrid))]
     public static class MyCubeGridPatch
     {
-        private static IPluginLogger Log => Common.Logger;
         private static IPluginConfig Config => Common.Config;
-        private static readonly ThreadLocal<bool> IsMerging = new ThreadLocal<bool>();
-        public static bool IsMergingInProgress => IsMerging.Value;
+
+        private static readonly ThreadLocal<int> CallDepth = new ThreadLocal<int>();
+        public static bool IsMergingInProgress => CallDepth.Value > 0;
 
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
@@ -28,13 +25,7 @@ namespace Shared.Patches
             if (!Config.Enabled || !Config.FixGridMerge)
                 return true;
 
-            if (IsMerging.Value)
-            {
-                Log.Warning("Ignoring recursive MyCubeGrid.MergeGridInternal call!");
-                return false;
-            }
-
-            IsMerging.Value = true;
+            CallDepth.Value++;
 
             return true;
         }
@@ -45,11 +36,12 @@ namespace Shared.Patches
         [HarmonyPatch("MergeGridInternal")]
         private static void MergeGridInternalPostfix(MyCubeGrid __instance)
         {
-            // Skip the postfix if the prefix did not run
-            if (!IsMerging.Value)
+            if (!IsMergingInProgress)
                 return;
 
-            IsMerging.Value = false;
+            ;
+            if (--CallDepth.Value > 0)
+                return;
 
             // Update the conveyor system only after the merge is complete
             __instance.GridSystems.ConveyorSystem.FlagForRecomputation();
@@ -85,5 +77,3 @@ namespace Shared.Patches
         }
     }
 }
-
-#endif

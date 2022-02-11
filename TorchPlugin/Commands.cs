@@ -20,10 +20,12 @@ namespace TorchPlugin
         {
             var config = Plugin.Instance.Config;
             Respond($"{Plugin.PluginName} plugin is enabled: {Format(config.Enabled)}");
-            Respond($"Fix spin_lock: {Format(config.FixSpinWait)}");
-            Respond($"Fix grid_merge: {Format(config.FixGridMerge)}");
-            Respond($"Fix grid_paste: {Format(config.FixGridPaste)}");
-            Respond($"Fix p2p_update_stats: {Format(config.FixP2PUpdateStats)}");
+            Respond($"spin_lock: {Format(config.FixSpinWait)}");
+            Respond($"grid_merge: {Format(config.FixGridMerge)}");
+            Respond($"grid_paste: {Format(config.FixGridPaste)}");
+            Respond($"p2p_stats: {Format(config.FixP2PUpdateStats)}");
+            Respond($"gc: {Format(config.FixGarbageCollection)}");
+            Respond($"api_stats: {Format(config.DisableModApiStatistics)}");
         }
 
         // Custom formatters
@@ -108,8 +110,16 @@ namespace TorchPlugin
                     Config.FixGridPaste = parsedFlag;
                     break;
 
-                case "p2p_update_stats":
+                case "p2p_stats":
                     Config.FixP2PUpdateStats = parsedFlag;
+                    break;
+
+                case "gc":
+                    Config.FixGarbageCollection = parsedFlag;
+                    break;
+
+                case "api_stats":
+                    Config.DisableModApiStatistics = parsedFlag;
                     break;
 
                 default:
@@ -118,7 +128,9 @@ namespace TorchPlugin
                     Respond($"  spin_lock");
                     Respond($"  grid_merge");
                     Respond($"  grid_paste");
-                    Respond($"  p2p_update_stats");
+                    Respond($"  p2p_stats");
+                    Respond($"  gc");
+                    Respond($"  api_stats");
                     return;
             }
 
