@@ -41,8 +41,10 @@
 
         <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Fixes" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" Margin="5"/>
 
+        <!--
         <TextBlock Grid.Row="3" Grid.Column="1" Text="Alternative spin wait algorithm to reduce CPU load (MySpinWait.SpinOnce)" VerticalAlignment="Center" Margin="5"/>
         <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Name="FixSpinWait" IsChecked="{Binding FixSpinWait}" Margin="5"/>
+        -->
 
         <TextBlock Grid.Row="4" Grid.Column="1" Text="Disables conveyor updates during grid merge (MyCubeGrid.MergeGridInternal)" VerticalAlignment="Center" Margin="5"/>
         <CheckBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Name="FixGridMerge" IsChecked="{Binding FixGridMerge}" Margin="5"/>
@@ -62,7 +64,7 @@
         <TextBlock Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="2" Text="!pfi info" VerticalAlignment="Center" Margin="5"/>
         <TextBlock Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="2" Text="!pfi fix name bool" VerticalAlignment="Center" Margin="5"/>
 
-        <TextBlock Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="3" Text="Available names: spin_lock, grid_merge, grid_paste, p2p_stats, gc, api_stats" VerticalAlignment="Center" Margin="5"/>
+        <TextBlock Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="3" Text="Available names: grid_merge, grid_paste, p2p_stats, gc, api_stats" VerticalAlignment="Center" Margin="5"/>
         <!-- p2p_stats -->
 
         <TextBlock Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="3" Text="Accepted bool values:" VerticalAlignment="Center" Margin="5"/>
