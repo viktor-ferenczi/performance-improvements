@@ -22,6 +22,9 @@ namespace Shared.Config
         // Disables selected calls to GC.Collect()
         bool FixGarbageCollection { get; set; }
 
+        // Enable the MyEntityThrustComponent.RecomputeThrustParameters fix
+        bool FixThrusters { get; set; }
+
         // Disables Mod API statistics
         bool DisableModApiStatistics { get; set; }
     }

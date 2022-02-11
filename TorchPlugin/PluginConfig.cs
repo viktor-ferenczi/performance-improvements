@@ -14,6 +14,7 @@ namespace TorchPlugin
         private bool fixPast = true;
         private bool fixUpdateStat = true;
         private bool fixGarbageCollection = true;
+        private bool fixThrusters = true;
         private bool disableModApiStatistics = true;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enables/disables the plugin")]
@@ -56,6 +57,13 @@ namespace TorchPlugin
         {
             get => fixGarbageCollection;
             set => SetValue(ref fixGarbageCollection, value);
+        }
+        
+        [Display(Order = 6, GroupName = "Fixes", Name = "Fix Thruster Updates", Description = "Throttles thruster grid updates to only happen once a second")]
+        public bool FixThrusters
+        {
+            get => fixThrusters;
+            set => SetValue(ref fixThrusters, value);
         }
 
         [Display(Order = 7, GroupName = "Fixes", Name = "Disables Mod API statistics", Description = "Disables the collection of Mod API call statistics to eliminate the overhead")]
