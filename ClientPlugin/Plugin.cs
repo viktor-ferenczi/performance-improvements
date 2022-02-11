@@ -115,8 +115,10 @@ namespace ClientPlugin
 
         private void CustomUpdate()
         {
+#if WORKS_BUT_INCREASES_SIMULATION_LOAD
 #if DEBUG
             MySpinWaitPatch.LogStats(Tick, 600);
+#endif
 #endif
 
             // MyPathFindingSystemPatch.LogStats(300);

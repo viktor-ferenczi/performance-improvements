@@ -1,3 +1,5 @@
+#if WORKS_BUT_INCREASES_SIMULATION_LOAD
+
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -25,7 +27,7 @@ namespace Shared.Patches
 
         private static readonly bool Multiprocessor = Environment.ProcessorCount > 1;
         private static readonly long Millisecond = Stopwatch.Frequency / 1000;
-        private static readonly long MaxBusyWaitDuration = Millisecond / 2;
+        private static readonly long MaxBusyWaitDuration = Millisecond / 10;
 
         public static void LogStats(long tick, int period)
         {
@@ -68,8 +70,8 @@ namespace Shared.Patches
 
             if (!Multiprocessor)
             {
-                yield.Increment();
-                Thread.Yield();
+                if(Thread.Yield())
+                    yield.Increment();
                 return false;
             }
 
@@ -84,9 +86,11 @@ namespace Shared.Patches
             var now = Stopwatch.GetTimestamp();
             if (now >= ___m_startTimeLong)
             {
-                yield.Increment();
                 if (Thread.Yield())
+                {
+                    yield.Increment();
                     return false;
+                }
             }
 
             sleep.Increment();
@@ -95,3 +99,5 @@ namespace Shared.Patches
         }
     }
 }
+
+#endif

@@ -20,7 +20,9 @@ namespace TorchPlugin
         {
             var config = Plugin.Instance.Config;
             Respond($"{Plugin.PluginName} plugin is enabled: {Format(config.Enabled)}");
-            Respond($"spin_lock: {Format(config.FixSpinWait)}");
+#if WORKS_BUT_INCREASES_SIMULATION_LOAD
+            Respond($"spin_wait: {Format(config.FixSpinWait)}");
+#endif
             Respond($"grid_merge: {Format(config.FixGridMerge)}");
             Respond($"grid_paste: {Format(config.FixGridPaste)}");
             Respond($"p2p_stats: {Format(config.FixP2PUpdateStats)}");
@@ -98,9 +100,11 @@ namespace TorchPlugin
 
             switch (name)
             {
-                case "spin_lock":
+#if WORKS_BUT_INCREASES_SIMULATION_LOAD
+                case "spin_wait":
                     Config.FixSpinWait = parsedFlag;
                     break;
+#endif
 
                 case "grid_merge":
                     Config.FixGridMerge = parsedFlag;
@@ -125,7 +129,9 @@ namespace TorchPlugin
                 default:
                     Respond($"Unknown fix: {name}");
                     Respond($"Valid fix names:");
-                    Respond($"  spin_lock");
+#if WORKS_BUT_INCREASES_SIMULATION_LOAD
+                    Respond($"  spin_wait");
+#endif
                     Respond($"  grid_merge");
                     Respond($"  grid_paste");
                     Respond($"  p2p_stats");

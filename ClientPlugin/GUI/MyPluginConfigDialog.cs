@@ -20,8 +20,10 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel enabledLabel;
         private MyGuiControlCheckbox enabledCheckbox;
 
+#if WORKS_BUT_INCREASES_SIMULATION_LOAD
         private MyGuiControlLabel fixSpinWaitLabel;
         private MyGuiControlCheckbox fixSpinWaitCheckbox;
+#endif
 
         private MyGuiControlLabel fixGridMergeLabel;
         private MyGuiControlCheckbox fixGridMergeCheckbox;
@@ -72,7 +74,9 @@ namespace ClientPlugin.GUI
             var config = Common.Config;
             CreateCheckbox(out enabledLabel, out enabledCheckbox, config.Enabled, value => config.Enabled = value, "Enabled", "Enables the plugin");
 
+#if WORKS_BUT_INCREASES_SIMULATION_LOAD
             CreateCheckbox(out fixSpinWaitLabel, out fixSpinWaitCheckbox, config.FixSpinWait, value => config.FixSpinWait = value, "Fix spin wait", "Alternative spin wait algorithm to reduce CPU load (MySpinWait.SpinOnce)");
+#endif
             CreateCheckbox(out fixGridMergeLabel, out fixGridMergeCheckbox, config.FixGridMerge, value => config.FixGridMerge = value, "Fix grid merge", "Disables conveyor updates during grid merge (MyCubeGrid.MergeGridInternal)");
             CreateCheckbox(out fixGridPasteLabel, out fixGridPasteCheckbox, config.FixGridPaste, value => config.FixGridPaste = value, "Fix grid paste", "Disables updates during grid paste (MyCubeGrid.PasteBlocksServer)");
             CreateCheckbox(out fixP2PUpdateStatsLabel, out fixP2PUpdateStatsCheckbox, config.FixP2PUpdateStats, value => config.FixP2PUpdateStats = value, "Fix P2P update stats", "Eliminates 98% of EOS P2P network statistics updates (VRage.EOS.MyP2PQoSAdapter.UpdateStats)");
@@ -118,7 +122,9 @@ namespace ClientPlugin.GUI
         {
             var enabled = enabledCheckbox.IsChecked;
 
+#if WORKS_BUT_INCREASES_SIMULATION_LOAD
             fixSpinWaitCheckbox.Enabled = enabled;
+#endif
             fixGridMergeCheckbox.Enabled = enabled;
             fixGridPasteCheckbox.Enabled = enabled;
             fixP2PUpdateStatsCheckbox.Enabled = enabled;
@@ -131,7 +137,7 @@ namespace ClientPlugin.GUI
             var size = Size ?? Vector2.One;
             layoutTable = new MyLayoutTable(this, -0.35f * size, 0.7f * size);
             layoutTable.SetColumnWidths(400f, 100f);
-            layoutTable.SetRowHeights(90f, 60f, 60f, 60f, 60f, 60f, 60f, 150f, 60f);
+            layoutTable.SetRowHeights(90f, 60f, 60f, 60f, 60f, 60f, 150f, 60f);
 
             var row = 0;
 
@@ -139,9 +145,11 @@ namespace ClientPlugin.GUI
             layoutTable.Add(enabledCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
+#if WORKS_BUT_INCREASES_SIMULATION_LOAD
             layoutTable.Add(fixSpinWaitLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
             layoutTable.Add(fixSpinWaitCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
+#endif
 
             layoutTable.Add(fixGridMergeLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
             layoutTable.Add(fixGridMergeCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
