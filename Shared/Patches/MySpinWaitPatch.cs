@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
@@ -23,6 +24,8 @@ namespace Shared.Patches
         private static Stats sleep;
 
         private static readonly bool Multiprocessor = Environment.ProcessorCount > 1;
+        private static readonly long Millisecond = Stopwatch.Frequency / 1000;
+        private static readonly long MaxBusyWaitDuration = Millisecond / 2;
 
         public static void LogStats(long tick, int period)
         {
@@ -55,58 +58,40 @@ namespace Shared.Patches
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MySpinWait.SpinOnce))]
         [SuppressMessage("ReSharper", "InconsistentNaming")]
-        private static bool SpinOncePrefix(ref int ___m_count, ref long ___m_startTime)
+        private static bool SpinOncePrefix(ref int ___m_count, ref long ___m_startTime, ref long ___m_startTimeLong)
         {
             var config = Config;
             if (!config.Enabled || !config.FixSpinWait)
                 return true;
 
-            if (___m_count == 0)
-            {
-                wait.Increment();
-                ___m_startTime = 0;
-            }
-
             spin.Increment();
 
-            var count = ++___m_count;
-            spin.UpdateMax(count);
-
-            long yields;
-            if (Multiprocessor)
+            if (!Multiprocessor)
             {
-                if (count < 10)
-                {
-                    BusyWait(1 << (int)count);
+                yield.Increment();
+                Thread.Yield();
+                return false;
+            }
+
+            if (___m_count++ == 0)
+            {
+                ___m_startTime = Stopwatch.GetTimestamp();
+                ___m_startTimeLong = ___m_startTime + MaxBusyWaitDuration;
+                wait.Increment();
+                return false;
+            }
+
+            var now = Stopwatch.GetTimestamp();
+            if (now >= ___m_startTimeLong)
+            {
+                yield.Increment();
+                if (Thread.Yield())
                     return false;
-                }
-
-                yields = count - 9;
-            }
-            else
-            {
-                yields = count;
             }
 
-            yield.Increment();
-            yield.UpdateMax(yields);
-            if (!Thread.Yield())
-            {
-                sleep.Increment();
-                sleep.UpdateMax(++___m_startTime);
-                Thread.Sleep(1);
-            }
-
+            sleep.Increment();
+            Thread.Sleep(1);
             return false;
-        }
-
-        [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-        private static void BusyWait(int count)
-        {
-            // ReSharper disable once EmptyForStatement
-            for (var i = 1; i < count; i++)
-            {
-            }
         }
     }
 }
