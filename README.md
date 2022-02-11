@@ -70,10 +70,15 @@ these patches are expected to be removed anyway, so I did not bother using Torch
 
 ### Spin wait overhead (both client and server)
 
-Replaces `MySpinWait.SpinOnce` with more energy efficient code, which consumes less CPU time
-while waiting on locks to be released. It observably reduces the overall CPU consumption, but
-may not make the game much faster in general. It may reduce CPU cache misses a bit by not 
-making that many memory accesses in SpinOnce.
+Replaces `MySpinWait.SpinOnce` with an alternative algorithm:
+- Let it spin for half a millisecond
+- After that try to yield the CPU core to another thread (`Thread.Yield()`) on every spin
+- If no thread takes the turn (`Yield` returned false), then sleeps for 1ms (`Thread.Sleep(1)`)
+
+It avoids some busy spinning overhead on the Main thread during world loading and may have
+good results in other cases when worker threads have to make a lot of work in parallel.
+
+For detailed profiling output please see the screenshots attached to the ticket below.
 
 Please vote on [Keen's Support Ticket](https://support.keenswh.com/spaceengineers/pc/topic/22799-performance-myspinwait-spinonce-is-eating-the-cpu)
 
