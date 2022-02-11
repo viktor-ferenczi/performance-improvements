@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
 using System.Threading;
@@ -15,7 +16,7 @@ namespace Shared.Patches
     {
         private static IPluginLogger Log => Common.Logger;
         private static IPluginConfig Config => Common.Config;
-        
+
         private static Stats wait;
         private static Stats spin;
         private static Stats yield;
@@ -53,34 +54,34 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MySpinWait.SpinOnce))]
-        private static bool SpinOncePrefix(
-            // ReSharper disable once InconsistentNaming
-            ref int ___m_count,
-            // ReSharper disable once InconsistentNaming
-            ref long ___m_startTime)
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        private static bool SpinOncePrefix(ref int ___m_count, ref long ___m_startTime)
         {
             var config = Config;
             if (!config.Enabled || !config.FixSpinWait)
                 return true;
 
-            if (___m_startTime == 0)
+            if (___m_count == 0)
+            {
                 wait.Increment();
+                ___m_startTime = 0;
+            }
 
             spin.Increment();
 
-            var count = ++___m_startTime;
+            var count = ++___m_count;
             spin.UpdateMax(count);
 
             long yields;
             if (Multiprocessor)
             {
-                if (count < 6)
+                if (count < 10)
                 {
                     BusyWait(1 << (int)count);
                     return false;
                 }
 
-                yields = count - 5;
+                yields = count - 9;
             }
             else
             {
@@ -92,7 +93,7 @@ namespace Shared.Patches
             if (!Thread.Yield())
             {
                 sleep.Increment();
-                sleep.UpdateMax(++___m_count);
+                sleep.UpdateMax(++___m_startTime);
                 Thread.Sleep(1);
             }
 
