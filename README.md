@@ -140,7 +140,7 @@ loading it with this fix enabled.
 
 TODO: Profiling on big multiplayer server worlds.
 
-### Thruster grid updates
+### Thruster grid updates (server and offline games)
 
 Contributed by: `mkaito`
 
