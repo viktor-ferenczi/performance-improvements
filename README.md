@@ -85,7 +85,7 @@ This one and the previous fix combined make grid merge and paste operations ~60-
 in my test world, at least for grids with lots of blocks and conveyor ports. It adds up
 on multiplayer servers, especially if NPC are pasted automatically.
 
-Please vote on [Keen's Support Ticket](https://support.keenswh.com/spaceengineers/pc/topic/22823-performance-unnecessary-updates-during-grid-merge-and-paste-operations)
+Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/22823-performance-unnecessary-updates-during-grid-merge-and-paste-operations)
 
 ### EOS P2P UpdateStats (client only)
 
@@ -102,7 +102,7 @@ reduce CPU power consumption and cache misses if you have more than 4 cores.
 Whether it affects the stability of multiplayer networking or any other EOS
 related functionality is yet to be seen.
 
-Please vote on [Keen's Support Ticket](https://support.keenswh.com/spaceengineers/pc/topic/22802-performance-constant-50-core-load-by-vrage-eos-myp2pqosadapter-updatestats)
+Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/22802-performance-constant-50-core-load-by-vrage-eos-myp2pqosadapter-updatestats)
 
 ### GC.Collect calls (both client and server)
 
@@ -146,9 +146,10 @@ Contributed by: `mkaito`
 
 When changing thrust values, such as adjusting override or just pressing WASD,
 a lot of time is spent recalculating power and fuel state of all thrusters on
-the grid every tick.
+the grid every tick. The fix reduces the frequency of maximum thrust
+recalculations to once a second on average.
 
-The simple fix is to reduce frequency to once a second.
+The downside is that changes in fuel or power availability will take effect
+on the maximum available thrust about a second later, an acceptable compromise.
 
-The downside is that changes in fuel or power availability will take effect on
-a one second delay.
+Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/22874-grids-with-hydrogen-thrusters-decrease-simulation-speed-after-warfare-2-update-but-not-before)
