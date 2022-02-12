@@ -57,7 +57,7 @@
         <CheckBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Name="FixGarbageCollection" IsChecked="{Binding FixGarbageCollection}" Margin="5"/>
 
         <TextBlock Grid.Row="7" Grid.Column="1" Text="Throttles thruster grid updates to only happen once a second" VerticalAlignment="Center" Margin="5"/>
-        <CheckBox Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Name="FixThruster" IsChecked="{Binding FixThrusters}" Margin="5"/>
+        <CheckBox Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Name="FixThrusters" IsChecked="{Binding FixThrusters}" Margin="5"/>
         
         <TextBlock Grid.Row="8" Grid.Column="1" Text="Disables the collection of Mod API call statistics to eliminate the overhead (affects only world loading)" VerticalAlignment="Center" Margin="5"/>
         <CheckBox Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Name="DisableModApiStatistics" IsChecked="{Binding DisableModApiStatistics}" Margin="5"/>
@@ -68,8 +68,8 @@
         <TextBlock Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="2" Text="!pfi info" VerticalAlignment="Center" Margin="5"/>
         <TextBlock Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="2" Text="!pfi fix name bool" VerticalAlignment="Center" Margin="5"/>
 
-        <TextBlock Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="3" Text="Available names: grid_merge, grid_paste, p2p_stats, gc, api_stats" VerticalAlignment="Center" Margin="5"/>
-        <!-- p2p_stats -->
+        <TextBlock Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="3" Text="Available names: grid_merge, grid_paste, p2p_stats, gc, api_stats, thrusters" VerticalAlignment="Center" Margin="5"/>
+        <!-- spin_wait, p2p_stats -->
 
         <TextBlock Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="3" Text="Accepted bool values:" VerticalAlignment="Center" Margin="5"/>
         <TextBlock Grid.Row="16" Grid.Column="1" Grid.ColumnSpan="2" Text="False: 0 off no n false f" VerticalAlignment="Center" Margin="5"/>
