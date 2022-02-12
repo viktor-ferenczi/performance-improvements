@@ -15,6 +15,7 @@ namespace TorchPlugin
         private bool fixUpdateStat = true;
         private bool fixGarbageCollection = true;
         private bool fixThrusters = true;
+        private bool fixGridGroups = true;
         //BOOL_OPTION private bool optionName = true;
         private bool disableModApiStatistics = true;
 
@@ -65,6 +66,13 @@ namespace TorchPlugin
         {
             get => fixThrusters;
             set => SetValue(ref fixThrusters, value);
+        }
+
+        [Display(Order = 9, GroupName = "Fixes", Name = "Fix grid groups", Description = "Disables resource updates while grids are being moved between groups")]
+        public bool FixGridGroups
+        {
+            get => fixGridGroups;
+            set => SetValue(ref fixGridGroups, value);
         }
 
         /*BOOL_OPTION

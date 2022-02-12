@@ -25,6 +25,9 @@ namespace Shared.Config
         // Disables resource updates while grids are being moved between groups
         bool FixThrusters { get; set; }
 
+        // Disables resource updates while grids are being moved between groups
+        bool FixGridGroups { get; set; }
+
         /*BOOL_OPTION
         // Option tooltip
         bool OptionName { get; set; }

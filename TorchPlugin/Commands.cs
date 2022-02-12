@@ -28,6 +28,7 @@ namespace TorchPlugin
             Respond($"p2p_stats: {Format(config.FixP2PUpdateStats)}");
             Respond($"gc: {Format(config.FixGarbageCollection)}");
             Respond($"thrusters: {Format(config.FixThrusters)}");
+            Respond($"grid_groups: {Format(config.FixGridGroups)}");
             //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
             Respond($"api_stats: {Format(config.DisableModApiStatistics)}");
         }
@@ -126,6 +127,10 @@ namespace TorchPlugin
                 
                 case "thrusters":
                     Config.FixThrusters = parsedFlag;
+                    break;
+
+                case "grid_groups":
+                    Config.FixGridGroups = parsedFlag;
                     break;
 
                 /*BOOL_OPTION

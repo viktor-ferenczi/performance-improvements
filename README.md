@@ -67,7 +67,7 @@ these patches are expected to be removed anyway, so I did not bother using Torch
 
 ## Technical details
 
-### Conveyor updates while merging grids (server and offline games)
+### Conveyor updates while merging grids (server and offline game)
 
 Disables the `MyConveyorLine.UpdateIsWorking` method while any grid merging operation is in
 progress. It considerably reduces the merge time of grids with long conveyor systems. At the
@@ -75,7 +75,7 @@ end of `MyCubeGrid.MergeGridInternal` it calls `GridSystems.ConveyorSystem.FlagF
 on the grid to force recalculating all `IsWorking` values to fix any side-effects of the
 optimization.
 
-### Update while pasting grids (server and offline games)
+### Update while pasting grids (server and offline game)
 
 Disables updates while pasting grids by setting `MySession.Static.m_updateAllowed` to 
 `false` while `MyCubeGrid.PasteBlocksServer` is running. It eliminates a lot of 
@@ -140,7 +140,7 @@ loading it with this fix enabled.
 
 TODO: Profiling on big multiplayer server worlds.
 
-### Thruster grid updates (server and offline games)
+### Thruster grid updates (server and offline game)
 
 Contributed by: `mkaito`
 
@@ -153,3 +153,14 @@ The downside is that changes in fuel or power availability will take effect
 on the maximum available thrust about a second later, an acceptable compromise.
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/22874-grids-with-hydrogen-thrusters-decrease-simulation-speed-after-warfare-2-update-but-not-before)
+
+### Lag on grid group changes (server and offline game)
+
+There is some serious lag on connector lock/unlock and rotor head attach/detach 
+due to grid group changes causing massive main thread workload, which could 
+easily be deferred to worker threads with minimal consequences.
+
+This fix disables resource updates while grids are being moved between groups
+and marks those resources for updating by a worker thread later.
+
+Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/23278-lag-on-connector-lockunlock-and-rotor-head-attachdetach-due-to-grid-group-changes)

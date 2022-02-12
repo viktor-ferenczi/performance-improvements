@@ -45,6 +45,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <!--BOOL_OPTION
             <RowDefinition Height="Auto" />
             BOOL_OPTION-->
@@ -74,6 +75,9 @@
         <TextBlock Grid.Row="7" Grid.Column="1" Text="Throttles thruster grid updates to only happen once a second" VerticalAlignment="Center" Margin="5" />
         <CheckBox Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Name="FixThrusters" IsChecked="{Binding FixThrusters}" Margin="5" />
 
+        <TextBlock Grid.Row="8" Grid.Column="1" Text="Disables resource updates while grids are being moved between groups" VerticalAlignment="Center" Margin="5"/>
+        <CheckBox Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Name="FixGridGroups" IsChecked="{Binding FixGridGroups}" Margin="5"/>
+
         <!--BOOL_OPTION
         <TextBlock Grid.Row="8" Grid.Column="1" Text="Option tooltip" VerticalAlignment="Center" Margin="5"/>
         <CheckBox Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Name="OptionName" IsChecked="{Binding OptionName}" Margin="5"/>
@@ -88,7 +92,7 @@
         <TextBlock Grid.Row="23" Grid.Column="1" Grid.ColumnSpan="2" Text="!pfi info" VerticalAlignment="Center" Margin="5" />
         <TextBlock Grid.Row="24" Grid.Column="1" Grid.ColumnSpan="2" Text="!pfi fix name bool" VerticalAlignment="Center" Margin="5" />
 
-        <TextBlock Grid.Row="25" Grid.Column="0" Grid.ColumnSpan="3" Text="Available names: grid_merge, grid_paste, p2p_stats, gc, api_stats, thrusters, group_merge{BOOL_OPTION}, option_name{/BOOL_OPTION}" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="25" Grid.Column="0" Grid.ColumnSpan="3" Text="Available names: grid_merge, grid_paste, p2p_stats, gc, api_stats, thrusters, grid_groups, grid_groups{BOOL_OPTION}, option_name{/BOOL_OPTION}" VerticalAlignment="Center" Margin="5" />
         <!-- spin_wait, p2p_stats -->
 
         <TextBlock Grid.Row="26" Grid.Column="0" Grid.ColumnSpan="3" Text="Accepted bool values:" VerticalAlignment="Center" Margin="5" />
