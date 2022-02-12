@@ -12,8 +12,9 @@ namespace Shared.Patches
         [HarmonyPatch(nameof(MyConveyorLine.UpdateIsWorking))]
         private static bool UpdateIsWorkingPrefix()
         {
-            // Configuration is done in MyCubeGridPatch.MergeGridInternalPrefix
-            return !MyCubeGridPatch.IsMergingInProgress;
+            // For better performance the configuration is done in MyCubeGridPatch.MergeGridInternalPrefix
+            // This is because UpdateIsWorking is called frequently, so we should not recall the plugin config here.
+            return !MyCubeGridPatch.IsInMergeGridInternal;
         }
     }
 }

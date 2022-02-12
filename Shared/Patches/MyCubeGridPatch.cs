@@ -15,7 +15,7 @@ namespace Shared.Patches
         private static IPluginConfig Config => Common.Config;
 
         private static readonly ThreadLocal<int> CallDepth = new ThreadLocal<int>();
-        public static bool IsMergingInProgress => CallDepth.Value > 0;
+        public static bool IsInMergeGridInternal => CallDepth.Value > 0;
 
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
@@ -36,7 +36,7 @@ namespace Shared.Patches
         [HarmonyPatch("MergeGridInternal")]
         private static void MergeGridInternalPostfix(MyCubeGrid __instance)
         {
-            if (!IsMergingInProgress)
+            if (!IsInMergeGridInternal)
                 return;
 
             ;

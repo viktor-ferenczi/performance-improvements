@@ -115,7 +115,7 @@ namespace ClientPlugin
 
         private void CustomUpdate()
         {
-#if WORKS_BUT_INCREASES_SIMULATION_LOAD
+#if CAUSES_SIMLOAD_INCREASE
 #if DEBUG
             MySpinWaitPatch.LogStats(Tick, 600);
 #endif

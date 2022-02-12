@@ -15,6 +15,8 @@ namespace TorchPlugin
         private bool fixUpdateStat = true;
         private bool fixGarbageCollection = true;
         private bool fixThrusters = true;
+        private bool fixGridGroups = true;
+        //BOOL_OPTION private bool optionName = true;
         private bool disableModApiStatistics = true;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enables/disables the plugin")]
@@ -52,21 +54,37 @@ namespace TorchPlugin
             set => SetValue(ref fixUpdateStat, value);
         }
 
-        [Display(Order = 6, GroupName = "Fixes", Name = "Disables GC.Collect calls", Description = "Disables selected GC.Collect calls, which may cause long pauses on starting and stopping large worlds")]
+        [Display(Order = 6, GroupName = "Fixes", Name = "Fix garbage collection", Description = "Eliminates long pauses on starting and stopping large worlds by disabling selected GC.Collect calls")]
         public bool FixGarbageCollection
         {
             get => fixGarbageCollection;
             set => SetValue(ref fixGarbageCollection, value);
         }
-        
-        [Display(Order = 6, GroupName = "Fixes", Name = "Fix thrusters", Description = "Throttles the maximum thrust calculation to happen only once a second")]
+
+        [Display(Order = 7, GroupName = "Fixes", Name = "Fix thrusters", Description = "Throttles the maximum thrust calculation to happen only once a second")]
         public bool FixThrusters
         {
             get => fixThrusters;
             set => SetValue(ref fixThrusters, value);
         }
 
-        [Display(Order = 7, GroupName = "Fixes", Name = "Disables Mod API statistics", Description = "Disables the collection of Mod API call statistics to eliminate the overhead")]
+        [Display(Order = 9, GroupName = "Fixes", Name = "Fix grid groups", Description = "Disables resource updates while grids are being moved between groups")]
+        public bool FixGridGroups
+        {
+            get => fixGridGroups;
+            set => SetValue(ref fixGridGroups, value);
+        }
+
+        /*BOOL_OPTION
+        [Display(Order = 9, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
+        public bool OptionName
+        {
+            get => optionName;
+            set => SetValue(ref optionName, value);
+        }
+
+        BOOL_OPTION*/
+        [Display(Order = 19, GroupName = "Fixes", Name = "Disables Mod API statistics", Description = "Disables the collection of Mod API call statistics to eliminate the overhead")]
         public bool DisableModApiStatistics
         {
             get => disableModApiStatistics;
