@@ -52,7 +52,7 @@ namespace TorchPlugin
             set => SetValue(ref fixUpdateStat, value);
         }
 
-        [Display(Order = 6, GroupName = "Fixes", Name = "Disables GC.Collect calls", Description = "Disables selected GC.Collect calls, which may cause long pauses on starting and stopping large worlds")]
+        [Display(Order = 6, GroupName = "Fixes", Name = "Fix garbage collection", Description = "Eliminates long pauses on starting and stopping large worlds by disabling selected GC.Collect calls")]
         public bool FixGarbageCollection
         {
             get => fixGarbageCollection;
