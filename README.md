@@ -57,6 +57,7 @@ these patches are expected to be removed anyway, so I did not bother using Torch
   * Fix for the Safe Zone performance issue
 - Avaness for the client side Plugin Loader
 - Bishbash77 for keeping Torch alive + Torch contributors
+- mkaito
 
 ### Testers
 - CaveBadgerMan (SG Dimensions, Torch servers)
@@ -138,3 +139,16 @@ Measured 10% lower simulation CPU load in a heavily modded test world after
 loading it with this fix enabled.
 
 TODO: Profiling on big multiplayer server worlds.
+
+### Thruster grid updates
+
+Contributed by: `mkaito`
+
+When changing thrust values, such as adjusting override or just pressing WASD,
+a lot of time is spent recalculating power and fuel state of all thrusters on
+the grid every tick.
+
+The simple fix is to reduce frequency to once a second.
+
+The downside is that changes in fuel or power availability will take effect on
+a one second delay.

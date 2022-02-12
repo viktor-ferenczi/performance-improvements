@@ -27,6 +27,7 @@ namespace TorchPlugin
             Respond($"grid_paste: {Format(config.FixGridPaste)}");
             Respond($"p2p_stats: {Format(config.FixP2PUpdateStats)}");
             Respond($"gc: {Format(config.FixGarbageCollection)}");
+            Respond($"thrusters: {Format(config.FixThrusters)}");
             Respond($"api_stats: {Format(config.DisableModApiStatistics)}");
         }
 
@@ -120,6 +121,10 @@ namespace TorchPlugin
 
                 case "gc":
                     Config.FixGarbageCollection = parsedFlag;
+                    break;
+                
+                case "thrusters":
+                    Config.FixThrusters = parsedFlag;
                     break;
 
                 case "api_stats":

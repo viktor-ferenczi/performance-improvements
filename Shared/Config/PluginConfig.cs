@@ -35,6 +35,7 @@ namespace Shared.Config
         private bool fixGridPaste = true;
         private bool fixP2PUpdateStats = true;
         private bool fixGarbageCollection = true;
+        private bool fixThrusters = true;
         private bool disableModApiStatistics = true;
 
         public bool Enabled
@@ -71,6 +72,12 @@ namespace Shared.Config
         {
             get => fixGarbageCollection;
             set => SetValue(ref fixGarbageCollection, value);
+        }
+        
+        public bool FixThrusters
+        {
+            get => fixThrusters;
+            set => SetValue(ref fixThrusters, value);
         }
 
         public bool DisableModApiStatistics

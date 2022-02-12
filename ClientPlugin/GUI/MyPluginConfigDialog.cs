@@ -36,6 +36,9 @@ namespace ClientPlugin.GUI
 
         private MyGuiControlLabel fixGarbageCollectionLabel;
         private MyGuiControlCheckbox fixGarbageCollectionCheckbox;
+        
+        private MyGuiControlLabel fixThrustersLabel;
+        private MyGuiControlCheckbox fixThrustersCheckbox;
 
         private MyGuiControlLabel disableModApiStatisticsLabel;
         private MyGuiControlCheckbox disableModApiStatisticsCheckbox;
@@ -81,6 +84,7 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out fixGridPasteLabel, out fixGridPasteCheckbox, config.FixGridPaste, value => config.FixGridPaste = value, "Fix grid paste", "Disables updates during grid paste (MyCubeGrid.PasteBlocksServer)");
             CreateCheckbox(out fixP2PUpdateStatsLabel, out fixP2PUpdateStatsCheckbox, config.FixP2PUpdateStats, value => config.FixP2PUpdateStats = value, "Fix P2P update stats", "Eliminates 98% of EOS P2P network statistics updates (VRage.EOS.MyP2PQoSAdapter.UpdateStats)");
             CreateCheckbox(out fixGarbageCollectionLabel, out fixGarbageCollectionCheckbox, config.FixGarbageCollection, value => config.FixGarbageCollection = value, "Disables GC.Collect calls", "Disables selected GC.Collect calls, which may cause long pauses on starting and stopping large worlds");
+            CreateCheckbox(out fixThrustersLabel, out fixThrustersCheckbox, config.FixThrusters, value => config.FixThrusters = value, "Fix Thruster Updates", "Throttles thruster grid updates to only happen once a second");
             CreateCheckbox(out disableModApiStatisticsLabel, out disableModApiStatisticsCheckbox, config.DisableModApiStatistics, value => config.DisableModApiStatistics = value, "Disables Mod API statistics", "Disables the collection of Mod API call statistics to eliminate the overhead (affects only world loading)");
 
             EnableDisableFixes();
@@ -129,6 +133,7 @@ namespace ClientPlugin.GUI
             fixGridPasteCheckbox.Enabled = enabled;
             fixP2PUpdateStatsCheckbox.Enabled = enabled;
             fixGarbageCollectionCheckbox.Enabled = enabled;
+            fixThrustersCheckbox.Enabled = enabled;
             disableModApiStatisticsCheckbox.Enabled = enabled;
         }
 
@@ -165,6 +170,10 @@ namespace ClientPlugin.GUI
 
             layoutTable.Add(fixGarbageCollectionLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
             layoutTable.Add(fixGarbageCollectionCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
+            row++;
+            
+            layoutTable.Add(fixThrustersLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(fixThrustersCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
             layoutTable.Add(disableModApiStatisticsLabel, MyAlignH.Left, MyAlignV.Center, row, 0);

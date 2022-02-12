@@ -17,6 +17,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Logging\LogFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\PluginLogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\GcCollectPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyCharacterJetpackComponentPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyEntityThrustComponentPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\PatchHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\PerfCountingRewriterPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\ICommonPlugin.cs" />
