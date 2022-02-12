@@ -59,7 +59,7 @@ namespace TorchPlugin
             set => SetValue(ref fixGarbageCollection, value);
         }
         
-        [Display(Order = 6, GroupName = "Fixes", Name = "Fix Thruster Updates", Description = "Throttles thruster grid updates to only happen once a second")]
+        [Display(Order = 6, GroupName = "Fixes", Name = "Fix thrusters", Description = "Throttles the maximum thrust calculation to happen only once a second")]
         public bool FixThrusters
         {
             get => fixThrusters;

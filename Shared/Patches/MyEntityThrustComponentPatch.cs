@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿using System;
+using System.Threading;
+using HarmonyLib;
 using Sandbox.Game.GameSystems;
 using Shared.Config;
 using Shared.Plugin;
@@ -10,8 +12,8 @@ namespace Shared.Patches
     public static class MyEntityThrustComponentPatch
     {
         private static IPluginConfig Config => Common.Config;
-        
-        private static int count;
+        private static readonly ThreadLocal<Random> Rng = new ThreadLocal<Random>();
+
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
         [HarmonyPatch("RecomputeThrustParameters")]
@@ -19,20 +21,12 @@ namespace Shared.Patches
         {
             if (MyCharacterJetpackComponentPatch.IsInTurnOnJetpack)
                 return true;
-            
+
             if (!Config.Enabled || !Config.FixThrusters)
-            {
                 return true;
-            }
-            
-            if (count >= 60)
-            {
-                count = 0;
-                return true;
-            }
-            
-            count++;
-            return false;
+
+            var rng = Rng.Value ?? (Rng.Value = new Random());
+            return rng.Next() % 60 == 0;
         }
     }
 }

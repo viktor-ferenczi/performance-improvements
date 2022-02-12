@@ -9,6 +9,7 @@ namespace Shared.Patches
 {
     // ReSharper disable once UnusedType.Global
     [HarmonyPatch(typeof(MyCharacterJetpackComponent))]
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class MyCharacterJetpackComponentPatch
     {
         private static readonly ThreadLocal<int> CallDepth = new ThreadLocal<int>();
