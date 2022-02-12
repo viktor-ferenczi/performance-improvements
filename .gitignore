@@ -360,3 +360,7 @@ MigrationBackup/
 
 # JetBrains Rider project files
 /.idea/
+
+# Build folders
+**/bin/*
+**/obj/*

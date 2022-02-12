@@ -9,7 +9,6 @@ using VRageMath;
 
 namespace ClientPlugin.GUI
 {
-
     public class MyPluginConfigDialog : MyGuiScreenBase
     {
         private const string Caption = "Performance Improvements Configuration";
@@ -20,7 +19,7 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel enabledLabel;
         private MyGuiControlCheckbox enabledCheckbox;
 
-#if WORKS_BUT_INCREASES_SIMULATION_LOAD
+#if CAUSES_SIMLOAD_INCREASE
         private MyGuiControlLabel fixSpinWaitLabel;
         private MyGuiControlCheckbox fixSpinWaitCheckbox;
 #endif
@@ -36,10 +35,15 @@ namespace ClientPlugin.GUI
 
         private MyGuiControlLabel fixGarbageCollectionLabel;
         private MyGuiControlCheckbox fixGarbageCollectionCheckbox;
-        
+
         private MyGuiControlLabel fixThrustersLabel;
         private MyGuiControlCheckbox fixThrustersCheckbox;
 
+        /*BOOL_OPTION
+        private MyGuiControlLabel optionNameLabel;
+        private MyGuiControlCheckbox optionNameCheckbox;
+
+        BOOL_OPTION*/
         private MyGuiControlLabel disableModApiStatisticsLabel;
         private MyGuiControlCheckbox disableModApiStatisticsCheckbox;
 
@@ -77,7 +81,7 @@ namespace ClientPlugin.GUI
             var config = Common.Config;
             CreateCheckbox(out enabledLabel, out enabledCheckbox, config.Enabled, value => config.Enabled = value, "Enabled", "Enables the plugin");
 
-#if WORKS_BUT_INCREASES_SIMULATION_LOAD
+#if CAUSES_SIMLOAD_INCREASE
             CreateCheckbox(out fixSpinWaitLabel, out fixSpinWaitCheckbox, config.FixSpinWait, value => config.FixSpinWait = value, "Fix spin wait", "Alternative spin wait algorithm to reduce CPU load (MySpinWait.SpinOnce)");
 #endif
             CreateCheckbox(out fixGridMergeLabel, out fixGridMergeCheckbox, config.FixGridMerge, value => config.FixGridMerge = value, "Fix grid merge", "Disables conveyor updates during grid merge (MyCubeGrid.MergeGridInternal)");
@@ -85,6 +89,7 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out fixP2PUpdateStatsLabel, out fixP2PUpdateStatsCheckbox, config.FixP2PUpdateStats, value => config.FixP2PUpdateStats = value, "Fix P2P update stats", "Eliminates 98% of EOS P2P network statistics updates (VRage.EOS.MyP2PQoSAdapter.UpdateStats)");
             CreateCheckbox(out fixGarbageCollectionLabel, out fixGarbageCollectionCheckbox, config.FixGarbageCollection, value => config.FixGarbageCollection = value, "Fix garbage collection", "Eliminates long pauses on starting and stopping large worlds by disabling selected GC.Collect calls");
             CreateCheckbox(out fixThrustersLabel, out fixThrustersCheckbox, config.FixThrusters, value => config.FixThrusters = value, "Fix thrusters", "Throttles the maximum thrust calculation to happen only once a second");
+            //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
             CreateCheckbox(out disableModApiStatisticsLabel, out disableModApiStatisticsCheckbox, config.DisableModApiStatistics, value => config.DisableModApiStatistics = value, "Disables Mod API statistics", "Disables the collection of Mod API call statistics to eliminate the overhead (affects only world loading)");
 
             EnableDisableFixes();
@@ -126,7 +131,7 @@ namespace ClientPlugin.GUI
         {
             var enabled = enabledCheckbox.IsChecked;
 
-#if WORKS_BUT_INCREASES_SIMULATION_LOAD
+#if CAUSES_SIMLOAD_INCREASE
             fixSpinWaitCheckbox.Enabled = enabled;
 #endif
             fixGridMergeCheckbox.Enabled = enabled;
@@ -134,15 +139,16 @@ namespace ClientPlugin.GUI
             fixP2PUpdateStatsCheckbox.Enabled = enabled;
             fixGarbageCollectionCheckbox.Enabled = enabled;
             fixThrustersCheckbox.Enabled = enabled;
+            //BOOL_OPTION optionNameCheckbox.Enabled = enabled;
             disableModApiStatisticsCheckbox.Enabled = enabled;
         }
 
         private void LayoutControls()
         {
             var size = Size ?? Vector2.One;
-            layoutTable = new MyLayoutTable(this, -0.35f * size, 0.7f * size);
+            layoutTable = new MyLayoutTable(this, -0.4f * size, 0.8f * size);
             layoutTable.SetColumnWidths(400f, 100f);
-            layoutTable.SetRowHeights(90f, 60f, 60f, 60f, 60f, 60f, 60f, 150f, 60f);
+            layoutTable.SetRowHeights(90f, 60f, 60f, 60f, 60f, 60f, 60f, /*BOOL_OPTION 60f,BOOL_OPTION*/ 150f, 60f);
 
             var row = 0;
 
@@ -150,7 +156,7 @@ namespace ClientPlugin.GUI
             layoutTable.Add(enabledCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
-#if WORKS_BUT_INCREASES_SIMULATION_LOAD
+#if CAUSES_SIMLOAD_INCREASE
             layoutTable.Add(fixSpinWaitLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
             layoutTable.Add(fixSpinWaitCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
@@ -171,11 +177,17 @@ namespace ClientPlugin.GUI
             layoutTable.Add(fixGarbageCollectionLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
             layoutTable.Add(fixGarbageCollectionCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
-            
+
             layoutTable.Add(fixThrustersLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
             layoutTable.Add(fixThrustersCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
+            /*BOOL_OPTION
+            layoutTable.Add(optionNameLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(optionNameCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
+            row++;
+
+            BOOL_OPTION*/
             layoutTable.Add(disableModApiStatisticsLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
             layoutTable.Add(disableModApiStatisticsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;

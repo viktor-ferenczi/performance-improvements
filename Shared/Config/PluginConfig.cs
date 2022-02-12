@@ -36,6 +36,7 @@ namespace Shared.Config
         private bool fixP2PUpdateStats = true;
         private bool fixGarbageCollection = true;
         private bool fixThrusters = true;
+        //BOOL_OPTION private bool optionName = true;
         private bool disableModApiStatistics = true;
 
         public bool Enabled
@@ -73,13 +74,21 @@ namespace Shared.Config
             get => fixGarbageCollection;
             set => SetValue(ref fixGarbageCollection, value);
         }
-        
+
         public bool FixThrusters
         {
             get => fixThrusters;
             set => SetValue(ref fixThrusters, value);
         }
 
+        /*BOOL_OPTION
+        public bool OptionName
+        {
+            get => optionName;
+            set => SetValue(ref optionName, value);
+        }
+
+        BOOL_OPTION*/
         public bool DisableModApiStatistics
         {
             get => disableModApiStatistics;

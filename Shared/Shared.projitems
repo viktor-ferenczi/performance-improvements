@@ -32,14 +32,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Stats.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)..\CodeGenerator.py">
+      <Link>CodeGenerator.py</Link>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)..\Edit-and-run-before-opening-solution.bat">
       <Link>Edit-and-run-before-opening-solution.bat</Link>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)..\README.md">
       <Link>README.md</Link>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)..\ReplaceGuidsAndRename.py">
-      <Link>ReplaceGuidsAndRename.py</Link>
     </Content>
   </ItemGroup>
 </Project>

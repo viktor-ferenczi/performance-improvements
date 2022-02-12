@@ -20,7 +20,7 @@ namespace TorchPlugin
         {
             var config = Plugin.Instance.Config;
             Respond($"{Plugin.PluginName} plugin is enabled: {Format(config.Enabled)}");
-#if WORKS_BUT_INCREASES_SIMULATION_LOAD
+#if CAUSES_SIMLOAD_INCREASE
             Respond($"spin_wait: {Format(config.FixSpinWait)}");
 #endif
             Respond($"grid_merge: {Format(config.FixGridMerge)}");
@@ -28,6 +28,7 @@ namespace TorchPlugin
             Respond($"p2p_stats: {Format(config.FixP2PUpdateStats)}");
             Respond($"gc: {Format(config.FixGarbageCollection)}");
             Respond($"thrusters: {Format(config.FixThrusters)}");
+            //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
             Respond($"api_stats: {Format(config.DisableModApiStatistics)}");
         }
 
@@ -101,7 +102,7 @@ namespace TorchPlugin
 
             switch (name)
             {
-#if WORKS_BUT_INCREASES_SIMULATION_LOAD
+#if CAUSES_SIMLOAD_INCREASE
                 case "spin_wait":
                     Config.FixSpinWait = parsedFlag;
                     break;
@@ -127,6 +128,12 @@ namespace TorchPlugin
                     Config.FixThrusters = parsedFlag;
                     break;
 
+                /*BOOL_OPTION
+                case "option_name":
+                    Config.OptionName = parsedFlag;
+                    break;
+
+                BOOL_OPTION*/
                 case "api_stats":
                     Config.DisableModApiStatistics = parsedFlag;
                     break;
@@ -134,7 +141,7 @@ namespace TorchPlugin
                 default:
                     Respond($"Unknown fix: {name}");
                     Respond($"Valid fix names:");
-#if WORKS_BUT_INCREASES_SIMULATION_LOAD
+#if CAUSES_SIMLOAD_INCREASE
                     Respond($"  spin_wait");
 #endif
                     Respond($"  grid_merge");
