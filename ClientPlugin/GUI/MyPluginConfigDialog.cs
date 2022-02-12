@@ -142,7 +142,7 @@ namespace ClientPlugin.GUI
             var size = Size ?? Vector2.One;
             layoutTable = new MyLayoutTable(this, -0.35f * size, 0.7f * size);
             layoutTable.SetColumnWidths(400f, 100f);
-            layoutTable.SetRowHeights(90f, 60f, 60f, 60f, 60f, 60f, 150f, 60f);
+            layoutTable.SetRowHeights(90f, 60f, 60f, 60f, 60f, 60f, 60f, 150f, 60f);
 
             var row = 0;
 
