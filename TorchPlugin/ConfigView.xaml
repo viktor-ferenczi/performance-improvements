@@ -5,98 +5,32 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:TorchPlugin"
+             xmlns:viewModels="clr-namespace:TorchPlugin.ViewModels"
+             xmlns:patching="clr-namespace:Shared.Patches.Patching"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{viewModels:ConfigViewModel}">
 
-    <Grid>
+    <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Performance Improvements" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" Margin="5" />
+            <Button Content="Save" Margin="5" Width="50" Click="SaveOnClick" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <CheckBox IsChecked="{Binding Enabled}" Margin="5" />
+            <TextBlock Text="Enabled" VerticalAlignment="Center" Margin="5" />
+        </StackPanel>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="30" SharedSizeGroup="Checkboxes" />
-            <ColumnDefinition Width="600" SharedSizeGroup="Labels" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <!--BOOL_OPTION
-            <RowDefinition Height="Auto" />
-            BOOL_OPTION-->
-        </Grid.RowDefinitions>
-
-        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Performance Improvements" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" Margin="5" />
-
-        <CheckBox Grid.Row="1" Grid.Column="0" Name="Enabled" IsChecked="{Binding Enabled}" Margin="5" />
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="Enable the plugin (all fixes)" VerticalAlignment="Center" Margin="5" />
-
-        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Fixes" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" Margin="5" />
-
-        <!--
-        <TextBlock Grid.Row="3" Grid.Column="1" Text="Alternative spin wait algorithm to reduce CPU load (MySpinWait.SpinOnce)" VerticalAlignment="Center" Margin="5"/>
-        <CheckBox Grid.Row="3" Grid.Column="0" Name="FixSpinWait" IsChecked="{Binding FixSpinWait}" Margin="5"/>
-        -->
-
-        <CheckBox Grid.Row="4" Grid.Column="0" Name="FixGridMerge" IsChecked="{Binding FixGridMerge}" Margin="5" />
-        <TextBlock Grid.Row="4" Grid.Column="1" Text="Disable conveyor updates during grid merge (MyCubeGrid.MergeGridInternal)" VerticalAlignment="Center" Margin="5" />
-
-        <CheckBox Grid.Row="5" Grid.Column="0" Name="FixGridPaste" IsChecked="{Binding FixGridPaste}" Margin="5" />
-        <TextBlock Grid.Row="5" Grid.Column="1" Text="Disable updates during grid paste (MyCubeGrid.PasteBlocksServer)" VerticalAlignment="Center" Margin="5" />
-
-        <CheckBox Grid.Row="6" Grid.Column="0" Name="FixGarbageCollection" IsChecked="{Binding FixGarbageCollection}" Margin="5" />
-        <TextBlock Grid.Row="6" Grid.Column="1" Text="Disable all explicit GC.* calls, which may cause long pauses on starting and stopping large worlds" VerticalAlignment="Center" Margin="5" />
-
-        <CheckBox Grid.Row="7" Grid.Column="0" Name="FixThrusters" IsChecked="{Binding FixThrusters}" Margin="5" />
-        <TextBlock Grid.Row="7" Grid.Column="1" Text="Recalculate thrust parameters only after relevant change in the control thrust" VerticalAlignment="Center" Margin="5" />
-
-        <CheckBox Grid.Row="8" Grid.Column="0" Name="FixGridGroups" IsChecked="{Binding FixGridGroups}" Margin="5"/>
-        <TextBlock Grid.Row="8" Grid.Column="1" Text="Disable resource updates while grids are being moved between groups" VerticalAlignment="Center" Margin="5"/>
-
-        <!--BOOL_OPTION
-        <CheckBox Grid.Row="8" Grid.Column="0" Name="OptionName" IsChecked="{Binding OptionName}" Margin="5"/>
-        <TextBlock Grid.Row="8" Grid.Column="1" Text="Option tooltip" VerticalAlignment="Center" Margin="5"/>
-
-        BOOL_OPTION-->
-        <CheckBox Grid.Row="19" Grid.Column="0" Name="DisableModApiStatistics" IsChecked="{Binding DisableModApiStatistics}" Margin="5" />
-        <TextBlock Grid.Row="19" Grid.Column="1" Text="Disable the collection of Mod API call statistics to eliminate the overhead (affects only world loading)" VerticalAlignment="Center" Margin="5" />
-
-        <TextBlock Grid.Row="20" Grid.Column="0" Grid.ColumnSpan="2" Text="Configuration changes are saved automatically. It is safe to change them while the game is running." VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="21" Grid.Column="0" Grid.ColumnSpan="2" Text="Admin commands:" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="22" Grid.Column="1" Text="!help pfi" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="23" Grid.Column="1" Text="!pfi info" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="24" Grid.Column="1" Text="!pfi fix name bool" VerticalAlignment="Center" Margin="5" />
-
-        <TextBlock Grid.Row="25" Grid.Column="0" Grid.ColumnSpan="2" Text="Available names: grid_merge, grid_paste, p2p_stats, gc, api_stats, thrusters, grid_groups, grid_groups{BOOL_OPTION}, option_name{/BOOL_OPTION}" VerticalAlignment="Center" Margin="5" />
-        <!-- spin_wait, p2p_stats -->
-
-        <TextBlock Grid.Row="26" Grid.Column="0" Grid.ColumnSpan="2" Text="Accepted bool values:" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="27" Grid.Column="1" Text="False: 0 off no n false f" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="28" Grid.Column="1" Text="True: 1 on yes y false f" VerticalAlignment="Center" Margin="5" />
-
-    </Grid>
+        <TextBlock Text="Fixes" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" Margin="5" />
+        
+        <TreeView ItemsSource="{Binding InfoTree.Root.Values, Mode=OneTime}" Margin="3">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type patching:PatchInfoTree+Node}" ItemsSource="{Binding Children.Values, Mode=OneTime}">
+                    <StackPanel Orientation="Horizontal" Margin="3">
+                        <CheckBox Focusable="False" IsChecked="{Binding Enabled}" />
+                        <TextBlock Text="{Binding DisplayName, Mode=OneTime}" Margin="3, 0, 0, 0" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </StackPanel>
 </UserControl>

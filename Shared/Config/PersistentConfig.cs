@@ -83,7 +83,7 @@ namespace Shared.Config
             return config;
         }
 
-        private void Save(string path = null)
+        public void Save(string path = null)
         {
             if (path == null)
                 path = Path;
