@@ -21,8 +21,9 @@ namespace TorchPlugin
     public class Plugin : TorchPluginBase, IWpfPlugin, ICommonPlugin
     {
         public const string PluginName = "PerformanceImprovements";
-        public static long Tick { get; private set; }
         public static Plugin Instance { get; private set; }
+
+        public long Tick { get; private set; }
 
         public IPluginLogger Log => Logger;
         private static readonly IPluginLogger Logger = new PluginLogger(PluginName);

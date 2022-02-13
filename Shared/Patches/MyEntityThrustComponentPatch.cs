@@ -1,6 +1,7 @@
-﻿using System;
-using System.Threading;
+﻿#if BROKEN
+
 using HarmonyLib;
+using Sandbox.Game.Entities;
 using Sandbox.Game.GameSystems;
 using Shared.Config;
 using Shared.Plugin;
@@ -12,12 +13,12 @@ namespace Shared.Patches
     public static class MyEntityThrustComponentPatch
     {
         private static IPluginConfig Config => Common.Config;
-        private static readonly ThreadLocal<Random> Rng = new ThreadLocal<Random>();
 
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
         [HarmonyPatch("RecomputeThrustParameters")]
-        private static bool RecomputeThrustParametersPrefix()
+        // ReSharper disable once InconsistentNaming
+        private static bool RecomputeThrustParametersPrefix(MyEntityThrustComponent __instance)
         {
             if (MyCharacterJetpackComponentPatch.IsInTurnOnJetpack)
                 return true;
@@ -25,8 +26,12 @@ namespace Shared.Patches
             if (!Config.Enabled || !Config.FixThrusters)
                 return true;
 
-            var rng = Rng.Value ?? (Rng.Value = new Random());
-            return rng.Next() % 60 == 0;
+            if (!(__instance.Entity is MyCubeGrid grid))
+                return true;
+
+            return grid.EntityId % 60 == Common.Plugin.Tick % 60;
         }
     }
 }
+
+#endif
