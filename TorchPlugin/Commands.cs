@@ -1,4 +1,5 @@
 using Shared.Config;
+using Shared.Extensions;
 using Shared.Patches;
 using Shared.Plugin;
 using Torch.Commands;
@@ -20,22 +21,19 @@ namespace TorchPlugin
         private void RespondWithInfo()
         {
             var config = Plugin.Instance.Config;
-            Respond($"{Plugin.PluginName} plugin is enabled: {Format(config.Enabled)}");
+            Respond($"{Plugin.PluginName} plugin is enabled: {config.Enabled.ToYesNo()}");
 #if CAUSES_SIMLOAD_INCREASE
             Respond($"spin_wait: {Format(config.FixSpinWait)}");
 #endif
-            Respond($"grid_merge: {Format(config.FixGridMerge)}");
-            Respond($"grid_paste: {Format(config.FixGridPaste)}");
-            Respond($"p2p_stats: {Format(config.FixP2PUpdateStats)}");
-            Respond($"gc: {Format(config.FixGarbageCollection)}");
-            Respond($"thrusters: {Format(config.FixThrusters)}");
-            Respond($"grid_groups: {Format(config.FixGridGroups)}");
+            Respond($"grid_merge: {config.FixGridMerge.ToYesNo()}");
+            Respond($"grid_paste: {config.FixGridPaste.ToYesNo()}");
+            Respond($"p2p_stats: {config.FixP2PUpdateStats.ToYesNo()}");
+            Respond($"gc: {config.FixGarbageCollection.ToYesNo()}");
+            Respond($"thrusters: {config.FixThrusters.ToYesNo()}");
+            Respond($"grid_groups: {config.FixGridGroups.ToYesNo()}");
             //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
-            Respond($"api_stats: {Format(config.DisableModApiStatistics)}");
+            Respond($"api_stats: {config.DisableModApiStatistics.ToYesNo()}");
         }
-
-        // Custom formatters
-        private static string Format(bool value) => value ? "Yes" : "No";
 
         // ReSharper disable once UnusedMember.Global
         [Command("info", "Prints the current settings")]

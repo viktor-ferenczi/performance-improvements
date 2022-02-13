@@ -9,6 +9,7 @@
     <Import_RootNamespace>Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\BooleanExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\MySessionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\IPluginConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\PersistentConfig.cs" />
