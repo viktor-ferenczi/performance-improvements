@@ -1,9 +1,10 @@
-﻿namespace Shared.Extensions;
-
-public static class BooleanExtensions
+﻿namespace Shared.Extensions
 {
-    public static string ToYesNo(this bool value)
+    public static class BooleanExtensions
     {
-        return value ? "Yes" : "No";
+        public static string ToYesNo(this bool value)
+        {
+            return value ? "Yes" : "No";
+        }
     }
 }
