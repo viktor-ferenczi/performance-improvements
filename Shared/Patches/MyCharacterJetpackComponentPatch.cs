@@ -1,9 +1,8 @@
-﻿using System.Threading;
+﻿#if BROKEN
+
+using System.Threading;
 using HarmonyLib;
-using Sandbox.Game.Entities;
 using Sandbox.Game.Entities.Character.Components;
-using Shared.Config;
-using Shared.Plugin;
 
 namespace Shared.Patches
 {
@@ -38,3 +37,5 @@ namespace Shared.Patches
         }
     }
 }
+
+#endif
