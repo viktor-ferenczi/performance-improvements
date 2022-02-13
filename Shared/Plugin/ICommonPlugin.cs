@@ -7,5 +7,6 @@ namespace Shared.Plugin
     {
         IPluginLogger Log { get; }
         IPluginConfig Config { get; }
+        long Tick { get; }
     }
 }

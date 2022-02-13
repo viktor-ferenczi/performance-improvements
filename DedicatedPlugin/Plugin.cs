@@ -14,8 +14,9 @@ namespace DedicatedPlugin
     public class Plugin : IPlugin, ICommonPlugin
     {
         public const string Name = "PerformanceImprovements";
-        public static long Tick { get; private set; }
         public static Plugin Instance { get; private set; }
+
+        public long Tick { get; private set; }
 
         public IPluginLogger Log => Logger;
         private static readonly IPluginLogger Logger = new PluginLogger(Name);
