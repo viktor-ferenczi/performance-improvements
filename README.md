@@ -51,12 +51,9 @@ these patches are expected to be removed anyway, so I did not bother using Torch
 - mkaito
 
 ### Developers
-- Z__ (zznty) for providing the Torch server code for these fixes: 
-  * Disabling GC.Collect calls to avoid pauses during startup/shutdown
-  * Disabling statistics collection on Mod API calls
-  * Fix for the Safe Zone performance issue
 - Avaness for the client side Plugin Loader
 - Bishbash77 for keeping Torch alive + Torch contributors
+- Z__ (zznty)
 - mkaito
 
 ### Testers
@@ -142,15 +139,21 @@ TODO: Profiling on big multiplayer server worlds.
 
 ### Thruster grid updates (server and offline game)
 
-Contributed by: `mkaito`
+Initial solution was contributed by: `mkaito`
 
 When changing thrust values, such as adjusting override or just pressing WASD,
 a lot of time is spent recalculating power and fuel state of all thrusters on
-the grid every tick. The fix reduces the frequency of maximum thrust
-recalculations to once a second on average.
+the grid every tick.
 
-The downside is that changes in fuel or power availability will take effect
-on the maximum available thrust about a second later, an acceptable compromise.
+This fix allows the recalculation to happen only if there is a relevant change
+in the control thrust or when the control thrust is reset back to zero.
+
+The fix has been verified both in space and gravity. It was tested that this fix
+does not affect the dampener function.
+
+Not tested yet:
+- Autopilot
+- NPC ships
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/22874-grids-with-hydrogen-thrusters-decrease-simulation-speed-after-warfare-2-update-but-not-before)
 
