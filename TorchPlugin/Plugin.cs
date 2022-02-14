@@ -53,7 +53,7 @@ namespace TorchPlugin
         // ReSharper disable once UnusedMember.Local
         private readonly Commands commands = new Commands();
 
-        internal readonly PatchInfoTree PatchTree = new();
+        internal readonly PatchInfoTree PatchTree = new PatchInfoTree();
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public override void Init(ITorchBase torch)

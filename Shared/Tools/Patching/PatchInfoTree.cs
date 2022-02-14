@@ -6,16 +6,16 @@ using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Humanizer;
 
-namespace Shared.Patches.Patching;
-
-public class PatchInfoTree
+namespace Shared.Patches.Patching
 {
-    public Dictionary<string, Node> Root { get; } = new();
+    public class PatchInfoTree
+{
+    public Dictionary<string, Node> Root { get; } = new Dictionary<string, Node>();
 
     public void Add(string name, PatchInfo patchInfo)
     {
         Node node;
-        if (patchInfo.Categories is {Length: 0})
+        if (patchInfo.Categories.Length == 0)
         {
             node = new Node(name, null, patchInfo);
             Root.Add(name, node);
@@ -25,7 +25,7 @@ public class PatchInfoTree
         var rootCategory = patchInfo.Categories[0];
         if (!Root.ContainsKey(rootCategory))
         {
-            Root.Add(rootCategory, new(rootCategory, null));
+            Root.Add(rootCategory, new Node(rootCategory, null));
         }
 
         node = Root[rootCategory];
@@ -45,7 +45,7 @@ public class PatchInfoTree
             node = newNode;
         }
 
-        if (node.PatchInfo is not null)
+        if (node.PatchInfo != null)
             throw new ArgumentException($"Node with key {name} already filled");
 
         node.PatchInfo = patchInfo;
@@ -64,11 +64,21 @@ public class PatchInfoTree
         }
     }
 
-    public record Node(string Key, Node Parent, PatchInfo PatchInfo = null) : INotifyPropertyChanged
+    public class Node : INotifyPropertyChanged
     {
-        private bool enabled = PatchInfo?.Enabled ?? false;
-        private PatchInfo patchInfo = PatchInfo;
-        public Dictionary<string, Node> Children { get; } = new();
+        private bool enabled;
+        private PatchInfo patchInfo;
+
+        public Node(string key, Node parent, PatchInfo patchInfo = null)
+        {
+            Key = key;
+            enabled = patchInfo?.Enabled ?? false;
+            Parent = parent;
+            this.patchInfo = patchInfo;
+            DisplayName = Key.Humanize(LetterCasing.Sentence);
+        }
+
+        public Dictionary<string, Node> Children { get; } = new Dictionary<string, Node>();
 
         public PatchInfo PatchInfo
         {
@@ -80,7 +90,10 @@ public class PatchInfoTree
             }
         }
 
-        public string DisplayName { get; } = Key.Humanize(LetterCasing.Sentence); 
+        public string Key { get; }
+        public Node Parent { get; }
+
+        public string DisplayName { get; } 
 
         public bool Enabled
         {
@@ -95,15 +108,15 @@ public class PatchInfoTree
             if (value == enabled) return;
 
             enabled = value ?? false;
-            if (PatchInfo is not null)
+            if (PatchInfo != null)
                 PatchInfo.Enabled = enabled;
 
             if (updateChildren && value.HasValue) Children.Values.ForEach(c => c.SetEnabled(enabled, true, false));
 
-            if (updateParent && Parent is not null) Parent.VerifyCheckedState();
+            if (updateParent && Parent != null) Parent.VerifyCheckedState();
 
             // ReSharper disable once ExplicitCallerInfoArgument
-            PropertyChanged?.Invoke(this, new(nameof(Enabled)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Enabled)));
         }
 
         void VerifyCheckedState()
@@ -129,4 +142,5 @@ public class PatchInfoTree
             SetEnabled(state, false, true);
         }
     }
+}
 }

@@ -11,7 +11,7 @@ namespace Shared.Config
     public class PluginConfig : INotifyPropertyChanged
     {
         [XmlElement("Options")] 
-        public HarmonyPatcher Patcher { get; set; } = new();
+        public HarmonyPatcher Patcher { get; set; } = new HarmonyPatcher();
         
 
         public event PropertyChangedEventHandler PropertyChanged;

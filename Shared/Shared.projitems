@@ -13,7 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\MySessionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\PersistentConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\PluginConfig.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IsExternalInit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\IPluginLogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\LogFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\PluginLogger.cs" />

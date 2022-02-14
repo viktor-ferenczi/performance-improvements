@@ -44,13 +44,13 @@ namespace ClientPlugin.GUI
         private void CreateControls()
         {
             AddCaption(Caption);
-            AddControl(new MyGuiControlCheckbox(new (-.2f, -.3f))
+            AddControl(new MyGuiControlCheckbox(new Vector2(-.2f, -.3f))
             {
                 IsChecked = Plugin.Instance.Config.Enabled,
                 IsCheckedChanged = c => Plugin.Instance.Config.Enabled = c.IsChecked,
                 OriginAlign = MyGuiDrawAlignEnum.HORISONTAL_LEFT_AND_VERTICAL_TOP
             });
-            AddControl(new CheckboxTreeControl(patcher.PatchInfos, new(-.2f, -.3f), new(.5f, .7f)));
+            AddControl(new CheckboxTreeControl(patcher.PatchInfos, new Vector2(-.2f, -.3f), new Vector2(.5f, .7f)));
         }
     }
 }

@@ -50,7 +50,7 @@ namespace Shared.Patches
                     operand.DeclaringType == typeof(GC) &&
                     operand.Name == "Collect")
                 {
-                    yield return new(OpCodes.Nop);
+                    yield return new CodeInstruction(OpCodes.Nop);
                     continue;
                 }
 
