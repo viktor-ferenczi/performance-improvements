@@ -82,19 +82,19 @@ namespace ClientPlugin.GUI
             AddCaption(Caption);
 
             var config = Common.Config;
-            CreateCheckbox(out enabledLabel, out enabledCheckbox, config.Enabled, value => config.Enabled = value, "Enabled", "Enables the plugin");
+            CreateCheckbox(out enabledLabel, out enabledCheckbox, config.Enabled, value => config.Enabled = value, "Enabled", "Enable the plugin (all fixes)");
 
 #if CAUSES_SIMLOAD_INCREASE
             CreateCheckbox(out fixSpinWaitLabel, out fixSpinWaitCheckbox, config.FixSpinWait, value => config.FixSpinWait = value, "Fix spin wait", "Alternative spin wait algorithm to reduce CPU load (MySpinWait.SpinOnce)");
 #endif
-            CreateCheckbox(out fixGridMergeLabel, out fixGridMergeCheckbox, config.FixGridMerge, value => config.FixGridMerge = value, "Fix grid merge", "Disables conveyor updates during grid merge (MyCubeGrid.MergeGridInternal)");
-            CreateCheckbox(out fixGridPasteLabel, out fixGridPasteCheckbox, config.FixGridPaste, value => config.FixGridPaste = value, "Fix grid paste", "Disables updates during grid paste (MyCubeGrid.PasteBlocksServer)");
-            CreateCheckbox(out fixP2PUpdateStatsLabel, out fixP2PUpdateStatsCheckbox, config.FixP2PUpdateStats, value => config.FixP2PUpdateStats = value, "Fix P2P update stats", "Eliminates 98% of EOS P2P network statistics updates (VRage.EOS.MyP2PQoSAdapter.UpdateStats)");
-            CreateCheckbox(out fixGarbageCollectionLabel, out fixGarbageCollectionCheckbox, config.FixGarbageCollection, value => config.FixGarbageCollection = value, "Fix garbage collection", "Eliminates long pauses on starting and stopping large worlds by disabling selected GC.Collect calls");
-            CreateCheckbox(out fixThrustersLabel, out fixThrustersCheckbox, config.FixThrusters, value => config.FixThrusters = value, "DISABLED: Fix thrusters", "BROKEN: This fix is disabled regardless of your setting until it is fixed.");
-            CreateCheckbox(out fixGridGroupsLabel, out fixGridGroupsCheckbox, config.FixGridGroups, value => config.FixGridGroups = value, "Fix grid groups", "Disables resource updates while grids are being moved between groups");
+            CreateCheckbox(out fixGridMergeLabel, out fixGridMergeCheckbox, config.FixGridMerge, value => config.FixGridMerge = value, "Fix grid merge", "Disable conveyor updates during grid merge (MyCubeGrid.MergeGridInternal)");
+            CreateCheckbox(out fixGridPasteLabel, out fixGridPasteCheckbox, config.FixGridPaste, value => config.FixGridPaste = value, "Fix grid paste", "Disable updates during grid paste (MyCubeGrid.PasteBlocksServer)");
+            CreateCheckbox(out fixP2PUpdateStatsLabel, out fixP2PUpdateStatsCheckbox, config.FixP2PUpdateStats, value => config.FixP2PUpdateStats = value, "Fix P2P update stats", "Eliminate 98% of EOS P2P network statistics updates (VRage.EOS.MyP2PQoSAdapter.UpdateStats)");
+            CreateCheckbox(out fixGarbageCollectionLabel, out fixGarbageCollectionCheckbox, config.FixGarbageCollection, value => config.FixGarbageCollection = value, "Fix garbage collection", "Eliminate long pauses on starting and stopping large worlds by disabling selected GC.Collect calls");
+            CreateCheckbox(out fixThrustersLabel, out fixThrustersCheckbox, config.FixThrusters, value => config.FixThrusters = value, "Fix thrusters", "Recalculate thrust parameters only after relevant change in the control thrust");
+            CreateCheckbox(out fixGridGroupsLabel, out fixGridGroupsCheckbox, config.FixGridGroups, value => config.FixGridGroups = value, "Fix grid groups", "Disable resource updates while grids are being moved between groups");
             //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
-            CreateCheckbox(out disableModApiStatisticsLabel, out disableModApiStatisticsCheckbox, config.DisableModApiStatistics, value => config.DisableModApiStatistics = value, "Disables Mod API statistics", "Disables the collection of Mod API call statistics to eliminate the overhead (affects only world loading)");
+            CreateCheckbox(out disableModApiStatisticsLabel, out disableModApiStatisticsCheckbox, config.DisableModApiStatistics, value => config.DisableModApiStatistics = value, "Disable Mod API statistics", "Disable the collection of Mod API call statistics to eliminate the overhead (affects only world loading)");
 
             EnableDisableFixes();
 
