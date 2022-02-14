@@ -49,6 +49,7 @@ these patches are expected to be removed anyway, so I did not bother using Torch
 - ransomthetoaster
 - Lazul
 - mkaito
+- DontFollowOrders
 
 ### Developers
 - Avaness for the client side Plugin Loader
