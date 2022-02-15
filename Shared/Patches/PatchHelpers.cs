@@ -30,7 +30,7 @@ namespace Shared.Patches
 
         public static void PatchUpdates()
         {
-            MyEntityThrustComponentPatch.Update();
+            MyThrusterBlockThrustComponentPatch.Update();
         }
     }
 }
