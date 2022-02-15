@@ -125,6 +125,8 @@ TODO: Add a Keen support ticket after gathering profiling data.
 
 ### Mod API call statistics overhead (both client and server)
 
+Contributed by: `Z__` (zznty)
+
 It may be a performance hog if many mods are used. This fix disables the
 `VRage.Scripting.Rewriters.PerfCountingRewriter.Rewrite` method, so the
 API calls are not rewritten, removing the overhead.
@@ -136,25 +138,16 @@ no support ticket is needed.
 Measured 10% lower simulation CPU load in a heavily modded test world after
 loading it with this fix enabled.
 
-TODO: Profiling on big multiplayer server worlds.
-
 ### Thruster grid updates (server and offline game)
 
 Initial solution was contributed by: `mkaito`
 
 When changing thrust values, such as adjusting override or just pressing WASD,
 a lot of time is spent recalculating power and fuel state of all thrusters on
-the grid every tick.
-
-This fix allows the recalculation to happen only if there is a relevant change
-in the control thrust or when the control thrust is reset back to zero.
-
-The fix has been verified both in space and gravity. It was tested that this fix
-does not affect the dampener function.
-
-Not tested yet:
-- Autopilot
-- NPC ships
+the grid every tick. This fix allows the recalculation to happen only if there 
+is a relevant change in thrust controls. It also fixes a bug which caused the
+nearby planet's influence calculation to run on every single tick instead of 
+every 100 ticks.
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/22874-grids-with-hydrogen-thrusters-decrease-simulation-speed-after-warfare-2-update-but-not-before)
 

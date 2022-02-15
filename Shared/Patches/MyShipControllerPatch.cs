@@ -18,9 +18,9 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MyShipController.UpdateAfterSimulation))]
-        private static bool MergeGridInternalPrefix()
+        private static bool UpdateAfterSimulationPrefix()
         {
-            if (!Config.Enabled || !Config.FixGridMerge)
+            if (!Config.Enabled || !Config.FixThrusters)
                 return true;
 
             CallDepth.Value++;
@@ -32,7 +32,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
         [HarmonyPatch(nameof(MyShipController.UpdateAfterSimulation))]
-        private static void MergeGridInternalPostfix(MyShipController __instance)
+        private static void UpdateAfterSimulationPostfix()
         {
             if (!IsInUpdateAfterSimulation)
                 return;

@@ -14,7 +14,12 @@ namespace Shared.Patches
     {
         private const float Threshold = 0.01f;
 
-        private const int Bits = 8;
+#if TORCH || DEDICATED
+        private const int Bits = 12;
+#else
+        private const int Bits = 10;
+#endif
+
         private const int Count = 1 << Bits;
         private const int Mask = Count - 1;
 
@@ -35,17 +40,17 @@ namespace Shared.Patches
         [HarmonyPatch("set_ControlThrust")]
         private static bool SetControlThrustPrefix(MyEntityThrustComponent __instance, Vector3 value, ref Vector3 ___m_controlThrust)
         {
-            if (MyShipControllerPatch.IsInUpdateAfterSimulation)
-            {
-                ___m_controlThrust = Vector3.Zero;
-                return false;
-            }
-
             if (!Config.Enabled || !Config.FixThrusters)
                 return true;
 
             if (!(__instance.Entity is MyCubeGrid grid))
                 return true;
+
+            if (MyShipControllerPatch.IsInUpdateAfterSimulation)
+            {
+                ___m_controlThrust = Vector3.Zero;
+                return false;
+            }
 
             var id = (uint)(grid.EntityId >> Bits);
             var hash = grid.EntityId & Mask;
@@ -123,6 +128,9 @@ namespace Shared.Patches
         [HarmonyPatch("RecalculatePlanetaryInfluence")]
         private static void RecalculatePlanetaryInfluencePostfix(ref int ___m_nextPlanetaryInfluenceRecalculation)
         {
+            if (!Config.Enabled || !Config.FixThrusters)
+                return;
+
             ___m_nextPlanetaryInfluenceRecalculation = MySession.Static.GameplayFrameCounter + 100;
         }
     }

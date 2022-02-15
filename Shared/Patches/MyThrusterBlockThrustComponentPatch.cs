@@ -13,7 +13,12 @@ namespace Shared.Patches
     {
         private const float Threshold = 0.001f;
 
-        private const int Bits = 13;
+#if TORCH || DEDICATED
+        private const int Bits = 14;
+#else
+        private const int Bits = 12;
+#endif
+
         private const int Count = 1 << Bits;
         private const int Mask = Count - 1;
 
