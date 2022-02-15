@@ -27,5 +27,11 @@ namespace Shared.Patches
 
             return true;
         }
+
+        public static void PatchUpdates()
+        {
+            MyEntityThrustComponentPatch.Update();
+            MyThrusterBlockThrustComponentPatch.Update();
+        }
     }
 }

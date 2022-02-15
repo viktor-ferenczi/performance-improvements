@@ -114,14 +114,7 @@ namespace DedicatedPlugin
 
         private void CustomUpdate()
         {
-#if CAUSES_SIMLOAD_INCREASE
-#if DEBUG
-            MySpinWaitPatch.LogStats(Tick, 600);
-#endif
-#endif
-
-            // MyPathFindingSystemPatch.LogStats(300);
-            // MyPathFindingSystemEnumeratorPatch.LogStats(300);
+            PatchHelpers.PatchUpdates();
         }
     }
 }

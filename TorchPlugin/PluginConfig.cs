@@ -61,7 +61,7 @@ namespace TorchPlugin
             set => SetValue(ref fixGarbageCollection, value);
         }
 
-        [Display(Order = 7, GroupName = "Fixes", Name = "Fix thrusters", Description = "Recalculate thrust parameters only after relevant change in the control thrust")]
+        [Display(Order = 7, GroupName = "Fixes", Name = "Fix thrusters", Description = "Recalculate thrust parameters only after relevant change in override, controls or autopilot")]
         public bool FixThrusters
         {
             get => fixThrusters;

@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Sandbox.Game.Entities;
 using Sandbox.Game.GameSystems;
+using Sandbox.Game.World;
 using Shared.Config;
 using Shared.Plugin;
 using VRageMath;
@@ -11,73 +12,126 @@ namespace Shared.Patches
     [HarmonyPatch(typeof(MyEntityThrustComponent))]
     public static class MyEntityThrustComponentPatch
     {
+        private const float Threshold = 0.01f;
+
+#if TORCH || DEDICATED
+        private const int Bits = 12;
+#else
+        private const int Bits = 10;
+#endif
+
+        private const int Count = 1 << Bits;
+        private const int Mask = Count - 1;
+
+        private static readonly uint[] Entity = new uint[Count];
+        private static readonly Vector3[] PreviousControl = new Vector3[Count];
+        private static readonly Vector3[] PreviousAutopilot = new Vector3[Count];
+
         private static IPluginConfig Config => Common.Config;
 
-        // Latest actioned ControlThrust values
-        // XYZ values are between -1..+1
-        private const int Count = 1 << 12;
-        private const int Mask = Count - 1;
-        private static readonly Vector3[] LatestActionedControlThrusts = new Vector3[Count];
-
-        // Save the recalculation below this change threshold (make it configurable if needed)
-        private const double ChangeThreshold = 0.01;
-
-        // ReSharper disable once UnusedMember.Local
-        // ReSharper disable once InconsistentNaming
-        [HarmonyPrefix]
-        [HarmonyPatch("UpdateBeforeSimulation")]
-        private static bool UpdateBeforeSimulationPrefix(MyEntityThrustComponent __instance, ref bool ___m_thrustsChanged)
+        public static void Update()
         {
-            // Would the recalculation run normally?
-            if (!___m_thrustsChanged)
-                return true;
+            Entity[Common.Plugin.Tick & Mask] = 0;
+        }
 
+        // ReSharper disable once InconsistentNaming
+        // ReSharper disable once UnusedMember.Local
+        [HarmonyPrefix]
+        [HarmonyPatch("set_ControlThrust")]
+        private static bool SetControlThrustPrefix(MyEntityThrustComponent __instance, Vector3 value, ref Vector3 ___m_controlThrust)
+        {
             if (!Config.Enabled || !Config.FixThrusters)
                 return true;
 
             if (!(__instance.Entity is MyCubeGrid grid))
                 return true;
 
-            // Latest control thrust is saved up to Count grids based on a hash,
-            // which allows for an algorithm which does not allocate any memory.
-            // Hash collisions may cause slightly more recalculations, because
-            // they overwrite each other's latest control thrust vectors causing
-            // large differences all the time. It should happen only rarely.
-
-            // Hash is just the lower bits of EntityId, because it is already random
-            var hash = (int)(grid.EntityId & Mask);
-            var latestControlThrust = LatestActionedControlThrusts[hash];
-
-            // Always allow for zeroing the control thrust
-            var currentControlThrust = __instance.ControlThrust;
-            if (currentControlThrust == Vector3.Zero)
+            if (MyShipControllerPatch.IsInUpdateAfterSimulation)
             {
-                if (latestControlThrust == Vector3.Zero)
-                {
-                    // Suppress the RecomputeThrustParameters calls in the original method
-                    ___m_thrustsChanged = false;
-                    return true;
-                }
+                ___m_controlThrust = Vector3.Zero;
+                return false;
+            }
 
-                // Allow calling RecomputeThrustParameters,
-                // record that it was called for the zero control vector
-                LatestActionedControlThrusts[hash] = Vector3.Zero;
+            var id = (uint)(grid.EntityId >> Bits);
+            var hash = grid.EntityId & Mask;
+            if (Entity[hash] == 0)
+            {
+                Entity[hash] = id;
+                PreviousControl[hash] = value;
                 return true;
             }
 
-            // Suppress the recomputation if the change in the control vector is small
-            var change = currentControlThrust - latestControlThrust;
-            if (change.AbsMax() < ChangeThreshold)
+            if (Entity[hash] != id)
+                return true;
+
+            var previous = PreviousControl[hash];
+            if (Vector3.IsZero(value) && !Vector3.IsZero(previous))
             {
-                // Suppress the RecomputeThrustParameters calls in the original method
-                ___m_thrustsChanged = false;
+                PreviousControl[hash] = value;
                 return true;
             }
 
-            // Allow calling RecomputeThrustParameters,
-            // record that it was called for the current control vector
-            LatestActionedControlThrusts[hash] = currentControlThrust;
+            if ((value - previous).AbsMax() < Threshold)
+            {
+                ___m_controlThrust = previous;
+                return false;
+            }
+
+            PreviousControl[hash] = value;
             return true;
+        }
+
+        // ReSharper disable once InconsistentNaming
+        // ReSharper disable once UnusedMember.Local
+        [HarmonyPrefix]
+        [HarmonyPatch("set_AutoPilotControlThrust")]
+        private static bool AutoPilotControlThrustPrefix(MyEntityThrustComponent __instance, Vector3 value, ref Vector3 ___m_autoPilotControlThrust)
+        {
+            if (!Config.Enabled || !Config.FixThrusters)
+                return true;
+
+            if (!(__instance.Entity is MyCubeGrid grid))
+                return true;
+
+            var id = (uint)(grid.EntityId >> Bits);
+            var hash = grid.EntityId & Mask;
+            if (Entity[hash] == 0)
+            {
+                Entity[hash] = id;
+                PreviousAutopilot[hash] = value;
+                return true;
+            }
+
+            if (Entity[hash] != id)
+                return true;
+
+            var previous = PreviousAutopilot[hash];
+            if (Vector3.IsZero(value) && !Vector3.IsZero(previous))
+            {
+                PreviousAutopilot[hash] = value;
+                return true;
+            }
+
+            if ((value - previous).AbsMax() < Threshold)
+            {
+                ___m_autoPilotControlThrust = previous;
+                return false;
+            }
+
+            PreviousAutopilot[hash] = value;
+            return true;
+        }
+
+        // ReSharper disable once InconsistentNaming
+        // ReSharper disable once UnusedMember.Local
+        [HarmonyPostfix]
+        [HarmonyPatch("RecalculatePlanetaryInfluence")]
+        private static void RecalculatePlanetaryInfluencePostfix(ref int ___m_nextPlanetaryInfluenceRecalculation)
+        {
+            if (!Config.Enabled || !Config.FixThrusters)
+                return;
+
+            ___m_nextPlanetaryInfluenceRecalculation = MySession.Static.GameplayFrameCounter + 100;
         }
     }
 }
