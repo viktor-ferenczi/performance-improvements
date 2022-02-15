@@ -1,10 +1,7 @@
 using System.Linq;
-using Humanizer;
-using Shared.Config;
 using Shared.Extensions;
 using Shared.Patches;
 using Shared.Patches.Patching;
-using Shared.Plugin;
 using Torch.Commands;
 using Torch.Commands.Permissions;
 using VRage.Game.ModAPI;

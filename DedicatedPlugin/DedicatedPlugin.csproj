@@ -62,10 +62,6 @@
             <HintPath>..\Torch\DedicatedServer64\HavokWrapper.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="Humanizer, Version=2.14.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e">
-          <HintPath>..\packages\Humanizer.Core.2.14.1\lib\netstandard2.0\Humanizer.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
         <Reference Include="Microsoft.CodeAnalysis, Version=2.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
             <HintPath>..\Torch\DedicatedServer64\Microsoft.CodeAnalysis.dll</HintPath>
             <Private>False</Private>
