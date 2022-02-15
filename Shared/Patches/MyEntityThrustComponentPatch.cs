@@ -16,6 +16,8 @@ namespace Shared.Patches
             public long EntityId;
             public Vector3 Control;
             public Vector3 Override;
+            public bool HasPower;
+            public bool HasThrust;
         }
 
         private static IPluginConfig Config => Common.Config;
@@ -38,17 +40,13 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         // ReSharper disable once InconsistentNaming
         [HarmonyPrefix]
-        [HarmonyPatch("UpdateBeforeSimulation")]
-        private static bool UpdateBeforeSimulationPrefix(MyEntityThrustComponent __instance, ref bool ___m_thrustsChanged, ref Vector3 ___m_totalThrustOverride)
+        [HarmonyPatch("RecomputeThrustParameters")]
+        private static bool RecomputeThrustParametersPrefix(MyEntityThrustComponent __instance, ref Vector3 ___m_totalThrustOverride)
         {
-            // Would the recalculation run normally?
-            if (!___m_thrustsChanged)
+            if (!(__instance.Entity is MyCubeGrid grid))
                 return true;
 
             if (!Config.Enabled || !Config.FixThrusters)
-                return true;
-
-            if (!(__instance.Entity is MyCubeGrid grid))
                 return true;
 
             // Latest thrust control state is saved based on a hash, which allows for
@@ -65,7 +63,8 @@ namespace Shared.Patches
             if (latest.EntityId != 0 && latest.EntityId != grid.EntityId)
             {
                 // Optimize only the first grid with that hash,
-                // skip the rest of grids with the same hash
+                // allow recalculation all the time for the other
+                // ones with the same hash
                 return true;
             }
 
@@ -74,13 +73,20 @@ namespace Shared.Patches
             {
                 EntityId = grid.EntityId,
                 Control = __instance.AutopilotEnabled ? __instance.AutoPilotControlThrust + __instance.ControlThrust : __instance.ControlThrust,
-                Override = ___m_totalThrustOverride / Vector3.Max(Vector3.One, __instance.MaxThrustOverride ?? Vector3.One)
+                Override = ___m_totalThrustOverride / Vector3.Max(Vector3.One, __instance.MaxThrustOverride ?? Vector3.One),
+                HasPower = __instance.HasPower,
+                HasThrust = __instance.HasThrust
             };
 
-            // Allow for recalculation for the first time and on zeroing control
+            // Allow for recalculation for the first time,
+            // once every second to monitor power and fuel availability,
+            // on power or fuel change and on zeroing control or override
             if (latest.EntityId == 0 ||
-                latest.Control != Vector3.Zero && current.Control == Vector3.Zero ||
-                latest.Override != Vector3.Zero && current.Override == Vector3.Zero)
+                Common.Plugin.Tick % 60 == grid.EntityId % 60 ||
+                latest.HasPower != current.HasPower ||
+                latest.HasThrust != current.HasThrust ||
+                !Vector3.IsZero(latest.Control) && Vector3.IsZero(current.Control) ||
+                !Vector3.IsZero(latest.Override) && Vector3.IsZero(current.Override))
             {
                 States[hash] = current;
                 return true;
@@ -90,7 +96,7 @@ namespace Shared.Patches
             var controlChange = current.Control - latest.Control;
             var overrideChange = current.Override - latest.Override;
 
-            // Allow for recalculation above a specified change threshold
+            // Allow for immediate recalculation above the specified relative change in control or override
             if (controlChange.AbsMax() > ControlThreshold ||
                 overrideChange.AbsMax() > OverrideThreshold)
             {
@@ -100,8 +106,7 @@ namespace Shared.Patches
 
             // Suppress recalculation
             // Suppress the RecomputeThrustParameters calls in the original method
-            ___m_thrustsChanged = false;
-            return true;
+            return false;
         }
     }
 }
