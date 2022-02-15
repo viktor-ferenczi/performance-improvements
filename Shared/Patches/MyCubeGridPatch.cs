@@ -39,7 +39,6 @@ namespace Shared.Patches
             if (!IsInMergeGridInternal)
                 return;
 
-            ;
             if (--CallDepth.Value > 0)
                 return;
 
