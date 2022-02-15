@@ -6,7 +6,6 @@ using Sandbox.Graphics.GUI;
 using Shared.Config;
 using Shared.Logging;
 using Shared.Patches;
-using Shared.Patches.Patching;
 using Shared.Plugin;
 using VRage.FileSystem;
 using VRage.Plugins;
@@ -24,9 +23,13 @@ namespace ClientPlugin
         public IPluginLogger Log => Logger;
         private static readonly IPluginLogger Logger = new PluginLogger(Name);
 
-        public PluginConfig Config => config?.Data;
+        public IPluginConfig Config => config?.Data;
         private PersistentConfig<PluginConfig> config;
         private static readonly string ConfigFileName = $"{Name}.cfg";
+
+        private static readonly object InitializationMutex = new object();
+        private static bool initialized;
+        private static bool failed;
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public void Init(object gameInstance)
@@ -40,8 +43,11 @@ namespace ClientPlugin
 
             Common.SetPlugin(this);
 
-            if (Config.Enabled)
-                Config.Patcher.ApplyEnabled();
+            if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
+            {
+                failed = true;
+                return;
+            }
 
             Log.Debug("Successfully loaded");
         }
@@ -63,6 +69,49 @@ namespace ClientPlugin
 
         public void Update()
         {
+            EnsureInitialized();
+            try
+            {
+                if (!failed)
+                {
+                    CustomUpdate();
+                    Tick++;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Critical(ex, "Update failed");
+                failed = true;
+            }
+        }
+
+        private void EnsureInitialized()
+        {
+            lock (InitializationMutex)
+            {
+                if (initialized || failed)
+                    return;
+
+                Log.Info("Initializing");
+                try
+                {
+                    Initialize();
+                }
+                catch (Exception ex)
+                {
+                    Log.Critical(ex, "Failed to initialize plugin");
+                    failed = true;
+                    return;
+                }
+
+                Log.Debug("Successfully initialized");
+                initialized = true;
+            }
+        }
+
+        private void Initialize()
+        {
+            // TODO: Put your one time initialization code here. It is executed on first update, not on loading the plugin.
         }
 
         private void CustomUpdate()
@@ -80,15 +129,7 @@ namespace ClientPlugin
         // ReSharper disable once UnusedMember.Global
         public void OpenConfigDialog()
         {
-            var screen = new MyPluginConfigDialog(Config.Patcher);
-            screen.Closed += ScreenOnClosed;
-            MyGuiSandbox.AddScreen(screen);
-        }
-
-        private void ScreenOnClosed(MyGuiScreenBase source, bool isUnloading)
-        {
-            source.Closed -= ScreenOnClosed;
-            config.Save();
+            MyGuiSandbox.AddScreen(new MyPluginConfigDialog());
         }
     }
 }

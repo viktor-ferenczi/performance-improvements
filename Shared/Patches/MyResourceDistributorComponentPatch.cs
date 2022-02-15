@@ -1,22 +1,26 @@
 using HarmonyLib;
 using Sandbox.Game.EntityComponents;
 using Shared.Config;
-using Shared.Patches.Patching;
 using Shared.Plugin;
 
 namespace Shared.Patches
 {
-    [HarmonyPatchKey("FixGridGroups", "Grids")]
     // ReSharper disable once UnusedType.Global
+    [HarmonyPatch(typeof(MyResourceDistributorComponent))]
     public static class MyResourceDistributorComponentPatch
     {
+        private static IPluginConfig Config => Common.Config;
+
         // ReSharper disable once UnusedMember.Local
         // ReSharper disable once InconsistentNaming
         [HarmonyPrefix]
-        [HarmonyPatch(typeof(MyResourceDistributorComponent), nameof(MyResourceDistributorComponent.UpdateBeforeSimulation))]
+        [HarmonyPatch(nameof(MyResourceDistributorComponent.UpdateBeforeSimulation))]
         private static bool UpdateBeforeSimulation(MyResourceDistributorComponent __instance)
         {
             if (!MyGroupsPatch.IsInMergeGroups && !MyGroupsPatch.IsInBreakLink)
+                return true;
+
+            if (!Config.Enabled || !Config.FixGridGroups)
                 return true;
 
             __instance.MarkForUpdate();

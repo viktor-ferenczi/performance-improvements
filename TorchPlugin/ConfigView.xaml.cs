@@ -1,4 +1,3 @@
-using System.Windows;
 using System.Windows.Controls;
 using Shared.Plugin;
 
@@ -11,11 +10,7 @@ namespace TorchPlugin
         public ConfigView()
         {
             InitializeComponent();
-        }
-
-        private void SaveOnClick(object sender, RoutedEventArgs e)
-        {
-            Plugin.Instance.Save();
+            DataContext = Common.Config;
         }
     }
 }

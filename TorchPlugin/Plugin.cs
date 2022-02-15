@@ -2,22 +2,18 @@
 
 using System;
 using System.IO;
-using System.Linq;
 using System.Windows.Controls;
 using HarmonyLib;
 using Shared.Config;
 using Shared.Logging;
 using Shared.Patches;
-using Shared.Patches.Patching;
 using Shared.Plugin;
 using Torch;
 using Torch.API;
 using Torch.API.Managers;
 using Torch.API.Plugins;
 using Torch.API.Session;
-using Torch.Managers.PatchManager;
 using Torch.Session;
-using TorchPlugin.ViewModels;
 
 namespace TorchPlugin
 {
@@ -32,19 +28,13 @@ namespace TorchPlugin
         public IPluginLogger Log => Logger;
         private static readonly IPluginLogger Logger = new PluginLogger(PluginName);
 
-        public TorchPlugin.PluginConfig Config => config?.Data;
+        public IPluginConfig Config => config?.Data;
         private PersistentConfig<PluginConfig> config;
         private static readonly string ConfigFileName = $"{PluginName}.cfg";
 
         // ReSharper disable once UnusedMember.Global
-        public UserControl GetControl() => new ConfigView
-        {
-            DataContext = new ConfigViewModel
-            {
-                Config = Config,
-                InfoTree = PatchTree
-            }
-        };
+        public UserControl GetControl() => control ?? (control = new ConfigView());
+        private ConfigView control;
 
         private TorchSessionManager sessionManager;
         private bool Initialized => sessionManager != null;
@@ -52,8 +42,6 @@ namespace TorchPlugin
 
         // ReSharper disable once UnusedMember.Local
         private readonly Commands commands = new Commands();
-
-        internal readonly PatchInfoTree PatchTree = new PatchInfoTree();
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public override void Init(ITorchBase torch)
@@ -68,11 +56,15 @@ namespace TorchPlugin
             config = PersistentConfig<PluginConfig>.Load(Log, configPath);
 
             Common.SetPlugin(this);
-            foreach (var (key, patchInfo) in Config.Patcher.PatchInfos)
+
+#if USE_HARMONY
+            if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
             {
-                PatchTree.Add(key, patchInfo);
+                failed = true;
+                return;
             }
-            
+#endif
+
             sessionManager = torch.Managers.GetManager<TorchSessionManager>();
             sessionManager.SessionStateChanged += SessionStateChanged;
         }
@@ -83,8 +75,6 @@ namespace TorchPlugin
             {
                 case TorchSessionState.Loading:
                     Log.Debug("Loading");
-                    if (Config.Enabled)
-                        Config.Patcher.ApplyEnabled();
                     break;
 
                 case TorchSessionState.Loaded:
@@ -174,7 +164,5 @@ namespace TorchPlugin
             // MyPathFindingSystemPatch.LogStats(300);
             // MyPathFindingSystemEnumeratorPatch.LogStats(300);
         }
-
-        internal void Save() => config.Save();
     }
 }

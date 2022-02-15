@@ -1,9 +1,4 @@
-using System.Linq;
-using Humanizer;
 using Shared.Config;
-using Shared.Extensions;
-using Shared.Patches;
-using Shared.Patches.Patching;
 using Shared.Plugin;
 using Torch.Commands;
 using Torch.Commands.Permissions;
@@ -14,7 +9,7 @@ namespace TorchPlugin
     [Category("pfi")]
     public class Commands : CommandModule
     {
-        private static PluginConfig Config => Plugin.Instance.Config;
+        private static IPluginConfig Config => Common.Config;
 
         private void Respond(string message)
         {
@@ -24,26 +19,49 @@ namespace TorchPlugin
         private void RespondWithInfo()
         {
             var config = Plugin.Instance.Config;
-            Respond($"{Plugin.PluginName} plugin is enabled: {config.Enabled.ToYesNo()}");
-            foreach (var (_, node) in Plugin.Instance.PatchTree.Root)
-            {
-                var indent = 0;
-                PrintRecursive(node, ref indent);
-            }
+            Respond($"{Plugin.PluginName} plugin is enabled: {Format(config.Enabled)}");
+#if CAUSES_SIMLOAD_INCREASE
+            Respond($"spin_wait: {Format(config.FixSpinWait)}");
+#endif
+            Respond($"grid_merge: {Format(config.FixGridMerge)}");
+            Respond($"grid_paste: {Format(config.FixGridPaste)}");
+            Respond($"p2p_stats: {Format(config.FixP2PUpdateStats)}");
+            Respond($"gc: {Format(config.FixGarbageCollection)}");
+            Respond($"thrusters: {Format(config.FixThrusters)}");
+            Respond($"grid_groups: {Format(config.FixGridGroups)}");
+            //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
+            Respond($"api_stats: {Format(config.DisableModApiStatistics)}");
         }
 
-        private void PrintRecursive(PatchInfoTree.Node node, ref int printIndent)
+        // Custom formatters
+        private static string Format(bool value) => value ? "Yes" : "No";
+
+        // Custom parsers
+        private static bool TryParseBool(string text, out bool result)
         {
-            Respond($"{string.Empty.PadRight(printIndent * 3, ' ')}{node.DisplayName}: {node.Enabled.ToYesNo()}");
-            
-            printIndent++;
-            
-            foreach (var (_, treeNode) in node.Children)
+            switch (text.ToLower())
             {
-                PrintRecursive(treeNode, ref printIndent);
+                case "1":
+                case "on":
+                case "yes":
+                case "y":
+                case "true":
+                case "t":
+                    result = true;
+                    return true;
+
+                case "0":
+                case "off":
+                case "no":
+                case "n":
+                case "false":
+                case "f":
+                    result = false;
+                    return true;
             }
 
-            printIndent--;
+            result = false;
+            return false;
         }
 
         // ReSharper disable once UnusedMember.Global
@@ -77,22 +95,67 @@ namespace TorchPlugin
         [Permission(MyPromoteLevel.Admin)]
         public void Fix(string name, string flag)
         {
-            if (!ParsingTools.TryParseBool(flag, out var parsedFlag))
+            if (!TryParseBool(flag, out var parsedFlag))
             {
                 Respond($"Invalid boolean value: {flag}");
                 return;
             }
 
-            var dehumanized = name.Dehumanize();
-            var node = Plugin.Instance.PatchTree.WalkTree().FirstOrDefault(b => b.Key == dehumanized);
-
-            if (node is null)
+            switch (name)
             {
-                Respond("Cannot find node with given name");
-                return;
-            }
+#if CAUSES_SIMLOAD_INCREASE
+                case "spin_wait":
+                    Config.FixSpinWait = parsedFlag;
+                    break;
+#endif
 
-            node.Enabled = parsedFlag;
+                case "grid_merge":
+                    Config.FixGridMerge = parsedFlag;
+                    break;
+
+                case "grid_paste":
+                    Config.FixGridPaste = parsedFlag;
+                    break;
+
+                case "p2p_stats":
+                    Config.FixP2PUpdateStats = parsedFlag;
+                    break;
+
+                case "gc":
+                    Config.FixGarbageCollection = parsedFlag;
+                    break;
+                
+                case "thrusters":
+                    Config.FixThrusters = parsedFlag;
+                    break;
+
+                case "grid_groups":
+                    Config.FixGridGroups = parsedFlag;
+                    break;
+
+                /*BOOL_OPTION
+                case "option_name":
+                    Config.OptionName = parsedFlag;
+                    break;
+
+                BOOL_OPTION*/
+                case "api_stats":
+                    Config.DisableModApiStatistics = parsedFlag;
+                    break;
+
+                default:
+                    Respond($"Unknown fix: {name}");
+                    Respond($"Valid fix names:");
+#if CAUSES_SIMLOAD_INCREASE
+                    Respond($"  spin_wait");
+#endif
+                    Respond($"  grid_merge");
+                    Respond($"  grid_paste");
+                    Respond($"  p2p_stats");
+                    Respond($"  gc");
+                    Respond($"  api_stats");
+                    return;
+            }
 
             RespondWithInfo();
         }
