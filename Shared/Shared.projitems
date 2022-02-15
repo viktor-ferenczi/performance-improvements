@@ -18,11 +18,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Logging\LogFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\PluginLogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\GcCollectPatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyCharacterJetpackComponentPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyConveyorLinePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyCubeGridPastePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyCubeGridPatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyEntityThrustComponentPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyGroupsPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyP2PQoSAdapterPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyPathFindingSystemEnumeratorPatch.cs" />
