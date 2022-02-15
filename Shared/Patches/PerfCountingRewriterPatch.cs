@@ -4,17 +4,17 @@ using HarmonyLib;
 using Microsoft.CodeAnalysis;
 using Shared.Config;
 using Shared.Logging;
+using Shared.Patches.Patching;
 using Shared.Plugin;
 
 namespace Shared.Patches
 {
-    [HarmonyPatch]
+    [HarmonyPatchKey("FixModsPerformanceStats")]
     [SuppressMessage("ReSharper", "UnusedMember.Local")]
     // ReSharper disable once UnusedType.Global
     public static class PerfCountingRewriterPatch
     {
         private static IPluginLogger Log => Common.Logger;
-        private static IPluginConfig Config => Common.Config;
 
         private static MethodBase TargetMethod()
         {
@@ -26,14 +26,6 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         private static bool Prefix(SyntaxTree syntaxTree, int modId, ref SyntaxTree __result)
         {
-            if (!Config.Enabled || !Config.DisableModApiStatistics)
-            {
-#if DEBUG
-                Log.Debug("Keeping the injection of Mod API call statistics code; modId={0}", modId);
-#endif
-                return true;
-            }
-
 #if DEBUG
             Log.Debug("Skipping the injection of Mod API call statistics code; modId={0}", modId);
 #endif

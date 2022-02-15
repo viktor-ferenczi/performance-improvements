@@ -4,6 +4,7 @@ using HarmonyLib;
 using Shared.Config;
 using Shared.Logging;
 using Shared.Patches;
+using Shared.Patches.Patching;
 using Shared.Plugin;
 using VRage.FileSystem;
 using VRage.Plugins;
@@ -21,7 +22,7 @@ namespace DedicatedPlugin
         public IPluginLogger Log => Logger;
         private static readonly IPluginLogger Logger = new PluginLogger(Name);
 
-        public IPluginConfig Config => config?.Data;
+        public PluginConfig Config => config?.Data;
         private PersistentConfig<PluginConfig> config;
         private static readonly string ConfigFileName = $"{Name}.cfg";
 
@@ -40,12 +41,8 @@ namespace DedicatedPlugin
             config = PersistentConfig<PluginConfig>.Load(Log, configPath);
 
             Common.SetPlugin(this);
-
-            if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
-            {
-                failed = true;
-                return;
-            }
+            if (Config.Enabled)
+                Config.Patcher.ApplyEnabled();
 
             Log.Debug("Successfully loaded");
         }
