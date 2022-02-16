@@ -16,7 +16,7 @@ namespace TorchPlugin
         private bool fixGarbageCollection = true;
         private bool fixThrusters = true;
         private bool fixGridGroups = true;
-        //BOOL_OPTION private bool optionName = true;
+        //BOOL_OPTION private bool optionName = false;
         private bool disableModApiStatistics = true;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enable the plugin (all fixes)")]
