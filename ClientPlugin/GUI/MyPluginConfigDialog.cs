@@ -151,9 +151,9 @@ namespace ClientPlugin.GUI
         private void LayoutControls()
         {
             var size = Size ?? Vector2.One;
-            layoutTable = new MyLayoutTable(this, -0.4f * size, 0.8f * size);
+            layoutTable = new MyLayoutTable(this, new Vector2(-0.3f * size.X, -0.375f * size.Y), new Vector2(0.6f * size.X, 0.8f * size.Y));
             layoutTable.SetColumnWidths(400f, 100f);
-            layoutTable.SetRowHeights(90f, 60f, 60f, 60f, 60f, 60f, 60f, 60f,/*BOOL_OPTION 60f,BOOL_OPTION*/ 150f, 60f);
+            layoutTable.SetRowHeights(80f, 50f, 50f, 50f, 50f, 50f, 50f, 50f,/*BOOL_OPTION 50f,BOOL_OPTION*/ 150f, 60f);
 
             var row = 0;
 
