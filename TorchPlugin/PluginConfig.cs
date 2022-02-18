@@ -14,9 +14,8 @@ namespace TorchPlugin
         private bool fixPast = true;
         private bool fixUpdateStat = true;
         private bool fixGarbageCollection = true;
-        private bool fixThrusters = true;
         private bool fixGridGroups = true;
-        //BOOL_OPTION private bool optionName = true;
+        //BOOL_OPTION private bool optionName = false;
         private bool disableModApiStatistics = true;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enable the plugin (all fixes)")]
@@ -61,14 +60,7 @@ namespace TorchPlugin
             set => SetValue(ref fixGarbageCollection, value);
         }
 
-        [Display(Order = 7, GroupName = "Fixes", Name = "Fix thrusters", Description = "Recalculate thrust parameters only after relevant change in override, controls or autopilot")]
-        public bool FixThrusters
-        {
-            get => fixThrusters;
-            set => SetValue(ref fixThrusters, value);
-        }
-
-        [Display(Order = 9, GroupName = "Fixes", Name = "Fix grid groups", Description = "Disable resource updates while grids are being moved between groups")]
+        [Display(Order = 7, GroupName = "Fixes", Name = "Fix grid groups", Description = "Disable resource updates while grids are being moved between groups")]
         public bool FixGridGroups
         {
             get => fixGridGroups;
@@ -76,7 +68,7 @@ namespace TorchPlugin
         }
 
         /*BOOL_OPTION
-        [Display(Order = 9, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
+        [Display(Order = 8, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
         public bool OptionName
         {
             get => optionName;

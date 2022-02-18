@@ -12,7 +12,7 @@ namespace Shared.Patches
     {
         private static IPluginConfig Config => Common.Config;
 
-        private static int counter;
+        private static int counter = 60;
 
         // ReSharper disable once UnusedMember.Local
         private static MethodBase TargetMethod()
