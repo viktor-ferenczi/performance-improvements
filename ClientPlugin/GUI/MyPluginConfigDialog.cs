@@ -50,7 +50,9 @@ namespace ClientPlugin.GUI
         private MyGuiControlMultilineText infoText;
         private MyGuiControlButton closeButton;
 
-        public MyPluginConfigDialog() : base(new Vector2(0.5f, 0.5f), MyGuiConstants.SCREEN_BACKGROUND_COLOR, new Vector2(0.5f, 0.7f), false, null, MySandboxGame.Config.UIBkOpacity, MySandboxGame.Config.UIOpacity)
+        private static float GetConfParam(string name) => MyUtils.GetFloatFromString(MySandboxGame.Config.GetParameterValue(name), 1f);
+
+        public MyPluginConfigDialog() : base(new Vector2(0.5f, 0.5f), MyGuiConstants.SCREEN_BACKGROUND_COLOR, new Vector2(0.5f, 0.7f), false, null, GetConfParam(MySandboxGame.Config.UI_BK_TRANSPARENCY), GetConfParam(MySandboxGame.Config.UI_TRANSPARENCY))
         {
             EnabledBackgroundFade = true;
             m_closeOnEsc = true;

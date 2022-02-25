@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="..\packages\Aze.Publicise.MSBuild.Task.1.0.0\build\Aze.Publicise.MSBuild.Task.props" Condition="Exists('..\packages\Aze.Publicise.MSBuild.Task.1.0.0\build\Aze.Publicise.MSBuild.Task.props')" />
     <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -22,6 +23,7 @@
         <DefineConstants>TORCH;DEBUG;TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <PlatformTarget>x64</PlatformTarget>
@@ -31,6 +33,7 @@
         <DefineConstants>TORCH;TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="0Harmony, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null">
@@ -49,6 +52,8 @@
         <Reference Include="Markdown.Xaml, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Torch\Markdown.Xaml.dll</HintPath>
         </Reference>
+        <Reference Include="Microsoft.Build.Framework" />
+        <Reference Include="Microsoft.Build.Utilities.v4.0" />
         <Reference Include="Microsoft.CodeAnalysis, Version=2.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
           <HintPath>..\Torch\DedicatedServer64\Microsoft.CodeAnalysis.dll</HintPath>
         </Reference>
@@ -76,19 +81,19 @@
           <HintPath>..\Torch\protobuf-net.dll</HintPath>
         </Reference>
         <Reference Include="Sandbox.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\Sandbox.Common.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\Sandbox.Common_public.dll</HintPath>
         </Reference>
         <Reference Include="Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\Sandbox.Game.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\Sandbox.Game_public.dll</HintPath>
         </Reference>
         <Reference Include="Sandbox.Game.XmlSerializers, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\Sandbox.Game.XmlSerializers.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\Sandbox.Game.XmlSerializers_public.dll</HintPath>
         </Reference>
         <Reference Include="Sandbox.Graphics, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\Sandbox.Graphics.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\Sandbox.Graphics_public.dll</HintPath>
         </Reference>
         <Reference Include="Sandbox.RenderDirect, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\Sandbox.RenderDirect.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\Sandbox.RenderDirect_public.dll</HintPath>
         </Reference>
         <Reference Include="SteamKit2, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Torch\SteamKit2.dll</HintPath>
@@ -399,76 +404,85 @@
           <HintPath>..\Torch\Torch.API.dll</HintPath>
         </Reference>
         <Reference Include="VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Ansel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.Ansel.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.Ansel_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Audio, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.Audio.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.Audio_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Dedicated, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.Dedicated.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.Dedicated_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.EOS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.EOS.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.EOS_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.EOS.XmlSerializers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.EOS.XmlSerializers.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.EOS.XmlSerializers_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.Game.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.Game_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Game.XmlSerializers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.Game.XmlSerializers.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.Game.XmlSerializers_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Input, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.Input.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.Input_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.Library.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.Library_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.Math.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.Math_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Math.XmlSerializers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.Math.XmlSerializers.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.Math.XmlSerializers_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Mod.Io, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.Mod.Io.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.Mod.Io_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.NativeWrapper, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.NativeWrapper.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.NativeWrapper_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Network, Version=1.0.53.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.Network.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.Network_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Platform.Windows, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.Platform.Windows.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.Platform.Windows_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.RemoteClient.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.RemoteClient.Core.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.RemoteClient.Core_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Render, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.Render.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.Render_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Render11, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.Render11.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.Render11_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Scripting, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.Scripting.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.Scripting_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Steam, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.Steam.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.Steam_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.UserInterface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.UserInterface.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.UserInterface_public.dll</HintPath>
         </Reference>
         <Reference Include="VRage.XmlSerializers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\VRage.XmlSerializers.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\VRage.XmlSerializers_public.dll</HintPath>
         </Reference>
         <Reference Include="HavokWrapper, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\Torch\DedicatedServer64\HavokWrapper.dll</HintPath>
+          <HintPath>..\Torch\DedicatedServer64\Publicised\HavokWrapper_public.dll</HintPath>
+        </Reference>
+        <Reference Include="SpaceEngineers.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\Torch\DedicatedServer64\Publicised\SpaceEngineers.Game_public.dll</HintPath>
+        </Reference>
+        <Reference Include="SpaceEngineers.ObjectBuilders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\Torch\DedicatedServer64\Publicised\SpaceEngineers.ObjectBuilders_public.dll</HintPath>
+        </Reference>
+        <Reference Include="SpaceEngineers.ObjectBuilders.XmlSerializers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\Torch\DedicatedServer64\Publicised\SpaceEngineers.ObjectBuilders.XmlSerializers_public.dll</HintPath>
         </Reference>
         <Reference Include="WindowsBase" />
     </ItemGroup>
@@ -505,4 +519,22 @@
     <PropertyGroup>
         <PostBuildEvent>call "$(ProjectDir)\deploy.bat" "$(TargetPath)" "$(SolutionName)"</PostBuildEvent>
     </PropertyGroup>
+    <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+      <PropertyGroup>
+        <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+      </PropertyGroup>
+      <Error Condition="!Exists('..\packages\Aze.Publicise.MSBuild.Task.1.0.0\build\Aze.Publicise.MSBuild.Task.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Aze.Publicise.MSBuild.Task.1.0.0\build\Aze.Publicise.MSBuild.Task.props'))" />
+    </Target>
+    <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+        <PropertyGroup>
+            <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+        </PropertyGroup>
+        <Error Condition="!Exists('..\packages\Aze.Publicise.MSBuild.Task.1.0.0\build\Aze.Publicise.MSBuild.Task.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Aze.Publicise.MSBuild.Task.1.0.0\build\Aze.Publicise.MSBuild.Task.props'))" />
+    </Target>
+    <Target Name="Publicise" AfterTargets="PrepareForBuild">
+        <ItemGroup>
+            <PubliciseInputAssemblies Include="$(SolutionDir)Torch\DedicatedServer64\HavokWrapper.dll;$(SolutionDir)Torch\DedicatedServer64\Sandbox.Common.dll;$(SolutionDir)Torch\DedicatedServer64\Sandbox.Game.dll;$(SolutionDir)Torch\DedicatedServer64\Sandbox.Game.XmlSerializers.dll;$(SolutionDir)Torch\DedicatedServer64\Sandbox.Graphics.dll;$(SolutionDir)Torch\DedicatedServer64\Sandbox.RenderDirect.dll;$(SolutionDir)Torch\DedicatedServer64\SpaceEngineers.Game.dll;$(SolutionDir)Torch\DedicatedServer64\SpaceEngineers.ObjectBuilders.dll;$(SolutionDir)Torch\DedicatedServer64\SpaceEngineers.ObjectBuilders.XmlSerializers.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.Ansel.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.Audio.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.Dedicated.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.EOS.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.EOS.XmlSerializers.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.Game.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.Game.XmlSerializers.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.Input.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.Library.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.Math.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.Math.XmlSerializers.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.Mod.Io.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.NativeWrapper.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.Network.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.Platform.Windows.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.RemoteClient.Core.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.Render.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.Render11.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.Scripting.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.Steam.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.UserInterface.dll;$(SolutionDir)Torch\DedicatedServer64\VRage.XmlSerializers.dll" />
+        </ItemGroup>
+        <Publicise InputAssemblies="@(PubliciseInputAssemblies)" OutputPath="$(SolutionDir)Torch\DedicatedServer64\Publicised" PubliciseCompilerGenerated="true" />
+    </Target>
 </Project>
