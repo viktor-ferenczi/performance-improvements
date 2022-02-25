@@ -17,7 +17,7 @@ namespace Shared.Patches
 
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
-        [HarmonyPatch("MergeGroups")]
+        [HarmonyPatch(nameof(VRage.Groups.MyGroups<MyCubeGrid, MyGridLogicalGroupData>.MergeGroups))]
         private static bool MergeGroupsPrefix()
         {
             MergeGroupsCallDepth.Value++;
@@ -28,7 +28,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
-        [HarmonyPatch("MergeGroups")]
+        [HarmonyPatch(nameof(VRage.Groups.MyGroups<MyCubeGrid, MyGridLogicalGroupData>.MergeGroups))]
         private static void MergeGroupsPostfix()
         {
             if (!IsInMergeGroups)
@@ -39,7 +39,7 @@ namespace Shared.Patches
 
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
-        [HarmonyPatch("BreakLink")]
+        [HarmonyPatch(nameof(VRage.Groups.MyGroups<MyCubeGrid, MyGridLogicalGroupData>.BreakLink))]
         private static bool BreakLinkPrefix()
         {
             BreakLinkCallDepth.Value++;
@@ -50,7 +50,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
-        [HarmonyPatch("BreakLink")]
+        [HarmonyPatch(nameof(VRage.Groups.MyGroups<MyCubeGrid, MyGridLogicalGroupData>.BreakLink))]
         private static void BreakLinkPostfix()
         {
             if (!IsInBreakLink)

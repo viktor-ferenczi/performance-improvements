@@ -3,7 +3,6 @@ using HarmonyLib;
 using Sandbox.Game.Entities;
 using Sandbox.Game.World;
 using Shared.Config;
-using Shared.Extensions;
 using Shared.Plugin;
 
 namespace Shared.Patches
@@ -19,7 +18,7 @@ namespace Shared.Patches
 
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
-        [HarmonyPatch("MergeGridInternal")]
+        [HarmonyPatch(nameof(MyCubeGrid.MergeGridInternal))]
         private static bool MergeGridInternalPrefix()
         {
             if (!Config.Enabled || !Config.FixGridMerge)
@@ -33,7 +32,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
-        [HarmonyPatch("MergeGridInternal")]
+        [HarmonyPatch(nameof(MyCubeGrid.MergeGridInternal))]
         private static void MergeGridInternalPostfix(MyCubeGrid __instance)
         {
             if (!IsInMergeGridInternal)
@@ -50,7 +49,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         // ReSharper disable once RedundantAssignment
         [HarmonyPrefix]
-        [HarmonyPatch("PasteBlocksServer")]
+        [HarmonyPatch(nameof(MyCubeGrid.PasteBlocksServer))]
         private static bool PasteBlocksServerPrefix(ref bool? __state)
         {
             if (!Config.Enabled || !Config.FixGridPaste)
@@ -58,21 +57,21 @@ namespace Shared.Patches
 
             // Disable updates for the duration of the paste,
             // it eliminates most spin lock contention
-            __state = MySession.Static.IsUpdateAllowed();
-            MySession.Static.SetUpdateAllowed(false);
+            __state = MySession.Static.m_updateAllowed;
+            MySession.Static.m_updateAllowed = false;
             return true;
         }
 
         // ReSharper disable once UnusedMember.Local
         // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
-        [HarmonyPatch("PasteBlocksServer")]
+        [HarmonyPatch(nameof(MyCubeGrid.PasteBlocksServer))]
         private static void PasteBlocksServerPostfix(bool? __state)
         {
             if (__state == null)
                 return;
 
-            MySession.Static.SetUpdateAllowed((bool)__state);
+            MySession.Static.m_updateAllowed = (bool)__state;
         }
     }
 }

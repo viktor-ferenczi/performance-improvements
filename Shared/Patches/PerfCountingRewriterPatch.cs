@@ -1,5 +1,5 @@
+using VRage.Scripting.Rewriters;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using HarmonyLib;
 using Microsoft.CodeAnalysis;
 using Shared.Config;
@@ -8,7 +8,7 @@ using Shared.Plugin;
 
 namespace Shared.Patches
 {
-    [HarmonyPatch]
+    [HarmonyPatch(typeof(PerfCountingRewriter))]
     [SuppressMessage("ReSharper", "UnusedMember.Local")]
     // ReSharper disable once UnusedType.Global
     public static class PerfCountingRewriterPatch
@@ -16,14 +16,9 @@ namespace Shared.Patches
         private static IPluginLogger Log => Common.Logger;
         private static IPluginConfig Config => Common.Config;
 
-        private static MethodBase TargetMethod()
-        {
-            // use reflections (with or without AccessTools) to return the MethodInfo of the original method
-            var type = AccessTools.TypeByName("VRage.Scripting.Rewriters.PerfCountingRewriter");
-            return AccessTools.Method(type, "Rewrite");
-        }
-
         // ReSharper disable once InconsistentNaming
+        [HarmonyPrefix]
+        [HarmonyPatch(nameof(PerfCountingRewriter.Rewrite))]
         private static bool Prefix(SyntaxTree syntaxTree, int modId, ref SyntaxTree __result)
         {
             if (!Config.Enabled || !Config.DisableModApiStatistics)
