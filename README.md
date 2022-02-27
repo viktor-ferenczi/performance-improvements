@@ -50,6 +50,7 @@ these patches are expected to be removed anyway, so I did not bother using Torch
 - Lazul
 - mkaito
 - DontFollowOrders
+- Gabor
 
 ### Developers
 - Avaness for the client side Plugin Loader
@@ -161,3 +162,11 @@ This fix disables resource updates while grids are being moved between groups
 and marks those resources for updating by a worker thread later.
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/23278-lag-on-connector-lockunlock-and-rotor-head-attachdetach-due-to-grid-group-changes)
+
+### Grid update dispatch optimization (server and offline game)
+
+There is ~5.9% constant main thread CPU load while running a world saved from a large multiplayer server. Confirmed with two worlds so far.
+
+This fix improves the algorithm to save part of the cost.
+
+Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/23689-room-for-performance-improvement-in-mycubegrid-dispatch)
