@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using HarmonyLib;
 using Sandbox.Game.Entities;
@@ -9,6 +12,7 @@ namespace Shared.Patches
 {
     // ReSharper disable once UnusedType.Global
     [HarmonyPatch(typeof(MyCubeGrid))]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public static class MyCubeGridPatch
     {
         private static IPluginConfig Config => Common.Config;
@@ -30,7 +34,6 @@ namespace Shared.Patches
         }
 
         // ReSharper disable once UnusedMember.Local
-        // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
         [HarmonyPatch(nameof(MyCubeGrid.MergeGridInternal))]
         private static void MergeGridInternalPostfix(MyCubeGrid __instance)
@@ -46,7 +49,6 @@ namespace Shared.Patches
         }
 
         // ReSharper disable once UnusedMember.Local
-        // ReSharper disable once InconsistentNaming
         // ReSharper disable once RedundantAssignment
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MyCubeGrid.PasteBlocksServer))]
@@ -63,7 +65,6 @@ namespace Shared.Patches
         }
 
         // ReSharper disable once UnusedMember.Local
-        // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
         [HarmonyPatch(nameof(MyCubeGrid.PasteBlocksServer))]
         private static void PasteBlocksServerPostfix(bool? __state)
@@ -72,6 +73,75 @@ namespace Shared.Patches
                 return;
 
             MySession.Static.m_updateAllowed = (bool)__state;
+        }
+
+        // ReSharper disable once UnusedMember.Local
+        // ReSharper disable once RedundantAssignment
+        [HarmonyPrefix]
+        [HarmonyPatch(nameof(MyCubeGrid.Dispatch))]
+        private static bool DispatchPrefix(MyCubeGrid __instance, MyCubeGrid.UpdateQueue queue, bool parallel, ref MyCubeGrid.UpdateQueue ___m_updateInProgress, ref List<MyCubeGrid.Update>[] ___m_updateQueues, ref int ___m_totalQueuedParallelUpdates, ref int ___m_totalQueuedSynchronousUpdates)
+        {
+            if (!Config.Enabled || !Config.FixGridDispatch)
+                return true;
+
+            lock (___m_updateQueues)
+            {
+                if (___m_updateInProgress != MyCubeGrid.UpdateQueue.Invalid)
+                    throw new InvalidOperationException("An update queue is already being dispatched for this entity.");
+
+                ___m_updateInProgress = queue;
+            }
+
+            var queueIndex = (int)queue - 1;
+            var updateList = ___m_updateQueues[queueIndex];
+            if (updateList == null)
+            {
+                updateList = new List<MyCubeGrid.Update>(16);
+                ___m_updateQueues[queueIndex] = updateList;
+            }
+
+            var isExecutedOnce = queue.IsExecutedOnce();
+
+            var num = 0;
+            var par = 0;
+
+            var cnt = updateList.Count;
+            for (var index = 0; index < cnt; ++index)
+            {
+                MyCubeGrid.Update u = updateList[index];
+                var isParallel = u.Parallel == parallel;
+
+                if (isParallel && !u.Removed)
+                    __instance.Invoke(in u, queue);
+
+                if (u.Removed || isExecutedOnce && isParallel)
+                {
+                    ++num;
+                    if (u.Parallel)
+                        par++;
+                }
+                else if (num > 0)
+                {
+                    updateList[index - num] = u;
+                    updateList[index] = MyCubeGrid.Update.Empty;
+                }
+            }
+
+            if (num != 0)
+            {
+                if (par > 0)
+                    Interlocked.Add(ref ___m_totalQueuedParallelUpdates, -par);
+
+                var syn = num - par;
+                if (syn > 0)
+                    Interlocked.Add(ref ___m_totalQueuedSynchronousUpdates, -syn);
+
+                updateList.RemoveRange(cnt - num, num);
+            }
+
+            __instance.EndUpdate();
+
+            return false;
         }
     }
 }

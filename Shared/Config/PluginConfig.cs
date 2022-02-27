@@ -36,7 +36,8 @@ namespace Shared.Config
         private bool fixP2PUpdateStats = true;
         private bool fixGarbageCollection = true;
         private bool fixGridGroups = true;
-        //BOOL_OPTION private bool optionName = true;
+        private bool fixGridDispatch = true;
+//BOOL_OPTION private bool optionName = true;
         private bool disableModApiStatistics = true;
 
         public bool Enabled
@@ -79,6 +80,12 @@ namespace Shared.Config
         {
             get => fixGridGroups;
             set => SetValue(ref fixGridGroups, value);
+        }
+
+        public bool FixGridDispatch
+        {
+            get => fixGridDispatch;
+            set => SetValue(ref fixGridDispatch, value);
         }
 
         /*BOOL_OPTION

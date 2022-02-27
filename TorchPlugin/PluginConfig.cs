@@ -15,7 +15,8 @@ namespace TorchPlugin
         private bool fixUpdateStat = true;
         private bool fixGarbageCollection = true;
         private bool fixGridGroups = true;
-        //BOOL_OPTION private bool optionName = false;
+        private bool fixGridDispatch = false;
+//BOOL_OPTION private bool optionName = false;
         private bool disableModApiStatistics = true;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enable the plugin (all fixes)")]
@@ -65,6 +66,13 @@ namespace TorchPlugin
         {
             get => fixGridGroups;
             set => SetValue(ref fixGridGroups, value);
+        }
+
+        [Display(Order = 8, GroupName = "Fixes", Name = "Fix grid dispatch", Description = "Fix performance issues in MyCubeGrid.Dispatch")]
+        public bool FixGridDispatch
+        {
+            get => fixGridDispatch;
+            set => SetValue(ref fixGridDispatch, value);
         }
 
         /*BOOL_OPTION
