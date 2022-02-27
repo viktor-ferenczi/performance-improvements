@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -33,3 +34,37 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.5.0.0")]
 [assembly: AssemblyFileVersion("1.5.0.0")]
+
+// See https://www.strathweb.com/2018/10/no-internalvisibleto-no-problem-bypassing-c-visibility-rules-with-roslyn/
+[assembly: IgnoresAccessChecksTo("HavokWrapper")]
+[assembly: IgnoresAccessChecksTo("Sandbox.Common")]
+[assembly: IgnoresAccessChecksTo("Sandbox.Game")]
+[assembly: IgnoresAccessChecksTo("Sandbox.Game.XmlSerializers")]
+[assembly: IgnoresAccessChecksTo("Sandbox.Graphics")]
+[assembly: IgnoresAccessChecksTo("Sandbox.RenderDirect")]
+[assembly: IgnoresAccessChecksTo("SpaceEngineers.Game")]
+[assembly: IgnoresAccessChecksTo("SpaceEngineers.ObjectBuilders")]
+[assembly: IgnoresAccessChecksTo("SpaceEngineers.ObjectBuilders.XmlSerializers")]
+[assembly: IgnoresAccessChecksTo("VRage.Ansel")]
+[assembly: IgnoresAccessChecksTo("VRage.Audio")]
+[assembly: IgnoresAccessChecksTo("VRage")]
+[assembly: IgnoresAccessChecksTo("VRage.Dedicated")]
+[assembly: IgnoresAccessChecksTo("VRage.EOS")]
+[assembly: IgnoresAccessChecksTo("VRage.EOS.XmlSerializers")]
+[assembly: IgnoresAccessChecksTo("VRage.Game")]
+[assembly: IgnoresAccessChecksTo("VRage.Game.XmlSerializers")]
+[assembly: IgnoresAccessChecksTo("VRage.Input")]
+[assembly: IgnoresAccessChecksTo("VRage.Library")]
+[assembly: IgnoresAccessChecksTo("VRage.Math")]
+[assembly: IgnoresAccessChecksTo("VRage.Math.XmlSerializers")]
+[assembly: IgnoresAccessChecksTo("VRage.Mod.Io")]
+[assembly: IgnoresAccessChecksTo("VRage.NativeWrapper")]
+[assembly: IgnoresAccessChecksTo("VRage.Network")]
+[assembly: IgnoresAccessChecksTo("VRage.Platform.Windows")]
+[assembly: IgnoresAccessChecksTo("VRage.RemoteClient.Core")]
+[assembly: IgnoresAccessChecksTo("VRage.Render")]
+[assembly: IgnoresAccessChecksTo("VRage.Render11")]
+[assembly: IgnoresAccessChecksTo("VRage.Scripting")]
+[assembly: IgnoresAccessChecksTo("VRage.Steam")]
+[assembly: IgnoresAccessChecksTo("VRage.UserInterface")]
+[assembly: IgnoresAccessChecksTo("VRage.XmlSerializers")]

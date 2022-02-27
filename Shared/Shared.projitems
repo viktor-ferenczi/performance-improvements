@@ -28,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyPathFindingSystemPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MySpinWaitPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\Common.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\IgnoresAccessChecksToAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Stats.cs" />
   </ItemGroup>
   <ItemGroup>
