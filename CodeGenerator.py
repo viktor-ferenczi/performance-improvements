@@ -127,7 +127,8 @@ def generate_bool_option(name, command, label, tooltip):
 
 
 def main():
-    generate_bool_option('FixGridGroups', 'grid_groups', 'Fix grid groups', 'Disables resource updates while grids are being moved between groups')
+    pass
+    #generate_bool_option('FixGridGroups', 'grid_groups', 'Fix grid groups', 'Disables resource updates while grids are being moved between groups')
 
 
 if __name__ == '__main__':
