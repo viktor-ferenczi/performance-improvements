@@ -26,6 +26,9 @@ REM your plugin does not use Harmony for patching:
 echo Copying "%SRC%\0Harmony.dll" into "%TARGET%\"
 copy /y "%SRC%\0Harmony.dll" "%TARGET%\"
 
+echo Copying "%SRC%\PriorityQueue.dll" into "%TARGET%\"
+copy /y "%SRC%\PriorityQueue.dll" "%TARGET%\"
+
 echo Done
 echo.
 exit 0
