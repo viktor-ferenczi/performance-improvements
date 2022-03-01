@@ -5,11 +5,9 @@
 - Their technical details
 - Keen bug tickets to vote on
 
-More performance fixes and optimizations are planned.
-
-## Prerequisites
-- [Space Engineers](https://store.steampowered.com/app/244850/Space_Engineers/) with [Plugin Loader](https://steamcommunity.com/sharedfiles/filedetails/?id=2407984968) or
-- [Torch Server](https://torchapi.net/) or
+## Available for
+- [Space Engineers](https://store.steampowered.com/app/244850/Space_Engineers/) with [Plugin Loader](https://steamcommunity.com/sharedfiles/filedetails/?id=2407984968)
+- [Torch Server](https://torchapi.net/)
 - [Dedicated Server](https://www.spaceengineersgame.com/dedicated-servers/)
 
 ## Installation
@@ -50,6 +48,7 @@ these patches are expected to be removed anyway, so I did not bother using Torch
 - Lazul
 - mkaito
 - DontFollowOrders
+- Gabor
 
 ### Developers
 - Avaness for the client side Plugin Loader
