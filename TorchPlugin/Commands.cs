@@ -28,6 +28,8 @@ namespace TorchPlugin
             Respond($"p2p_stats: {Format(config.FixP2PUpdateStats)}");
             Respond($"gc: {Format(config.FixGarbageCollection)}");
             Respond($"grid_groups: {Format(config.FixGridGroups)}");
+            Respond($"cache_mods: {Format(config.CacheMods)}");
+            Respond($"cache_scripts: {Format(config.CacheScripts)}");
             //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
             Respond($"api_stats: {Format(config.DisableModApiStatistics)}");
         }
@@ -126,6 +128,14 @@ namespace TorchPlugin
                 
                 case "grid_groups":
                     Config.FixGridGroups = parsedFlag;
+                    break;
+
+                case "cache_mods":
+                    Config.CacheMods = parsedFlag;
+                    break;
+
+                case "cache_scripts":
+                    Config.CacheScripts = parsedFlag;
                     break;
 
                 /*BOOL_OPTION

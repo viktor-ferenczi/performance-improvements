@@ -45,6 +45,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <!--BOOL_OPTION
             <RowDefinition Height="Auto" />
             BOOL_OPTION-->
@@ -74,6 +76,12 @@
         <CheckBox Grid.Row="7" Grid.Column="0" Name="FixGridGroups" IsChecked="{Binding FixGridGroups}" Margin="5"/>
         <TextBlock Grid.Row="7" Grid.Column="1" Text="Disable resource updates while grids are being moved between groups" VerticalAlignment="Center" Margin="5"/>
 
+        <CheckBox Grid.Row="8" Grid.Column="0" Name="CacheMods" IsChecked="{Binding CacheMods}" Margin="5"/>
+        <TextBlock Grid.Row="8" Grid.Column="1" Text="Caches compiled mods for faster world load" VerticalAlignment="Center" Margin="5"/>
+
+        <CheckBox Grid.Row="8" Grid.Column="0" Name="CacheScripts" IsChecked="{Binding CacheScripts}" Margin="5"/>
+        <TextBlock Grid.Row="8" Grid.Column="1" Text="Caches compiled in-game scripts (PB programs)" VerticalAlignment="Center" Margin="5"/>
+
         <!--BOOL_OPTION
         <CheckBox Grid.Row="8" Grid.Column="0" Name="OptionName" IsChecked="{Binding OptionName}" Margin="5"/>
         <TextBlock Grid.Row="8" Grid.Column="1" Text="Option tooltip" VerticalAlignment="Center" Margin="5"/>
@@ -88,7 +96,7 @@
         <TextBlock Grid.Row="23" Grid.Column="1" Text="!pfi info" VerticalAlignment="Center" Margin="5" />
         <TextBlock Grid.Row="24" Grid.Column="1" Text="!pfi fix name bool" VerticalAlignment="Center" Margin="5" />
 
-        <TextBlock Grid.Row="25" Grid.Column="0" Grid.ColumnSpan="2" Text="Available names: grid_merge, grid_paste, p2p_stats, gc, api_stats, thrusters, grid_groups, grid_groups{BOOL_OPTION}, option_name{/BOOL_OPTION}" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="25" Grid.Column="0" Grid.ColumnSpan="2" Text="Available names: grid_merge, grid_paste, p2p_stats, gc, api_stats, thrusters, grid_groups, grid_groups, cache_mods, cache_scripts{BOOL_OPTION}, option_name{/BOOL_OPTION}" VerticalAlignment="Center" Margin="5" />
         <!-- spin_wait, p2p_stats -->
 
         <TextBlock Grid.Row="26" Grid.Column="0" Grid.ColumnSpan="2" Text="Accepted bool values:" VerticalAlignment="Center" Margin="5" />
