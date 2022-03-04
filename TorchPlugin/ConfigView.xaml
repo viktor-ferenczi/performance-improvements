@@ -96,7 +96,7 @@
         <TextBlock Grid.Row="23" Grid.Column="1" Text="!pfi info" VerticalAlignment="Center" Margin="5" />
         <TextBlock Grid.Row="24" Grid.Column="1" Text="!pfi fix name bool" VerticalAlignment="Center" Margin="5" />
 
-        <TextBlock Grid.Row="25" Grid.Column="0" Grid.ColumnSpan="2" Text="Available names: grid_merge, grid_paste, p2p_stats, gc, api_stats, thrusters, grid_groups, grid_groups, cache_mods, cache_scripts{BOOL_OPTION}, option_name{/BOOL_OPTION}" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="25" Grid.Column="0" Grid.ColumnSpan="2" Text="Available names: grid_merge, grid_paste, p2p_stats, gc, api_stats, grid_groups, grid_groups, cache_mods, cache_scripts{BOOL_OPTION}, option_name{/BOOL_OPTION}" VerticalAlignment="Center" Margin="5" />
         <!-- spin_wait, p2p_stats -->
 
         <TextBlock Grid.Row="26" Grid.Column="0" Grid.ColumnSpan="2" Text="Accepted bool values:" VerticalAlignment="Center" Margin="5" />

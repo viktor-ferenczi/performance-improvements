@@ -159,6 +159,11 @@ namespace TorchPlugin
                     Respond($"  p2p_stats");
                     Respond($"  gc");
                     Respond($"  api_stats");
+                    Respond($"  grid_groups");
+                    Respond($"  grid_groups");
+                    Respond($"  cache_mods");
+                    Respond($"  cache_scripts");
+                    //BOOL_OPTION Respond($"  option_name");
                     return;
             }
 
