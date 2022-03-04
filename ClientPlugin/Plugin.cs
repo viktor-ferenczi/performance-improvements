@@ -27,7 +27,6 @@ namespace ClientPlugin
         private PersistentConfig<PluginConfig> config;
         private static readonly string ConfigFileName = $"{Name}.cfg";
 
-        private static readonly object InitializationMutex = new object();
         private static bool initialized;
         private static bool failed;
 
@@ -87,26 +86,23 @@ namespace ClientPlugin
 
         private void EnsureInitialized()
         {
-            lock (InitializationMutex)
+            if (initialized || failed)
+                return;
+
+            Log.Info("Initializing");
+            try
             {
-                if (initialized || failed)
-                    return;
-
-                Log.Info("Initializing");
-                try
-                {
-                    Initialize();
-                }
-                catch (Exception ex)
-                {
-                    Log.Critical(ex, "Failed to initialize plugin");
-                    failed = true;
-                    return;
-                }
-
-                Log.Debug("Successfully initialized");
-                initialized = true;
+                Initialize();
             }
+            catch (Exception ex)
+            {
+                Log.Critical(ex, "Failed to initialize plugin");
+                failed = true;
+                return;
+            }
+
+            Log.Debug("Successfully initialized");
+            initialized = true;
         }
 
         private void Initialize()
