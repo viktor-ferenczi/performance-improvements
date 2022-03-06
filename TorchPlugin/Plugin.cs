@@ -114,13 +114,20 @@ namespace TorchPlugin
         {
             try
             {
-                // TODO: Put your one time initialization here
+                Common.Init();
+                PatchHelpers.PatchInits();
+                Initialize();
             }
             catch (Exception e)
             {
                 Log.Error(e, "OnLoaded failed");
                 failed = true;
             }
+        }
+
+        private void Initialize()
+        {
+            // TODO: Put your one time initialization here
         }
 
         private void OnUnloading()

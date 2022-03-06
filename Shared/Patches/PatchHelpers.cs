@@ -28,6 +28,11 @@ namespace Shared.Patches
             return true;
         }
 
+        public static void PatchInits()
+        {
+            MyScriptCompilerPatch.Init();
+        }
+
         public static void PatchUpdates()
         {
         }

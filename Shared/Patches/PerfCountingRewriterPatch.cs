@@ -26,7 +26,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         private static bool Prefix(SyntaxTree syntaxTree, int modId, ref SyntaxTree __result)
         {
-            if (!Config.Enabled || !Config.DisableModApiStatistics)
+            if (!Config.Enabled || !Config.DisableModApiStatistics && !Config.CacheMods)
             {
 #if DEBUG
                 Log.Debug("Keeping the injection of Mod API call statistics code; modId={0}", modId);

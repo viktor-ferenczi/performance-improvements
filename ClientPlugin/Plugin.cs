@@ -92,6 +92,8 @@ namespace ClientPlugin
             Log.Info("Initializing");
             try
             {
+                Common.Init();
+                PatchHelpers.PatchInits();
                 Initialize();
             }
             catch (Exception ex)

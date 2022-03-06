@@ -28,7 +28,7 @@ namespace Shared.Config
         // Caches compiled mods for faster world load
         bool CacheMods { get; set; }
 
-        // Caches compiled in-game scripts (PB programs)
+        // Caches compiled in-game scripts (PB programs) to reduce lag
         bool CacheScripts { get; set; }
 
         /*BOOL_OPTION

@@ -76,7 +76,7 @@ namespace TorchPlugin
             set => SetValue(ref cacheMods, value);
         }
 
-        [Display(Order = 8, GroupName = "Fixes", Name = "Cache compiled scripts", Description = "Caches compiled in-game scripts (PB programs)")]
+        [Display(Order = 8, GroupName = "Fixes", Name = "Cache compiled scripts", Description = "Caches compiled in-game scripts (PB programs) to reduce lag")]
         public bool CacheScripts
         {
             get => cacheScripts;
