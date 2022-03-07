@@ -8,6 +8,7 @@ using Shared.Logging;
 using Shared.Patches;
 using Shared.Plugin;
 using VRage.FileSystem;
+using VRage.Game;
 using VRage.Plugins;
 
 namespace ClientPlugin
@@ -92,7 +93,8 @@ namespace ClientPlugin
             Log.Info("Initializing");
             try
             {
-                Common.Init();
+                var gameVersion = MyFinalBuildConstants.APP_VERSION_STRING.ToString();
+                Common.Init(gameVersion, MyFileSystem.UserDataPath);
                 PatchHelpers.PatchInits();
                 Initialize();
             }

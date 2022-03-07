@@ -2,8 +2,6 @@ using System;
 using System.IO;
 using Shared.Config;
 using Shared.Logging;
-using VRage.FileSystem;
-using VRage.Game;
 
 namespace Shared.Plugin
 {
@@ -15,16 +13,12 @@ namespace Shared.Plugin
         public static IPluginLogger Logger { get; private set; }
         public static IPluginConfig Config { get; private set; }
 
-        // MyFileSystem.UserDataPath ~= C:\Users\%USERNAME%\AppData\Roaming\SpaceEngineers
-        public static string DataDir => dataDir ?? (dataDir = Path.Combine(MyFileSystem.UserDataPath, "PerformanceImprovements"));
-        public static string dataDir;
+        public static string GameVersion;
 
-        public static string CacheDir => cacheDir ?? (cacheDir = Path.Combine(DataDir, "Cache"));
-        public static string cacheDir;
+        public static string DataDir;
+        public static string CacheDir;
 
         private static string CacheGameVersionPath => Path.Combine(CacheDir, "GameVersion.txt");
-
-        public static string GameVersion => MyFinalBuildConstants.APP_VERSION_STRING.ToString();
 
         public static void SetPlugin(ICommonPlugin plugin)
         {
@@ -33,8 +27,13 @@ namespace Shared.Plugin
             Config = plugin.Config;
         }
 
-        public static void Init()
+        public static void Init(string gameVersion, string storageDir)
         {
+            GameVersion = gameVersion;
+
+            DataDir = Path.Combine(storageDir, "PerformanceImprovements");
+            CacheDir = Path.Combine(DataDir, "Cache");
+
             CleanupCache();
         }
 
