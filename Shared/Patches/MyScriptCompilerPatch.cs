@@ -113,7 +113,9 @@ namespace Shared.Patches
 
             if (!File.Exists(cachePath))
             {
+#if DEBUG
                 Log.Debug("Compiled script not cached yet: {0}", cachePath);
+#endif
                 return null;
             }
 
@@ -126,7 +128,9 @@ namespace Shared.Patches
                 // This is not a problem, because it is used only for the performance
                 // counters this plugin also disables (enabled if mod caching is used).
                 var modId = MyModWatchdog.AllocateModId(friendlyName);
+#if DEBUG
                 Log.Debug("Allocated modId {0} for mod: {1}", modId, friendlyName);
+#endif
             }
 
             try
@@ -134,12 +138,22 @@ namespace Shared.Patches
                 // NOTE: Do not use Assembly.LoadFrom, that results in world load failures
                 // due to unable to unload the assembly on previous world unload.
                 var assembly = Assembly.Load(File.ReadAllBytes(cachePath));
+#if DEBUG
                 Log.Debug("Loaded compiled script from cache file: {0}", cachePath);
+#endif
                 return assembly;
             }
-            catch (Exception e)
+            catch (Exception e1)
             {
-                Log.Error(e, "Error loading compiled script from cache file: {0}", cachePath);
+                Log.Error(e1, "Error loading compiled script from cache file: {0}", cachePath);
+                try
+                {
+                    File.Move(cachePath, cachePath + ".broken");
+                }
+                catch (Exception e2)
+                {
+                    Log.Error(e2, "Error renaming broken compiled script cache file: {0}", cachePath);
+                }
                 return null;
             }
         }
@@ -150,7 +164,9 @@ namespace Shared.Patches
             if (!GetCachePath(target, scriptList.Scripts, out var cachePath))
                 return;
 
+#if DEBUG
             Log.Debug("Saving compiled script into cache file: {0}", cachePath);
+#endif
             try
             {
                 using (var fileStream = File.OpenWrite(cachePath))
