@@ -9,7 +9,7 @@
     <option name="RUNTIME_ARGUMENTS" value="" />
     <option name="RUNTIME_TYPE" value="netfw" />
     <method v="2">
-      <option name="Build Solution" enabled="true" />
+      <option name="Build" default="false" projectName="DedicatedPlugin" projectPath="file://$PROJECT_DIR$/DedicatedPlugin/DedicatedPlugin.csproj" />
     </method>
   </configuration>
 </component>
