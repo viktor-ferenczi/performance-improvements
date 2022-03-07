@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\GcCollectPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyGroupsPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyResourceDistributorComponentPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyScriptCompilerPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\PatchHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\PerfCountingRewriterPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\ICommonPlugin.cs" />
@@ -30,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MySpinWaitPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Stats.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\TranspilerHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)..\CodeGenerator.py">
@@ -41,5 +43,7 @@
     <Content Include="$(MSBuildThisFileDirectory)..\README.md">
       <Link>README.md</Link>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Patches\MyScriptCompiler.Compile.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\MyScriptCompiler.Compile.original.il" />
   </ItemGroup>
 </Project>

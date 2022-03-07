@@ -8,6 +8,7 @@ using Shared.Logging;
 using Shared.Patches;
 using Shared.Plugin;
 using VRage.FileSystem;
+using VRage.Game;
 using VRage.Plugins;
 
 namespace ClientPlugin
@@ -27,7 +28,6 @@ namespace ClientPlugin
         private PersistentConfig<PluginConfig> config;
         private static readonly string ConfigFileName = $"{Name}.cfg";
 
-        private static readonly object InitializationMutex = new object();
         private static bool initialized;
         private static bool failed;
 
@@ -87,26 +87,26 @@ namespace ClientPlugin
 
         private void EnsureInitialized()
         {
-            lock (InitializationMutex)
+            if (initialized || failed)
+                return;
+
+            Log.Info("Initializing");
+            try
             {
-                if (initialized || failed)
-                    return;
-
-                Log.Info("Initializing");
-                try
-                {
-                    Initialize();
-                }
-                catch (Exception ex)
-                {
-                    Log.Critical(ex, "Failed to initialize plugin");
-                    failed = true;
-                    return;
-                }
-
-                Log.Debug("Successfully initialized");
-                initialized = true;
+                var gameVersion = MyFinalBuildConstants.APP_VERSION_STRING.ToString();
+                Common.Init(gameVersion, MyFileSystem.UserDataPath);
+                PatchHelpers.PatchInits();
+                Initialize();
             }
+            catch (Exception ex)
+            {
+                Log.Critical(ex, "Failed to initialize plugin");
+                failed = true;
+                return;
+            }
+
+            Log.Debug("Successfully initialized");
+            initialized = true;
         }
 
         private void Initialize()

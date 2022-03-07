@@ -15,6 +15,8 @@ namespace TorchPlugin
         private bool fixUpdateStat = true;
         private bool fixGarbageCollection = true;
         private bool fixGridGroups = true;
+        private bool cacheMods = false;
+        private bool cacheScripts = false;
         //BOOL_OPTION private bool optionName = false;
         private bool disableModApiStatistics = true;
 
@@ -65,6 +67,20 @@ namespace TorchPlugin
         {
             get => fixGridGroups;
             set => SetValue(ref fixGridGroups, value);
+        }
+
+        [Display(Order = 8, GroupName = "Fixes", Name = "Cache compiled mods", Description = "Caches compiled mods for faster world load")]
+        public bool CacheMods
+        {
+            get => cacheMods;
+            set => SetValue(ref cacheMods, value);
+        }
+
+        [Display(Order = 8, GroupName = "Fixes", Name = "Cache compiled scripts", Description = "Caches compiled in-game scripts (PB programs) to reduce lag")]
+        public bool CacheScripts
+        {
+            get => cacheScripts;
+            set => SetValue(ref cacheScripts, value);
         }
 
         /*BOOL_OPTION

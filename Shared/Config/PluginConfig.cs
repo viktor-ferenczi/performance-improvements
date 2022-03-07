@@ -36,6 +36,8 @@ namespace Shared.Config
         private bool fixP2PUpdateStats = true;
         private bool fixGarbageCollection = true;
         private bool fixGridGroups = true;
+        private bool cacheMods = true;
+        private bool cacheScripts = true;
         //BOOL_OPTION private bool optionName = true;
         private bool disableModApiStatistics = true;
 
@@ -79,6 +81,18 @@ namespace Shared.Config
         {
             get => fixGridGroups;
             set => SetValue(ref fixGridGroups, value);
+        }
+
+        public bool CacheMods
+        {
+            get => cacheMods;
+            set => SetValue(ref cacheMods, value);
+        }
+
+        public bool CacheScripts
+        {
+            get => cacheScripts;
+            set => SetValue(ref cacheScripts, value);
         }
 
         /*BOOL_OPTION

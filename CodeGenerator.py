@@ -127,7 +127,9 @@ def generate_bool_option(name, command, label, tooltip):
 
 
 def main():
-    generate_bool_option('FixGridGroups', 'grid_groups', 'Fix grid groups', 'Disables resource updates while grids are being moved between groups')
+    pass
+    # generate_bool_option('CacheMods', 'cache_mods', 'Cache compiled mods', 'Caches compiled mods for faster world load')
+    # generate_bool_option('CacheScripts', 'cache_scripts', 'Cache compiled scripts', 'Caches compiled in-game scripts (PB programs) to reduce lag')
 
 
 if __name__ == '__main__':

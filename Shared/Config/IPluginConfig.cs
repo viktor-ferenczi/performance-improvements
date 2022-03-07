@@ -25,6 +25,12 @@ namespace Shared.Config
         // Disables resource updates while grids are being moved between groups
         bool FixGridGroups { get; set; }
 
+        // Caches compiled mods for faster world load
+        bool CacheMods { get; set; }
+
+        // Caches compiled in-game scripts (PB programs) to reduce lag
+        bool CacheScripts { get; set; }
+
         /*BOOL_OPTION
         // Option tooltip
         bool OptionName { get; set; }

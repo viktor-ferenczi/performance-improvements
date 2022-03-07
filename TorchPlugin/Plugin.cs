@@ -2,8 +2,10 @@
 
 using System;
 using System.IO;
+using System.Text;
 using System.Windows.Controls;
 using HarmonyLib;
+using Sandbox.Game;
 using Shared.Config;
 using Shared.Logging;
 using Shared.Patches;
@@ -14,6 +16,7 @@ using Torch.API.Managers;
 using Torch.API.Plugins;
 using Torch.API.Session;
 using Torch.Session;
+using VRage.Utils;
 
 namespace TorchPlugin
 {
@@ -37,7 +40,8 @@ namespace TorchPlugin
         private ConfigView control;
 
         private TorchSessionManager sessionManager;
-        private bool Initialized => sessionManager != null;
+
+        private bool initialized;
         private bool failed;
 
         // ReSharper disable once UnusedMember.Local
@@ -67,6 +71,26 @@ namespace TorchPlugin
 
             sessionManager = torch.Managers.GetManager<TorchSessionManager>();
             sessionManager.SessionStateChanged += SessionStateChanged;
+
+            try
+            {
+                var gameVersionNumber = MyPerGameSettings.BasicGameInfo.GameVersion ?? 0;
+                var gameVersion = new StringBuilder(MyBuildNumbers.ConvertBuildNumberFromIntToString(gameVersionNumber)).ToString();
+                Common.Init(gameVersion, StoragePath);
+                PatchHelpers.PatchInits();
+                Initialize();
+                initialized = true;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "Initialization failed");
+                failed = true;
+            }
+        }
+
+        private void Initialize()
+        {
+            // TODO: Put your one time initialization here
         }
 
         private void SessionStateChanged(ITorchSession session, TorchSessionState newstate)
@@ -79,12 +103,10 @@ namespace TorchPlugin
 
                 case TorchSessionState.Loaded:
                     Log.Debug("Loaded");
-                    OnLoaded();
                     break;
 
                 case TorchSessionState.Unloading:
                     Log.Debug("Unloading");
-                    OnUnloading();
                     break;
 
                 case TorchSessionState.Unloaded:
@@ -95,9 +117,7 @@ namespace TorchPlugin
 
         public override void Dispose()
         {
-            Instance = null;
-
-            if (Initialized)
+            if (initialized)
             {
                 Log.Debug("Disposing");
 
@@ -107,33 +127,9 @@ namespace TorchPlugin
                 Log.Debug("Disposed");
             }
 
+            Instance = null;
+
             base.Dispose();
-        }
-
-        private void OnLoaded()
-        {
-            try
-            {
-                // TODO: Put your one time initialization here
-            }
-            catch (Exception e)
-            {
-                Log.Error(e, "OnLoaded failed");
-                failed = true;
-            }
-        }
-
-        private void OnUnloading()
-        {
-            try
-            {
-                // TODO: Make sure to save any persistent modifications here
-            }
-            catch (Exception e)
-            {
-                Log.Error(e, "OnUnloading failed");
-                failed = true;
-            }
         }
 
         public override void Update()

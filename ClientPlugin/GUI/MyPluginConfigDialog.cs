@@ -39,6 +39,12 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel fixGridGroupsLabel;
         private MyGuiControlCheckbox fixGridGroupsCheckbox;
 
+        private MyGuiControlLabel cacheModsLabel;
+        private MyGuiControlCheckbox cacheModsCheckbox;
+
+        private MyGuiControlLabel cacheScriptsLabel;
+        private MyGuiControlCheckbox cacheScriptsCheckbox;
+
         /*BOOL_OPTION
         private MyGuiControlLabel optionNameLabel;
         private MyGuiControlCheckbox optionNameCheckbox;
@@ -89,6 +95,8 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out fixP2PUpdateStatsLabel, out fixP2PUpdateStatsCheckbox, config.FixP2PUpdateStats, value => config.FixP2PUpdateStats = value, "Fix P2P update stats", "Eliminate 98% of EOS P2P network statistics updates (VRage.EOS.MyP2PQoSAdapter.UpdateStats)");
             CreateCheckbox(out fixGarbageCollectionLabel, out fixGarbageCollectionCheckbox, config.FixGarbageCollection, value => config.FixGarbageCollection = value, "Fix garbage collection", "Eliminate long pauses on starting and stopping large worlds by disabling selected GC.Collect calls");
             CreateCheckbox(out fixGridGroupsLabel, out fixGridGroupsCheckbox, config.FixGridGroups, value => config.FixGridGroups = value, "Fix grid groups", "Disable resource updates while grids are being moved between groups");
+            CreateCheckbox(out cacheModsLabel, out cacheModsCheckbox, config.CacheMods, value => config.CacheMods = value, "Cache compiled mods", "Caches compiled mods for faster world load");
+            CreateCheckbox(out cacheScriptsLabel, out cacheScriptsCheckbox, config.CacheScripts, value => config.CacheScripts = value, "Cache compiled scripts", "Caches compiled in-game scripts (PB programs) to reduce lag");
             //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
             CreateCheckbox(out disableModApiStatisticsLabel, out disableModApiStatisticsCheckbox, config.DisableModApiStatistics, value => config.DisableModApiStatistics = value, "Disable Mod API statistics", "Disable the collection of Mod API call statistics to eliminate the overhead (affects only world loading)");
 
@@ -139,6 +147,8 @@ namespace ClientPlugin.GUI
             fixP2PUpdateStatsCheckbox.Enabled = enabled;
             fixGarbageCollectionCheckbox.Enabled = enabled;
             fixGridGroupsCheckbox.Enabled = enabled;
+            cacheModsCheckbox.Enabled = enabled;
+            cacheScriptsCheckbox.Enabled = enabled;
             //BOOL_OPTION optionNameCheckbox.Enabled = enabled;
             disableModApiStatisticsCheckbox.Enabled = enabled;
         }
@@ -148,7 +158,7 @@ namespace ClientPlugin.GUI
             var size = Size ?? Vector2.One;
             layoutTable = new MyLayoutTable(this, new Vector2(-0.3f * size.X, -0.375f * size.Y), new Vector2(0.6f * size.X, 0.8f * size.Y));
             layoutTable.SetColumnWidths(400f, 100f);
-            layoutTable.SetRowHeights(80f, 50f, 50f, 50f, 50f, 50f, 50f, /*BOOL_OPTION 50f,BOOL_OPTION*/ 150f, 50f);
+            layoutTable.SetRowHeights(80f, 50f, 50f, 50f, 50f, 50f, 50f, 50f,50f,/*BOOL_OPTION 50f,BOOL_OPTION*/ 150f, 50f);
 
             var row = 0;
 
@@ -180,6 +190,14 @@ namespace ClientPlugin.GUI
 
             layoutTable.Add(fixGridGroupsLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
             layoutTable.Add(fixGridGroupsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
+            row++;
+
+            layoutTable.Add(cacheModsLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(cacheModsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
+            row++;
+
+            layoutTable.Add(cacheScriptsLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(cacheScriptsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
             /*BOOL_OPTION
