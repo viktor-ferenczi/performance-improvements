@@ -48,6 +48,16 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <!--BOOL_OPTION
             <RowDefinition Height="Auto" />
             BOOL_OPTION-->
@@ -97,13 +107,24 @@
         <TextBlock Grid.Row="23" Grid.Column="1" Text="!pfi info" VerticalAlignment="Center" Margin="5" />
         <TextBlock Grid.Row="24" Grid.Column="1" Text="!pfi fix name bool" VerticalAlignment="Center" Margin="5" />
 
-        <TextBlock Grid.Row="25" Grid.Column="0" Grid.ColumnSpan="2" Text="Available names: grid_merge, grid_paste, p2p_stats, gc, api_stats, grid_groups, grid_groups," VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="26" Grid.Column="0" Grid.ColumnSpan="2" Text="cache_mods, cache_scripts{BOOL_OPTION}, option_name{/BOOL_OPTION}" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="25" Grid.Column="0" Grid.ColumnSpan="2" Text="Available names:" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="26" Grid.Column="1" Text="grid_merge" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="27" Grid.Column="1" Text="grid_paste" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="28" Grid.Column="1" Text="p2p_stats" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="29" Grid.Column="1" Text="gc" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="30" Grid.Column="1" Text="api_stats" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="31" Grid.Column="1" Text="grid_groups" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="32" Grid.Column="1" Text="grid_groups" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="33" Grid.Column="1" Text="cache_mods" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="34" Grid.Column="1" Text="cache_scripts" VerticalAlignment="Center" Margin="5" />
+        <!--BOOL_OPTION
+        <TextBlock Grid.Row="35" Grid.Column="1" Text="option_name" VerticalAlignment="Center" Margin="5" />
+        BOOL_OPTION-->
         <!-- spin_wait, p2p_stats -->
 
-        <TextBlock Grid.Row="27" Grid.Column="0" Grid.ColumnSpan="2" Text="Accepted bool values:" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="28" Grid.Column="1" Text="False: 0 off no n false f" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="29" Grid.Column="1" Text="True: 1 on yes y false f" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="40" Grid.Column="0" Grid.ColumnSpan="2" Text="Accepted bool values:" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="41" Grid.Column="1" Text="False: 0 off no n false f" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="42" Grid.Column="1" Text="True: 1 on yes y false f" VerticalAlignment="Center" Margin="5" />
 
     </Grid>
 </UserControl>
