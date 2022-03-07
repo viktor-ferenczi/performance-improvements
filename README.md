@@ -159,7 +159,7 @@ easily be deferred to worker threads with minimal consequences.
 This fix disables resource updates while grids are being moved between groups
 and marks those resources for updating by a worker thread later.
 
-Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/23278-lag-on-connector-lockunlock-and-rotor-head-attachdetach-due-to-grid-group-changes)### Lag on grid group changes (server and offline game)
+Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/23278-lag-on-connector-lockunlock-and-rotor-head-attachdetach-due-to-grid-group-changes)
 
 ### Caching compiled mods and in-game scripts
 
