@@ -7,9 +7,6 @@ namespace Shared.Config
         // Enables the plugin
         bool Enabled { get; set; }
 
-        // Alternative spin wait algorithm to reduce CPU load (MySpinWait.SpinOnce
-        bool FixSpinWait { get; set; }
-
         // Disables conveyor updates during grid merge (MyCubeGrid.MergeGridInternal)
         bool FixGridMerge { get; set; }
 
@@ -31,12 +28,13 @@ namespace Shared.Config
         // Caches compiled in-game scripts (PB programs) to reduce lag
         bool CacheScripts { get; set; }
 
+        // Disables Mod API statistics
+        bool DisableModApiStatistics { get; set; }
+
         /*BOOL_OPTION
         // Option tooltip
         bool OptionName { get; set; }
 
         BOOL_OPTION*/
-        // Disables Mod API statistics
-        bool DisableModApiStatistics { get; set; }
     }
 }

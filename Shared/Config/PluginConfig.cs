@@ -30,7 +30,6 @@ namespace Shared.Config
         }
 
         private bool enabled = true;
-        private bool fixSpinWait = true;
         private bool fixGridMerge = true;
         private bool fixGridPaste = true;
         private bool fixP2PUpdateStats = true;
@@ -38,19 +37,13 @@ namespace Shared.Config
         private bool fixGridGroups = true;
         private bool cacheMods = true;
         private bool cacheScripts = true;
-        //BOOL_OPTION private bool optionName = true;
         private bool disableModApiStatistics = true;
+        //BOOL_OPTION private bool optionName = true;
 
         public bool Enabled
         {
             get => enabled;
             set => SetValue(ref enabled, value);
-        }
-
-        public bool FixSpinWait
-        {
-            get => fixSpinWait;
-            set => SetValue(ref fixSpinWait, value);
         }
 
         public bool FixGridMerge
@@ -95,6 +88,12 @@ namespace Shared.Config
             set => SetValue(ref cacheScripts, value);
         }
 
+        public bool DisableModApiStatistics
+        {
+            get => disableModApiStatistics;
+            set => SetValue(ref disableModApiStatistics, value);
+        }
+
         /*BOOL_OPTION
         public bool OptionName
         {
@@ -103,11 +102,6 @@ namespace Shared.Config
         }
 
         BOOL_OPTION*/
-        public bool DisableModApiStatistics
-        {
-            get => disableModApiStatistics;
-            set => SetValue(ref disableModApiStatistics, value);
-        }
     }
 }
 
