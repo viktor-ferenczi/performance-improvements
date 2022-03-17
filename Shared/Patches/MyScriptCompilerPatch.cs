@@ -134,7 +134,7 @@ namespace Shared.Patches
 #endif
             }
 
-            for (var retry = 0; retry < 250; retry++)
+            for (var retry = 0; retry < 200; retry++)
             {
                 try
                 {
@@ -142,34 +142,36 @@ namespace Shared.Patches
                     // due to unable to unload the assembly on previous world unload.
                     var assembly = Assembly.Load(File.ReadAllBytes(cachePath));
 #if DEBUG
-                    Log.Debug("Loaded compiled script from cache file: {0}", cachePath);
+                    Log.Debug("Loaded compiled script assembly from cache file: {0}", cachePath);
 #endif
                     return assembly;
 
                 }
+                catch (IOException)
+                {
+                    // All I/O errors are retried for 1 second
+                    // This exception can happen on trying to compile the same script multiple times concurrently:
+                    // HResult = -2147024864
+                    // Message = "The process cannot access the file 'C:\Torch\Instance\PerformanceImprovements\Cache\CompiledInGameScripts\9daecd2c41d387772f8edcc792da89a6b776ec2e.cache' because it is being used by another process."
+                }
                 catch (Exception e1)
                 {
-                    if (e1 is IOException ie && ie.ToString().Contains("The process cannot access the file because it is being used by another process"))
-                    {
-                        Thread.Sleep(4);
-                        continue;
-                    }
-
-                    Log.Error(e1, "Error loading compiled script from cache file: {0}", cachePath);
+                    Log.Error(e1, "Error loading compiled script assembly from cache file: {0}", cachePath);
                     try
                     {
                         File.Move(cachePath, cachePath + ".broken");
                     }
                     catch (Exception e2)
                     {
-                        Log.Error(e2, "Error renaming broken compiled script cache file: {0}", cachePath);
+                        Log.Error(e2, "Error renaming broken compiled script assembly cache file: {0}", cachePath);
                     }
-
                     break;
                 }
+
+                Thread.Sleep(5);
             }
 
-            // Failed to load the compiled script from cache, so it will be compiled
+            // Failed to load the compiled script assembly from cache, so it will be compiled
             return null;
         }
 
@@ -180,7 +182,7 @@ namespace Shared.Patches
                 return;
 
 #if DEBUG
-            Log.Debug("Saving compiled script into cache file: {0}", cachePath);
+            Log.Debug("Saving compiled script assembly into cache file: {0}", cachePath);
 #endif
             try
             {
@@ -189,7 +191,7 @@ namespace Shared.Patches
             }
             catch (Exception e)
             {
-                Log.Error(e, "Failed to write compiled script cache file: {0}", cachePath);
+                Log.Error(e, "Failed to write compiled script assembly cache file: {0}", cachePath);
 
                 if (File.Exists(cachePath))
                     File.Delete(cachePath);
