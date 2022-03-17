@@ -194,7 +194,16 @@ namespace Shared.Patches
                 Log.Error(e, "Failed to write compiled script assembly cache file: {0}", cachePath);
 
                 if (File.Exists(cachePath))
-                    File.Delete(cachePath);
+                {
+                    try
+                    {
+                        File.Delete(cachePath);
+                    }
+                    catch (Exception)
+                    {
+                        // Ignore
+                    }
+                }
             }
             finally
             {
