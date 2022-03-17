@@ -176,5 +176,7 @@ Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/p
 This is quite a bit of overhead in multiplayer worlds with many small grids and
 safe zones in it, like the Alehouse Rover PvP one. Workaround is to cache the 
 result of MySafeZone.IsSafe for up to 128 simulation ticks (~2 seconds).
+Side effect of the fix is that grid ownership changes are reflected in 
+safe zone behavior only up to 2 seconds later (1 second on average).
 
 Support ticket will be created once I can make a test world to reproduce this issue.
