@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\GcCollectPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyGroupsPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyResourceDistributorComponentPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MySafeZonePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyScriptCompilerPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\PatchHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\PerfCountingRewriterPatch.cs" />

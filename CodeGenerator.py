@@ -130,5 +130,6 @@ def main():
     pass
     # generate_bool_option('FixSafeZone', 'safe_zone', 'Fixes safe zone lag', 'Caches frequent recalculations in safe zones')
 
+
 if __name__ == '__main__':
     main()

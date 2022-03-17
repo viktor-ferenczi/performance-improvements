@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using HarmonyLib;
+using Sandbox.Game.Entities;
 using Shared.Logging;
 
 namespace Shared.Patches
@@ -35,6 +36,7 @@ namespace Shared.Patches
 
         public static void PatchUpdates()
         {
+            MySafeZonePatch.Clean();
         }
     }
 }
