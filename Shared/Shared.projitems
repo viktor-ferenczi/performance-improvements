@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\GcCollectPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyGroupsPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyResourceDistributorComponentPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MySafeZonePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyScriptCompilerPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\PatchHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\PerfCountingRewriterPatch.cs" />
@@ -28,9 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyP2PQoSAdapterPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyPathFindingSystemEnumeratorPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyPathFindingSystemPatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\MySpinWaitPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\Common.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Tools\Stats.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\TranspilerHelpers.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using HarmonyLib;
 using Shared.Config;
 using Shared.Logging;
@@ -133,29 +134,43 @@ namespace Shared.Patches
 #endif
             }
 
-            try
+            for (var retry = 0; retry < 250; retry++)
             {
-                // NOTE: Do not use Assembly.LoadFrom, that results in world load failures
-                // due to unable to unload the assembly on previous world unload.
-                var assembly = Assembly.Load(File.ReadAllBytes(cachePath));
-#if DEBUG
-                Log.Debug("Loaded compiled script from cache file: {0}", cachePath);
-#endif
-                return assembly;
-            }
-            catch (Exception e1)
-            {
-                Log.Error(e1, "Error loading compiled script from cache file: {0}", cachePath);
                 try
                 {
-                    File.Move(cachePath, cachePath + ".broken");
+                    // NOTE: Do not use Assembly.LoadFrom, that results in world load failures
+                    // due to unable to unload the assembly on previous world unload.
+                    var assembly = Assembly.Load(File.ReadAllBytes(cachePath));
+#if DEBUG
+                    Log.Debug("Loaded compiled script from cache file: {0}", cachePath);
+#endif
+                    return assembly;
+
                 }
-                catch (Exception e2)
+                catch (Exception e1)
                 {
-                    Log.Error(e2, "Error renaming broken compiled script cache file: {0}", cachePath);
+                    if (e1 is IOException ie && ie.ToString().Contains("The process cannot access the file because it is being used by another process"))
+                    {
+                        Thread.Sleep(4);
+                        continue;
+                    }
+
+                    Log.Error(e1, "Error loading compiled script from cache file: {0}", cachePath);
+                    try
+                    {
+                        File.Move(cachePath, cachePath + ".broken");
+                    }
+                    catch (Exception e2)
+                    {
+                        Log.Error(e2, "Error renaming broken compiled script cache file: {0}", cachePath);
+                    }
+
+                    break;
                 }
-                return null;
             }
+
+            // Failed to load the compiled script from cache, so it will be compiled
+            return null;
         }
 
         private static void StoreIntoCache(MyApiTarget target, IEnumerable<Script> scripts, MemoryStream assemblyStream)

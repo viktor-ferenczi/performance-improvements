@@ -128,8 +128,7 @@ def generate_bool_option(name, command, label, tooltip):
 
 def main():
     pass
-    # generate_bool_option('CacheMods', 'cache_mods', 'Cache compiled mods', 'Caches compiled mods for faster world load')
-    # generate_bool_option('CacheScripts', 'cache_scripts', 'Cache compiled scripts', 'Caches compiled in-game scripts (PB programs) to reduce lag')
+    # generate_bool_option('FixSafeZone', 'safe_zone', 'Fixes safe zone lag', 'Caches frequent recalculations in safe zones')
 
 
 if __name__ == '__main__':

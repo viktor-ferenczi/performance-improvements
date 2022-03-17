@@ -6,7 +6,7 @@ using VRage.Game.ModAPI;
 
 namespace TorchPlugin
 {
-    [Category("pfi")]
+    [System.ComponentModel.Category("pfi")]
     public class Commands : CommandModule
     {
         private static IPluginConfig Config => Common.Config;
@@ -20,9 +20,6 @@ namespace TorchPlugin
         {
             var config = Plugin.Instance.Config;
             Respond($"{Plugin.PluginName} plugin is enabled: {Format(config.Enabled)}");
-#if CAUSES_SIMLOAD_INCREASE
-            Respond($"spin_wait: {Format(config.FixSpinWait)}");
-#endif
             Respond($"grid_merge: {Format(config.FixGridMerge)}");
             Respond($"grid_paste: {Format(config.FixGridPaste)}");
             Respond($"p2p_stats: {Format(config.FixP2PUpdateStats)}");
@@ -30,8 +27,9 @@ namespace TorchPlugin
             Respond($"grid_groups: {Format(config.FixGridGroups)}");
             Respond($"cache_mods: {Format(config.CacheMods)}");
             Respond($"cache_scripts: {Format(config.CacheScripts)}");
-            //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
             Respond($"api_stats: {Format(config.DisableModApiStatistics)}");
+            Respond($"safe_zone: {Format(config.FixSafeZone)}");
+//BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
         }
 
         // Custom formatters
@@ -104,12 +102,6 @@ namespace TorchPlugin
 
             switch (name)
             {
-#if CAUSES_SIMLOAD_INCREASE
-                case "spin_wait":
-                    Config.FixSpinWait = parsedFlag;
-                    break;
-#endif
-
                 case "grid_merge":
                     Config.FixGridMerge = parsedFlag;
                     break;
@@ -138,31 +130,33 @@ namespace TorchPlugin
                     Config.CacheScripts = parsedFlag;
                     break;
 
+                case "api_stats":
+                    Config.DisableModApiStatistics = parsedFlag;
+                    break;
+
+                case "safe_zone":
+                    Config.FixSafeZone = parsedFlag;
+                    break;
+
                 /*BOOL_OPTION
                 case "option_name":
                     Config.OptionName = parsedFlag;
                     break;
 
                 BOOL_OPTION*/
-                case "api_stats":
-                    Config.DisableModApiStatistics = parsedFlag;
-                    break;
-
                 default:
                     Respond($"Unknown fix: {name}");
                     Respond($"Valid fix names:");
-#if CAUSES_SIMLOAD_INCREASE
-                    Respond($"  spin_wait");
-#endif
                     Respond($"  grid_merge");
                     Respond($"  grid_paste");
                     Respond($"  p2p_stats");
                     Respond($"  gc");
-                    Respond($"  api_stats");
                     Respond($"  grid_groups");
                     Respond($"  grid_groups");
                     Respond($"  cache_mods");
                     Respond($"  cache_scripts");
+                    Respond($"  api_stats");
+                    Respond($"  safe_zone");
                     //BOOL_OPTION Respond($"  option_name");
                     return;
             }

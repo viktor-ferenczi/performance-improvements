@@ -169,3 +169,12 @@ It mainly affects large multiplayer servers, but I have also seen
 advanced single player worlds affected by slow world loading.
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/23906-performance-cache-compiled-mods-and-in-game-scripts)
+
+### Caching the result of MySafeZone.IsSafe
+
+`MySafeZone.IsSafe` is called very frequently for entities inside safe zones. 
+This is quite a bit of overhead in multiplayer worlds with many small grids and
+safe zones in it, like the Alehouse Rover PvP one. Workaround is to cache the 
+result of MySafeZone.IsSafe for up to 128 simulation ticks (~2 seconds).
+
+Support ticket will be created once I can make a test world to reproduce this issue.
