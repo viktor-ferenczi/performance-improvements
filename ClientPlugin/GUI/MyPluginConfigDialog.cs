@@ -40,6 +40,9 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel cacheScriptsLabel;
         private MyGuiControlCheckbox cacheScriptsCheckbox;
 
+        private MyGuiControlLabel fixSafeZoneLabel;
+        private MyGuiControlCheckbox fixSafeZoneCheckbox;
+
         /*BOOL_OPTION
         private MyGuiControlLabel optionNameLabel;
         private MyGuiControlCheckbox optionNameCheckbox;
@@ -90,6 +93,7 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out cacheModsLabel, out cacheModsCheckbox, config.CacheMods, value => config.CacheMods = value, "Cache compiled mods", "Caches compiled mods for faster world load");
             CreateCheckbox(out cacheScriptsLabel, out cacheScriptsCheckbox, config.CacheScripts, value => config.CacheScripts = value, "Cache compiled scripts", "Caches compiled in-game scripts (PB programs) to reduce lag");
             CreateCheckbox(out disableModApiStatisticsLabel, out disableModApiStatisticsCheckbox, config.DisableModApiStatistics, value => config.DisableModApiStatistics = value, "Disable Mod API statistics", "Disable the collection of Mod API call statistics to eliminate the overhead (affects only world loading)");
+            CreateCheckbox(out fixSafeZoneLabel, out fixSafeZoneCheckbox, config.FixSafeZone, value => config.FixSafeZone = value, "Fixes safe zone lag", "Caches frequent recalculations in safe zones");
             //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
 
             EnableDisableFixes();
@@ -138,6 +142,7 @@ namespace ClientPlugin.GUI
             cacheModsCheckbox.Enabled = enabled;
             cacheScriptsCheckbox.Enabled = enabled;
             disableModApiStatisticsCheckbox.Enabled = enabled;
+            fixSafeZoneCheckbox.Enabled = enabled;
             //BOOL_OPTION optionNameCheckbox.Enabled = enabled;
         }
 
@@ -146,7 +151,7 @@ namespace ClientPlugin.GUI
             var size = Size ?? Vector2.One;
             layoutTable = new MyLayoutTable(this, new Vector2(-0.3f * size.X, -0.375f * size.Y), new Vector2(0.6f * size.X, 0.8f * size.Y));
             layoutTable.SetColumnWidths(400f, 100f);
-            layoutTable.SetRowHeights(80f, 50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f,/*BOOL_OPTION 50f,BOOL_OPTION*/ 150f, 50f);
+            layoutTable.SetRowHeights(80f, 50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f,/*BOOL_OPTION 50f, BOOL_OPTION*/ 150f, 50f);
 
             var row = 0;
 
@@ -184,6 +189,10 @@ namespace ClientPlugin.GUI
 
             layoutTable.Add(disableModApiStatisticsLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
             layoutTable.Add(disableModApiStatisticsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
+            row++;
+
+            layoutTable.Add(fixSafeZoneLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(fixSafeZoneCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
             /*BOOL_OPTION

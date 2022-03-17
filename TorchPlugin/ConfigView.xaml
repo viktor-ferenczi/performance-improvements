@@ -58,6 +58,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <!--BOOL_OPTION
             <RowDefinition Height="Auto" />
             BOOL_OPTION-->
@@ -91,9 +92,12 @@
         <CheckBox Grid.Row="9" Grid.Column="0" Name="DisableModApiStatistics" IsChecked="{Binding DisableModApiStatistics}" Margin="5" />
         <TextBlock Grid.Row="9" Grid.Column="1" Text="Disable the collection of Mod API call statistics to eliminate the overhead (affects only world loading)" VerticalAlignment="Center" Margin="5" />
 
+        <CheckBox Grid.Row="10" Grid.Column="0" Name="FixSafeZone" IsChecked="{Binding FixSafeZone}" Margin="5"/>
+        <TextBlock Grid.Row="10" Grid.Column="1" Text="Caches frequent recalculations in safe zones" VerticalAlignment="Center" Margin="5"/>
+
         <!--BOOL_OPTION
-        <CheckBox Grid.Row="10" Grid.Column="0" Name="OptionName" IsChecked="{Binding OptionName}" Margin="5"/>
-        <TextBlock Grid.Row="10" Grid.Column="1" Text="Option tooltip" VerticalAlignment="Center" Margin="5"/>
+        <CheckBox Grid.Row="11" Grid.Column="0" Name="OptionName" IsChecked="{Binding OptionName}" Margin="5"/>
+        <TextBlock Grid.Row="11" Grid.Column="1" Text="Option tooltip" VerticalAlignment="Center" Margin="5"/>
 
         BOOL_OPTION-->
         <TextBlock Grid.Row="20" Grid.Column="0" Grid.ColumnSpan="2" Text="Configuration changes are saved automatically. It is safe to change them while the game is running." VerticalAlignment="Center" Margin="5" />
@@ -112,6 +116,7 @@
         <TextBlock Grid.Row="32" Grid.Column="1" Text="grid_groups" VerticalAlignment="Center" Margin="5" />
         <TextBlock Grid.Row="33" Grid.Column="1" Text="cache_mods" VerticalAlignment="Center" Margin="5" />
         <TextBlock Grid.Row="34" Grid.Column="1" Text="cache_scripts" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="36" Grid.Column="1" Text="safe_zone" VerticalAlignment="Center" Margin="5" />
         <!--BOOL_OPTION
         <TextBlock Grid.Row="36" Grid.Column="1" Text="option_name" VerticalAlignment="Center" Margin="5" />
         BOOL_OPTION-->

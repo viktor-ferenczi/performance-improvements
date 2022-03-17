@@ -31,6 +31,9 @@ namespace Shared.Config
         // Disables Mod API statistics
         bool DisableModApiStatistics { get; set; }
 
+        // Caches frequent recalculations in safe zones
+        bool FixSafeZone { get; set; }
+
         /*BOOL_OPTION
         // Option tooltip
         bool OptionName { get; set; }

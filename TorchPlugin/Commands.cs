@@ -28,7 +28,8 @@ namespace TorchPlugin
             Respond($"cache_mods: {Format(config.CacheMods)}");
             Respond($"cache_scripts: {Format(config.CacheScripts)}");
             Respond($"api_stats: {Format(config.DisableModApiStatistics)}");
-            //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
+            Respond($"safe_zone: {Format(config.FixSafeZone)}");
+//BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
         }
 
         // Custom formatters
@@ -133,6 +134,10 @@ namespace TorchPlugin
                     Config.DisableModApiStatistics = parsedFlag;
                     break;
 
+                case "safe_zone":
+                    Config.FixSafeZone = parsedFlag;
+                    break;
+
                 /*BOOL_OPTION
                 case "option_name":
                     Config.OptionName = parsedFlag;
@@ -151,6 +156,7 @@ namespace TorchPlugin
                     Respond($"  cache_mods");
                     Respond($"  cache_scripts");
                     Respond($"  api_stats");
+                    Respond($"  safe_zone");
                     //BOOL_OPTION Respond($"  option_name");
                     return;
             }

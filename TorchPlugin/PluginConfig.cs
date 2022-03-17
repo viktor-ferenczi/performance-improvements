@@ -17,6 +17,7 @@ namespace TorchPlugin
         private bool cacheMods = false;
         private bool cacheScripts = false;
         private bool disableModApiStatistics = true;
+        private bool fixSafeZone = false;
         //BOOL_OPTION private bool optionName = false;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enable the plugin (all fixes)")]
@@ -80,6 +81,13 @@ namespace TorchPlugin
         {
             get => disableModApiStatistics;
             set => SetValue(ref disableModApiStatistics, value);
+        }
+
+        [Display(Order = 10, GroupName = "Fixes", Name = "Fixes safe zone lag", Description = "Caches frequent recalculations in safe zones")]
+        public bool FixSafeZone
+        {
+            get => fixSafeZone;
+            set => SetValue(ref fixSafeZone, value);
         }
 
         /*BOOL_OPTION
