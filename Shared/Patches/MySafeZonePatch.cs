@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using HarmonyLib;
@@ -15,6 +16,26 @@ namespace Shared.Patches
     public static class MySafeZonePatch
     {
         private static IPluginConfig Config => Common.Config;
+        private static bool enabled;
+
+        static MySafeZonePatch()
+        {
+            UpdateEnabled();
+            Config.PropertyChanged += OnConfigChanged;
+        }
+
+        private static void UpdateEnabled()
+        {
+            enabled = Config.Enabled && Config.FixSafeZone;
+
+            if (!enabled)
+                cache.Clear();
+        }
+
+        private static void OnConfigChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateEnabled();
+        }
 
         private struct CachedResult
         {
@@ -33,6 +54,9 @@ namespace Shared.Patches
 
         public static void Clean()
         {
+            if (!enabled)
+                return;
+
             tick = Common.Plugin.Tick;
             if (tick % CleanupPeriod != 0)
                 return;
@@ -55,9 +79,9 @@ namespace Shared.Patches
         [HarmonyPrefix]
         [HarmonyPatch("IsSafe")]
         // ReSharper disable once UnusedMember.Local
-        private static bool IsSubGridSafePrefix(MyEntity entity, ref bool __result, ref bool __state)
+        private static bool IsSubGridSafePrefix(MyEntity entity, ref bool __result)
         {
-            if (!Config.Enabled || !Config.FixSafeZone)
+            if (!enabled)
                 return true;
 
             if (cache.TryGetValue(entity.EntityId, out var cachedResult) && cachedResult.Expires >= tick)
@@ -66,16 +90,15 @@ namespace Shared.Patches
                 return false;
             }
 
-            __state = true;
             return true;
         }
 
         [HarmonyPostfix]
         [HarmonyPatch("IsSafe")]
         // ReSharper disable once UnusedMember.Local
-        private static void IsSubGridSafePostfix(MyEntity entity, bool __result, bool __state)
+        private static void IsSubGridSafePostfix(MyEntity entity, bool __result)
         {
-            if (!__state)
+            if (!enabled)
                 return;
 
             var entityId = entity.EntityId;
