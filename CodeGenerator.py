@@ -128,7 +128,7 @@ def generate_bool_option(name, command, label, tooltip):
 
 def main():
     pass
-    # generate_bool_option('FixSafeZone', 'safe_zone', 'Fixes safe zone lag', 'Caches frequent recalculations in safe zones')
+    # generate_bool_option('FixSafeZone', 'safe_zone', 'Lower safe zone CPU load', 'Caches frequent recalculations in safe zones')
 
 
 if __name__ == '__main__':
