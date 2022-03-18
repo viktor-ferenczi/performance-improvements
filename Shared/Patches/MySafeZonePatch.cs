@@ -1,5 +1,8 @@
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading;
+using System.Linq;
 using HarmonyLib;
 using Sandbox.Game.Entities;
 using Shared.Config;
@@ -12,38 +15,65 @@ namespace Shared.Patches
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public static class MySafeZonePatch
     {
-        // Must be power of two
-#if TORCH || DEDICATED
-        private const int Count = 0x2000;
-#else
-        private const int Count = 0x200;
-#endif
-
-        // Mask to get cache index by key
-        private const int IndexMask = Count - 1;
-
-        // Clean the whole cache every 128 simulation ticks (~2 seconds)
-        private const int CleanCount = Count < 128 ? 1 : Count >> 7;
-
-        // Next cache index to clean
-        private static int cleanIndex;
-
-        // Cache to store the results of IsSafe by the lower bits of the random EntityId as hash key.
-        // Cache collisions are possible, but they only reduce the cache hit rate.
-        private static readonly long[] CacheKeys = new long[Count];
-        private static readonly bool[] CacheValues = new bool[Count];
-
         private static IPluginConfig Config => Common.Config;
+        private static bool enabled;
+
+        static MySafeZonePatch()
+        {
+            UpdateEnabled();
+            Config.PropertyChanged += OnConfigChanged;
+        }
+
+        private static void UpdateEnabled()
+        {
+            enabled = Config.Enabled && Config.FixSafeZone;
+
+            if (!enabled)
+                cache.Clear();
+        }
+
+        private static void OnConfigChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateEnabled();
+        }
+
+        private struct CachedResult
+        {
+            public long Expires;
+            public bool Result;
+        }
+
+        private static readonly ConcurrentDictionary<long, CachedResult> cache = new ConcurrentDictionary<long, CachedResult>();
+        private const long AverageExpiration = 120;  // ticks
+        private const long CleanupPeriod = 300 * 60;  // ticks
+
+        private const int MaxDeleteCount = 128;
+        private static readonly long[] KeysToDelete = new long[MaxDeleteCount];
+
+        private static long tick;
 
         public static void Clean()
         {
-            for (var i = 0; i < CleanCount; i++)
-                CacheKeys[cleanIndex++] = 0;
+            if (!enabled)
+                return;
 
-            // Enough to mask only after the loop, because
-            // both Count and CleanCount are a power of 2
-            // and CleanCount <= Count
-            cleanIndex &= IndexMask;
+            tick = Common.Plugin.Tick;
+            if (tick % CleanupPeriod != 0)
+                return;
+
+            var count = 0;
+            foreach (var (entityId, cachedResult) in cache)
+            {
+                if (cachedResult.Expires >= tick)
+                    continue;
+
+                KeysToDelete[count++] = entityId;
+                if (count == MaxDeleteCount)
+                    break;
+            }
+
+            for (var i = 0; i < count; i++)
+                cache.Remove(KeysToDelete[i]);
         }
 
         [HarmonyPrefix]
@@ -51,20 +81,15 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         private static bool IsSafePrefix(MyEntity entity, ref bool __result)
         {
-            if (!Config.Enabled || !Config.FixSafeZone)
+            if (!enabled)
                 return true;
 
-            var key = entity.EntityId;
-            var index = (int)(key & IndexMask);
-            if (CacheKeys[index] == key)
+            if (cache.TryGetValue(entity.EntityId, out var cachedResult) && cachedResult.Expires >= tick)
             {
-                // Attempt to return the cached result
-                __result = CacheValues[index];
-
-                // Check again for safe lock-less concurrency (assumes no compiler optimization)
-                if (CacheKeys[index] == key)
-                    return false;
+                __result = cachedResult.Result;
+                return false;
             }
+
             return true;
         }
 
@@ -73,15 +98,11 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         private static void IsSafePostfix(MyEntity entity, bool __result)
         {
-            if (!Config.Enabled || !Config.FixSafeZone)
+            if (!enabled)
                 return;
 
-            var key = entity.EntityId;
-            var index = (int)(key & IndexMask);
-
-            // Atomically register the key, store the result only if succeeds
-            if (Interlocked.CompareExchange(ref CacheKeys[index], key, 0) == 0)
-                CacheValues[index] = __result;
+            var entityId = entity.EntityId;
+            cache[entityId] = new CachedResult { Expires = tick + AverageExpiration + (entityId & 7) - 4, Result = __result };
         }
     }
 }

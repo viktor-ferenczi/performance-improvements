@@ -83,7 +83,7 @@ namespace TorchPlugin
             set => SetValue(ref disableModApiStatistics, value);
         }
 
-        [Display(Order = 10, GroupName = "Fixes", Name = "Fixes safe zone lag", Description = "Caches frequent recalculations in safe zones")]
+        [Display(Order = 10, GroupName = "Fixes", Name = "Lower safe zone CPU load", Description = "Caches frequent recalculations in safe zones")]
         public bool FixSafeZone
         {
             get => fixSafeZone;
