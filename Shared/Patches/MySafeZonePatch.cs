@@ -37,15 +37,15 @@ namespace Shared.Patches
             UpdateEnabled();
         }
 
-        private struct CachedResult
+        private class CachedResult
         {
             public long Expires;
             public bool Result;
         }
 
         private static readonly ConcurrentDictionary<long, CachedResult> cache = new ConcurrentDictionary<long, CachedResult>();
-        private const long AverageExpiration = 120;  // ticks
-        private const long CleanupPeriod = 300 * 60;  // ticks
+        private const long AverageExpiration = 120; // ticks
+        private const long CleanupPeriod = 300 * 60; // ticks
 
         private const int MaxDeleteCount = 128;
         private static readonly long[] KeysToDelete = new long[MaxDeleteCount];
@@ -102,7 +102,16 @@ namespace Shared.Patches
                 return;
 
             var entityId = entity.EntityId;
-            cache[entityId] = new CachedResult { Expires = tick + AverageExpiration + (entityId & 7) - 4, Result = __result };
+            var expires = tick + AverageExpiration + (entityId & 7) - 4;
+
+            if (cache.TryGetValue(entityId, out var cachedResult))
+            {
+                cachedResult.Expires = expires;
+                cachedResult.Result = __result;
+                return;
+            }
+
+            cache[entityId] = new CachedResult { Expires = expires, Result = __result };
         }
     }
 }
