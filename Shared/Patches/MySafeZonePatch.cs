@@ -79,7 +79,7 @@ namespace Shared.Patches
         [HarmonyPrefix]
         [HarmonyPatch("IsSafe")]
         // ReSharper disable once UnusedMember.Local
-        private static bool IsSubGridSafePrefix(MyEntity entity, ref bool __result)
+        private static bool IsSafePrefix(MyEntity entity, ref bool __result)
         {
             if (!enabled)
                 return true;
@@ -96,7 +96,7 @@ namespace Shared.Patches
         [HarmonyPostfix]
         [HarmonyPatch("IsSafe")]
         // ReSharper disable once UnusedMember.Local
-        private static void IsSubGridSafePostfix(MyEntity entity, bool __result)
+        private static void IsSafePostfix(MyEntity entity, bool __result)
         {
             if (!enabled)
                 return;
