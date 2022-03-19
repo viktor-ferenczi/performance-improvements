@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Logging\PluginLogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\GcCollectPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyGroupsPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyLargeTurretTargetingSystemPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyResourceDistributorComponentPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MySafeZonePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyScriptCompilerPatch.cs" />
@@ -42,6 +43,8 @@
     <Content Include="$(MSBuildThisFileDirectory)..\README.md">
       <Link>README.md</Link>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Patches\MyLargeTurretTargetingSystem.SortTargetRoots.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\MyLargeTurretTargetingSystem.SortTargetRoots.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\MyScriptCompiler.Compile.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\MyScriptCompiler.Compile.original.il" />
   </ItemGroup>

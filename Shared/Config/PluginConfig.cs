@@ -39,7 +39,8 @@ namespace Shared.Config
         private bool cacheScripts = true;
         private bool disableModApiStatistics = true;
         private bool fixSafeZone = true;
-        //BOOL_OPTION private bool optionName = true;
+        private bool fixTargetingAlloc = true;
+//BOOL_OPTION private bool optionName = true;
 
         public bool Enabled
         {
@@ -99,6 +100,12 @@ namespace Shared.Config
         {
             get => fixSafeZone;
             set => SetValue(ref fixSafeZone, value);
+        }
+
+        public bool FixTargetingAlloc
+        {
+            get => fixTargetingAlloc;
+            set => SetValue(ref fixTargetingAlloc, value);
         }
 
         /*BOOL_OPTION

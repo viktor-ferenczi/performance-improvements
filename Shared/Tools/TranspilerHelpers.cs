@@ -11,7 +11,7 @@ namespace Shared.Patches
     {
         public delegate bool FieldInfoPredicate(FieldInfo fi);
 
-        public static FieldInfo FindField(this List<CodeInstruction> il, FieldInfoPredicate predicate)
+        public static FieldInfo GetField(this List<CodeInstruction> il, FieldInfoPredicate predicate)
         {
             var ci = il.Find(i => (i.opcode == OpCodes.Ldfld || i.opcode == OpCodes.Stfld) && i.operand is FieldInfo fi && predicate(fi));
             if (ci == null)

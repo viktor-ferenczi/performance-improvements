@@ -29,7 +29,7 @@ namespace Shared.Patches
             enabled = Config.Enabled && Config.FixSafeZone;
 
             if (!enabled)
-                cache.Clear();
+                Cache.Clear();
         }
 
         private static void OnConfigChanged(object sender, PropertyChangedEventArgs e)
@@ -43,9 +43,9 @@ namespace Shared.Patches
             public bool Result;
         }
 
-        private static readonly ConcurrentDictionary<long, CachedResult> cache = new ConcurrentDictionary<long, CachedResult>();
-        private const long AverageExpiration = 120; // ticks
-        private const long CleanupPeriod = 300 * 60; // ticks
+        private static readonly ConcurrentDictionary<long, CachedResult> Cache = new ConcurrentDictionary<long, CachedResult>();
+        private const long AverageExpiration = 2 * 60; // ticks
+        private const long CleanupPeriod = 119 * 60; // ticks
 
         private const int MaxDeleteCount = 128;
         private static readonly long[] KeysToDelete = new long[MaxDeleteCount];
@@ -62,9 +62,9 @@ namespace Shared.Patches
                 return;
 
             var count = 0;
-            foreach (var (entityId, cachedResult) in cache)
+            foreach (var (entityId, cache) in Cache)
             {
-                if (cachedResult.Expires >= tick)
+                if (cache.Expires >= tick)
                     continue;
 
                 KeysToDelete[count++] = entityId;
@@ -73,7 +73,7 @@ namespace Shared.Patches
             }
 
             for (var i = 0; i < count; i++)
-                cache.Remove(KeysToDelete[i]);
+                Cache.Remove(KeysToDelete[i]);
         }
 
         [HarmonyPrefix]
@@ -84,9 +84,9 @@ namespace Shared.Patches
             if (!enabled)
                 return true;
 
-            if (cache.TryGetValue(entity.EntityId, out var cachedResult) && cachedResult.Expires >= tick)
+            if (Cache.TryGetValue(entity.EntityId, out var cache) && cache.Expires >= tick)
             {
-                __result = cachedResult.Result;
+                __result = cache.Result;
                 return false;
             }
 
@@ -104,14 +104,14 @@ namespace Shared.Patches
             var entityId = entity.EntityId;
             var expires = tick + AverageExpiration + (entityId & 7) - 4;
 
-            if (cache.TryGetValue(entityId, out var cachedResult))
+            if (Cache.TryGetValue(entityId, out var cache))
             {
-                cachedResult.Expires = expires;
-                cachedResult.Result = __result;
+                cache.Expires = expires;
+                cache.Result = __result;
                 return;
             }
 
-            cache[entityId] = new CachedResult { Expires = expires, Result = __result };
+            Cache[entityId] = new CachedResult { Expires = expires, Result = __result };
         }
     }
 }

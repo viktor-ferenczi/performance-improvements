@@ -37,6 +37,7 @@ namespace Shared.Patches
         public static void PatchUpdates()
         {
             MySafeZonePatch.Clean();
+            MyLargeTurretTargetingSystemPatch.Clean();
         }
     }
 }

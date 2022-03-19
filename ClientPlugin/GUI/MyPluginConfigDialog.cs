@@ -43,6 +43,9 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel fixSafeZoneLabel;
         private MyGuiControlCheckbox fixSafeZoneCheckbox;
 
+        private MyGuiControlLabel fixTargetingAllocLabel;
+        private MyGuiControlCheckbox fixTargetingAllocCheckbox;
+
         /*BOOL_OPTION
         private MyGuiControlLabel optionNameLabel;
         private MyGuiControlCheckbox optionNameCheckbox;
@@ -54,7 +57,7 @@ namespace ClientPlugin.GUI
         private MyGuiControlMultilineText infoText;
         private MyGuiControlButton closeButton;
 
-        public MyPluginConfigDialog() : base(new Vector2(0.5f, 0.5f), MyGuiConstants.SCREEN_BACKGROUND_COLOR, new Vector2(0.5f, 0.75f), false, null, MySandboxGame.Config.UIBkOpacity, MySandboxGame.Config.UIOpacity)
+        public MyPluginConfigDialog() : base(new Vector2(0.5f, 0.5f), MyGuiConstants.SCREEN_BACKGROUND_COLOR, new Vector2(0.5f, 0.8f), false, null, MySandboxGame.Config.UIBkOpacity, MySandboxGame.Config.UIOpacity)
         {
             EnabledBackgroundFade = true;
             m_closeOnEsc = true;
@@ -94,6 +97,7 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out cacheScriptsLabel, out cacheScriptsCheckbox, config.CacheScripts, value => config.CacheScripts = value, "Cache compiled scripts", "Caches compiled in-game scripts (PB programs) to reduce lag");
             CreateCheckbox(out disableModApiStatisticsLabel, out disableModApiStatisticsCheckbox, config.DisableModApiStatistics, value => config.DisableModApiStatistics = value, "Disable Mod API statistics", "Disable the collection of Mod API call statistics to eliminate the overhead (affects only world loading)");
             CreateCheckbox(out fixSafeZoneLabel, out fixSafeZoneCheckbox, config.FixSafeZone, value => config.FixSafeZone = value, "Fixes safe zone lag", "Caches frequent recalculations in safe zones");
+            CreateCheckbox(out fixTargetingAllocLabel, out fixTargetingAllocCheckbox, config.FixTargetingAlloc, value => config.FixTargetingAlloc = value, "Fix allocations in targeting", "Reduces memory allocations in the turret targeting system");
             //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
 
             EnableDisableFixes();
@@ -143,15 +147,16 @@ namespace ClientPlugin.GUI
             cacheScriptsCheckbox.Enabled = enabled;
             disableModApiStatisticsCheckbox.Enabled = enabled;
             fixSafeZoneCheckbox.Enabled = enabled;
+            fixTargetingAllocCheckbox.Enabled = enabled;
             //BOOL_OPTION optionNameCheckbox.Enabled = enabled;
         }
 
         private void LayoutControls()
         {
             var size = Size ?? Vector2.One;
-            layoutTable = new MyLayoutTable(this, new Vector2(-0.3f * size.X, -0.375f * size.Y), new Vector2(0.6f * size.X, 0.8f * size.Y));
+            layoutTable = new MyLayoutTable(this, new Vector2(-0.3f * size.X, -0.4f * size.Y), new Vector2(0.6f * size.X, 0.85f * size.Y));
             layoutTable.SetColumnWidths(400f, 100f);
-            layoutTable.SetRowHeights(80f, 50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f,/*BOOL_OPTION 50f, BOOL_OPTION*/ 150f, 50f);
+            layoutTable.SetRowHeights(80f, 50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f, /*BOOL_OPTION 50f, BOOL_OPTION*/ 150f, 50f);
 
             var row = 0;
 
@@ -193,6 +198,10 @@ namespace ClientPlugin.GUI
 
             layoutTable.Add(fixSafeZoneLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
             layoutTable.Add(fixSafeZoneCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
+            row++;
+
+            layoutTable.Add(fixTargetingAllocLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(fixTargetingAllocCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
             /*BOOL_OPTION

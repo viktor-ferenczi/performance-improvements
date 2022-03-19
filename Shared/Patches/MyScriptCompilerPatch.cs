@@ -59,10 +59,10 @@ namespace Shared.Patches
             var il = new List<CodeInstruction>(instructions);
 
             // Access to fields of the state object which stores the local variables from the original async method
-            var target = il.FindField(fi => fi.Name.Contains("target"));
-            var friendlyName = il.FindField(fi => fi.Name.Contains("friendlyName"));
-            var assemblyStream = il.FindField(fi => fi.Name.Contains("assemblyStream"));
-            var scripts = il.FindField(fi => fi.Name.Contains("scripts"));
+            var target = il.GetField(fi => fi.Name.Contains("target"));
+            var friendlyName = il.GetField(fi => fi.Name.Contains("friendlyName"));
+            var assemblyStream = il.GetField(fi => fi.Name.Contains("assemblyStream"));
+            var scripts = il.GetField(fi => fi.Name.Contains("scripts"));
 
             var exit = il.FindLast(i => i.opcode == OpCodes.Ldarg_0 && i.labels.Count > 0).labels[0];
 
