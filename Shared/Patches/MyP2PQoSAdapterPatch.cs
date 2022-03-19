@@ -1,4 +1,3 @@
-using System.Reflection;
 using System.Threading;
 using HarmonyLib;
 using Shared.Config;
@@ -14,16 +13,11 @@ namespace Shared.Patches
 
         private static int counter = 60;
 
-        // ReSharper disable once UnusedMember.Local
-        private static MethodBase TargetMethod()
-        {
-            var type = AccessTools.TypeByName("VRage.EOS.MyP2PQoSAdapter");
-            return AccessTools.Method(type, "UpdateStats");
-        }
-
         // Replaces most of stats updates with sleeps
         // ReSharper disable once UnusedMember.Local
-        private static bool Prefix()
+        [HarmonyPrefix]
+        [HarmonyPatch("VRage.EOS.MyP2PQoSAdapter", "UpdateStats")]
+        private static bool UpdateStatsPrefix()
         {
             var config = Config;
             if (!config.Enabled || !config.FixP2PUpdateStats)

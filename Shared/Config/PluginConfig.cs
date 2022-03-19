@@ -1,8 +1,8 @@
+#if !TORCH
+
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
-#if !TORCH
 
 namespace Shared.Config
 {

@@ -52,6 +52,7 @@ namespace Shared.Patches
 
         // ReSharper disable once UnusedMember.Local
         [HarmonyTranspiler]
+        // Did not work: [HarmonyPatch(typeof(MyScriptCompiler), nameof(MyScriptCompiler.Compile), MethodType.Enumerator)]
         private static IEnumerable<CodeInstruction> CompileTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             // See MyScriptCompiler.Compile.il
