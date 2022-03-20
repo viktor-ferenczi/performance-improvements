@@ -43,8 +43,8 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel fixSafeZoneLabel;
         private MyGuiControlCheckbox fixSafeZoneCheckbox;
 
-        private MyGuiControlLabel fixTargetingAllocLabel;
-        private MyGuiControlCheckbox fixTargetingAllocCheckbox;
+        private MyGuiControlLabel fixTargetingLabel;
+        private MyGuiControlCheckbox fixTargetingCheckbox;
 
         /*BOOL_OPTION
         private MyGuiControlLabel optionNameLabel;
@@ -97,7 +97,7 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out cacheScriptsLabel, out cacheScriptsCheckbox, config.CacheScripts, value => config.CacheScripts = value, "Cache compiled scripts", "Caches compiled in-game scripts (PB programs) to reduce lag");
             CreateCheckbox(out disableModApiStatisticsLabel, out disableModApiStatisticsCheckbox, config.DisableModApiStatistics, value => config.DisableModApiStatistics = value, "Disable Mod API statistics", "Disable the collection of Mod API call statistics to eliminate the overhead (affects only world loading)");
             CreateCheckbox(out fixSafeZoneLabel, out fixSafeZoneCheckbox, config.FixSafeZone, value => config.FixSafeZone = value, "Fixes safe zone lag", "Caches frequent recalculations in safe zones");
-            CreateCheckbox(out fixTargetingAllocLabel, out fixTargetingAllocCheckbox, config.FixTargetingAlloc, value => config.FixTargetingAlloc = value, "Fix allocations in targeting", "Reduces memory allocations in the turret targeting system");
+            CreateCheckbox(out fixTargetingLabel, out fixTargetingCheckbox, config.FixTargeting, value => config.FixTargeting = value, "Fix allocations in targeting", "Reduces memory allocations in the turret targeting system (change is applied on restart)");
             //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
 
             EnableDisableFixes();
@@ -147,7 +147,7 @@ namespace ClientPlugin.GUI
             cacheScriptsCheckbox.Enabled = enabled;
             disableModApiStatisticsCheckbox.Enabled = enabled;
             fixSafeZoneCheckbox.Enabled = enabled;
-            fixTargetingAllocCheckbox.Enabled = enabled;
+            fixTargetingCheckbox.Enabled = enabled;
             //BOOL_OPTION optionNameCheckbox.Enabled = enabled;
         }
 
@@ -200,8 +200,8 @@ namespace ClientPlugin.GUI
             layoutTable.Add(fixSafeZoneCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
-            layoutTable.Add(fixTargetingAllocLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
-            layoutTable.Add(fixTargetingAllocCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
+            layoutTable.Add(fixTargetingLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(fixTargetingCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
             /*BOOL_OPTION

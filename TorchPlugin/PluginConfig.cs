@@ -18,7 +18,7 @@ namespace TorchPlugin
         private bool cacheScripts = false;
         private bool disableModApiStatistics = true;
         private bool fixSafeZone = false;
-        private bool fixTargetingAlloc = false;
+        private bool fixTargeting = false;
         //BOOL_OPTION private bool optionName = false;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enable the plugin (all fixes)")]
@@ -91,15 +91,15 @@ namespace TorchPlugin
             set => SetValue(ref fixSafeZone, value);
         }
 
-        [Display(Order = 11, GroupName = "Fixes", Name = "Fix allocations in targeting", Description = "Reduces memory allocations in the turret targeting system")]
-        public bool FixTargetingAlloc
+        [Display(Order = 11, GroupName = "Fixes", Name = "Fix allocations in targeting", Description = "Reduces memory allocations in the turret targeting system (change is applied on restart)")]
+        public bool FixTargeting
         {
-            get => fixTargetingAlloc;
-            set => SetValue(ref fixTargetingAlloc, value);
+            get => fixTargeting;
+            set => SetValue(ref fixTargeting, value);
         }
 
         /*BOOL_OPTION
-        [Display(Order = 11, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
+        [Display(Order = 12, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
         public bool OptionName
         {
             get => optionName;

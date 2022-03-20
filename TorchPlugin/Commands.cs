@@ -29,7 +29,7 @@ namespace TorchPlugin
             Respond($"cache_scripts: {Format(config.CacheScripts)}");
             Respond($"api_stats: {Format(config.DisableModApiStatistics)}");
             Respond($"safe_zone: {Format(config.FixSafeZone)}");
-            Respond($"targeting_alloc: {Format(config.FixTargetingAlloc)}");
+            Respond($"targeting: {Format(config.FixTargeting)}");
             //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
         }
 
@@ -139,8 +139,8 @@ namespace TorchPlugin
                     Config.FixSafeZone = parsedFlag;
                     break;
 
-                case "targeting_alloc":
-                    Config.FixTargetingAlloc = parsedFlag;
+                case "targeting":
+                    Config.FixTargeting = parsedFlag;
                     break;
 
                 /*BOOL_OPTION
@@ -162,7 +162,7 @@ namespace TorchPlugin
                     Respond($"  cache_scripts");
                     Respond($"  api_stats");
                     Respond($"  safe_zone");
-                    Respond($"  targeting_alloc");
+                    Respond($"  targeting");
                     //BOOL_OPTION Respond($"  option_name");
                     return;
             }

@@ -43,8 +43,16 @@
     <Content Include="$(MSBuildThisFileDirectory)..\README.md">
       <Link>README.md</Link>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Patches\MyLargeTurretTargetingSystem.ctor.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\MyLargeTurretTargetingSystem.ctor.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\MyLargeTurretTargetingSystem.IsTargetVisible.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\MyLargeTurretTargetingSystem.IsTargetVisible.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\MyLargeTurretTargetingSystem.SortTargetRoots.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\MyLargeTurretTargetingSystem.SortTargetRoots.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\MyLargeTurretTargetingSystem.TestPotentialTarget.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\MyLargeTurretTargetingSystem.TestPotentialTarget.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\MyLargeTurretTargetingSystem.TestTarget.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\MyLargeTurretTargetingSystem.TestTarget.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\MyScriptCompiler.Compile.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\MyScriptCompiler.Compile.original.il" />
   </ItemGroup>
