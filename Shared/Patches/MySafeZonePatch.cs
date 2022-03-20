@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
@@ -29,7 +28,10 @@ namespace Shared.Patches
             enabled = Config.Enabled && Config.FixSafeZone;
 
             if (!enabled)
-                Cache.Clear();
+            {
+                lock(Cache)
+                    Cache.Clear();
+            }
         }
 
         private static void OnConfigChanged(object sender, PropertyChangedEventArgs e)
@@ -43,7 +45,7 @@ namespace Shared.Patches
             public bool Result;
         }
 
-        private static readonly ConcurrentDictionary<long, CachedResult> Cache = new ConcurrentDictionary<long, CachedResult>();
+        private static readonly Dictionary<long, CachedResult> Cache = new Dictionary<long, CachedResult>();
         private const long AverageExpiration = 2 * 60; // ticks
         private const long CleanupPeriod = 119 * 60; // ticks
 
@@ -61,19 +63,22 @@ namespace Shared.Patches
             if (tick % CleanupPeriod != 0)
                 return;
 
-            var count = 0;
-            foreach (var (entityId, cache) in Cache)
+            lock (Cache)
             {
-                if (cache.Expires >= tick)
-                    continue;
+                var count = 0;
+                foreach (var (entityId, cache) in Cache)
+                {
+                    if (cache.Expires >= tick)
+                        continue;
 
-                KeysToDelete[count++] = entityId;
-                if (count == MaxDeleteCount)
-                    break;
+                    KeysToDelete[count++] = entityId;
+                    if (count == MaxDeleteCount)
+                        break;
+                }
+
+                for (var i = 0; i < count; i++)
+                    Cache.Remove(KeysToDelete[i]);
             }
-
-            for (var i = 0; i < count; i++)
-                Cache.Remove(KeysToDelete[i]);
         }
 
         [HarmonyPrefix]
@@ -84,10 +89,13 @@ namespace Shared.Patches
             if (!enabled)
                 return true;
 
-            if (Cache.TryGetValue(entity.EntityId, out var cache) && cache.Expires >= tick)
+            lock (Cache)
             {
-                __result = cache.Result;
-                return false;
+                if (Cache.TryGetValue(entity.EntityId, out var cache) && cache.Expires >= tick)
+                {
+                    __result = cache.Result;
+                    return false;
+                }
             }
 
             return true;
@@ -104,14 +112,17 @@ namespace Shared.Patches
             var entityId = entity.EntityId;
             var expires = tick + AverageExpiration + (entityId & 7) - 4;
 
-            if (Cache.TryGetValue(entityId, out var cache))
+            lock (Cache)
             {
-                cache.Expires = expires;
-                cache.Result = __result;
-                return;
-            }
+                if (Cache.TryGetValue(entityId, out var cache))
+                {
+                    cache.Expires = expires;
+                    cache.Result = __result;
+                    return;
+                }
 
-            Cache[entityId] = new CachedResult { Expires = expires, Result = __result };
+                Cache[entityId] = new CachedResult { Expires = expires, Result = __result };
+            }
         }
     }
 }
