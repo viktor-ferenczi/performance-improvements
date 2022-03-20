@@ -1,8 +1,9 @@
 using System;
 using System.Reflection;
 using HarmonyLib;
-using Sandbox.Game.Entities;
 using Shared.Logging;
+using VRageMath;
+using VRageMath.Spatial;
 
 namespace Shared.Patches
 {
@@ -31,6 +32,14 @@ namespace Shared.Patches
 
         public static void PatchInits()
         {
+            // FIXME: Make it configurable!
+            const float clusterSize = 4000f;
+            MyClusterTree.IdealClusterSize = new Vector3(clusterSize);
+            MyClusterTree.IdealClusterSizeHalfSqr = MyClusterTree.IdealClusterSize * MyClusterTree.IdealClusterSize / 4f;
+            MyClusterTree.MinimumDistanceFromBorder = MyClusterTree.IdealClusterSize / 50f;
+            MyClusterTree.MaximumForSplit = MyClusterTree.IdealClusterSize * 2f;
+            MyClusterTree.MaximumClusterSize = 5f * clusterSize;
+
             MyScriptCompilerPatch.Init();
         }
 
