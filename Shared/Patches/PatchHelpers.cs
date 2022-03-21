@@ -23,7 +23,7 @@ namespace Shared.Patches
                 var codeChanges = EnsureCode.Verify().ToList();
                 if (codeChanges.Count != 0)
                 {
-                    log.Error("Detected conflicting code changes:");
+                    log.Critical("Detected conflicting code changes:");
                     foreach (var codeChange in codeChanges)
                         log.Info(codeChange.ToString());
                     return false;
@@ -31,7 +31,7 @@ namespace Shared.Patches
             }
             catch (Exception ex)
             {
-                log.Error(ex, "Failed to scan for conflicting code changes");
+                log.Critical(ex, "Failed to scan for conflicting code changes");
                 return false;
             }
 
