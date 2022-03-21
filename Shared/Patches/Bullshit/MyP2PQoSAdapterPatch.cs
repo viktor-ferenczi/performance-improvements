@@ -2,6 +2,7 @@ using System.Threading;
 using HarmonyLib;
 using Shared.Config;
 using Shared.Plugin;
+using Shared.Tools;
 
 namespace Shared.Patches
 {
@@ -17,6 +18,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
         [HarmonyPatch("VRage.EOS.MyP2PQoSAdapter", "UpdateStats")]
+        [EnsureCode("033ad607")]
         private static bool UpdateStatsPrefix()
         {
             var config = Config;

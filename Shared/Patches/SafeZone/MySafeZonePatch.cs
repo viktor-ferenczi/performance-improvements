@@ -6,6 +6,7 @@ using HarmonyLib;
 using Sandbox.Game.Entities;
 using Shared.Config;
 using Shared.Plugin;
+using Shared.Tools;
 using VRage.Game.Entity;
 
 namespace Shared.Patches
@@ -83,6 +84,7 @@ namespace Shared.Patches
 
         [HarmonyPrefix]
         [HarmonyPatch("IsSafe")]
+        [EnsureCode("98164fe2")]
         // ReSharper disable once UnusedMember.Local
         private static bool IsSafePrefix(MyEntity entity, ref bool __result)
         {
@@ -103,6 +105,7 @@ namespace Shared.Patches
 
         [HarmonyPostfix]
         [HarmonyPatch("IsSafe")]
+        [EnsureCode("98164fe2")]
         // ReSharper disable once UnusedMember.Local
         private static void IsSafePostfix(MyEntity entity, bool __result)
         {

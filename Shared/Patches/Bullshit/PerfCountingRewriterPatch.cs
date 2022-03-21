@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using Shared.Config;
 using Shared.Logging;
 using Shared.Plugin;
+using Shared.Tools;
 
 namespace Shared.Patches
 {
@@ -18,6 +19,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         [HarmonyPrefix]
         [HarmonyPatch("VRage.Scripting.Rewriters.PerfCountingRewriter", "Rewrite")]
+        [EnsureCode("a71195dd")]
         private static bool RewritePrefix(SyntaxTree syntaxTree, int modId, ref SyntaxTree __result)
         {
             if (!Config.Enabled || !Config.DisableModApiStatistics && !Config.CacheMods)

@@ -14,6 +14,7 @@ using HarmonyLib;
 using Shared.Config;
 using Shared.Logging;
 using Shared.Plugin;
+using Shared.Tools;
 using VRage.Scripting;
 
 namespace Shared.Patches
@@ -51,8 +52,10 @@ namespace Shared.Patches
         }
 
         // ReSharper disable once UnusedMember.Local
+        // FIXME: It does not work. Add support to Harmony for async methods:
+        // [HarmonyPatch(typeof(MyScriptCompiler), nameof(MyScriptCompiler.Compile), MethodType.Enumerator)]
         [HarmonyTranspiler]
-        // Did not work: [HarmonyPatch(typeof(MyScriptCompiler), nameof(MyScriptCompiler.Compile), MethodType.Enumerator)]
+        [EnsureCode("")]
         private static IEnumerable<CodeInstruction> CompileTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             // See MyScriptCompiler.Compile.il

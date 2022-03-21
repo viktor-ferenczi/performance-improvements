@@ -11,6 +11,7 @@ using Sandbox.Game.Weapons;
 using Sandbox.Game.World;
 using Shared.Config;
 using Shared.Plugin;
+using Shared.Tools;
 using VRage.Game.Entity;
 using VRage.Library.Utils;
 using VRageMath;
@@ -47,6 +48,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyTranspiler]
         [HarmonyPatch("SortTargetRoots")]
+        [EnsureCode("edfb7619")]
         private static IEnumerable<CodeInstruction> SortTargetRootsTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             if (!enabled)
@@ -141,6 +143,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyTranspiler]
         [HarmonyPatch(MethodType.Constructor, typeof(IMyTargetingReceiver), typeof(MyLargeTurretTargetingSystem.MyTargetingOption))]
+        [EnsureCode("8dfc8ab5")]
         private static IEnumerable<CodeInstruction> ConstructorTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             if (!enabled)
@@ -167,6 +170,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MyLargeTurretTargetingSystem.UpdateVisibilityCache))]
+        [EnsureCode("1f353abf")]
         private static bool UpdateVisibilityCachePrefix(IMyTargetingReceiver ___m_targetReceiver, bool ___m_parallelTargetSelectionInProcess)
         {
             if (!enabled)
@@ -215,6 +219,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         [HarmonyPrefix]
         [HarmonyPatch("SetTargetVisible")]
+        [EnsureCode("983dff7e")]
         private static bool SetTargetVisiblePrefix(IMyTargetingReceiver ___m_targetReceiver, MyEntity target, bool visible, int? timeout = null)
         {
             if (!enabled)
@@ -247,6 +252,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyTranspiler]
         [HarmonyPatch("IsTargetVisible", typeof(MyEntity), typeof(Vector3D?), typeof(bool))]
+        [EnsureCode("af0e9b1d")]
         private static IEnumerable<CodeInstruction> IsTargetVisibleTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             if (!enabled)
@@ -278,6 +284,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyTranspiler]
         [HarmonyPatch("TestPotentialTarget")]
+        [EnsureCode("ab1ec6a6")]
         private static IEnumerable<CodeInstruction> TestPotentialTargetTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             if (!enabled)
@@ -302,6 +309,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyTranspiler]
         [HarmonyPatch("TestTarget")]
+        [EnsureCode("5061cc1b")]
         private static IEnumerable<CodeInstruction> TestTargetTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             if (!enabled)

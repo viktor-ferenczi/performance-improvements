@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using Shared.Logging;
 using Shared.Patches.Physics;
+using Shared.Tools;
 
 namespace Shared.Patches
 {
@@ -14,6 +16,24 @@ namespace Shared.Patches
 #if DEBUG
             Harmony.DEBUG = true;
 #endif
+
+            log.Debug("Scanning for conflicting code changes");
+            try
+            {
+                var codeChanges = EnsureCode.Verify().ToList();
+                if (codeChanges.Count != 0)
+                {
+                    log.Error("Detected conflicting code changes:");
+                    foreach (var codeChange in codeChanges)
+                        log.Info(codeChange.ToString());
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex, "Failed to scan for conflicting code changes");
+                return false;
+            }
 
             log.Debug("Applying Harmony patches");
             try

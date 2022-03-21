@@ -1,6 +1,7 @@
 using System.Threading;
 using HarmonyLib;
 using Sandbox.Game.Entities;
+using Shared.Tools;
 
 namespace Shared.Patches
 {
@@ -18,6 +19,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
         [HarmonyPatch("MergeGroups")]
+        [EnsureCode("fb5613b0")]
         private static bool MergeGroupsPrefix()
         {
             MergeGroupsCallDepth.Value++;
@@ -29,6 +31,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
         [HarmonyPatch("MergeGroups")]
+        [EnsureCode("fb5613b0")]
         private static void MergeGroupsPostfix()
         {
             if (!IsInMergeGroups)
@@ -40,6 +43,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
         [HarmonyPatch("BreakLink")]
+        [EnsureCode("68c25077")]
         private static bool BreakLinkPrefix()
         {
             BreakLinkCallDepth.Value++;
@@ -51,6 +55,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
         [HarmonyPatch("BreakLink")]
+        [EnsureCode("68c25077")]
         private static void BreakLinkPostfix()
         {
             if (!IsInBreakLink)

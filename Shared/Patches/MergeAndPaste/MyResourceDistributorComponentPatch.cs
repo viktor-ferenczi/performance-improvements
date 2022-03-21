@@ -2,6 +2,7 @@ using HarmonyLib;
 using Sandbox.Game.EntityComponents;
 using Shared.Config;
 using Shared.Plugin;
+using Shared.Tools;
 
 namespace Shared.Patches
 {
@@ -15,6 +16,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MyResourceDistributorComponent.UpdateBeforeSimulation))]
+        [EnsureCode("cd93ffd6")]
         private static bool UpdateBeforeSimulation(MyResourceDistributorComponent __instance)
         {
             if (!MyGroupsPatch.IsInMergeGroups && !MyGroupsPatch.IsInBreakLink)
