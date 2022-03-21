@@ -8,7 +8,6 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using Sandbox.Game.Entities.Interfaces;
 using Sandbox.Game.Weapons;
-using Sandbox.Game.World;
 using Shared.Config;
 using Shared.Plugin;
 using Shared.Tools;
@@ -189,8 +188,6 @@ namespace Shared.Patches
                     return false;
             }
 
-            var now = tick;
-
             lock (cache)
             {
                 lock (TargetsToRemove)
@@ -198,7 +195,7 @@ namespace Shared.Patches
                     var count = 0;
                     foreach (var (entityId, expires) in cache)
                     {
-                        if (Math.Abs(expires) > now)
+                        if (Math.Abs(expires) > tick)
                             continue;
 
                         TargetsToRemove[count++] = entityId;
@@ -370,26 +367,23 @@ namespace Shared.Patches
 
         private static readonly long[] CacheEntriesToDelete = new long[MaxCacheEntriesToDelete];
 
-        private static int tick;
+        private static long tick;
 
         public static void Clean()
         {
             if (!enabled)
                 return;
 
-            tick = MySession.Static.GameplayFrameCounter;
-
+            tick = Common.Plugin.Tick;
             if (tick % CleanupPeriod != 0)
                 return;
-
-            var now = tick;
 
             lock (ArrayCache)
             {
                 var count = 0;
                 foreach (var (entityId, cachedResult) in ArrayCache)
                 {
-                    if (cachedResult.Expires >= now)
+                    if (cachedResult.Expires > tick)
                         continue;
 
                     CacheEntriesToDelete[count++] = entityId;
