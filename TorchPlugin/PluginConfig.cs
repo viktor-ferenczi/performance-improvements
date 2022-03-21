@@ -91,7 +91,7 @@ namespace TorchPlugin
             set => SetValue(ref fixSafeZone, value);
         }
 
-        [Display(Order = 11, GroupName = "Fixes", Name = "Fix allocations in targeting", Description = "Reduces memory allocations in the turret targeting system (change is applied on restart)")]
+        [Display(Order = 11, GroupName = "Fixes", Name = "Fix allocations in targeting (needs restart)", Description = "Reduces memory allocations in the turret targeting system (change is applied on restart)")]
         public bool FixTargeting
         {
             get => fixTargeting;

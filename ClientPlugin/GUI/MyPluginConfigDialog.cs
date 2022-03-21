@@ -57,7 +57,7 @@ namespace ClientPlugin.GUI
         private MyGuiControlMultilineText infoText;
         private MyGuiControlButton closeButton;
 
-        public MyPluginConfigDialog() : base(new Vector2(0.5f, 0.5f), MyGuiConstants.SCREEN_BACKGROUND_COLOR, new Vector2(0.5f, 0.8f), false, null, MySandboxGame.Config.UIBkOpacity, MySandboxGame.Config.UIOpacity)
+        public MyPluginConfigDialog() : base(new Vector2(0.5f, 0.5f), MyGuiConstants.SCREEN_BACKGROUND_COLOR, new Vector2(0.8f, 0.8f), false, null, MySandboxGame.Config.UIBkOpacity, MySandboxGame.Config.UIOpacity)
         {
             EnabledBackgroundFade = true;
             m_closeOnEsc = true;
@@ -96,8 +96,8 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out cacheModsLabel, out cacheModsCheckbox, config.CacheMods, value => config.CacheMods = value, "Cache compiled mods", "Caches compiled mods for faster world load");
             CreateCheckbox(out cacheScriptsLabel, out cacheScriptsCheckbox, config.CacheScripts, value => config.CacheScripts = value, "Cache compiled scripts", "Caches compiled in-game scripts (PB programs) to reduce lag");
             CreateCheckbox(out disableModApiStatisticsLabel, out disableModApiStatisticsCheckbox, config.DisableModApiStatistics, value => config.DisableModApiStatistics = value, "Disable Mod API statistics", "Disable the collection of Mod API call statistics to eliminate the overhead (affects only world loading)");
-            CreateCheckbox(out fixSafeZoneLabel, out fixSafeZoneCheckbox, config.FixSafeZone, value => config.FixSafeZone = value, "Fixes safe zone lag", "Caches frequent recalculations in safe zones");
-            CreateCheckbox(out fixTargetingLabel, out fixTargetingCheckbox, config.FixTargeting, value => config.FixTargeting = value, "Fix allocations in targeting", "Reduces memory allocations in the turret targeting system (change is applied on restart)");
+            CreateCheckbox(out fixSafeZoneLabel, out fixSafeZoneCheckbox, config.FixSafeZone, value => config.FixSafeZone = value, "Fix safe zone lag", "Caches frequent recalculations in safe zones");
+            CreateCheckbox(out fixTargetingLabel, out fixTargetingCheckbox, config.FixTargeting, value => config.FixTargeting = value, "Fix allocations in targeting (needs restart)", "Reduces memory allocations in the turret targeting system (change is applied on restart)");
             //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
 
             EnableDisableFixes();
@@ -107,10 +107,10 @@ namespace ClientPlugin.GUI
             infoText = new MyGuiControlMultilineText
             {
                 Name = "InfoText",
-                OriginAlign = MyGuiDrawAlignEnum.HORISONTAL_CENTER_AND_VERTICAL_TOP,
+                OriginAlign = MyGuiDrawAlignEnum.HORISONTAL_LEFT_AND_VERTICAL_TOP,
                 TextAlign = MyGuiDrawAlignEnum.HORISONTAL_LEFT_AND_VERTICAL_TOP,
                 TextBoxAlign = MyGuiDrawAlignEnum.HORISONTAL_LEFT_AND_VERTICAL_TOP,
-                Text = new StringBuilder("\r\nIt is safe to change these options during the game.\r\nPlease send me feedback on the SE Mods Discord\r\nwhether they worked out. Thanks!")
+                Text = new StringBuilder("\r\nIt is safe to change these options during the game.\r\nPlease send me feedback on the SE Mods Discord\r\nhow well they worked out. Thanks!")
             };
 
             closeButton = new MyGuiControlButton(originAlign: MyGuiDrawAlignEnum.HORISONTAL_RIGHT_AND_VERTICAL_CENTER, text: MyTexts.Get(MyCommonTexts.Ok), onButtonClick: OnOk);
@@ -153,68 +153,63 @@ namespace ClientPlugin.GUI
 
         private void LayoutControls()
         {
-            var size = Size ?? Vector2.One;
-            layoutTable = new MyLayoutTable(this, new Vector2(-0.3f * size.X, -0.4f * size.Y), new Vector2(0.6f * size.X, 0.85f * size.Y));
-            layoutTable.SetColumnWidths(400f, 100f);
-            layoutTable.SetRowHeights(80f, 50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f, 50f, /*BOOL_OPTION 50f, BOOL_OPTION*/ 150f, 50f);
+            layoutTable = new MyLayoutTable(this, new Vector2(-0.35f, -0.3f), new Vector2(0.7f, 0.6f));
+            layoutTable.SetColumnWidths(60f, 440f, 60f, 440f);
+            layoutTable.SetRowHeights(150f, 60f, 60f, 60f, 60f, 60f, 60f, 60f, 150f);
 
-            var row = 0;
+            layoutTable.Add(enabledCheckbox, MyAlignH.Left, MyAlignV.Center, 0, 0);
+            layoutTable.Add(enabledLabel, MyAlignH.Left, MyAlignV.Center, 0, 1);
 
-            layoutTable.Add(enabledLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
-            layoutTable.Add(enabledCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
+            var row = 1;
+
+            layoutTable.Add(fixGridMergeCheckbox, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(fixGridMergeLabel, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
-            layoutTable.Add(fixGridMergeLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
-            layoutTable.Add(fixGridMergeCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
+            layoutTable.Add(fixGridPasteCheckbox, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(fixGridPasteLabel, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
-            layoutTable.Add(fixGridPasteLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
-            layoutTable.Add(fixGridPasteCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
+            layoutTable.Add(fixP2PUpdateStatsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(fixP2PUpdateStatsLabel, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
-            layoutTable.Add(fixP2PUpdateStatsLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
-            layoutTable.Add(fixP2PUpdateStatsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
+            layoutTable.Add(fixGarbageCollectionCheckbox, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(fixGarbageCollectionLabel, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
-            layoutTable.Add(fixGarbageCollectionLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
-            layoutTable.Add(fixGarbageCollectionCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
+            layoutTable.Add(fixGridGroupsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(fixGridGroupsLabel, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
-            layoutTable.Add(fixGridGroupsLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
-            layoutTable.Add(fixGridGroupsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
+            layoutTable.Add(cacheModsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(cacheModsLabel, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
-            layoutTable.Add(cacheModsLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
-            layoutTable.Add(cacheModsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
+            layoutTable.Add(cacheScriptsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(cacheScriptsLabel, MyAlignH.Left, MyAlignV.Center, row, 1);
+
+            row = 1;
+
+            layoutTable.Add(disableModApiStatisticsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(disableModApiStatisticsLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             row++;
 
-            layoutTable.Add(cacheScriptsLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
-            layoutTable.Add(cacheScriptsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
+            layoutTable.Add(fixSafeZoneCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixSafeZoneLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             row++;
 
-            layoutTable.Add(disableModApiStatisticsLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
-            layoutTable.Add(disableModApiStatisticsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
-            row++;
-
-            layoutTable.Add(fixSafeZoneLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
-            layoutTable.Add(fixSafeZoneCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
-            row++;
-
-            layoutTable.Add(fixTargetingLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
-            layoutTable.Add(fixTargetingCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
-            row++;
-
+            layoutTable.Add(fixTargetingCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixTargetingLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             /*BOOL_OPTION
-            layoutTable.Add(optionNameLabel, MyAlignH.Left, MyAlignV.Center, row, 0);
-            layoutTable.Add(optionNameCheckbox, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
+            layoutTable.Add(optionNameCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(optionNameLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             BOOL_OPTION*/
-            layoutTable.Add(infoText, MyAlignH.Left, MyAlignV.Top, row, 0, colSpan: 2);
-            row++;
 
-            layoutTable.Add(closeButton, MyAlignH.Center, MyAlignV.Center, row, 0, colSpan: 2);
-            // row++;
+            layoutTable.Add(infoText, MyAlignH.Left, MyAlignV.Top, 8, 0, colSpan: 2);
+            layoutTable.Add(closeButton, MyAlignH.Center, MyAlignV.Center, 8, 2, colSpan: 2);
         }
     }
 }
