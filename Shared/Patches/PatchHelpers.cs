@@ -55,7 +55,7 @@ namespace Shared.Patches
             MyLargeTurretTargetingSystemPatch.Configure();
 
             // FIXME: Make this configurable!
-            PhysicsFixes.SetClusterSize(3000f);
+            // PhysicsFixes.SetClusterSize(3000f);
         }
 
         // Called after patching is done
