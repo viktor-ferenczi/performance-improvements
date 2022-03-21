@@ -29,7 +29,8 @@ namespace TorchPlugin
             Respond($"cache_scripts: {Format(config.CacheScripts)}");
             Respond($"api_stats: {Format(config.DisableModApiStatistics)}");
             Respond($"safe_zone: {Format(config.FixSafeZone)}");
-//BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
+            Respond($"targeting: {Format(config.FixTargeting)}");
+            //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
         }
 
         // Custom formatters
@@ -138,6 +139,10 @@ namespace TorchPlugin
                     Config.FixSafeZone = parsedFlag;
                     break;
 
+                case "targeting":
+                    Config.FixTargeting = parsedFlag;
+                    break;
+
                 /*BOOL_OPTION
                 case "option_name":
                     Config.OptionName = parsedFlag;
@@ -157,6 +162,7 @@ namespace TorchPlugin
                     Respond($"  cache_scripts");
                     Respond($"  api_stats");
                     Respond($"  safe_zone");
+                    Respond($"  targeting");
                     //BOOL_OPTION Respond($"  option_name");
                     return;
             }

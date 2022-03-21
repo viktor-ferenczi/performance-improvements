@@ -16,20 +16,23 @@
     <Compile Include="$(MSBuildThisFileDirectory)Logging\IPluginLogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\LogFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\PluginLogger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\GcCollectPatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyGroupsPatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyResourceDistributorComponentPatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\MySafeZonePatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyScriptCompilerPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Bullshit\GcCollectPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Bullshit\MyP2PQoSAdapterPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Bullshit\PerfCountingRewriterPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\ConveyorSystem\MyPathFindingSystemEnumeratorPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\ConveyorSystem\MyPathFindingSystemPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyConveyorLinePatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyCubeGridPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyGroupsPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyResourceDistributorComponentPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\PatchHelpers.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\PerfCountingRewriterPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\PhysicsFixes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZonePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\ICommonPlugin.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyConveyorLinePatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyCubeGridPatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyP2PQoSAdapterPatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyPathFindingSystemEnumeratorPatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyPathFindingSystemPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\Common.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\CodeChange.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\EnsureCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\Hashing.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\TranspilerHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -42,7 +45,19 @@
     <Content Include="$(MSBuildThisFileDirectory)..\README.md">
       <Link>README.md</Link>
     </Content>
-    <Content Include="$(MSBuildThisFileDirectory)Patches\MyScriptCompiler.Compile.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\MyScriptCompiler.Compile.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\MyScriptCompiler.Compile.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\MyScriptCompiler.Compile.patched.il" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\MyScriptCompilerPatch.cs" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.ctor.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.ctor.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.IsTargetVisible.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.IsTargetVisible.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.SortTargetRoots.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.SortTargetRoots.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.TestPotentialTarget.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.TestPotentialTarget.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.TestTarget.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.TestTarget.patched.il" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystemPatch.cs" />
   </ItemGroup>
 </Project>

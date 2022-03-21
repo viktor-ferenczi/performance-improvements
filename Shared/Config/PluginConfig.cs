@@ -1,8 +1,8 @@
+#if !TORCH
+
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
-#if !TORCH
 
 namespace Shared.Config
 {
@@ -39,7 +39,8 @@ namespace Shared.Config
         private bool cacheScripts = true;
         private bool disableModApiStatistics = true;
         private bool fixSafeZone = true;
-        //BOOL_OPTION private bool optionName = true;
+        private bool fixTargeting = true;
+//BOOL_OPTION private bool optionName = true;
 
         public bool Enabled
         {
@@ -99,6 +100,12 @@ namespace Shared.Config
         {
             get => fixSafeZone;
             set => SetValue(ref fixSafeZone, value);
+        }
+
+        public bool FixTargeting
+        {
+            get => fixTargeting;
+            set => SetValue(ref fixTargeting, value);
         }
 
         /*BOOL_OPTION

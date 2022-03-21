@@ -14,6 +14,7 @@ using HarmonyLib;
 using Shared.Config;
 using Shared.Logging;
 using Shared.Plugin;
+using Shared.Tools;
 using VRage.Scripting;
 
 namespace Shared.Patches
@@ -51,17 +52,20 @@ namespace Shared.Patches
         }
 
         // ReSharper disable once UnusedMember.Local
+        // FIXME: It does not work. Add support to Harmony for async methods:
+        // [HarmonyPatch(typeof(MyScriptCompiler), nameof(MyScriptCompiler.Compile), MethodType.Enumerator)]
         [HarmonyTranspiler]
+        [EnsureCode("")]
         private static IEnumerable<CodeInstruction> CompileTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             // See MyScriptCompiler.Compile.il
             var il = new List<CodeInstruction>(instructions);
 
             // Access to fields of the state object which stores the local variables from the original async method
-            var target = il.FindField(fi => fi.Name.Contains("target"));
-            var friendlyName = il.FindField(fi => fi.Name.Contains("friendlyName"));
-            var assemblyStream = il.FindField(fi => fi.Name.Contains("assemblyStream"));
-            var scripts = il.FindField(fi => fi.Name.Contains("scripts"));
+            var target = il.GetField(fi => fi.Name.Contains("target"));
+            var friendlyName = il.GetField(fi => fi.Name.Contains("friendlyName"));
+            var assemblyStream = il.GetField(fi => fi.Name.Contains("assemblyStream"));
+            var scripts = il.GetField(fi => fi.Name.Contains("scripts"));
 
             var exit = il.FindLast(i => i.opcode == OpCodes.Ldarg_0 && i.labels.Count > 0).labels[0];
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using HarmonyLib;
 using Shared.Config;
 using Shared.Logging;
@@ -32,6 +33,11 @@ namespace DedicatedPlugin
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public void Init(object gameInstance)
         {
+#if DEBUG
+            // Allow the debugger some time to connect once the plugin assembly is loaded
+            Thread.Sleep(100);
+#endif
+
             Instance = this;
 
             Log.Info("Loading");
@@ -40,6 +46,7 @@ namespace DedicatedPlugin
             config = PersistentConfig<PluginConfig>.Load(Log, configPath);
 
             Common.SetPlugin(this);
+            PatchHelpers.Configure();
 
             if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
             {

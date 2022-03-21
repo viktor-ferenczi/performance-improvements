@@ -5,6 +5,7 @@ using Sandbox.Game.World;
 using Shared.Config;
 using Shared.Extensions;
 using Shared.Plugin;
+using Shared.Tools;
 
 namespace Shared.Patches
 {
@@ -20,6 +21,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
         [HarmonyPatch("MergeGridInternal")]
+        [EnsureCode("ddf218c3")]
         private static bool MergeGridInternalPrefix()
         {
             if (!Config.Enabled || !Config.FixGridMerge)
@@ -34,6 +36,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
         [HarmonyPatch("MergeGridInternal")]
+        [EnsureCode("ddf218c3")]
         private static void MergeGridInternalPostfix(MyCubeGrid __instance)
         {
             if (!IsInMergeGridInternal)
@@ -51,6 +54,7 @@ namespace Shared.Patches
         // ReSharper disable once RedundantAssignment
         [HarmonyPrefix]
         [HarmonyPatch("PasteBlocksServer")]
+        [EnsureCode("e7010d51")]
         private static bool PasteBlocksServerPrefix(ref bool? __state)
         {
             if (!Config.Enabled || !Config.FixGridPaste)
@@ -67,6 +71,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
         [HarmonyPatch("PasteBlocksServer")]
+        [EnsureCode("e7010d51")]
         private static void PasteBlocksServerPostfix(bool? __state)
         {
             if (__state == null)

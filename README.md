@@ -179,4 +179,13 @@ result of MySafeZone.IsSafe for up to 128 simulation ticks (~2 seconds).
 Side effect of the fix is that grid ownership changes are reflected in 
 safe zone behavior only up to 2 seconds later (1 second on average).
 
-Support ticket will be created once I can make a test world to reproduce this issue.
+TBD: Support ticket
+
+### Reducing memory allocations
+
+There are large memory allocations in some frequently called routines, 
+causing quite a bit of GC pressure:
+- `MyLargeTurretTargetingSystem.SortTargetRoots`
+- `MyLargeTurretTargetingSystem.UpdateVisibilityCacheCounters`
+
+TBD: Support ticket

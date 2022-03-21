@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using ClientPlugin.GUI;
 using HarmonyLib;
 using Sandbox.Graphics.GUI;
@@ -34,6 +35,11 @@ namespace ClientPlugin
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public void Init(object gameInstance)
         {
+#if DEBUG
+            // Allow the debugger some time to connect once the plugin assembly is loaded
+            Thread.Sleep(100);
+#endif
+
             Instance = this;
 
             Log.Info("Loading");
@@ -42,6 +48,7 @@ namespace ClientPlugin
             config = PersistentConfig<PluginConfig>.Load(Log, configPath);
 
             Common.SetPlugin(this);
+            PatchHelpers.Configure();
 
             if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
             {

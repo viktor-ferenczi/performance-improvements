@@ -1,10 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using HarmonyLib;
 using Microsoft.CodeAnalysis;
 using Shared.Config;
 using Shared.Logging;
 using Shared.Plugin;
+using Shared.Tools;
 
 namespace Shared.Patches
 {
@@ -16,15 +16,11 @@ namespace Shared.Patches
         private static IPluginLogger Log => Common.Logger;
         private static IPluginConfig Config => Common.Config;
 
-        private static MethodBase TargetMethod()
-        {
-            // use reflections (with or without AccessTools) to return the MethodInfo of the original method
-            var type = AccessTools.TypeByName("VRage.Scripting.Rewriters.PerfCountingRewriter");
-            return AccessTools.Method(type, "Rewrite");
-        }
-
         // ReSharper disable once InconsistentNaming
-        private static bool Prefix(SyntaxTree syntaxTree, int modId, ref SyntaxTree __result)
+        [HarmonyPrefix]
+        [HarmonyPatch("VRage.Scripting.Rewriters.PerfCountingRewriter", "Rewrite")]
+        [EnsureCode("a71195dd")]
+        private static bool RewritePrefix(SyntaxTree syntaxTree, int modId, ref SyntaxTree __result)
         {
             if (!Config.Enabled || !Config.DisableModApiStatistics && !Config.CacheMods)
             {
