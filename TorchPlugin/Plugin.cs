@@ -3,6 +3,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Windows.Controls;
 using HarmonyLib;
 using Sandbox.Game;
@@ -50,6 +51,11 @@ namespace TorchPlugin
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public override void Init(ITorchBase torch)
         {
+#if DEBUG
+            // Allow the debugger some time to connect once the plugin assembly is loaded
+            Thread.Sleep(100);
+#endif
+
             base.Init(torch);
 
             Instance = this;
@@ -60,6 +66,7 @@ namespace TorchPlugin
             config = PersistentConfig<PluginConfig>.Load(Log, configPath);
 
             Common.SetPlugin(this);
+            PatchHelpers.Configure();
 
 #if USE_HARMONY
             if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))

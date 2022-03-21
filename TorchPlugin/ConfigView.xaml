@@ -97,7 +97,7 @@
         <TextBlock Grid.Row="10" Grid.Column="1" Text="Caches frequent recalculations in safe zones" VerticalAlignment="Center" Margin="5"/>
 
         <CheckBox Grid.Row="11" Grid.Column="0" Name="FixTargeting" IsChecked="{Binding FixTargeting}" Margin="5"/>
-        <TextBlock Grid.Row="11" Grid.Column="1" Text="Reduces memory allocations in the turret targeting system (change is applied on restart)" VerticalAlignment="Center" Margin="5"/>
+        <TextBlock Grid.Row="11" Grid.Column="1" Text="Reduces memory allocations in the turret targeting system (needs restart)" VerticalAlignment="Center" Margin="5"/>
 
         <!--BOOL_OPTION
         <CheckBox Grid.Row="12" Grid.Column="0" Name="OptionName" IsChecked="{Binding OptionName}" Margin="5"/>

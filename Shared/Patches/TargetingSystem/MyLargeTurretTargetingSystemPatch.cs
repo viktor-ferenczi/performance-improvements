@@ -24,9 +24,12 @@ namespace Shared.Patches
     {
         private static IPluginConfig Config => Common.Config;
 
-        // Configuration change intentionally needs restart,
-        // changing this flag would break logic while the simulation is running
-        private static readonly bool Enabled = Config.Enabled && Config.FixTargeting;
+        // These patches need restart to be enabled/disabled
+        private static bool enabled;
+        public static void Configure()
+        {
+            enabled = Config.Enabled && Config.FixTargeting;
+        }
 
         #region Reusing arrays in SortTargetRoots
 
@@ -46,7 +49,7 @@ namespace Shared.Patches
         [HarmonyPatch("SortTargetRoots")]
         private static IEnumerable<CodeInstruction> SortTargetRootsTranspiler(IEnumerable<CodeInstruction> instructions)
         {
-            if (!Enabled)
+            if (!enabled)
                 return instructions;
 
             var il = instructions.ToList();
@@ -140,7 +143,7 @@ namespace Shared.Patches
         [HarmonyPatch(MethodType.Constructor, typeof(IMyTargetingReceiver), typeof(MyLargeTurretTargetingSystem.MyTargetingOption))]
         private static IEnumerable<CodeInstruction> ConstructorTranspiler(IEnumerable<CodeInstruction> instructions)
         {
-            if (!Enabled)
+            if (!enabled)
                 return instructions;
 
             var il = instructions.ToList();
@@ -166,7 +169,7 @@ namespace Shared.Patches
         [HarmonyPatch(nameof(MyLargeTurretTargetingSystem.UpdateVisibilityCache))]
         private static bool UpdateVisibilityCachePrefix(IMyTargetingReceiver ___m_targetReceiver, bool ___m_parallelTargetSelectionInProcess)
         {
-            if (!Enabled)
+            if (!enabled)
                 return true;
 
             if (___m_parallelTargetSelectionInProcess)
@@ -214,7 +217,7 @@ namespace Shared.Patches
         [HarmonyPatch("SetTargetVisible")]
         private static bool SetTargetVisiblePrefix(IMyTargetingReceiver ___m_targetReceiver, MyEntity target, bool visible, int? timeout = null)
         {
-            if (!Enabled)
+            if (!enabled)
                 return true;
 
             Dictionary<long, long> cache;
@@ -228,7 +231,7 @@ namespace Shared.Patches
                 }
             }
 
-            var expires = tick + (timeout ?? 4 + MyRandom.Instance.Next(4));
+            var expires = tick + (timeout ?? 10 + MyRandom.Instance.Next(5));
 
             if (!visible)
                 expires = -expires;
@@ -246,7 +249,7 @@ namespace Shared.Patches
         [HarmonyPatch("IsTargetVisible", typeof(MyEntity), typeof(Vector3D?), typeof(bool))]
         private static IEnumerable<CodeInstruction> IsTargetVisibleTranspiler(IEnumerable<CodeInstruction> instructions)
         {
-            if (!Enabled)
+            if (!enabled)
                 return instructions;
 
             var il = instructions.ToList();
@@ -277,7 +280,7 @@ namespace Shared.Patches
         [HarmonyPatch("TestPotentialTarget")]
         private static IEnumerable<CodeInstruction> TestPotentialTargetTranspiler(IEnumerable<CodeInstruction> instructions)
         {
-            if (!Enabled)
+            if (!enabled)
                 return instructions;
 
             var il = instructions.ToList();
@@ -301,7 +304,7 @@ namespace Shared.Patches
         [HarmonyPatch("TestTarget")]
         private static IEnumerable<CodeInstruction> TestTargetTranspiler(IEnumerable<CodeInstruction> instructions)
         {
-            if (!Enabled)
+            if (!enabled)
                 return instructions;
 
             var il = instructions.ToList();
@@ -326,7 +329,7 @@ namespace Shared.Patches
             lock (VisibilityCache)
             {
                 if (!VisibilityCache.TryGetValue(targetReceiver.Entity.EntityId, out cache))
-                    return true;
+                    return false;
             }
 
             lock (cache)
@@ -341,7 +344,7 @@ namespace Shared.Patches
             lock (VisibilityCache)
             {
                 if (!VisibilityCache.TryGetValue(targetReceiver.Entity.EntityId, out cache))
-                    return true;
+                    return false;
             }
 
             lock (cache)
@@ -363,7 +366,7 @@ namespace Shared.Patches
 
         public static void Clean()
         {
-            if (!Enabled)
+            if (!enabled)
                 return;
 
             tick = MySession.Static.GameplayFrameCounter;

@@ -97,7 +97,7 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out cacheScriptsLabel, out cacheScriptsCheckbox, config.CacheScripts, value => config.CacheScripts = value, "Cache compiled scripts", "Caches compiled in-game scripts (PB programs) to reduce lag");
             CreateCheckbox(out disableModApiStatisticsLabel, out disableModApiStatisticsCheckbox, config.DisableModApiStatistics, value => config.DisableModApiStatistics = value, "Disable Mod API statistics", "Disable the collection of Mod API call statistics to eliminate the overhead (affects only world loading)");
             CreateCheckbox(out fixSafeZoneLabel, out fixSafeZoneCheckbox, config.FixSafeZone, value => config.FixSafeZone = value, "Fix safe zone lag", "Caches frequent recalculations in safe zones");
-            CreateCheckbox(out fixTargetingLabel, out fixTargetingCheckbox, config.FixTargeting, value => config.FixTargeting = value, "Fix allocations in targeting (needs restart)", "Reduces memory allocations in the turret targeting system (change is applied on restart)");
+            CreateCheckbox(out fixTargetingLabel, out fixTargetingCheckbox, config.FixTargeting, value => config.FixTargeting = value, "Fix allocations in targeting (needs restart)", "Reduces memory allocations in the turret targeting system (needs restart)");
             //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
 
             EnableDisableFixes();

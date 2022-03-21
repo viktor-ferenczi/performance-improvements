@@ -128,7 +128,7 @@ def generate_bool_option(name, command, label, tooltip):
 
 def main():
     pass
-    # generate_bool_option('FixTargeting', 'targeting', 'Fix allocations in targeting (needs restart)', 'Reduces memory allocations in the turret targeting system (change is applied on restart)')
+    # generate_bool_option('FixTargeting', 'targeting', 'Fix allocations in targeting (needs restart)', 'Reduces memory allocations in the turret targeting system (needs restart)')
 
 
 if __name__ == '__main__':

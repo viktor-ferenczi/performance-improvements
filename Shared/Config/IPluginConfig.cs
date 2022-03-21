@@ -34,7 +34,7 @@ namespace Shared.Config
         // Caches frequent recalculations in safe zones
         bool FixSafeZone { get; set; }
 
-        // Reduces memory allocations in the turret targeting system (change is applied on restart)
+        // Reduces memory allocations in the turret targeting system (needs restart)
         bool FixTargeting { get; set; }
 
         /*BOOL_OPTION

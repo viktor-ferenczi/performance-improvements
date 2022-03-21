@@ -26,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyGroupsPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyResourceDistributorComponentPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\PatchHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\PhysicsFixes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZonePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\ICommonPlugin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\Common.cs" />

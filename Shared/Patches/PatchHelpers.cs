@@ -2,8 +2,7 @@ using System;
 using System.Reflection;
 using HarmonyLib;
 using Shared.Logging;
-using VRageMath;
-using VRageMath.Spatial;
+using Shared.Patches.Physics;
 
 namespace Shared.Patches
 {
@@ -30,19 +29,22 @@ namespace Shared.Patches
             return true;
         }
 
+        // Called after loading configuration, but before patching
+        public static void Configure()
+        {
+            MyLargeTurretTargetingSystemPatch.Configure();
+
+            // FIXME: Make this configurable!
+            PhysicsFixes.SetClusterSize(3000f);
+        }
+
+        // Called after patching is done
         public static void PatchInits()
         {
-            // FIXME: Make it configurable!
-            const float clusterSize = 4000f;
-            MyClusterTree.IdealClusterSize = new Vector3(clusterSize);
-            MyClusterTree.IdealClusterSizeHalfSqr = MyClusterTree.IdealClusterSize * MyClusterTree.IdealClusterSize / 4f;
-            MyClusterTree.MinimumDistanceFromBorder = MyClusterTree.IdealClusterSize / 50f;
-            MyClusterTree.MaximumForSplit = MyClusterTree.IdealClusterSize * 2f;
-            MyClusterTree.MaximumClusterSize = 5f * clusterSize;
-
             MyScriptCompilerPatch.Init();
         }
 
+        // Called on every update
         public static void PatchUpdates()
         {
             MySafeZonePatch.Clean();
