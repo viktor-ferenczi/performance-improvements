@@ -168,17 +168,16 @@ namespace Shared.Patches
         private const int MaxTargetsToRemove = 128;
         private static readonly long[] TargetsToRemove = new long[MaxTargetsToRemove];
 
+        // NOTE: Issue #18: Do NOT patch UpdateVisibilityCache instead. That patch would sometimes
+        // be circumvented and UpdateVisibilityCacheCounters is still called. It is not clear why.
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
-        [HarmonyPatch(nameof(MyLargeTurretTargetingSystem.UpdateVisibilityCache))]
-        [EnsureCode("1f353abf")]
-        private static bool UpdateVisibilityCachePrefix(IMyTargetingReceiver ___m_targetReceiver, bool ___m_parallelTargetSelectionInProcess)
+        [HarmonyPatch("UpdateVisibilityCacheCounters")]
+        [EnsureCode("e5cf202d")]
+        private static bool UpdateVisibilityCacheCountersPrefix(IMyTargetingReceiver ___m_targetReceiver)
         {
             if (!enabled)
                 return true;
-
-            if (___m_parallelTargetSelectionInProcess)
-                return false;
 
             if (___m_targetReceiver == null)
                 return false;
