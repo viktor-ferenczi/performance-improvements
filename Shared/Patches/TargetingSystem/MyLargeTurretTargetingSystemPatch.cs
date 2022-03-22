@@ -8,7 +8,6 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using Sandbox.Game.Entities.Interfaces;
 using Sandbox.Game.Weapons;
-using Sandbox.Game.World;
 using Shared.Config;
 using Shared.Plugin;
 using Shared.Tools;
@@ -43,7 +42,7 @@ namespace Shared.Patches
         private const long ArrayCacheAverageExpiration = 10 * 60; // ticks
 
         // Array cache for each turret targeting system instance keyed by the m_targetReceiver.Entity.EntityId
-        private static readonly Dictionary<long, CachedArray> ArrayCache = new Dictionary<long, CachedArray>();
+        private static readonly RwLockDictionary<long, CachedArray> ArrayCache = new RwLockDictionary<long, CachedArray>();
 
         // ReSharper disable once UnusedMember.Local
         [HarmonyTranspiler]
@@ -91,14 +90,16 @@ namespace Shared.Patches
             var entityId = targetReceiverEntity.EntityId;
             if (targetReceiverEntity.Closed)
             {
-                lock (ArrayCache)
+                using (ArrayCache.Write())
                     ArrayCache.Remove(entityId);
-                lock (VisibilityCache)
+
+                using (VisibilityCache.Write())
                     VisibilityCache.Remove(entityId);
+
                 return Array.Empty<MyEntity>();
             }
 
-            lock (ArrayCache)
+            using (ArrayCache.Write())
             {
                 if (ArrayCache.TryGetValue(entityId, out var cache))
                 {
@@ -163,7 +164,7 @@ namespace Shared.Patches
         // Visibility map for each turret targeting system instance keyed by the m_targetReceiver.Entity.EntityId
         // Sign of value is the visibility, negative is not visible, positive is visible.
         // Absolute value is the simulation tick when the cache entry expires.
-        private static readonly Dictionary<long, Dictionary<long, long>> VisibilityCache = new Dictionary<long, Dictionary<long, long>>();
+        private static readonly RwLockDictionary<long, RwLockDictionary<long, long>> VisibilityCache = new RwLockDictionary<long, RwLockDictionary<long, long>>();
         private const int MaxTargetsToRemove = 128;
         private static readonly long[] TargetsToRemove = new long[MaxTargetsToRemove];
 
@@ -182,23 +183,22 @@ namespace Shared.Patches
             if (___m_targetReceiver == null)
                 return false;
 
-            Dictionary<long, long> cache;
-            lock (VisibilityCache)
+            RwLockDictionary<long, long> cache;
+            using (VisibilityCache.Write())
             {
                 if (!VisibilityCache.TryGetValue(___m_targetReceiver.Entity.EntityId, out cache))
                     return false;
             }
 
-            var now = tick;
-
-            lock (cache)
+            lock (TargetsToRemove)
             {
-                lock (TargetsToRemove)
+                var count = 0;
+
+                using (cache.Read())
                 {
-                    var count = 0;
                     foreach (var (entityId, expires) in cache)
                     {
-                        if (Math.Abs(expires) > now)
+                        if (Math.Abs(expires) > tick)
                             continue;
 
                         TargetsToRemove[count++] = entityId;
@@ -206,7 +206,10 @@ namespace Shared.Patches
                         if (count == MaxTargetsToRemove)
                             break;
                     }
+                }
 
+                using (cache.Write())
+                {
                     for (var i = 0; i < count; i++)
                         cache.Remove(TargetsToRemove[i]);
                 }
@@ -225,13 +228,13 @@ namespace Shared.Patches
             if (!enabled)
                 return true;
 
-            Dictionary<long, long> cache;
-            lock (VisibilityCache)
+            RwLockDictionary<long, long> cache;
+            using (VisibilityCache.Write())
             {
                 var receiverEntityId = ___m_targetReceiver.Entity.EntityId;
                 if (!VisibilityCache.TryGetValue(receiverEntityId, out cache))
                 {
-                    cache = new Dictionary<long, long>();
+                    cache = new RwLockDictionary<long, long>();
                     VisibilityCache[receiverEntityId] = cache;
                 }
             }
@@ -241,10 +244,8 @@ namespace Shared.Patches
             if (!visible)
                 expires = -expires;
 
-            lock (cache)
-            {
+            using (cache.Write())
                 cache[target.EntityId] = expires;
-            }
 
             return false;
         }
@@ -333,14 +334,14 @@ namespace Shared.Patches
 
         private static bool IsTargetCachedAsVisible(IMyTargetingReceiver targetReceiver, MyEntity target)
         {
-            Dictionary<long, long> cache;
-            lock (VisibilityCache)
+            RwLockDictionary<long, long> cache;
+            using (VisibilityCache.Read())
             {
                 if (!VisibilityCache.TryGetValue(targetReceiver.Entity.EntityId, out cache))
                     return false;
             }
 
-            lock (cache)
+            using (cache.Read())
             {
                 return cache.TryGetValue(target.EntityId, out var expires) && expires > 0;
             }
@@ -348,14 +349,14 @@ namespace Shared.Patches
 
         private static bool IsTargetCachedAsNotVisible(IMyTargetingReceiver targetReceiver, MyEntity target)
         {
-            Dictionary<long, long> cache;
-            lock (VisibilityCache)
+            RwLockDictionary<long, long> cache;
+            using (VisibilityCache.Read())
             {
                 if (!VisibilityCache.TryGetValue(targetReceiver.Entity.EntityId, out cache))
                     return false;
             }
 
-            lock (cache)
+            using (cache.Read())
             {
                 return cache.TryGetValue(target.EntityId, out var expires) && expires < 0;
             }
@@ -370,41 +371,41 @@ namespace Shared.Patches
 
         private static readonly long[] CacheEntriesToDelete = new long[MaxCacheEntriesToDelete];
 
-        private static int tick;
+        private static long tick;
 
         public static void Clean()
         {
             if (!enabled)
                 return;
 
-            tick = MySession.Static.GameplayFrameCounter;
-
+            tick = Common.Plugin.Tick;
             if (tick % CleanupPeriod != 0)
                 return;
 
-            var now = tick;
-
-            lock (ArrayCache)
+            var count = 0;
+            using (ArrayCache.Read())
             {
-                var count = 0;
                 foreach (var (entityId, cachedResult) in ArrayCache)
                 {
-                    if (cachedResult.Expires >= now)
+                    if (cachedResult.Expires > tick)
                         continue;
 
                     CacheEntriesToDelete[count++] = entityId;
                     if (count == MaxCacheEntriesToDelete)
                         break;
                 }
+            }
 
+            using (ArrayCache.Write())
+            {
                 for (var i = 0; i < count; i++)
                     ArrayCache.Remove(CacheEntriesToDelete[i]);
+            }
 
-                lock (VisibilityCache)
-                {
-                    for (var i = 0; i < count; i++)
-                        VisibilityCache.Remove(CacheEntriesToDelete[i]);
-                }
+            using (VisibilityCache.Write())
+            {
+                for (var i = 0; i < count; i++)
+                    VisibilityCache.Remove(CacheEntriesToDelete[i]);
             }
         }
 

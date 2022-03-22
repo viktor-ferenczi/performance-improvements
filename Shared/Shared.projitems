@@ -33,6 +33,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Tools\CodeChange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\EnsureCode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Hashing.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\RwLock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\RwLockDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\TranspilerHelpers.cs" />
   </ItemGroup>
   <ItemGroup>

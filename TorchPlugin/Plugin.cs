@@ -90,7 +90,7 @@ namespace TorchPlugin
             }
             catch (Exception e)
             {
-                Log.Error(e, "Initialization failed");
+                Log.Critical(e, "Initialization failed");
                 failed = true;
             }
         }
@@ -151,7 +151,7 @@ namespace TorchPlugin
             }
             catch (Exception e)
             {
-                Log.Error(e, "Update failed");
+                Log.Critical(e, "Update failed");
                 failed = true;
             }
         }
