@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
 namespace Shared.Tools
 {
     public class RwLockDictionary<TKey, TValue> : Dictionary<TKey, TValue>
     {
-        private readonly RwLock _lock = new RwLock();
+        private int counter;
 
         public RwLockDictionary()
         {
@@ -35,14 +36,28 @@ namespace Shared.Tools
         {
         }
 
-        public RwLock.Reader Read()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void BeginReading()
         {
-            return _lock.Read();
+            RwLock.AcquireForReading(ref counter);
         }
 
-        public RwLock.Writer Write()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void FinishReading()
         {
-            return _lock.Write();
+            RwLock.ReleaseAfterReading(ref counter);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void BeginWriting()
+        {
+            RwLock.AcquireForWriting(ref counter);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void FinishWriting()
+        {
+            RwLock.ReleaseAfterWriting(ref counter);
         }
     }
 }
