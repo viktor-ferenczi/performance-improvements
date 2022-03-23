@@ -26,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyGroupsPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyResourceDistributorComponentPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\PatchHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\MyPhysicsBodyPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\PhysicsFixes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZonePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\ICommonPlugin.cs" />
@@ -47,6 +48,8 @@
     <Content Include="$(MSBuildThisFileDirectory)..\README.md">
       <Link>README.md</Link>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\MyPhysicsBody.get_RigidBody.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\MyPhysicsBody.get_RigidBody.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZone.RemoveEntityPhantom.Lambda.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZone.RemoveEntityPhantom.Lambda.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZone.RemoveEntityPhantom.original.il" />

@@ -67,8 +67,20 @@ namespace Shared.Tools
             ConstructorInfo patchedConstructor = null;
             switch (methodPatch.info.methodType)
             {
+                case MethodType.Getter:
+                    patchedMethod = AccessTools.PropertyGetter(patchedType, methodPatch.info.methodName);
+                    break;
+
+                case MethodType.Setter:
+                    patchedMethod = AccessTools.PropertySetter(patchedType, methodPatch.info.methodName);
+                    break;
+
                 case MethodType.Constructor:
                     patchedConstructor = AccessTools.Constructor(patchedType, methodPatch.info.argumentTypes);
+                    break;
+
+                case MethodType.StaticConstructor:
+                    patchedConstructor = AccessTools.Constructor(patchedType, methodPatch.info.argumentTypes, true);
                     break;
 
                 default:

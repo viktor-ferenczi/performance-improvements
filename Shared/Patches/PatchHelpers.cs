@@ -2,7 +2,9 @@ using System;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
+using Sandbox.Engine.Physics;
 using Shared.Logging;
+using Shared.Patches.Physics;
 using Shared.Tools;
 
 // #define LIST_TYPES
@@ -65,6 +67,7 @@ namespace Shared.Patches
         {
             MySafeZonePatch.Configure();
             MyLargeTurretTargetingSystemPatch.Configure();
+            MyPhysicsBodyPatch.Configure();
 
             // FIXME: Make this configurable!
             // PhysicsFixes.SetClusterSize(3000f);

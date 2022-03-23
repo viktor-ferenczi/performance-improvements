@@ -17,7 +17,6 @@ using VRageMath;
 
 namespace Shared.Patches
 {
-    // ReSharper disable once UnusedType.Global
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [HarmonyPatch(typeof(MyLargeTurretTargetingSystem))]
     public static class MyLargeTurretTargetingSystemPatch
