@@ -174,10 +174,15 @@ Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/p
 
 `MySafeZone.IsSafe` is called very frequently for entities inside safe zones. 
 This is quite a bit of overhead in multiplayer worlds with many small grids and
-safe zones in it, like the Alehouse Rover PvP one. Workaround is to cache the 
-result of MySafeZone.IsSafe for up to 128 simulation ticks (~2 seconds).
-Side effect of the fix is that grid ownership changes are reflected in 
-safe zone behavior only up to 2 seconds later (1 second on average).
+safe zones in it, like the Alehouse Rover PvP one. 
+
+Workaround is to cache the result of MySafeZone.IsSafe for up to 128 simulation 
+ticks (~2 seconds). Side effect of the fix is that grid ownership changes are 
+reflected in safe zone behavior only up to 2 seconds later (1 second on average).
+
+The plugin also fixes a related
+[race condition bug](https://support.keenswh.com/spaceengineers/pc/topic/24149-safezone-m_removeentityphantomtasklist-hashset-corruption-due-to-race-condition)
+which would otherwise freeze the game.
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24146-performance-mysafezone-issafe-is-called-frequently-but-not-cached)
 
