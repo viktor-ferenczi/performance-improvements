@@ -71,6 +71,7 @@ namespace Shared.Patches
             MyLargeTurretTargetingSystemPatch.Configure();
             MyPhysicsBodyPatch.Configure();
             MyEntityPatch.Configure();
+            MyCharacterPatch.Configure();
 
             // FIXME: Make this configurable!
             // PhysicsFixes.SetClusterSize(3000f);

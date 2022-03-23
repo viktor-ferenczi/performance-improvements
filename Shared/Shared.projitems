@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Bullshit\GcCollectPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Bullshit\MyP2PQoSAdapterPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Bullshit\PerfCountingRewriterPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Character\MyCharacterPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\ConveyorSystem\MyPathFindingSystemEnumeratorPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\ConveyorSystem\MyPathFindingSystemPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Entity\MyEntityPatch.cs" />
@@ -49,6 +50,8 @@
     <Content Include="$(MSBuildThisFileDirectory)..\README.md">
       <Link>README.md</Link>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Character\RigidBody_ContactPointCallback.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Character\RigidBody_ContactPointCallback.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Entity\InSceneGetter.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Entity\InSceneGetter.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\RigidBodyGetter.original.il" />
