@@ -1,3 +1,4 @@
+// ef333083
 ldarg.0 NULL
 ldfld Sandbox.Game.Weapons.MyTargetSelectionWorkData Sandbox.Game.Weapons.MyLargeTurretTargetingSystem::m_targetSelectionWorkData
 ldfld Sandbox.Game.EntityComponents.MyGridTargeting Sandbox.Game.Weapons.MyTargetSelectionWorkData::GridTargeting

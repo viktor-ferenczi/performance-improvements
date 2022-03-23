@@ -1,3 +1,4 @@
+// af0e9b1d
 newobj System.Void Sandbox.Game.Weapons.<>c__DisplayClass55_0::.ctor()
 stloc.0 NULL
 ldloc.0 NULL

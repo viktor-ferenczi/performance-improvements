@@ -1,3 +1,4 @@
+// 8dfc8ab5
 ldarg.0 NULL
 ldc.i4.3 NULL
 stfld System.Int32 Sandbox.Game.Weapons.MyLargeTurretTargetingSystem::m_VisibleCachePeriod

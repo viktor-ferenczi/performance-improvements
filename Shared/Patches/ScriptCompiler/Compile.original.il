@@ -1,3 +1,4 @@
+// e67688ae
 ldarg.0 NULL
 ldfld System.Int32 VRage.Scripting.<Compile>d__37::<>1__state
 stloc.0 NULL

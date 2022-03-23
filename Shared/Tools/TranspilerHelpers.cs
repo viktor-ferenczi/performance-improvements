@@ -8,6 +8,7 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Text;
 using HarmonyLib;
+using Shared.Tools;
 
 namespace Shared.Patches
 {
@@ -49,6 +50,10 @@ namespace Shared.Patches
         public static string FormatCode(this List<CodeInstruction> il)
         {
             var sb = new StringBuilder();
+
+            var hash = il.HashInstructions().CombineHashCodes().ToString("x8");
+            sb.Append($"// {hash}\r\n");
+
             foreach(var ci in il)
             {
                 sb.Append(ci);
