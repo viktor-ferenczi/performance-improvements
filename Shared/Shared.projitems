@@ -47,6 +47,10 @@
     <Content Include="$(MSBuildThisFileDirectory)..\README.md">
       <Link>README.md</Link>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZone.RemoveEntityPhantom.Lambda.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZone.RemoveEntityPhantom.Lambda.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZone.RemoveEntityPhantom.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZone.RemoveEntityPhantom.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\MyScriptCompiler.Compile.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\MyScriptCompiler.Compile.patched.il" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\MyScriptCompilerPatch.cs" />

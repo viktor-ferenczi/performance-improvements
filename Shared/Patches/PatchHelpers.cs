@@ -3,8 +3,9 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using Shared.Logging;
-using Shared.Patches.Physics;
 using Shared.Tools;
+
+// #define LIST_TYPES
 
 namespace Shared.Patches
 {
@@ -15,6 +16,16 @@ namespace Shared.Patches
         {
 #if DEBUG
             Harmony.DEBUG = true;
+#endif
+
+#if DEBUG
+#if LIST_TYPES
+            log.Info("All types:");
+            foreach (var typ in AccessTools.AllTypes())
+            {
+                log.Info(typ.FullName);
+            }
+#endif
 #endif
 
             log.Debug("Scanning for conflicting code changes");
@@ -52,6 +63,7 @@ namespace Shared.Patches
         // Called after loading configuration, but before patching
         public static void Configure()
         {
+            MySafeZonePatch.Configure();
             MyLargeTurretTargetingSystemPatch.Configure();
 
             // FIXME: Make this configurable!
