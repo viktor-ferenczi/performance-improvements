@@ -90,16 +90,21 @@ namespace Shared.Patches
             var entityId = targetReceiverEntity.EntityId;
             if (targetReceiverEntity.Closed)
             {
-                using (ArrayCache.Write())
-                    ArrayCache.Remove(entityId);
+                // No try-finally, the Remove cannot fail
 
-                using (VisibilityCache.Write())
-                    VisibilityCache.Remove(entityId);
+                ArrayCache.BeginWriting();
+                ArrayCache.Remove(entityId);
+                ArrayCache.FinishWriting();
+
+                VisibilityCache.BeginWriting();
+                VisibilityCache.Remove(entityId);
+                VisibilityCache.FinishWriting();
 
                 return Array.Empty<MyEntity>();
             }
 
-            using (ArrayCache.Write())
+            ArrayCache.BeginWriting();
+            try
             {
                 if (ArrayCache.TryGetValue(entityId, out var cache))
                 {
@@ -134,6 +139,10 @@ namespace Shared.Patches
                 };
 
                 return newArray;
+            }
+            finally
+            {
+                ArrayCache.FinishWriting();
             }
         }
 
@@ -183,17 +192,23 @@ namespace Shared.Patches
                 return false;
 
             RwLockDictionary<long, long> cache;
-            using (VisibilityCache.Write())
+            VisibilityCache.BeginReading();
+            try
             {
                 if (!VisibilityCache.TryGetValue(___m_targetReceiver.Entity.EntityId, out cache))
                     return false;
+            }
+            finally
+            {
+                VisibilityCache.FinishReading();
             }
 
             lock (TargetsToRemove)
             {
                 var count = 0;
 
-                using (cache.Read())
+                cache.BeginReading();
+                try
                 {
                     foreach (var (entityId, expires) in cache)
                     {
@@ -206,12 +221,16 @@ namespace Shared.Patches
                             break;
                     }
                 }
-
-                using (cache.Write())
+                finally
                 {
-                    for (var i = 0; i < count; i++)
-                        cache.Remove(TargetsToRemove[i]);
+                    cache.FinishReading();
                 }
+
+                // No try-finally, since Remove cannot fail
+                cache.BeginWriting();
+                for (var i = 0; i < count; i++)
+                    cache.Remove(TargetsToRemove[i]);
+                cache.FinishWriting();
             }
 
             return false;
@@ -228,7 +247,8 @@ namespace Shared.Patches
                 return true;
 
             RwLockDictionary<long, long> cache;
-            using (VisibilityCache.Write())
+            VisibilityCache.BeginWriting();
+            try
             {
                 var receiverEntityId = ___m_targetReceiver.Entity.EntityId;
                 if (!VisibilityCache.TryGetValue(receiverEntityId, out cache))
@@ -237,14 +257,20 @@ namespace Shared.Patches
                     VisibilityCache[receiverEntityId] = cache;
                 }
             }
+            finally
+            {
+                VisibilityCache.FinishWriting();
+            }
 
             var expires = tick + (timeout ?? 10 + MyRandom.Instance.Next(5));
 
             if (!visible)
                 expires = -expires;
 
-            using (cache.Write())
-                cache[target.EntityId] = expires;
+            // Setting or overwriting the dictionary item cannot fail (unless OOM)
+            cache.BeginWriting();
+            cache[target.EntityId] = expires;
+            cache.FinishWriting();
 
             return false;
         }
@@ -333,32 +359,38 @@ namespace Shared.Patches
 
         private static bool IsTargetCachedAsVisible(IMyTargetingReceiver targetReceiver, MyEntity target)
         {
-            RwLockDictionary<long, long> cache;
-            using (VisibilityCache.Read())
+            // Fast code without try-finally, but slight redundancy
+            VisibilityCache.BeginReading();
+            if (!VisibilityCache.TryGetValue(targetReceiver.Entity.EntityId, out var cache))
             {
-                if (!VisibilityCache.TryGetValue(targetReceiver.Entity.EntityId, out cache))
-                    return false;
+                VisibilityCache.FinishReading();
+                return false;
             }
+            VisibilityCache.FinishReading();
 
-            using (cache.Read())
-            {
-                return cache.TryGetValue(target.EntityId, out var expires) && expires > 0;
-            }
+            // No try-finally, because this expression cannot fail
+            cache.BeginReading();
+            var result = cache.TryGetValue(target.EntityId, out var expires) && expires > 0;
+            cache.FinishReading();
+            return result;
         }
 
         private static bool IsTargetCachedAsNotVisible(IMyTargetingReceiver targetReceiver, MyEntity target)
         {
-            RwLockDictionary<long, long> cache;
-            using (VisibilityCache.Read())
+            // Fast code without try-finally, but slight redundancy
+            VisibilityCache.BeginReading();
+            if (!VisibilityCache.TryGetValue(targetReceiver.Entity.EntityId, out var cache))
             {
-                if (!VisibilityCache.TryGetValue(targetReceiver.Entity.EntityId, out cache))
-                    return false;
+                VisibilityCache.FinishReading();
+                return false;
             }
+            VisibilityCache.FinishReading();
 
-            using (cache.Read())
-            {
-                return cache.TryGetValue(target.EntityId, out var expires) && expires < 0;
-            }
+            // No try-finally, because this expression cannot fail
+            cache.BeginReading();
+            var result = cache.TryGetValue(target.EntityId, out var expires) && expires < 0;
+            cache.FinishReading();
+            return result;
         }
 
         #endregion
@@ -382,7 +414,8 @@ namespace Shared.Patches
                 return;
 
             var count = 0;
-            using (ArrayCache.Read())
+            ArrayCache.BeginWriting();
+            try
             {
                 foreach (var (entityId, cachedResult) in ArrayCache)
                 {
@@ -393,19 +426,20 @@ namespace Shared.Patches
                     if (count == MaxCacheEntriesToDelete)
                         break;
                 }
-            }
 
-            using (ArrayCache.Write())
-            {
                 for (var i = 0; i < count; i++)
                     ArrayCache.Remove(CacheEntriesToDelete[i]);
             }
-
-            using (VisibilityCache.Write())
+            finally
             {
-                for (var i = 0; i < count; i++)
-                    VisibilityCache.Remove(CacheEntriesToDelete[i]);
+                ArrayCache.FinishWriting();
             }
+
+            // No try-finally, because Remove cannot fail
+            VisibilityCache.BeginWriting();
+            for (var i = 0; i < count; i++)
+                VisibilityCache.Remove(CacheEntriesToDelete[i]);
+            VisibilityCache.FinishWriting();
         }
 
         #endregion
