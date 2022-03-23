@@ -53,6 +53,7 @@ namespace Shared.Patches
                 return instructions;
 
             var il = instructions.ToList();
+            il.RecordOriginalCode();
 
             var targetReceiver = il.GetField(fi => fi.Name.Contains("m_targetReceiver"));
             var distanceEntityKeys = il.GetField(fi => fi.Name.Contains("m_distanceEntityKeys"));
@@ -70,6 +71,7 @@ namespace Shared.Patches
             var k = il.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo mi && mi.Name.Contains("EnsureCapacity"));
             il.RemoveRange(k - 6, 9);
 
+            il.RecordPatchedCode();
             return il.AsEnumerable();
         }
 
@@ -159,6 +161,7 @@ namespace Shared.Patches
                 return instructions;
 
             var il = instructions.ToList();
+            il.RecordOriginalCode();
 
             // Do not create the ConcurrentDictionary instances, they won't be used
             il.RemoveFieldInitialization("m_notVisibleTargets");
@@ -166,6 +169,7 @@ namespace Shared.Patches
             il.RemoveFieldInitialization("m_visibleTargets");
             il.RemoveFieldInitialization("m_lastVisibleTargets");
 
+            il.RecordPatchedCode();
             return il.AsEnumerable();
         }
 
@@ -284,6 +288,7 @@ namespace Shared.Patches
                 return instructions;
 
             var il = instructions.ToList();
+            il.RecordOriginalCode();
 
             var continueLabel = il.GetLabel(oc => oc == OpCodes.Ble_S);
             var targetReceiver = AccessTools.DeclaredField(typeof(MyLargeTurretTargetingSystem), "m_targetReceiver");
@@ -303,6 +308,7 @@ namespace Shared.Patches
             il.Insert(k++, new CodeInstruction(OpCodes.Ldarg_1));
             il.Insert(k, new CodeInstruction(OpCodes.Call, AccessTools.DeclaredMethod(typeof(MyLargeTurretTargetingSystemPatch), nameof(IsTargetCachedAsVisible))));
 
+            il.RecordPatchedCode();
             return il.AsEnumerable();
         }
 
@@ -316,6 +322,7 @@ namespace Shared.Patches
                 return instructions;
 
             var il = instructions.ToList();
+            il.RecordOriginalCode();
 
             var continueLabel = il.GetLabel(oc => oc == OpCodes.Ble_S);
             var targetReceiver = AccessTools.DeclaredField(typeof(MyLargeTurretTargetingSystem), "m_targetReceiver");
@@ -328,6 +335,7 @@ namespace Shared.Patches
             il.Insert(j++, new CodeInstruction(OpCodes.Call, AccessTools.DeclaredMethod(typeof(MyLargeTurretTargetingSystemPatch), nameof(IsTargetCachedAsNotVisible))));
             il.Insert(j, new CodeInstruction(OpCodes.Brfalse, continueLabel));
 
+            il.RecordPatchedCode();
             return il.AsEnumerable();
         }
 
@@ -341,6 +349,7 @@ namespace Shared.Patches
                 return instructions;
 
             var il = instructions.ToList();
+            il.RecordOriginalCode();
 
             var continueLabel = il.GetLabel(oc => oc == OpCodes.Ble_S);
             var targetReceiver = AccessTools.DeclaredField(typeof(MyLargeTurretTargetingSystem), "m_targetReceiver");
@@ -353,6 +362,7 @@ namespace Shared.Patches
             il.Insert(j++, new CodeInstruction(OpCodes.Call, AccessTools.DeclaredMethod(typeof(MyLargeTurretTargetingSystemPatch), nameof(IsTargetCachedAsNotVisible))));
             il.Insert(j, new CodeInstruction(OpCodes.Brfalse, continueLabel));
 
+            il.RecordPatchedCode();
             return il.AsEnumerable();
         }
 

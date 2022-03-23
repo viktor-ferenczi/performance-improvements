@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Sandbox.Engine.Physics;
 using Shared.Config;
@@ -32,6 +33,8 @@ namespace Shared.Patches.Physics
                 return instructions;
 
             var il = instructions.ToList();
+            il.RecordOriginalCode();
+
             var i = il.FindIndex(ci => ci.opcode == OpCodes.Brtrue_S);
             var parentIsNotNullLabel = (Label)il[i].operand;
             il.Insert(i++, new CodeInstruction(OpCodes.Dup));
@@ -41,11 +44,7 @@ namespace Shared.Patches.Physics
             il.RemoveRange(j, 3);
             il[j].labels.Add(parentIsNotNullLabel);
 
-            // var k = il.FindIndex(ci => ci.opcode == OpCodes.Br);
-            // il[k] = new CodeInstruction(OpCodes.Ret);
-            //
-            // il[il.Count - 1].labels.Clear();
-
+            il.RecordPatchedCode();
             return il.AsEnumerable();
         }
     }

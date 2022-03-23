@@ -48,25 +48,25 @@
     <Content Include="$(MSBuildThisFileDirectory)..\README.md">
       <Link>README.md</Link>
     </Content>
-    <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\MyPhysicsBody.get_RigidBody.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\MyPhysicsBody.get_RigidBody.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZone.RemoveEntityPhantom.Lambda.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZone.RemoveEntityPhantom.Lambda.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZone.RemoveEntityPhantom.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZone.RemoveEntityPhantom.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\MyScriptCompiler.Compile.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\MyScriptCompiler.Compile.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\RigidBodyGetter.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\RigidBodyGetter.patched.il" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\MyScriptCompilerPatch.cs" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.ctor.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.ctor.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.IsTargetVisible.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.IsTargetVisible.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.SortTargetRoots.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.SortTargetRoots.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.TestPotentialTarget.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.TestPotentialTarget.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.TestTarget.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.TestTarget.patched.il" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystemPatch.cs" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\RemoveEntityPhantom.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\RemoveEntityPhantom.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\RemoveEntityPhantomLambda.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\RemoveEntityPhantomLambda.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\Compile.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\Compile.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\Constructor.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\Constructor.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\IsTargetVisible.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\IsTargetVisible.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\SortTargetRoots.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\SortTargetRoots.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\TestPotentialTarget.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\TestPotentialTarget.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\TestTarget.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\TestTarget.patched.il" />
   </ItemGroup>
 </Project>

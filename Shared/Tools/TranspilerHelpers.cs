@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
+using System.Text;
 using HarmonyLib;
 
 namespace Shared.Patches
@@ -41,6 +44,53 @@ namespace Shared.Patches
             Debug.Assert(il[i - 1].opcode == OpCodes.Newobj);
 
             il.RemoveRange(i-2, 3);
+        }
+
+        public static string FormatCode(this List<CodeInstruction> il)
+        {
+            var sb = new StringBuilder();
+            foreach(var ci in il)
+            {
+                sb.Append(ci);
+                sb.Append("\r\n");
+            }
+
+            return sb.ToString();
+        }
+
+        public static void RecordOriginalCode(this List<CodeInstruction> il, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string callerMemberName = "")
+        {
+#if DEBUG
+            RecordCode(il, callerFilePath, callerMemberName, "original");
+#endif
+        }
+
+        public static void RecordPatchedCode(this List<CodeInstruction> il, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string callerMemberName = "")
+        {
+#if DEBUG
+            RecordCode(il, callerFilePath, callerMemberName, "patched");
+#endif
+        }
+
+        private static void RecordCode(List<CodeInstruction> il, string callerFilePath, string callerMemberName, string suffix)
+        {
+            if (!File.Exists(callerFilePath))
+                return;
+
+            var text = il.FormatCode();
+
+            Debug.Assert(callerFilePath.Length > 0);
+            var dir = Path.GetDirectoryName(callerFilePath);
+            Debug.Assert(dir != null);
+
+            const string expectedMemberNameSuffix = "Transpiler";
+            Debug.Assert(callerMemberName.Length > expectedMemberNameSuffix.Length);
+            Debug.Assert(callerMemberName.EndsWith(expectedMemberNameSuffix));
+            var name = callerMemberName.Substring(0, callerMemberName.Length - expectedMemberNameSuffix.Length);
+
+            var path = Path.Combine(dir, $"{name}.{suffix}.il");
+
+            File.WriteAllText(path, text);
         }
     }
 

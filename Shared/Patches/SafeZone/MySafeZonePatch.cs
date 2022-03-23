@@ -136,6 +136,7 @@ namespace Shared.Patches
                 return instructions;
 
             var il = instructions.ToList();
+            il.RecordOriginalCode();
 
             var i = il.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo mi && mi.Name.Contains("Contains"));
             il[i] = new CodeInstruction(OpCodes.Call, AccessTools.DeclaredMethod(typeof(MySafeZonePatch), nameof(PhantomTaskListContains)));
@@ -144,6 +145,7 @@ namespace Shared.Patches
             var j = il.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo mi && mi.Name.Contains("Add"));
             il[j] = new CodeInstruction(OpCodes.Call, AccessTools.DeclaredMethod(typeof(MySafeZonePatch), nameof(PhantomTaskListAdd)));
 
+            il.RecordPatchedCode();
             return il.AsEnumerable();
         }
 
@@ -151,17 +153,19 @@ namespace Shared.Patches
         [HarmonyPatch("Sandbox.Game.Entities.MySafeZone+<>c__DisplayClass103_0", "<RemoveEntityPhantom>b__0")]
         [EnsureCode("b39ccae8")]
         // ReSharper disable once UnusedMember.Local
-        private static IEnumerable<CodeInstruction> RemoveEntityPhantomClosureTranspiler(IEnumerable<CodeInstruction> instructions)
+        private static IEnumerable<CodeInstruction> RemoveEntityPhantomLambdaTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             if (!enabled)
                 return instructions;
 
             var il = instructions.ToList();
+            il.RecordOriginalCode();
 
             // Lock around the Remove call
             var i = il.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo mi && mi.Name.Contains("Remove"));
             il[i] = new CodeInstruction(OpCodes.Call, AccessTools.DeclaredMethod(typeof(MySafeZonePatch), nameof(PhantomTaskListRemove)));
 
+            il.RecordPatchedCode();
             return il.AsEnumerable();
         }
 
