@@ -2,8 +2,14 @@
 
 **Scroll down for:**
 - List of features
-- Their technical details
-- Keen bug tickets to vote on
+- Technical details
+- Keen bug reports to vote on
+
+For support please [join the SE Mods Discord](https://discord.gg/PYPFPGf3Ca).
+
+Please consider [supporting my work on Patreon](https://www.patreon.com/semods).
+
+Thank you!
 
 ## Available for
 - [Space Engineers](https://store.steampowered.com/app/244850/Space_Engineers/) with [Plugin Loader](https://steamcommunity.com/sharedfiles/filedetails/?id=2407984968)
