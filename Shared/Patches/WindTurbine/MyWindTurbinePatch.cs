@@ -23,7 +23,7 @@ namespace Shared.Patches
             enabled = Config.Enabled; // && Config.FixTargeting;
         }
 
-        private static readonly BoolCache Cache = new BoolCache(300, 239 * 60, 64);
+        private static readonly BoolCache Cache = new BoolCache(300, 293 * 60, 64);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Clean()

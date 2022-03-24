@@ -3,9 +3,8 @@ using HarmonyLib;
 using Sandbox.Game.Entities;
 using Sandbox.Game.World;
 using Shared.Config;
-using Shared.Extensions;
-using Shared.Plugin;
 using Shared.Tools;
+using Shared.Plugin;
 
 namespace Shared.Patches
 {
