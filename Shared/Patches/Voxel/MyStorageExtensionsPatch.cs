@@ -20,6 +20,11 @@ namespace Shared.Patches
         // These patches need restart to be enabled/disabled
         private static bool enabled;
 
+        public static void Configure()
+        {
+            enabled = Config.Enabled; // && Config.FixTargeting;
+        }
+
         private const int Capacity = 8;
         private static readonly MyStorageData[] Pool = new MyStorageData[Capacity];
         private static readonly int[] Used = new int[Capacity];
@@ -32,11 +37,6 @@ namespace Shared.Patches
                 storageData.Resize(Vector3I.One);
                 Pool[i] = storageData;
             }
-        }
-
-        public static void Configure()
-        {
-            enabled = Config.Enabled; // && Config.FixTargeting;
         }
 
         // ReSharper disable once UnusedMember.Local

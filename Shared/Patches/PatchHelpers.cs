@@ -69,6 +69,7 @@ namespace Shared.Patches
             MyEntityPatch.Configure();
             MyCharacterPatch.Configure();
             MyStorageExtensionsPatch.Configure();
+            MyWindTurbinePatch.Configure();
 
             // FIXME: Make this configurable!
             // PhysicsFixes.SetClusterSize(3000f);
@@ -85,6 +86,7 @@ namespace Shared.Patches
         {
             MySafeZonePatch.Clean();
             MyLargeTurretTargetingSystemPatch.Clean();
+            MyWindTurbinePatch.Clean();
         }
     }
 }
