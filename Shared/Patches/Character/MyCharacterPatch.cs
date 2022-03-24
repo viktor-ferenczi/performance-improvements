@@ -36,21 +36,35 @@ namespace Shared.Patches
             var il = instructions.ToList();
             il.RecordOriginalCode();
 
+            DisableFootprintRenderingOnServer(il);
+            DisableBodyContactAudioOnServer(il);
+
+            il.RecordPatchedCode();
+            return il.AsEnumerable();
+        }
+
+        private static void DisableFootprintRenderingOnServer(List<CodeInstruction> il)
+        {
             var otherPhysicsBody = il.GetField(fi => fi.Name.Contains("otherPhysicsBody"));
 
             var i = il.FindIndex(ci => ci.opcode == OpCodes.Ldfld && ci.operand as FieldInfo == otherPhysicsBody);
 
             Debug.Assert(il[i + 1].opcode == OpCodes.Brfalse);
-            var skipRendering = (Label)il[i + 1].operand;
+            var skipRenderingFootprints = (Label)il[i + 1].operand;
 
             Debug.Assert(il[i - 1].opcode == OpCodes.Ldloc_0);
             i--;
 
             il.Insert(i++, new CodeInstruction(OpCodes.Call, AccessTools.PropertyGetter(typeof(Sandbox.Game.Multiplayer.Sync), "IsDedicated")));
-            il.Insert(i, new CodeInstruction(OpCodes.Brtrue, skipRendering));
+            il.Insert(i, new CodeInstruction(OpCodes.Brtrue, skipRenderingFootprints));
+        }
 
-            il.RecordPatchedCode();
-            return il.AsEnumerable();
+        private static void DisableBodyContactAudioOnServer(List<CodeInstruction> il)
+        {
+            var j = il.FindIndex(ci => ci.opcode == OpCodes.Ldfld && ci.operand is FieldInfo fi && fi.Name.Contains("m_canPlayImpact")) - 4;
+            var skipContactSound = (Label)il[j + 2].operand;
+            il.Insert(j++, new CodeInstruction(OpCodes.Call, AccessTools.PropertyGetter(typeof(Sandbox.Game.Multiplayer.Sync), "IsDedicated")));
+            il.Insert(j, new CodeInstruction(OpCodes.Brtrue, skipContactSound));
         }
     }
 }
