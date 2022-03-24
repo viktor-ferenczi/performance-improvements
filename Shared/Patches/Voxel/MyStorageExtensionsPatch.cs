@@ -1,11 +1,12 @@
-using System.Collections.Generic;
-using System.Linq;
 using HarmonyLib;
+using Sandbox.Definitions;
 using Sandbox.Engine.Voxels;
 using Shared.Config;
 using Shared.Plugin;
 using Shared.Tools;
+using VRage.Game;
 using VRage.Game.Voxels;
+using VRage.Voxels;
 using VRageMath;
 
 namespace Shared.Patches
@@ -24,23 +25,23 @@ namespace Shared.Patches
         }
 
         // ReSharper disable once UnusedMember.Local
-        [HarmonyTranspiler]
+        [HarmonyPrefix]
         [HarmonyPatch(nameof(IMyStorageExtensions.GetMaterialAt),
             new[] { typeof(IMyStorage), typeof(Vector3I) },
             new[] { ArgumentType.Normal, ArgumentType.Ref })]
         [EnsureCode("d214d704")]
-        private static IEnumerable<CodeInstruction> GetMaterialAtVector3ITranspiler(IEnumerable<CodeInstruction> instructions)
+        private static bool GetMaterialAtVector3IPrefix(IMyStorage storage, ref Vector3I voxelCoords, ref MyVoxelMaterialDefinition __result)
         {
             if (!enabled)
-                return instructions;
+                return true;
 
-            var il = instructions.ToList();
-            il.RecordOriginalCode();
+            MyStorageData target = new MyStorageData();
+            target.Resize(Vector3I.One);
+            storage.ReadRange(target, MyStorageDataTypeFlags.ContentAndMaterial, 0, voxelCoords, voxelCoords);
+            byte materialIndex = target.Material(0);
+            __result = materialIndex == byte.MaxValue ? null : MyDefinitionManager.Static.GetVoxelMaterialDefinition(materialIndex);
 
-
-
-            il.RecordPatchedCode();
-            return il.AsEnumerable();
+            return false;
         }
     }
 }
