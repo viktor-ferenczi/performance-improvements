@@ -7,10 +7,10 @@ using Shared.Plugin;
 using Shared.Tools;
 using VRage.Game.Entity;
 
-namespace Shared.Patches.Entity
+namespace Shared.Patches
 {
     [HarmonyPatch(typeof(MyEntity))]
-    public class MyEntityPatch
+    public static class MyEntityPatch
     {
         private static IPluginConfig Config => Common.Config;
 

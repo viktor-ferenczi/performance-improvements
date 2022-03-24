@@ -9,7 +9,7 @@ using Shared.Config;
 using Shared.Plugin;
 using Shared.Tools;
 
-namespace Shared.Patches.Entity
+namespace Shared.Patches
 {
     [HarmonyPatch(typeof(MyCharacter))]
     public static class MyCharacterPatch

@@ -2,12 +2,8 @@ using System;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
-using Sandbox.Engine.Physics;
 using Shared.Logging;
-using Shared.Patches.Entity;
-using Shared.Patches.Physics;
 using Shared.Tools;
-using VRage.Game.Entity;
 
 // #define LIST_TYPES
 
@@ -72,6 +68,7 @@ namespace Shared.Patches
             MyPhysicsBodyPatch.Configure();
             MyEntityPatch.Configure();
             MyCharacterPatch.Configure();
+            MyStorageExtensionsPatch.Configure();
 
             // FIXME: Make this configurable!
             // PhysicsFixes.SetClusterSize(3000f);

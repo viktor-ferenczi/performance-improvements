@@ -1,7 +1,7 @@
 using VRageMath;
 using VRageMath.Spatial;
 
-namespace Shared.Patches.Physics
+namespace Shared.Patches
 {
     public static class PhysicsFixes
     {

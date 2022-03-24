@@ -1,14 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Sandbox.Engine.Physics;
 using Shared.Config;
 using Shared.Plugin;
 using Shared.Tools;
 
-namespace Shared.Patches.Physics
+namespace Shared.Patches
 {
     [HarmonyPatch(typeof(MyPhysicsBody))]
     public static class MyPhysicsBodyPatch
