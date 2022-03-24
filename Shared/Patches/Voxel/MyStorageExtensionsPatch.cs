@@ -1,3 +1,4 @@
+using System.Threading;
 using HarmonyLib;
 using Sandbox.Definitions;
 using Sandbox.Engine.Voxels;
@@ -19,12 +20,27 @@ namespace Shared.Patches
         // These patches need restart to be enabled/disabled
         private static bool enabled;
 
+        private const int Capacity = 8;
+        private static readonly MyStorageData[] Pool = new MyStorageData[Capacity];
+        private static readonly int[] Used = new int[Capacity];
+
+        static MyStorageExtensionsPatch()
+        {
+            for (var i = 0; i < Capacity; i++)
+            {
+                var storageData = new MyStorageData();
+                storageData.Resize(Vector3I.One);
+                Pool[i] = storageData;
+            }
+        }
+
         public static void Configure()
         {
             enabled = Config.Enabled; // && Config.FixTargeting;
         }
 
         // ReSharper disable once UnusedMember.Local
+        // ReSharper disable once InconsistentNaming
         [HarmonyPrefix]
         [HarmonyPatch(nameof(IMyStorageExtensions.GetMaterialAt),
             new[] { typeof(IMyStorage), typeof(Vector3I) },
@@ -35,11 +51,26 @@ namespace Shared.Patches
             if (!enabled)
                 return true;
 
-            MyStorageData target = new MyStorageData();
-            target.Resize(Vector3I.One);
+            var i = 0;
+            for (; i < Capacity; i++)
+            {
+                if (Interlocked.CompareExchange(ref Used[i], 1, 0) == 0)
+                    break;
+            }
+            if (i >= Capacity)
+                return true;
+
+            var target = Pool[i];
+
+            target.ClearContent(0);
+            target.ClearMaterials(0);
+
             storage.ReadRange(target, MyStorageDataTypeFlags.ContentAndMaterial, 0, voxelCoords, voxelCoords);
-            byte materialIndex = target.Material(0);
-            __result = materialIndex == byte.MaxValue ? null : MyDefinitionManager.Static.GetVoxelMaterialDefinition(materialIndex);
+
+            var materialIndex = target.Material(0);
+            __result = materialIndex == 255 ? null : MyDefinitionManager.Static.GetVoxelMaterialDefinition(materialIndex);
+
+            Used[i] = 0;
 
             return false;
         }
