@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
@@ -20,7 +21,20 @@ namespace Shared.Patches
 
         public static void Configure()
         {
-            enabled = Config.Enabled; // && Config.FixTargeting;
+            enabled = Config.Enabled && Config.FixWindTurbine;
+        }
+
+        static MyWindTurbinePatch()
+        {
+            Config.PropertyChanged += OnConfigChanged;
+        }
+
+        private static void OnConfigChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Configure();
+
+            if (!enabled)
+                Cache.Clear();
         }
 
         private static readonly UintCache<long> Cache = new UintCache<long>(293 * 60, 64);

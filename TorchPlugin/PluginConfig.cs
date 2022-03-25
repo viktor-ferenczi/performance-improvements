@@ -19,6 +19,11 @@ namespace TorchPlugin
         private bool disableModApiStatistics = true;
         private bool fixSafeZone = false;
         private bool fixTargeting = false;
+        private bool fixWindTurbine = false;
+        private bool fixVoxel = false;
+        private bool fixPhysics = false;
+        private bool fixEntity = false;
+        private bool fixCharacter = false;
         //BOOL_OPTION private bool optionName = false;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enable the plugin (all fixes)")]
@@ -98,8 +103,43 @@ namespace TorchPlugin
             set => SetValue(ref fixTargeting, value);
         }
 
+        [Display(Order = 12, GroupName = "Fixes", Name = "Fix wind turbine performance", Description = "Caches the result of MyWindTurbine.IsInAtmosphere")]
+        public bool FixWindTurbine
+        {
+            get => fixWindTurbine;
+            set => SetValue(ref fixWindTurbine, value);
+        }
+
+        [Display(Order = 13, GroupName = "Fixes", Name = "Fix voxel performance", Description = "Reduces memory allocations in IMyStorageExtensions.GetMaterialAt")]
+        public bool FixVoxel
+        {
+            get => fixVoxel;
+            set => SetValue(ref fixVoxel, value);
+        }
+
+        [Display(Order = 14, GroupName = "Fixes", Name = "Fix physics performance (needs restart)", Description = "Optimizes MyPhysicsBody.RigidBody getter (needs restart)")]
+        public bool FixPhysics
+        {
+            get => fixPhysics;
+            set => SetValue(ref fixPhysics, value);
+        }
+
+        [Display(Order = 15, GroupName = "Fixes", Name = "Fix entity performance (needs restart)", Description = "Optimizes MyEntity.InScene getter (needs restart)")]
+        public bool FixEntity
+        {
+            get => fixEntity;
+            set => SetValue(ref fixEntity, value);
+        }
+
+        [Display(Order = 16, GroupName = "Fixes", Name = "Fix character performance (needs restart)", Description = "Disables character footprint logic on server side (needs restart)")]
+        public bool FixCharacter
+        {
+            get => fixCharacter;
+            set => SetValue(ref fixCharacter, value);
+        }
+
         /*BOOL_OPTION
-        [Display(Order = 12, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
+        [Display(Order = 17, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
         public bool OptionName
         {
             get => optionName;

@@ -19,7 +19,7 @@ namespace Shared.Patches
 
         public static void Configure()
         {
-            enabled = Config.Enabled; // && Config.FixTargeting;
+            enabled = Config.Enabled && Config.FixPhysics;
         }
 
         // ReSharper disable once UnusedMember.Local

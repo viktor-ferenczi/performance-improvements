@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Threading;
 using HarmonyLib;
 using Sandbox.Definitions;
@@ -22,7 +23,7 @@ namespace Shared.Patches
 
         public static void Configure()
         {
-            enabled = Config.Enabled; // && Config.FixTargeting;
+            enabled = Config.Enabled && Config.FixVoxel;
         }
 
         private const int Capacity = 8;
@@ -37,6 +38,13 @@ namespace Shared.Patches
                 storageData.Resize(Vector3I.One);
                 Pool[i] = storageData;
             }
+
+            Config.PropertyChanged += OnConfigChanged;
+        }
+
+        private static void OnConfigChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Configure();
         }
 
         // ReSharper disable once UnusedMember.Local
