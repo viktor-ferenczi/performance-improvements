@@ -1,4 +1,4 @@
-// d92172a0
+// 7b68e0c9
 newobj System.Void Sandbox.Game.Entities.Character.<>c__DisplayClass448_0::.ctor()
 stloc.0 NULL
 ldloc.0 NULL
@@ -341,6 +341,8 @@ ldc.r4 17
 sub NULL
 call static System.Single System.Math::Min(System.Single val1, System.Single val2)
 stloc.s 19 (System.Single)
+call static System.Boolean Sandbox.Game.Multiplayer.Sync::get_IsDedicated()
+brtrue Label37
 ldloc.s 19 (System.Single)
 ldc.r4 -8
 blt.un Label37

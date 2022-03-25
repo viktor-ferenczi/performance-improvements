@@ -21,8 +21,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Bullshit\MyP2PQoSAdapterPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Bullshit\PerfCountingRewriterPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Character\MyCharacterPatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\ConveyorSystem\MyPathFindingSystemEnumeratorPatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\ConveyorSystem\MyPathFindingSystemPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyPathFindingSystemEnumeratorPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyPathFindingSystemPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Entity\MyEntityPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyConveyorLinePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyCubeGridPatch.cs" />
