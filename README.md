@@ -192,3 +192,20 @@ Since the result of MyWindTurbine.IsInAtmosphere does not change often,
 it can safely be cached for a few seconds.
 
 TODO: Add support ticket
+
+### Reducing frequent memory allocations
+
+Strategy is a combination of object pooling and caching where applicable.
+
+- `MyDefinitionId.ToString`
+
+StringBuilder pooling was contributed by: zznty
+
+TODO: Add support ticket
+
+### Havok performance fix
+
+Removed boxing allocation from the Havok.HkShape.HandleEqualityComparer.Equals method.
+Also simplified the logic by not checking y for null, because it does not happen.
+
+TODO: Add support ticket

@@ -45,6 +45,7 @@ namespace Shared.Config
         private bool fixPhysics = true;
         private bool fixEntity = true;
         private bool fixCharacter = true;
+        private bool fixMemory = true;
         //BOOL_OPTION private bool optionName = true;
 
         public bool Enabled
@@ -141,6 +142,12 @@ namespace Shared.Config
         {
             get => fixCharacter;
             set => SetValue(ref fixCharacter, value);
+        }
+
+        public bool FixMemory
+        {
+            get => fixMemory;
+            set => SetValue(ref fixMemory, value);
         }
 
         /*BOOL_OPTION

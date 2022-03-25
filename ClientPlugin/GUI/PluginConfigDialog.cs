@@ -61,6 +61,9 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel fixCharacterLabel;
         private MyGuiControlCheckbox fixCharacterCheckbox;
 
+        private MyGuiControlLabel fixMemoryLabel;
+        private MyGuiControlCheckbox fixMemoryCheckbox;
+
         /*BOOL_OPTION
         private MyGuiControlLabel optionNameLabel;
         private MyGuiControlCheckbox optionNameCheckbox;
@@ -115,9 +118,10 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out fixTargetingLabel, out fixTargetingCheckbox, config.FixTargeting, value => config.FixTargeting = value, "Fix allocations in targeting (needs restart)", "Reduces memory allocations in the turret targeting system (needs restart)");
             CreateCheckbox(out fixWindTurbineLabel, out fixWindTurbineCheckbox, config.FixWindTurbine, value => config.FixWindTurbine = value, "Fix wind turbine performance", "Caches the result of MyWindTurbine.IsInAtmosphere");
             CreateCheckbox(out fixVoxelLabel, out fixVoxelCheckbox, config.FixVoxel, value => config.FixVoxel = value, "Fix voxel performance", "Reduces memory allocations in IMyStorageExtensions.GetMaterialAt");
-            CreateCheckbox(out fixPhysicsLabel, out fixPhysicsCheckbox, config.FixPhysics, value => config.FixPhysics = value, "Fix physics performance (needs restart)", "Optimizes MyPhysicsBody.RigidBody getter (needs restart)");
+            CreateCheckbox(out fixPhysicsLabel, out fixPhysicsCheckbox, config.FixPhysics, value => config.FixPhysics = value, "Fix physics performance (needs restart)", "Optimizes the MyPhysicsBody.RigidBody getter and the HkShape comparer (needs restart)");
             CreateCheckbox(out fixEntityLabel, out fixEntityCheckbox, config.FixEntity, value => config.FixEntity = value, "Fix entity performance (needs restart)", "Optimizes MyEntity.InScene getter (needs restart)");
             CreateCheckbox(out fixCharacterLabel, out fixCharacterCheckbox, config.FixCharacter, value => config.FixCharacter = value, "Fix character performance (needs restart)", "Disables character footprint logic on server side (needs restart)");
+            CreateCheckbox(out fixMemoryLabel, out fixMemoryCheckbox, config.FixMemory, value => config.FixMemory = value, "Fix frequent memory allocations", "Optimizes frequent memory allocations in various parts of the game");
             //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
 
             EnableDisableFixes();
@@ -173,6 +177,7 @@ namespace ClientPlugin.GUI
             fixPhysicsCheckbox.Enabled = enabled;
             fixEntityCheckbox.Enabled = enabled;
             fixCharacterCheckbox.Enabled = enabled;
+            fixMemoryCheckbox.Enabled = enabled;
             //BOOL_OPTION optionNameCheckbox.Enabled = enabled;
         }
 
@@ -246,6 +251,10 @@ namespace ClientPlugin.GUI
 
             layoutTable.Add(fixCharacterCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
             layoutTable.Add(fixCharacterLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            row++;
+
+            layoutTable.Add(fixMemoryCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixMemoryLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             /*BOOL_OPTION
             row++;
 
