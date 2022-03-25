@@ -5,7 +5,7 @@ using Shared.Tools;
 
 namespace TorchPlugin.Shared.Tools
 {
-    public class UintCache
+    public class UintCache<TK> where TK: struct
     {
         // Tick counter in the upper 32 bits
         private readonly ulong cleanupPeriod;
@@ -14,16 +14,16 @@ namespace TorchPlugin.Shared.Tools
 
         // Supports deletion with no memory allocation
         private readonly uint maxDeleteCount;
-        private readonly long[] keysToDelete;
+        private readonly TK[] keysToDelete;
 
-        private readonly RwLockDictionary<long, ulong> cache = new RwLockDictionary<long, ulong>();
+        private readonly RwLockDictionary<TK, ulong> cache = new RwLockDictionary<TK, ulong>();
 
         public UintCache(uint cleanupPeriod, uint maxDeleteCount)
         {
             this.cleanupPeriod = (ulong)cleanupPeriod << 32;
             this.maxDeleteCount = maxDeleteCount;
 
-            keysToDelete = new long[this.maxDeleteCount];
+            keysToDelete = new TK[this.maxDeleteCount];
             nextCleanup = tick + cleanupPeriod;
         }
 
@@ -67,7 +67,7 @@ namespace TorchPlugin.Shared.Tools
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Store(long key, uint value, uint lifetime)
+        public void Store(TK key, uint value, uint lifetime)
         {
             var expires = tick + ((ulong)lifetime << 32);
             cache.BeginWriting();
@@ -76,7 +76,7 @@ namespace TorchPlugin.Shared.Tools
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Extend(long key, uint lifetime)
+        public void Extend(TK key, uint lifetime)
         {
             cache.BeginWriting();
             if (cache.TryGetValue(key, out var item))
@@ -85,7 +85,7 @@ namespace TorchPlugin.Shared.Tools
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Forget(long key)
+        public void Forget(TK key)
         {
             cache.BeginWriting();
             cache.Remove(key);
@@ -93,7 +93,7 @@ namespace TorchPlugin.Shared.Tools
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool TryGetValue(long key, out uint value)
+        public bool TryGetValue(TK key, out uint value)
         {
             cache.BeginReading();
             if (cache.TryGetValue(key, out var item) && item >= tick)

@@ -44,7 +44,7 @@ namespace Shared.Patches
 
         #region "IsSafe fix, see: https://support.keenswh.com/spaceengineers/pc/topic/24146-performance-mysafezone-issafe-is-called-frequently-but-not-cached"
 
-        private static readonly UintCache Cache = new UintCache(277 * 60, 128);
+        private static readonly UintCache<long> Cache = new UintCache<long>(277 * 60, 128);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Clean()

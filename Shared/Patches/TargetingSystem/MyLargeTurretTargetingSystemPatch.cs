@@ -35,7 +35,7 @@ namespace Shared.Patches
         #region Reusing arrays in SortTargetRoots
 
         // Array cache for each turret targeting system instance keyed by the m_targetReceiver.Entity.EntityId
-        private static readonly Cache<MyEntity[]> ArrayCache = new Cache<MyEntity[]>(4 * 3600 * 60, 64);
+        private static readonly Cache<long, MyEntity[]> ArrayCache = new Cache<long, MyEntity[]>(4 * 3600 * 60, 64);
 
         public static void Clean()
         {
@@ -123,7 +123,7 @@ namespace Shared.Patches
         #region Visibility cache replacement
 
         // Visibility cache for each turret targeting system instance keyed by the m_targetReceiver.Entity.EntityId
-        private static readonly Cache<UintCache> VisibilityCache = new Cache<UintCache>(4 * 3600 * 60, 64);
+        private static readonly Cache<long, UintCache<long>> VisibilityCache = new Cache<long, UintCache<long>>(4 * 3600 * 60, 64);
 
         // ReSharper disable once UnusedMember.Local
         [HarmonyTranspiler]
@@ -181,7 +181,7 @@ namespace Shared.Patches
             var entityId = ___m_targetReceiver.Entity.EntityId;
             if (!VisibilityCache.TryGetValue(entityId, out var cache))
             {
-                cache = new UintCache(3, 32);
+                cache = new UintCache<long>(3, 32);
                 VisibilityCache.Store(entityId, cache, 4 * 3600 * 60);
             }
 

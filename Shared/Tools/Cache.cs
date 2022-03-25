@@ -5,7 +5,7 @@ using Shared.Tools;
 
 namespace TorchPlugin.Shared.Tools
 {
-    public class Cache<T>
+    public class Cache<TK, TV> where TK: struct
     {
         private long tick;
         private long nextCleanup;
@@ -13,22 +13,22 @@ namespace TorchPlugin.Shared.Tools
 
         // Supports deletion with no memory allocation
         private readonly int maxDeleteCount;
-        private readonly long[] keysToDelete;
+        private readonly TK[] keysToDelete;
 
         private class Item
         {
-            public T Value;
+            public TV Value;
             public long Expires;
         }
 
-        private readonly RwLockDictionary<long, Item> cache = new RwLockDictionary<long, Item>();
+        private readonly RwLockDictionary<TK, Item> cache = new RwLockDictionary<TK, Item>();
 
         public Cache(int cleanupPeriod, int maxDeleteCount)
         {
             this.cleanupPeriod = cleanupPeriod;
             this.maxDeleteCount = maxDeleteCount;
 
-            keysToDelete = new long[this.maxDeleteCount];
+            keysToDelete = new TK[this.maxDeleteCount];
             nextCleanup = tick + cleanupPeriod;
         }
 
@@ -72,7 +72,7 @@ namespace TorchPlugin.Shared.Tools
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Store(long key, T value, int lifetime)
+        public void Store(TK key, TV value, int lifetime)
         {
             cache.BeginWriting();
             cache[key] = new Item { Value = value, Expires = tick + lifetime };
@@ -80,7 +80,7 @@ namespace TorchPlugin.Shared.Tools
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Extend(long key, int lifetime)
+        public void Extend(TK key, int lifetime)
         {
             cache.BeginWriting();
             if (cache.TryGetValue(key, out var item))
@@ -89,7 +89,7 @@ namespace TorchPlugin.Shared.Tools
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Forget(long key)
+        public void Forget(TK key)
         {
             cache.BeginWriting();
             cache.Remove(key);
@@ -97,7 +97,7 @@ namespace TorchPlugin.Shared.Tools
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool TryGetValue(long key, out T value)
+        public bool TryGetValue(TK key, out TV value)
         {
             cache.BeginReading();
             if (cache.TryGetValue(key, out var item) && item.Expires >= tick)

@@ -23,7 +23,7 @@ namespace Shared.Patches
             enabled = Config.Enabled; // && Config.FixTargeting;
         }
 
-        private static readonly UintCache Cache = new UintCache(293 * 60, 64);
+        private static readonly UintCache<long> Cache = new UintCache<long>(293 * 60, 64);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Clean()
