@@ -30,6 +30,11 @@ namespace TorchPlugin
             Respond($"api_stats: {Format(config.DisableModApiStatistics)}");
             Respond($"safe_zone: {Format(config.FixSafeZone)}");
             Respond($"targeting: {Format(config.FixTargeting)}");
+            Respond($"wind_turbine: {Format(config.FixWindTurbine)}");
+            Respond($"voxel: {Format(config.FixVoxel)}");
+            Respond($"physics: {Format(config.FixPhysics)}");
+            Respond($"entity: {Format(config.FixEntity)}");
+            Respond($"character: {Format(config.FixCharacter)}");
             //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
         }
 
@@ -143,6 +148,26 @@ namespace TorchPlugin
                     Config.FixTargeting = parsedFlag;
                     break;
 
+                case "wind_turbine":
+                    Config.FixWindTurbine = parsedFlag;
+                    break;
+
+                case "voxel":
+                    Config.FixVoxel = parsedFlag;
+                    break;
+
+                case "physics":
+                    Config.FixPhysics = parsedFlag;
+                    break;
+
+                case "entity":
+                    Config.FixEntity = parsedFlag;
+                    break;
+
+                case "character":
+                    Config.FixCharacter = parsedFlag;
+                    break;
+
                 /*BOOL_OPTION
                 case "option_name":
                     Config.OptionName = parsedFlag;
@@ -163,6 +188,11 @@ namespace TorchPlugin
                     Respond($"  api_stats");
                     Respond($"  safe_zone");
                     Respond($"  targeting");
+                    Respond($"  wind_turbine");
+                    Respond($"  voxel");
+                    Respond($"  physics");
+                    Respond($"  entity");
+                    Respond($"  character");
                     //BOOL_OPTION Respond($"  option_name");
                     return;
             }

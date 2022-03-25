@@ -59,7 +59,8 @@ namespace Shared.Patches
         private static IEnumerable<CodeInstruction> CompileTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             // See MyScriptCompiler.Compile.il
-            var il = new List<CodeInstruction>(instructions);
+            var il = instructions.ToList();
+            il.RecordOriginalCode();
 
             // Access to fields of the state object which stores the local variables from the original async method
             var target = il.GetField(fi => fi.Name.Contains("target"));
@@ -92,7 +93,8 @@ namespace Shared.Patches
             il.Insert(k++, new CodeInstruction(OpCodes.Stloc_2));
             il.Insert(k, new CodeInstruction(OpCodes.Brtrue_S, exit));
 
-            return il.AsEnumerable();
+            il.RecordPatchedCode();
+            return il;
         }
 
         private class ScriptList : IEnumerable<Script>

@@ -3,7 +3,7 @@ using System.Reflection;
 using HarmonyLib;
 using Sandbox.Game.World;
 
-namespace Shared.Extensions
+namespace Shared.Tools
 {
     // ReSharper disable once UnusedType.Global
     [SuppressMessage("ReSharper", "UnusedMember.Global")]

@@ -9,7 +9,8 @@
     <Import_RootNamespace>Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\MySessionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\Cache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\MySessionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\IPluginConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\PersistentConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\PluginConfig.cs" />
@@ -19,17 +20,23 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Bullshit\GcCollectPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Bullshit\MyP2PQoSAdapterPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Bullshit\PerfCountingRewriterPatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\ConveyorSystem\MyPathFindingSystemEnumeratorPatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\ConveyorSystem\MyPathFindingSystemPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Character\MyCharacterPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyPathFindingSystemEnumeratorPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyPathFindingSystemPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Entity\MyEntityPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyConveyorLinePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyCubeGridPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyGroupsPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyResourceDistributorComponentPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\PatchHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\MyPhysicsBodyPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\PhysicsFixes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZonePatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Voxel\MyStorageExtensionsPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\WindTurbine\MyWindTurbinePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\ICommonPlugin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\Common.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\UintCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\CodeChange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\EnsureCode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Hashing.cs" />
@@ -47,23 +54,29 @@
     <Content Include="$(MSBuildThisFileDirectory)..\README.md">
       <Link>README.md</Link>
     </Content>
-    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZone.RemoveEntityPhantom.Lambda.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZone.RemoveEntityPhantom.Lambda.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZone.RemoveEntityPhantom.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySafeZone.RemoveEntityPhantom.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\MyScriptCompiler.Compile.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\MyScriptCompiler.Compile.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Character\RigidBody_ContactPointCallback.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Character\RigidBody_ContactPointCallback.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Entity\InSceneGetter.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Entity\InSceneGetter.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\RigidBodyGetter.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\RigidBodyGetter.patched.il" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\MyScriptCompilerPatch.cs" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.ctor.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.ctor.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.IsTargetVisible.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.IsTargetVisible.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.SortTargetRoots.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.SortTargetRoots.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.TestPotentialTarget.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.TestPotentialTarget.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.TestTarget.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystem.TestTarget.patched.il" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystemPatch.cs" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\RemoveEntityPhantom.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\RemoveEntityPhantom.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\RemoveEntityPhantomLambda.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\RemoveEntityPhantomLambda.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\Compile.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\Compile.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\Constructor.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\Constructor.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\IsTargetVisible.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\IsTargetVisible.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\SortTargetRoots.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\SortTargetRoots.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\TestPotentialTarget.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\TestPotentialTarget.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\TestTarget.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\TestTarget.patched.il" />
   </ItemGroup>
 </Project>

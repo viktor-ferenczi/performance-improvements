@@ -1,15 +1,16 @@
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Sandbox.Game.Entities;
 using Shared.Config;
 using Shared.Plugin;
 using Shared.Tools;
+using TorchPlugin.Shared.Tools;
 using VRage.Game.Entity;
 using VRage.Game.ModAPI.Ingame;
 
@@ -38,48 +39,17 @@ namespace Shared.Patches
             enabled = Config.Enabled && Config.FixSafeZone;
 
             if (!enabled)
-                cache.Clear();
+                Cache.Clear();
         }
 
         #region "IsSafe fix, see: https://support.keenswh.com/spaceengineers/pc/topic/24146-performance-mysafezone-issafe-is-called-frequently-but-not-cached"
 
-        private class CachedResult
-        {
-            public long Expires;
-            public bool Result;
-        }
+        private static readonly UintCache<long> Cache = new UintCache<long>(277 * 60, 128);
 
-        private static readonly ConcurrentDictionary<long, CachedResult> cache = new ConcurrentDictionary<long, CachedResult>();
-        private const long AverageExpiration = 120; // ticks
-        private const long CleanupPeriod = 300 * 60; // ticks
-
-        private const int MaxDeleteCount = 128;
-        private static readonly long[] KeysToDelete = new long[MaxDeleteCount];
-
-        private static long tick;
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Clean()
         {
-            if (!enabled)
-                return;
-
-            tick = Common.Plugin.Tick;
-            if (tick % CleanupPeriod != 0)
-                return;
-
-            var count = 0;
-            foreach (var (entityId, cachedResult) in cache)
-            {
-                if (cachedResult.Expires >= tick)
-                    continue;
-
-                KeysToDelete[count++] = entityId;
-                if (count == MaxDeleteCount)
-                    break;
-            }
-
-            for (var i = 0; i < count; i++)
-                cache.Remove(KeysToDelete[i]);
+            Cache.Clean();
         }
 
         [HarmonyPrefix]
@@ -91,9 +61,9 @@ namespace Shared.Patches
             if (!enabled)
                 return true;
 
-            if (cache.TryGetValue(entity.EntityId, out var cachedResult) && cachedResult.Expires >= tick)
+            if (Cache.TryGetValue(entity.EntityId, out var value))
             {
-                __result = cachedResult.Result;
+                __result = value != 0;
                 return false;
             }
 
@@ -110,16 +80,7 @@ namespace Shared.Patches
                 return;
 
             var entityId = entity.EntityId;
-            var expires = tick + AverageExpiration + (entityId & 7) - 4;
-
-            if (cache.TryGetValue(entityId, out var cachedResult))
-            {
-                cachedResult.Expires = expires;
-                cachedResult.Result = __result;
-                return;
-            }
-
-            cache[entityId] = new CachedResult { Expires = expires, Result = __result };
+            Cache.Store(entityId, __result ? 1u : 0u, (uint)(entityId & 15));
         }
 
         #endregion
@@ -136,6 +97,7 @@ namespace Shared.Patches
                 return instructions;
 
             var il = instructions.ToList();
+            il.RecordOriginalCode();
 
             var i = il.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo mi && mi.Name.Contains("Contains"));
             il[i] = new CodeInstruction(OpCodes.Call, AccessTools.DeclaredMethod(typeof(MySafeZonePatch), nameof(PhantomTaskListContains)));
@@ -144,25 +106,28 @@ namespace Shared.Patches
             var j = il.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo mi && mi.Name.Contains("Add"));
             il[j] = new CodeInstruction(OpCodes.Call, AccessTools.DeclaredMethod(typeof(MySafeZonePatch), nameof(PhantomTaskListAdd)));
 
-            return il.AsEnumerable();
+            il.RecordPatchedCode();
+            return il;
         }
 
         [HarmonyTranspiler]
         [HarmonyPatch("Sandbox.Game.Entities.MySafeZone+<>c__DisplayClass103_0", "<RemoveEntityPhantom>b__0")]
         [EnsureCode("b39ccae8")]
         // ReSharper disable once UnusedMember.Local
-        private static IEnumerable<CodeInstruction> RemoveEntityPhantomClosureTranspiler(IEnumerable<CodeInstruction> instructions)
+        private static IEnumerable<CodeInstruction> RemoveEntityPhantomLambdaTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             if (!enabled)
                 return instructions;
 
             var il = instructions.ToList();
+            il.RecordOriginalCode();
 
             // Lock around the Remove call
             var i = il.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo mi && mi.Name.Contains("Remove"));
             il[i] = new CodeInstruction(OpCodes.Call, AccessTools.DeclaredMethod(typeof(MySafeZonePatch), nameof(PhantomTaskListRemove)));
 
-            return il.AsEnumerable();
+            il.RecordPatchedCode();
+            return il;
         }
 
         private static bool PhantomTaskListContains(HashSet<IMyEntity> map, IMyEntity item)

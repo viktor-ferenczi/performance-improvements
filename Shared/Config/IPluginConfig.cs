@@ -37,6 +37,21 @@ namespace Shared.Config
         // Reduces memory allocations in the turret targeting system (needs restart)
         bool FixTargeting { get; set; }
 
+        // Caches the result of MyWindTurbine.IsInAtmosphere
+        bool FixWindTurbine { get; set; }
+
+        // Reduces memory allocations in IMyStorageExtensions.GetMaterialAt
+        bool FixVoxel { get; set; }
+
+        // Optimizes MyPhysicsBody.RigidBody getter (needs restart)
+        bool FixPhysics { get; set; }
+
+        // Optimizes MyEntity.InScene getter (needs restart)
+        bool FixEntity { get; set; }
+
+        // Disables character footprint logic on server side (needs restart)
+        bool FixCharacter { get; set; }
+
         /*BOOL_OPTION
         // Option tooltip
         bool OptionName { get; set; }

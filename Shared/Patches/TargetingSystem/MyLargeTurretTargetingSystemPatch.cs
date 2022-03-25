@@ -11,13 +11,13 @@ using Sandbox.Game.Weapons;
 using Shared.Config;
 using Shared.Plugin;
 using Shared.Tools;
+using TorchPlugin.Shared.Tools;
 using VRage.Game.Entity;
 using VRage.Library.Utils;
 using VRageMath;
 
 namespace Shared.Patches
 {
-    // ReSharper disable once UnusedType.Global
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [HarmonyPatch(typeof(MyLargeTurretTargetingSystem))]
     public static class MyLargeTurretTargetingSystemPatch
@@ -26,6 +26,7 @@ namespace Shared.Patches
 
         // These patches need restart to be enabled/disabled
         private static bool enabled;
+
         public static void Configure()
         {
             enabled = Config.Enabled && Config.FixTargeting;
@@ -33,16 +34,16 @@ namespace Shared.Patches
 
         #region Reusing arrays in SortTargetRoots
 
-        private class CachedArray
-        {
-            public long Expires;
-            public MyEntity[] Array;
-        }
-
-        private const long ArrayCacheAverageExpiration = 10 * 60; // ticks
-
         // Array cache for each turret targeting system instance keyed by the m_targetReceiver.Entity.EntityId
-        private static readonly RwLockDictionary<long, CachedArray> ArrayCache = new RwLockDictionary<long, CachedArray>();
+        private static readonly Cache<long, MyEntity[]> ArrayCache = new Cache<long, MyEntity[]>(4 * 3600 * 60, 64);
+
+        public static void Clean()
+        {
+            if (!enabled)
+                return;
+
+            VisibilityCache.Clean();
+        }
 
         // ReSharper disable once UnusedMember.Local
         [HarmonyTranspiler]
@@ -54,6 +55,7 @@ namespace Shared.Patches
                 return instructions;
 
             var il = instructions.ToList();
+            il.RecordOriginalCode();
 
             var targetReceiver = il.GetField(fi => fi.Name.Contains("m_targetReceiver"));
             var distanceEntityKeys = il.GetField(fi => fi.Name.Contains("m_distanceEntityKeys"));
@@ -71,7 +73,8 @@ namespace Shared.Patches
             var k = il.FindIndex(ci => ci.opcode == OpCodes.Call && ci.operand is MethodInfo mi && mi.Name.Contains("EnsureCapacity"));
             il.RemoveRange(k - 6, 9);
 
-            return il.AsEnumerable();
+            il.RecordPatchedCode();
+            return il;
         }
 
         private static MyEntity[] CopyEntitiesIntoArray(List<MyEntity> targetRoots, ref float[] distanceEntityKeys, IMyTargetingReceiver targetReceiver)
@@ -90,65 +93,37 @@ namespace Shared.Patches
             var entityId = targetReceiverEntity.EntityId;
             if (targetReceiverEntity.Closed)
             {
-                // No try-finally, the Remove cannot fail
-
-                ArrayCache.BeginWriting();
-                ArrayCache.Remove(entityId);
-                ArrayCache.FinishWriting();
-
-                VisibilityCache.BeginWriting();
-                VisibilityCache.Remove(entityId);
-                VisibilityCache.FinishWriting();
-
+                ArrayCache.Forget(entityId);
+                VisibilityCache.Forget(entityId);
                 return Array.Empty<MyEntity>();
             }
 
-            ArrayCache.BeginWriting();
-            try
+            // Do not use ArrayExtensions.EnsureCapacity, because that's copying the existing items on resizing.
+            // It would be wasted work, since we overwrite those items anyway.
+            // The array is extended if needed or replaced entirely if at least 4 times longer than needed.
+
+            if (!ArrayCache.TryGetValue(entityId, out var array) || array.Length < count || array.Length > count << 2)
             {
-                if (ArrayCache.TryGetValue(entityId, out var cache))
-                {
-                    cache.Expires = tick + ArrayCacheAverageExpiration + (entityId & 7) - 4;
-
-                    // Do not use ArrayExtensions.EnsureCapacity, because that's copying the existing items on resizing.
-                    // It would be wasted work, since we overwrite those items anyway.
-                    // The array is extended if needed or replaced entirely if at least 4 times longer than needed.
-                    var arrayLength = cache.Array.Length;
-                    if (arrayLength < count || arrayLength >= count * 4)
-                    {
-                        cache.Array = new MyEntity[count];
-                        arrayLength = count;
-                    }
-
-                    var array = cache.Array;
-                    for (var i = 0; i < count; i++)
-                        array[i] = targetRoots[i];
-
-                    // Set all non-null trailing items to null to terminate the loop in the caller and to release former references
-                    for (var i = count; i < arrayLength && array[i] != null; i++)
-                        array[i] = null;
-
-                    return array;
-                }
-
-                var newArray = targetRoots.ToArray();
-                ArrayCache[entityId] = new CachedArray
-                {
-                    Expires = tick + ArrayCacheAverageExpiration + (entityId & 31) - 16,
-                    Array = newArray
-                };
-
-                return newArray;
+                array = new MyEntity[count];
+                ArrayCache.Store(entityId, array, 4 * 3600 * 60);
             }
-            finally
-            {
-                ArrayCache.FinishWriting();
-            }
+
+            for (var i = 0; i < count; i++)
+                array[i] = targetRoots[i];
+
+            var arrayLength = array.Length;
+            for (var i = count; i < arrayLength && array[i] != null; i++)
+                array[i] = null;
+
+            return array;
         }
 
         #endregion
 
         #region Visibility cache replacement
+
+        // Visibility cache for each turret targeting system instance keyed by the m_targetReceiver.Entity.EntityId
+        private static readonly Cache<long, UintCache<long>> VisibilityCache = new Cache<long, UintCache<long>>(4 * 3600 * 60, 64);
 
         // ReSharper disable once UnusedMember.Local
         [HarmonyTranspiler]
@@ -160,6 +135,7 @@ namespace Shared.Patches
                 return instructions;
 
             var il = instructions.ToList();
+            il.RecordOriginalCode();
 
             // Do not create the ConcurrentDictionary instances, they won't be used
             il.RemoveFieldInitialization("m_notVisibleTargets");
@@ -167,15 +143,9 @@ namespace Shared.Patches
             il.RemoveFieldInitialization("m_visibleTargets");
             il.RemoveFieldInitialization("m_lastVisibleTargets");
 
-            return il.AsEnumerable();
+            il.RecordPatchedCode();
+            return il;
         }
-
-        // Visibility map for each turret targeting system instance keyed by the m_targetReceiver.Entity.EntityId
-        // Sign of value is the visibility, negative is not visible, positive is visible.
-        // Absolute value is the simulation tick when the cache entry expires.
-        private static readonly RwLockDictionary<long, RwLockDictionary<long, long>> VisibilityCache = new RwLockDictionary<long, RwLockDictionary<long, long>>();
-        private const int MaxTargetsToRemove = 128;
-        private static readonly long[] TargetsToRemove = new long[MaxTargetsToRemove];
 
         // NOTE: Issue #18: Do NOT patch UpdateVisibilityCache instead. That patch would sometimes
         // be circumvented and UpdateVisibilityCacheCounters is still called. It is not clear why.
@@ -191,48 +161,10 @@ namespace Shared.Patches
             if (___m_targetReceiver == null)
                 return false;
 
-            RwLockDictionary<long, long> cache;
-            VisibilityCache.BeginReading();
-            try
-            {
-                if (!VisibilityCache.TryGetValue(___m_targetReceiver.Entity.EntityId, out cache))
-                    return false;
-            }
-            finally
-            {
-                VisibilityCache.FinishReading();
-            }
+            if (!VisibilityCache.TryGetValue(___m_targetReceiver.Entity.EntityId, out var cache))
+                return false;
 
-            lock (TargetsToRemove)
-            {
-                var count = 0;
-
-                cache.BeginReading();
-                try
-                {
-                    foreach (var (entityId, expires) in cache)
-                    {
-                        if (Math.Abs(expires) > tick)
-                            continue;
-
-                        TargetsToRemove[count++] = entityId;
-
-                        if (count == MaxTargetsToRemove)
-                            break;
-                    }
-                }
-                finally
-                {
-                    cache.FinishReading();
-                }
-
-                // No try-finally, since Remove cannot fail
-                cache.BeginWriting();
-                for (var i = 0; i < count; i++)
-                    cache.Remove(TargetsToRemove[i]);
-                cache.FinishWriting();
-            }
-
+            cache.Clean();
             return false;
         }
 
@@ -246,32 +178,14 @@ namespace Shared.Patches
             if (!enabled)
                 return true;
 
-            RwLockDictionary<long, long> cache;
-            VisibilityCache.BeginWriting();
-            try
+            var entityId = ___m_targetReceiver.Entity.EntityId;
+            if (!VisibilityCache.TryGetValue(entityId, out var cache))
             {
-                var receiverEntityId = ___m_targetReceiver.Entity.EntityId;
-                if (!VisibilityCache.TryGetValue(receiverEntityId, out cache))
-                {
-                    cache = new RwLockDictionary<long, long>();
-                    VisibilityCache[receiverEntityId] = cache;
-                }
-            }
-            finally
-            {
-                VisibilityCache.FinishWriting();
+                cache = new UintCache<long>(3, 32);
+                VisibilityCache.Store(entityId, cache, 4 * 3600 * 60);
             }
 
-            var expires = tick + (timeout ?? 10 + MyRandom.Instance.Next(5));
-
-            if (!visible)
-                expires = -expires;
-
-            // Setting or overwriting the dictionary item cannot fail (unless OOM)
-            cache.BeginWriting();
-            cache[target.EntityId] = expires;
-            cache.FinishWriting();
-
+            cache.Store(target.EntityId, visible ? 1u : 0u, (uint)(timeout ?? 10 + MyRandom.Instance.Next(5)));
             return false;
         }
 
@@ -285,6 +199,7 @@ namespace Shared.Patches
                 return instructions;
 
             var il = instructions.ToList();
+            il.RecordOriginalCode();
 
             var continueLabel = il.GetLabel(oc => oc == OpCodes.Ble_S);
             var targetReceiver = AccessTools.DeclaredField(typeof(MyLargeTurretTargetingSystem), "m_targetReceiver");
@@ -304,7 +219,8 @@ namespace Shared.Patches
             il.Insert(k++, new CodeInstruction(OpCodes.Ldarg_1));
             il.Insert(k, new CodeInstruction(OpCodes.Call, AccessTools.DeclaredMethod(typeof(MyLargeTurretTargetingSystemPatch), nameof(IsTargetCachedAsVisible))));
 
-            return il.AsEnumerable();
+            il.RecordPatchedCode();
+            return il;
         }
 
         // ReSharper disable once UnusedMember.Local
@@ -317,6 +233,7 @@ namespace Shared.Patches
                 return instructions;
 
             var il = instructions.ToList();
+            il.RecordOriginalCode();
 
             var continueLabel = il.GetLabel(oc => oc == OpCodes.Ble_S);
             var targetReceiver = AccessTools.DeclaredField(typeof(MyLargeTurretTargetingSystem), "m_targetReceiver");
@@ -329,7 +246,8 @@ namespace Shared.Patches
             il.Insert(j++, new CodeInstruction(OpCodes.Call, AccessTools.DeclaredMethod(typeof(MyLargeTurretTargetingSystemPatch), nameof(IsTargetCachedAsNotVisible))));
             il.Insert(j, new CodeInstruction(OpCodes.Brfalse, continueLabel));
 
-            return il.AsEnumerable();
+            il.RecordPatchedCode();
+            return il;
         }
 
         // ReSharper disable once UnusedMember.Local
@@ -342,6 +260,7 @@ namespace Shared.Patches
                 return instructions;
 
             var il = instructions.ToList();
+            il.RecordOriginalCode();
 
             var continueLabel = il.GetLabel(oc => oc == OpCodes.Ble_S);
             var targetReceiver = AccessTools.DeclaredField(typeof(MyLargeTurretTargetingSystem), "m_targetReceiver");
@@ -354,92 +273,24 @@ namespace Shared.Patches
             il.Insert(j++, new CodeInstruction(OpCodes.Call, AccessTools.DeclaredMethod(typeof(MyLargeTurretTargetingSystemPatch), nameof(IsTargetCachedAsNotVisible))));
             il.Insert(j, new CodeInstruction(OpCodes.Brfalse, continueLabel));
 
-            return il.AsEnumerable();
+            il.RecordPatchedCode();
+            return il;
         }
 
         private static bool IsTargetCachedAsVisible(IMyTargetingReceiver targetReceiver, MyEntity target)
         {
-            // Fast code without try-finally, but slight redundancy
-            VisibilityCache.BeginReading();
             if (!VisibilityCache.TryGetValue(targetReceiver.Entity.EntityId, out var cache))
-            {
-                VisibilityCache.FinishReading();
                 return false;
-            }
-            VisibilityCache.FinishReading();
 
-            // No try-finally, because this expression cannot fail
-            cache.BeginReading();
-            var result = cache.TryGetValue(target.EntityId, out var expires) && expires > 0;
-            cache.FinishReading();
-            return result;
+            return cache.TryGetValue(target.EntityId, out var value) && value != 0;
         }
 
         private static bool IsTargetCachedAsNotVisible(IMyTargetingReceiver targetReceiver, MyEntity target)
         {
-            // Fast code without try-finally, but slight redundancy
-            VisibilityCache.BeginReading();
             if (!VisibilityCache.TryGetValue(targetReceiver.Entity.EntityId, out var cache))
-            {
-                VisibilityCache.FinishReading();
                 return false;
-            }
-            VisibilityCache.FinishReading();
 
-            // No try-finally, because this expression cannot fail
-            cache.BeginReading();
-            var result = cache.TryGetValue(target.EntityId, out var expires) && expires < 0;
-            cache.FinishReading();
-            return result;
-        }
-
-        #endregion
-
-        #region Periodic cleanup
-
-        private const long CleanupPeriod = 77 * 60; // Simulation frames (ticks)
-        private const int MaxCacheEntriesToDelete = 128;
-
-        private static readonly long[] CacheEntriesToDelete = new long[MaxCacheEntriesToDelete];
-
-        private static long tick;
-
-        public static void Clean()
-        {
-            if (!enabled)
-                return;
-
-            tick = Common.Plugin.Tick;
-            if (tick % CleanupPeriod != 0)
-                return;
-
-            var count = 0;
-            ArrayCache.BeginWriting();
-            try
-            {
-                foreach (var (entityId, cachedResult) in ArrayCache)
-                {
-                    if (cachedResult.Expires > tick)
-                        continue;
-
-                    CacheEntriesToDelete[count++] = entityId;
-                    if (count == MaxCacheEntriesToDelete)
-                        break;
-                }
-
-                for (var i = 0; i < count; i++)
-                    ArrayCache.Remove(CacheEntriesToDelete[i]);
-            }
-            finally
-            {
-                ArrayCache.FinishWriting();
-            }
-
-            // No try-finally, because Remove cannot fail
-            VisibilityCache.BeginWriting();
-            for (var i = 0; i < count; i++)
-                VisibilityCache.Remove(CacheEntriesToDelete[i]);
-            VisibilityCache.FinishWriting();
+            return cache.TryGetValue(target.EntityId, out var value) && value == 0;
         }
 
         #endregion

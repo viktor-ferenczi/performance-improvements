@@ -40,7 +40,12 @@ namespace Shared.Config
         private bool disableModApiStatistics = true;
         private bool fixSafeZone = true;
         private bool fixTargeting = true;
-//BOOL_OPTION private bool optionName = true;
+        private bool fixWindTurbine = true;
+        private bool fixVoxel = true;
+        private bool fixPhysics = true;
+        private bool fixEntity = true;
+        private bool fixCharacter = true;
+        //BOOL_OPTION private bool optionName = true;
 
         public bool Enabled
         {
@@ -106,6 +111,36 @@ namespace Shared.Config
         {
             get => fixTargeting;
             set => SetValue(ref fixTargeting, value);
+        }
+
+        public bool FixWindTurbine
+        {
+            get => fixWindTurbine;
+            set => SetValue(ref fixWindTurbine, value);
+        }
+
+        public bool FixVoxel
+        {
+            get => fixVoxel;
+            set => SetValue(ref fixVoxel, value);
+        }
+
+        public bool FixPhysics
+        {
+            get => fixPhysics;
+            set => SetValue(ref fixPhysics, value);
+        }
+
+        public bool FixEntity
+        {
+            get => fixEntity;
+            set => SetValue(ref fixEntity, value);
+        }
+
+        public bool FixCharacter
+        {
+            get => fixCharacter;
+            set => SetValue(ref fixCharacter, value);
         }
 
         /*BOOL_OPTION

@@ -9,7 +9,7 @@ using VRageMath;
 
 namespace ClientPlugin.GUI
 {
-    public class MyPluginConfigDialog : MyGuiScreenBase
+    public class PluginConfigDialog : MyGuiScreenBase
     {
         private const string Caption = "Performance Improvements Configuration";
         public override string GetFriendlyName() => "MyPluginConfigDialog";
@@ -46,6 +46,21 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel fixTargetingLabel;
         private MyGuiControlCheckbox fixTargetingCheckbox;
 
+        private MyGuiControlLabel fixWindTurbineLabel;
+        private MyGuiControlCheckbox fixWindTurbineCheckbox;
+
+        private MyGuiControlLabel fixVoxelLabel;
+        private MyGuiControlCheckbox fixVoxelCheckbox;
+
+        private MyGuiControlLabel fixPhysicsLabel;
+        private MyGuiControlCheckbox fixPhysicsCheckbox;
+
+        private MyGuiControlLabel fixEntityLabel;
+        private MyGuiControlCheckbox fixEntityCheckbox;
+
+        private MyGuiControlLabel fixCharacterLabel;
+        private MyGuiControlCheckbox fixCharacterCheckbox;
+
         /*BOOL_OPTION
         private MyGuiControlLabel optionNameLabel;
         private MyGuiControlCheckbox optionNameCheckbox;
@@ -57,7 +72,7 @@ namespace ClientPlugin.GUI
         private MyGuiControlMultilineText infoText;
         private MyGuiControlButton closeButton;
 
-        public MyPluginConfigDialog() : base(new Vector2(0.5f, 0.5f), MyGuiConstants.SCREEN_BACKGROUND_COLOR, new Vector2(0.8f, 0.8f), false, null, MySandboxGame.Config.UIBkOpacity, MySandboxGame.Config.UIOpacity)
+        public PluginConfigDialog() : base(new Vector2(0.5f, 0.5f), MyGuiConstants.SCREEN_BACKGROUND_COLOR, new Vector2(0.8f, 0.8f), false, null, MySandboxGame.Config.UIBkOpacity, MySandboxGame.Config.UIOpacity)
         {
             EnabledBackgroundFade = true;
             m_closeOnEsc = true;
@@ -98,6 +113,11 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out disableModApiStatisticsLabel, out disableModApiStatisticsCheckbox, config.DisableModApiStatistics, value => config.DisableModApiStatistics = value, "Disable Mod API statistics", "Disable the collection of Mod API call statistics to eliminate the overhead (affects only world loading)");
             CreateCheckbox(out fixSafeZoneLabel, out fixSafeZoneCheckbox, config.FixSafeZone, value => config.FixSafeZone = value, "Fix safe zone lag", "Caches frequent recalculations in safe zones");
             CreateCheckbox(out fixTargetingLabel, out fixTargetingCheckbox, config.FixTargeting, value => config.FixTargeting = value, "Fix allocations in targeting (needs restart)", "Reduces memory allocations in the turret targeting system (needs restart)");
+            CreateCheckbox(out fixWindTurbineLabel, out fixWindTurbineCheckbox, config.FixWindTurbine, value => config.FixWindTurbine = value, "Fix wind turbine performance", "Caches the result of MyWindTurbine.IsInAtmosphere");
+            CreateCheckbox(out fixVoxelLabel, out fixVoxelCheckbox, config.FixVoxel, value => config.FixVoxel = value, "Fix voxel performance", "Reduces memory allocations in IMyStorageExtensions.GetMaterialAt");
+            CreateCheckbox(out fixPhysicsLabel, out fixPhysicsCheckbox, config.FixPhysics, value => config.FixPhysics = value, "Fix physics performance (needs restart)", "Optimizes MyPhysicsBody.RigidBody getter (needs restart)");
+            CreateCheckbox(out fixEntityLabel, out fixEntityCheckbox, config.FixEntity, value => config.FixEntity = value, "Fix entity performance (needs restart)", "Optimizes MyEntity.InScene getter (needs restart)");
+            CreateCheckbox(out fixCharacterLabel, out fixCharacterCheckbox, config.FixCharacter, value => config.FixCharacter = value, "Fix character performance (needs restart)", "Disables character footprint logic on server side (needs restart)");
             //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
 
             EnableDisableFixes();
@@ -148,6 +168,11 @@ namespace ClientPlugin.GUI
             disableModApiStatisticsCheckbox.Enabled = enabled;
             fixSafeZoneCheckbox.Enabled = enabled;
             fixTargetingCheckbox.Enabled = enabled;
+            fixWindTurbineCheckbox.Enabled = enabled;
+            fixVoxelCheckbox.Enabled = enabled;
+            fixPhysicsCheckbox.Enabled = enabled;
+            fixEntityCheckbox.Enabled = enabled;
+            fixCharacterCheckbox.Enabled = enabled;
             //BOOL_OPTION optionNameCheckbox.Enabled = enabled;
         }
 
@@ -155,7 +180,7 @@ namespace ClientPlugin.GUI
         {
             layoutTable = new MyLayoutTable(this, new Vector2(-0.35f, -0.3f), new Vector2(0.7f, 0.6f));
             layoutTable.SetColumnWidths(60f, 440f, 60f, 440f);
-            layoutTable.SetRowHeights(150f, 60f, 60f, 60f, 60f, 60f, 60f, 60f, 150f);
+            layoutTable.SetRowHeights(150f, 60f, 60f, 60f, 60f, 60f, 60f, 60f, 60f, 60f, 150f);
 
             layoutTable.Add(enabledCheckbox, MyAlignH.Left, MyAlignV.Center, 0, 0);
             layoutTable.Add(enabledLabel, MyAlignH.Left, MyAlignV.Center, 0, 1);
@@ -188,19 +213,39 @@ namespace ClientPlugin.GUI
 
             layoutTable.Add(cacheScriptsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 0);
             layoutTable.Add(cacheScriptsLabel, MyAlignH.Left, MyAlignV.Center, row, 1);
+            row++;
+
+            layoutTable.Add(disableModApiStatisticsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(disableModApiStatisticsLabel, MyAlignH.Left, MyAlignV.Center, row, 1);
+            row++;
+
+            layoutTable.Add(fixSafeZoneCheckbox, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(fixSafeZoneLabel, MyAlignH.Left, MyAlignV.Center, row, 1);
 
             row = 1;
 
-            layoutTable.Add(disableModApiStatisticsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
-            layoutTable.Add(disableModApiStatisticsLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
-            row++;
-
-            layoutTable.Add(fixSafeZoneCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
-            layoutTable.Add(fixSafeZoneLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
-            row++;
-
             layoutTable.Add(fixTargetingCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
             layoutTable.Add(fixTargetingLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            row++;
+
+            layoutTable.Add(fixWindTurbineCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixWindTurbineLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            row++;
+
+            layoutTable.Add(fixVoxelCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixVoxelLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            row++;
+
+            layoutTable.Add(fixPhysicsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixPhysicsLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            row++;
+
+            layoutTable.Add(fixEntityCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixEntityLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            row++;
+
+            layoutTable.Add(fixCharacterCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixCharacterLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             /*BOOL_OPTION
             row++;
 
@@ -208,8 +253,8 @@ namespace ClientPlugin.GUI
             layoutTable.Add(optionNameLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             BOOL_OPTION*/
 
-            layoutTable.Add(infoText, MyAlignH.Left, MyAlignV.Top, 8, 0, colSpan: 2);
-            layoutTable.Add(closeButton, MyAlignH.Center, MyAlignV.Center, 8, 2, colSpan: 2);
+            layoutTable.Add(infoText, MyAlignH.Left, MyAlignV.Top, 10, 0, colSpan: 2);
+            layoutTable.Add(closeButton, MyAlignH.Center, MyAlignV.Center, 10, 2, colSpan: 2);
         }
     }
 }
