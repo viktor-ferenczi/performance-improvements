@@ -44,7 +44,7 @@ namespace Shared.Patches
 
         #region "IsSafe fix, see: https://support.keenswh.com/spaceengineers/pc/topic/24146-performance-mysafezone-issafe-is-called-frequently-but-not-cached"
 
-        private static readonly BoolCache Cache = new BoolCache(120, 277 * 60, 128);
+        private static readonly UintCache Cache = new UintCache(277 * 60, 128);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Clean()
@@ -61,9 +61,9 @@ namespace Shared.Patches
             if (!enabled)
                 return true;
 
-            if (Cache.TryGetValue(entity.EntityId, out var result))
+            if (Cache.TryGetValue(entity.EntityId, out var value))
             {
-                __result = result;
+                __result = value != 0;
                 return false;
             }
 
@@ -79,7 +79,8 @@ namespace Shared.Patches
             if (!enabled)
                 return;
 
-            Cache.Store(entity.EntityId, __result);
+            var entityId = entity.EntityId;
+            Cache.Store(entityId, __result ? 1u : 0u, (uint)(entityId & 15));
         }
 
         #endregion
@@ -106,7 +107,7 @@ namespace Shared.Patches
             il[j] = new CodeInstruction(OpCodes.Call, AccessTools.DeclaredMethod(typeof(MySafeZonePatch), nameof(PhantomTaskListAdd)));
 
             il.RecordPatchedCode();
-            return il.AsEnumerable();
+            return il;
         }
 
         [HarmonyTranspiler]
@@ -126,7 +127,7 @@ namespace Shared.Patches
             il[i] = new CodeInstruction(OpCodes.Call, AccessTools.DeclaredMethod(typeof(MySafeZonePatch), nameof(PhantomTaskListRemove)));
 
             il.RecordPatchedCode();
-            return il.AsEnumerable();
+            return il;
         }
 
         private static bool PhantomTaskListContains(HashSet<IMyEntity> map, IMyEntity item)

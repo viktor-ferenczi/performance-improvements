@@ -40,7 +40,7 @@ namespace Shared.Patches
             DisableBodyContactAudioOnServer(il);
 
             il.RecordPatchedCode();
-            return il.AsEnumerable();
+            return il;
         }
 
         private static void DisableFootprintRenderingOnServer(List<CodeInstruction> il)

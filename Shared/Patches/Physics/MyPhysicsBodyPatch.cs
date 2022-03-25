@@ -44,7 +44,7 @@ namespace Shared.Patches
             il[j].labels.Add(parentIsNotNullLabel);
 
             il.RecordPatchedCode();
-            return il.AsEnumerable();
+            return il;
         }
     }
 }

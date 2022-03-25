@@ -94,7 +94,7 @@ namespace Shared.Patches
             il.Insert(k, new CodeInstruction(OpCodes.Brtrue_S, exit));
 
             il.RecordPatchedCode();
-            return il.AsEnumerable();
+            return il;
         }
 
         private class ScriptList : IEnumerable<Script>

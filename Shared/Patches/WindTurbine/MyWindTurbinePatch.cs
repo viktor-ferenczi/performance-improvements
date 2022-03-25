@@ -23,7 +23,7 @@ namespace Shared.Patches
             enabled = Config.Enabled; // && Config.FixTargeting;
         }
 
-        private static readonly BoolCache Cache = new BoolCache(300, 293 * 60, 64);
+        private static readonly UintCache Cache = new UintCache(293 * 60, 64);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Clean()
@@ -40,9 +40,9 @@ namespace Shared.Patches
             if (!enabled)
                 return true;
 
-            if (Cache.TryGetValue(__instance.EntityId, out var result))
+            if (Cache.TryGetValue(__instance.EntityId, out var value))
             {
-                __result = result;
+                __result = value != 0;
                 return false;
             }
 
@@ -58,7 +58,8 @@ namespace Shared.Patches
             if (!enabled)
                 return;
 
-            Cache.Store(__instance.EntityId, __result);
+            var entityId = __instance.EntityId;
+            Cache.Store(entityId, __result ? 1u : 0u, (uint)(entityId & 31));
         }
     }
 }
