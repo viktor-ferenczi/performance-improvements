@@ -14,16 +14,17 @@ namespace TorchPlugin
         private bool fixUpdateStat = true;
         private bool fixGarbageCollection = true;
         private bool fixGridGroups = true;
-        private bool cacheMods = false;
-        private bool cacheScripts = false;
+        private bool cacheMods = true;
+        private bool cacheScripts = true;
         private bool disableModApiStatistics = true;
-        private bool fixSafeZone = false;
-        private bool fixTargeting = false;
-        private bool fixWindTurbine = false;
-        private bool fixVoxel = false;
-        private bool fixPhysics = false;
-        private bool fixEntity = false;
-        private bool fixCharacter = false;
+        private bool fixSafeZone = true;
+        private bool fixTargeting = true;
+        private bool fixWindTurbine = true;
+        private bool fixVoxel = true;
+        private bool fixPhysics = true;
+        private bool fixEntity = true;
+        private bool fixCharacter = true;
+        private bool fixMemory = false;
         //BOOL_OPTION private bool optionName = false;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enable the plugin (all fixes)")]
@@ -117,7 +118,7 @@ namespace TorchPlugin
             set => SetValue(ref fixVoxel, value);
         }
 
-        [Display(Order = 14, GroupName = "Fixes", Name = "Fix physics performance (needs restart)", Description = "Optimizes MyPhysicsBody.RigidBody getter (needs restart)")]
+        [Display(Order = 14, GroupName = "Fixes", Name = "Fix physics performance (needs restart)", Description = "Optimizes the MyPhysicsBody.RigidBody getter and the HkShape comparer (needs restart)")]
         public bool FixPhysics
         {
             get => fixPhysics;
@@ -138,8 +139,15 @@ namespace TorchPlugin
             set => SetValue(ref fixCharacter, value);
         }
 
+        [Display(Order = 17, GroupName = "Fixes", Name = "Fix frequent memory allocations", Description = "Optimizes frequent memory allocations")]
+        public bool FixMemory
+        {
+            get => fixMemory;
+            set => SetValue(ref fixMemory, value);
+        }
+
         /*BOOL_OPTION
-        [Display(Order = 17, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
+        [Display(Order = 18, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
         public bool OptionName
         {
             get => optionName;

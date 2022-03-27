@@ -43,7 +43,7 @@ namespace Shared.Config
         // Reduces memory allocations in IMyStorageExtensions.GetMaterialAt
         bool FixVoxel { get; set; }
 
-        // Optimizes MyPhysicsBody.RigidBody getter (needs restart)
+        // Optimizes the MyPhysicsBody.RigidBody getter and the HkShape comparer (needs restart)
         bool FixPhysics { get; set; }
 
         // Optimizes MyEntity.InScene getter (needs restart)
@@ -51,6 +51,9 @@ namespace Shared.Config
 
         // Disables character footprint logic on server side (needs restart)
         bool FixCharacter { get; set; }
+
+        // Optimizes frequent memory allocations
+        bool FixMemory { get; set; }
 
         /*BOOL_OPTION
         // Option tooltip

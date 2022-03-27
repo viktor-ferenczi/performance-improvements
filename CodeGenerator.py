@@ -128,11 +128,7 @@ def generate_bool_option(name, command, label, tooltip):
 
 def main():
     pass
-    # generate_bool_option('FixWindTurbine', 'wind_turbine', 'Fix wind turbine performance', 'Caches the result of MyWindTurbine.IsInAtmosphere')
-    # generate_bool_option('FixVoxel', 'voxel', 'Fix voxel performance', 'Reduces memory allocations in IMyStorageExtensions.GetMaterialAt')
-    # generate_bool_option('FixPhysics', 'physics', 'Fix physics performance (needs restart)', 'Optimizes MyPhysicsBody.RigidBody getter (needs restart)')
-    # generate_bool_option('FixEntity', 'entity', 'Fix entity performance (needs restart)', 'Optimizes MyEntity.InScene getter (needs restart)')
-    # generate_bool_option('FixCharacter', 'character', 'Fix character performance (needs restart)', 'Disables character footprint logic on server side (needs restart)')
+    # generate_bool_option('FixMemory', 'memory', 'Fix frequent memory allocations', 'Optimizes frequent memory allocations')
 
 
 if __name__ == '__main__':

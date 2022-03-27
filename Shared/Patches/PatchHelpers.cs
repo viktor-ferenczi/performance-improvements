@@ -65,10 +65,12 @@ namespace Shared.Patches
             MySafeZonePatch.Configure();
             MyLargeTurretTargetingSystemPatch.Configure();
             MyPhysicsBodyPatch.Configure();
+            HkShapePatch.Configure();
             MyEntityPatch.Configure();
             MyCharacterPatch.Configure();
             MyStorageExtensionsPatch.Configure();
             MyWindTurbinePatch.Configure();
+            MyDefinitionIdToStringPatch.Configure();
 
             // FIXME: Make this configurable!
             // PhysicsFixes.SetClusterSize(3000f);
@@ -83,19 +85,21 @@ namespace Shared.Patches
         // Called on every update
         public static void PatchUpdates()
         {
-            MySafeZonePatch.Clean();
-            MyLargeTurretTargetingSystemPatch.Clean();
-            MyWindTurbinePatch.Clean();
+            MySafeZonePatch.Update();
+            MyLargeTurretTargetingSystemPatch.Update();
+            MyWindTurbinePatch.Update();
+            MyDefinitionIdToStringPatch.Update();
 
 #if DEBUG
             if (Common.Plugin.Tick % 1200 == 0)
             {
                 var log = Common.Plugin.Log;
-                log.Info($"Cache hit rates:");
+                log.Info("Cache hit rates:");
                 log.Info($"- MySafeZonePatch: {MySafeZonePatch.Report}");
                 log.Info($"- MyLargeTurretTargetingSystemPatch ArrayCache: {MyLargeTurretTargetingSystemPatch.ArrayCacheReport}");
                 log.Info($"- MyLargeTurretTargetingSystemPatch VisibilityCache: {MyLargeTurretTargetingSystemPatch.VisibilityCacheReport}");
                 log.Info($"- MyWindTurbinePatch: {MyWindTurbinePatch.CacheReport}");
+                log.Info($"- MyDefinitionIdToStringPatch: {MyDefinitionIdToStringPatch.CacheReport}");
             }
 #endif
         }

@@ -9,7 +9,10 @@
     <Import_RootNamespace>Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyDefinitionIdToStringPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\HkShapePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Cache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\CacheForever.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\CacheStat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\MySessionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\IPluginConfig.cs" />
@@ -37,6 +40,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\WindTurbine\MyWindTurbinePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\ICommonPlugin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\Common.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\ObjectPools.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\UintCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\CodeChange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\EnsureCode.cs" />
@@ -59,6 +63,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Patches\Character\RigidBody_ContactPointCallback.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Entity\InSceneGetter.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Entity\InSceneGetter.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\HkShapeEquals.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\HkShapeEquals.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\RigidBodyGetter.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\RigidBodyGetter.patched.il" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\MyScriptCompilerPatch.cs" />

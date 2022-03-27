@@ -35,6 +35,7 @@ namespace TorchPlugin
             Respond($"physics: {Format(config.FixPhysics)}");
             Respond($"entity: {Format(config.FixEntity)}");
             Respond($"character: {Format(config.FixCharacter)}");
+            Respond($"memory: {Format(config.FixMemory)}");
             //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
         }
 
@@ -168,6 +169,10 @@ namespace TorchPlugin
                     Config.FixCharacter = parsedFlag;
                     break;
 
+                case "memory":
+                    Config.FixMemory = parsedFlag;
+                    break;
+
                 /*BOOL_OPTION
                 case "option_name":
                     Config.OptionName = parsedFlag;
@@ -176,24 +181,25 @@ namespace TorchPlugin
                 BOOL_OPTION*/
                 default:
                     Respond($"Unknown fix: {name}");
-                    Respond($"Valid fix names:");
-                    Respond($"  grid_merge");
-                    Respond($"  grid_paste");
-                    Respond($"  p2p_stats");
-                    Respond($"  gc");
-                    Respond($"  grid_groups");
-                    Respond($"  grid_groups");
-                    Respond($"  cache_mods");
-                    Respond($"  cache_scripts");
-                    Respond($"  api_stats");
-                    Respond($"  safe_zone");
-                    Respond($"  targeting");
-                    Respond($"  wind_turbine");
-                    Respond($"  voxel");
-                    Respond($"  physics");
-                    Respond($"  entity");
-                    Respond($"  character");
-                    //BOOL_OPTION Respond($"  option_name");
+                    Respond("Valid fix names:");
+                    Respond("  grid_merge");
+                    Respond("  grid_paste");
+                    Respond("  p2p_stats");
+                    Respond("  gc");
+                    Respond("  grid_groups");
+                    Respond("  grid_groups");
+                    Respond("  cache_mods");
+                    Respond("  cache_scripts");
+                    Respond("  api_stats");
+                    Respond("  safe_zone");
+                    Respond("  targeting");
+                    Respond("  wind_turbine");
+                    Respond("  voxel");
+                    Respond("  physics");
+                    Respond("  entity");
+                    Respond("  character");
+                    Respond("  memory");
+                    //BOOL_OPTION Respond("  option_name");
                     return;
             }
 

@@ -13,7 +13,7 @@ namespace Shared.Tools
         // Allowed method body hashes in hexadecimal, multiple entries can be separated by a | (pipe) character
         private readonly string allowedHashes;
 
-        public bool IsAllowed(string hash) => $"|{allowedHashes}|".Contains($"|{hash}|");
+        private bool IsAllowed(string hash) => $"|{allowedHashes}|".Contains($"|{hash}|");
 
         public EnsureCode(string allowedHashes)
         {

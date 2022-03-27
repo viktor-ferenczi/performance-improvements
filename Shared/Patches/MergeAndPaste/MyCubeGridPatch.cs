@@ -51,7 +51,6 @@ namespace Shared.Patches
         }
 
         // ReSharper disable once UnusedMember.Local
-        // ReSharper disable once RedundantAssignment
         [HarmonyPrefix]
         [HarmonyPatch("PasteBlocksServer")]
         [EnsureCode("e7010d51")]
