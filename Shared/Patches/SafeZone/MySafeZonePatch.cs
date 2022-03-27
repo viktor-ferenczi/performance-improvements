@@ -23,28 +23,26 @@ namespace Shared.Patches
         private static IPluginConfig Config => Common.Config;
         private static bool enabled;
 
-        static MySafeZonePatch()
+        public static void Configure()
         {
-            Configure();
+            enabled = Config.Enabled && Config.FixSafeZone;
             Config.PropertyChanged += OnConfigChanged;
         }
 
         private static void OnConfigChanged(object sender, PropertyChangedEventArgs e)
         {
-            Configure();
-        }
-
-        public static void Configure()
-        {
             enabled = Config.Enabled && Config.FixSafeZone;
-
             if (!enabled)
                 Cache.Clear();
         }
 
         #region "IsSafe fix, see: https://support.keenswh.com/spaceengineers/pc/topic/24146-performance-mysafezone-issafe-is-called-frequently-but-not-cached"
 
-        private static readonly UintCache<long> Cache = new UintCache<long>(277 * 60, 128);
+        private static readonly UintCache<long> Cache = new UintCache<long>(27 * 60);
+
+#if DEBUG
+        public static string Report => Cache.Report;
+#endif
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Clean()
@@ -52,11 +50,12 @@ namespace Shared.Patches
             Cache.Clean();
         }
 
+        // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
         [HarmonyPatch("IsSafe")]
         [EnsureCode("98164fe2")]
-        // ReSharper disable once UnusedMember.Local
-        private static bool IsSafePrefix(MyEntity entity, ref bool __result)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool IsSafePrefix(MyEntity entity, ref bool __result, ref bool __state)
         {
             if (!enabled)
                 return true;
@@ -67,20 +66,22 @@ namespace Shared.Patches
                 return false;
             }
 
+            __state = true;
             return true;
         }
 
+        // ReSharper disable once UnusedMember.Local
         [HarmonyPostfix]
         [HarmonyPatch("IsSafe")]
         [EnsureCode("98164fe2")]
-        // ReSharper disable once UnusedMember.Local
-        private static void IsSafePostfix(MyEntity entity, bool __result)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void IsSafePostfix(MyEntity entity, bool __result, bool __state)
         {
-            if (!enabled)
+            if (!__state)
                 return;
 
             var entityId = entity.EntityId;
-            Cache.Store(entityId, __result ? 1u : 0u, (uint)(entityId & 15));
+            Cache.Store(entityId, __result ? 1u : 0u, 120u + (uint)(entityId & 15));
         }
 
         #endregion

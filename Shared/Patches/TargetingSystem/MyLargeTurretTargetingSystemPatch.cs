@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Sandbox.Game.Entities.Interfaces;
 using Sandbox.Game.Weapons;
@@ -23,8 +24,6 @@ namespace Shared.Patches
     public static class MyLargeTurretTargetingSystemPatch
     {
         private static IPluginConfig Config => Common.Config;
-
-        // These patches need restart to be enabled/disabled
         private static bool enabled;
 
         public static void Configure()
@@ -35,7 +34,11 @@ namespace Shared.Patches
         #region Reusing arrays in SortTargetRoots
 
         // Array cache for each turret targeting system instance keyed by the m_targetReceiver.Entity.EntityId
-        private static readonly Cache<long, MyEntity[]> ArrayCache = new Cache<long, MyEntity[]>(4 * 3600 * 60, 64);
+        private static readonly Cache<long, MyEntity[]> ArrayCache = new Cache<long, MyEntity[]>(177 * 60);
+
+#if DEBUG
+        public static string ArrayCacheReport => ArrayCache.Report;
+#endif
 
         public static void Clean()
         {
@@ -90,6 +93,9 @@ namespace Shared.Patches
                 distanceEntityKeys = new float[count];
 
             var targetReceiverEntity = targetReceiver.Entity;
+            if (targetReceiverEntity == null)
+                return Array.Empty<MyEntity>();
+
             var entityId = targetReceiverEntity.EntityId;
             if (targetReceiverEntity.Closed)
             {
@@ -102,10 +108,14 @@ namespace Shared.Patches
             // It would be wasted work, since we overwrite those items anyway.
             // The array is extended if needed or replaced entirely if at least 4 times longer than needed.
 
-            if (!ArrayCache.TryGetValue(entityId, out var array) || array.Length < count || array.Length > count << 2)
+            if (ArrayCache.TryGetValue(entityId, out var array) && array.Length >= count && array.Length <= count << 2)
+            {
+                ArrayCache.Extend(entityId, 377 * 60);
+            }
+            else
             {
                 array = new MyEntity[count];
-                ArrayCache.Store(entityId, array, 4 * 3600 * 60);
+                ArrayCache.Store(entityId, array, 377 * 60);
             }
 
             for (var i = 0; i < count; i++)
@@ -123,7 +133,11 @@ namespace Shared.Patches
         #region Visibility cache replacement
 
         // Visibility cache for each turret targeting system instance keyed by the m_targetReceiver.Entity.EntityId
-        private static readonly Cache<long, UintCache<long>> VisibilityCache = new Cache<long, UintCache<long>>(4 * 3600 * 60, 64);
+        private static readonly Cache<long, UintCache<long>> VisibilityCache = new Cache<long, UintCache<long>>(197 * 60);
+
+#if DEBUG
+        public static string VisibilityCacheReport => VisibilityCache.Report;
+#endif
 
         // ReSharper disable once UnusedMember.Local
         [HarmonyTranspiler]
@@ -169,23 +183,27 @@ namespace Shared.Patches
         }
 
         // ReSharper disable once UnusedMember.Local
-        // ReSharper disable once InconsistentNaming
         [HarmonyPrefix]
         [HarmonyPatch("SetTargetVisible")]
         [EnsureCode("983dff7e")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool SetTargetVisiblePrefix(IMyTargetingReceiver ___m_targetReceiver, MyEntity target, bool visible, int? timeout = null)
         {
             if (!enabled)
                 return true;
 
             var entityId = ___m_targetReceiver.Entity.EntityId;
-            if (!VisibilityCache.TryGetValue(entityId, out var cache))
+            if (VisibilityCache.TryGetValue(entityId, out var cache))
             {
-                cache = new UintCache<long>(3, 32);
-                VisibilityCache.Store(entityId, cache, 4 * 3600 * 60);
+                VisibilityCache.Extend(entityId, 59 * 60);
+            }
+            else
+            {
+                cache = new UintCache<long>(4);
+                VisibilityCache.Store(entityId, cache, 59 * 60);
             }
 
-            cache.Store(target.EntityId, visible ? 1u : 0u, (uint)(timeout ?? 10 + MyRandom.Instance.Next(5)));
+            cache.Store(target.EntityId, visible ? 1u : 0u, (uint)(timeout ?? 8 + MyRandom.Instance.Next(8)));
             return false;
         }
 

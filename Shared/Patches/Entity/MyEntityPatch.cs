@@ -13,8 +13,6 @@ namespace Shared.Patches
     public static class MyEntityPatch
     {
         private static IPluginConfig Config => Common.Config;
-
-        // These patches need restart to be enabled/disabled
         private static bool enabled;
 
         public static void Configure()

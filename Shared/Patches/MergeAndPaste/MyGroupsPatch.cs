@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Threading;
 using HarmonyLib;
 using Sandbox.Game.Entities;
@@ -23,20 +24,16 @@ namespace Shared.Patches
         private static bool MergeGroupsPrefix()
         {
             MergeGroupsCallDepth.Value++;
-
             return true;
         }
 
         // ReSharper disable once UnusedMember.Local
-        // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
         [HarmonyPatch("MergeGroups")]
         [EnsureCode("fb5613b0")]
         private static void MergeGroupsPostfix()
         {
-            if (!IsInMergeGroups)
-                return;
-
+            // Thread safe due to the use of a thread local variable
             MergeGroupsCallDepth.Value--;
         }
 
@@ -44,23 +41,22 @@ namespace Shared.Patches
         [HarmonyPrefix]
         [HarmonyPatch("BreakLink")]
         [EnsureCode("68c25077")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool BreakLinkPrefix()
         {
+            // Thread safe due to the use of a thread local variable
             BreakLinkCallDepth.Value++;
-
             return true;
         }
 
         // ReSharper disable once UnusedMember.Local
-        // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
         [HarmonyPatch("BreakLink")]
         [EnsureCode("68c25077")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void BreakLinkPostfix()
         {
-            if (!IsInBreakLink)
-                return;
-
+            // Thread safe due to the use of a thread local variable
             BreakLinkCallDepth.Value--;
         }
     }

@@ -5,7 +5,7 @@ using Shared.Tools;
 
 namespace TorchPlugin.Shared.Tools
 {
-    public class UintCache<TK> where TK: struct
+    public class UintCache<TK>
     {
         // Tick counter in the upper 32 bits
         private readonly ulong cleanupPeriod;
@@ -18,7 +18,12 @@ namespace TorchPlugin.Shared.Tools
 
         private readonly RwLockDictionary<TK, ulong> cache = new RwLockDictionary<TK, ulong>();
 
-        public UintCache(uint cleanupPeriod, uint maxDeleteCount)
+#if DEBUG
+        public readonly CacheStat Stat = new CacheStat();
+        public string Report => Stat.Report;
+#endif
+
+        public UintCache(uint cleanupPeriod, uint maxDeleteCount = 64)
         {
             this.cleanupPeriod = (ulong)cleanupPeriod << 32;
             this.maxDeleteCount = maxDeleteCount;
@@ -31,7 +36,7 @@ namespace TorchPlugin.Shared.Tools
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Clean()
         {
-            if ((tick = (ulong)Common.Plugin.Tick << 32) != nextCleanup)
+            if ((tick = (ulong)Common.Plugin.Tick << 32) < nextCleanup)
                 return;
 
             nextCleanup = tick + cleanupPeriod;
@@ -95,12 +100,21 @@ namespace TorchPlugin.Shared.Tools
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetValue(TK key, out uint value)
         {
+#if DEBUG
+            Stat.CountLookup(cache.Count);
+#endif
             cache.BeginReading();
-            if (cache.TryGetValue(key, out var item) && item >= tick)
+            if (cache.TryGetValue(key, out var item))
             {
-                value = (uint)item;
-                cache.FinishReading();
-                return true;
+                if (item >= tick)
+                {
+                    value = (uint)item;
+                    cache.FinishReading();
+#if DEBUG
+                    Stat.CountHit();
+#endif
+                    return true;
+                }
             }
 
             cache.FinishReading();

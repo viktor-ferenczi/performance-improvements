@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Shared.Plugin;
@@ -5,7 +7,7 @@ using Shared.Tools;
 
 namespace TorchPlugin.Shared.Tools
 {
-    public class Cache<TK, TV> where TK: struct
+    public class Cache<TK, TV>
     {
         private long tick;
         private long nextCleanup;
@@ -15,6 +17,27 @@ namespace TorchPlugin.Shared.Tools
         private readonly int maxDeleteCount;
         private readonly TK[] keysToDelete;
 
+#if DEBUG
+        public readonly CacheStat Stat = new CacheStat();
+        public string Report => Stat.Report;
+        public IEnumerable<TR> Map<TR>(Func<TV, TR> fn)
+        {
+            cache.BeginReading();
+            foreach (var value in cache.Values)
+                yield return fn(value.Value);
+            cache.FinishReading();
+        }
+
+        public CacheStat Aggregate(IEnumerable<CacheStat> stats)
+        {
+            var stat = new CacheStat();
+            cache.BeginReading();
+            stat.AddRange(stats);
+            cache.FinishReading();
+            return stat;
+        }
+#endif
+
         private class Item
         {
             public TV Value;
@@ -23,7 +46,7 @@ namespace TorchPlugin.Shared.Tools
 
         private readonly RwLockDictionary<TK, Item> cache = new RwLockDictionary<TK, Item>();
 
-        public Cache(int cleanupPeriod, int maxDeleteCount)
+        public Cache(int cleanupPeriod, int maxDeleteCount = 64)
         {
             this.cleanupPeriod = cleanupPeriod;
             this.maxDeleteCount = maxDeleteCount;
@@ -36,7 +59,7 @@ namespace TorchPlugin.Shared.Tools
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Clean()
         {
-            if ((tick = Common.Plugin.Tick) != nextCleanup)
+            if ((tick = Common.Plugin.Tick) < nextCleanup)
                 return;
 
             nextCleanup = tick + cleanupPeriod;
@@ -99,12 +122,21 @@ namespace TorchPlugin.Shared.Tools
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetValue(TK key, out TV value)
         {
+#if DEBUG
+            Stat.CountLookup(cache.Count);
+#endif
             cache.BeginReading();
-            if (cache.TryGetValue(key, out var item) && item.Expires >= tick)
+            if (cache.TryGetValue(key, out var item))
             {
-                value = item.Value;
-                cache.FinishReading();
-                return true;
+                if (item.Expires >= tick)
+                {
+                    value = item.Value;
+                    cache.FinishReading();
+#if DEBUG
+                    Stat.CountHit();
+#endif
+                    return true;
+                }
             }
 
             cache.FinishReading();

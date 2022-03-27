@@ -1,11 +1,12 @@
+// #define LIST_ALL_TYPES
+
 using System;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using Shared.Logging;
+using Shared.Plugin;
 using Shared.Tools;
-
-// #define LIST_TYPES
 
 namespace Shared.Patches
 {
@@ -16,10 +17,8 @@ namespace Shared.Patches
         {
 #if DEBUG
             Harmony.DEBUG = true;
-#endif
 
-#if DEBUG
-#if LIST_TYPES
+#if LIST_ALL_TYPES
             log.Info("All types:");
             foreach (var typ in AccessTools.AllTypes())
             {
@@ -87,6 +86,18 @@ namespace Shared.Patches
             MySafeZonePatch.Clean();
             MyLargeTurretTargetingSystemPatch.Clean();
             MyWindTurbinePatch.Clean();
+
+#if DEBUG
+            if (Common.Plugin.Tick % 1200 == 0)
+            {
+                var log = Common.Plugin.Log;
+                log.Info($"Cache hit rates:");
+                log.Info($"- MySafeZonePatch: {MySafeZonePatch.Report}");
+                log.Info($"- MyLargeTurretTargetingSystemPatch ArrayCache: {MyLargeTurretTargetingSystemPatch.ArrayCacheReport}");
+                log.Info($"- MyLargeTurretTargetingSystemPatch VisibilityCache: {MyLargeTurretTargetingSystemPatch.VisibilityCacheReport}");
+                log.Info($"- MyWindTurbinePatch: {MyWindTurbinePatch.CacheReport}");
+            }
+#endif
         }
     }
 }

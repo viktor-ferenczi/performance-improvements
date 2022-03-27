@@ -17,6 +17,7 @@ namespace Shared.Patches
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MyPathFindingSystem<IMyConveyorEndpoint>.Enumerator.MoveNext))]
         [EnsureCode("")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool MoveNextPrefix(
             // object __instance,
             // ref bool __result,

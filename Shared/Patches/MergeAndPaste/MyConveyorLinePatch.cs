@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Sandbox.Game.GameSystems.Conveyors;
 
@@ -10,6 +11,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MyConveyorLine.UpdateIsWorking))]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool UpdateIsWorkingPrefix()
         {
             // For better performance the configuration is done in MyCubeGridPatch.MergeGridInternalPrefix

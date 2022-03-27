@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using HarmonyLib;
 using Sandbox.Game.Entities;
@@ -10,6 +11,7 @@ namespace Shared.Patches
 {
     // ReSharper disable once UnusedType.Global
     [HarmonyPatch(typeof(MyCubeGrid))]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public static class MyCubeGridPatch
     {
         private static IPluginConfig Config => Common.Config;
@@ -21,24 +23,24 @@ namespace Shared.Patches
         [HarmonyPrefix]
         [HarmonyPatch("MergeGridInternal")]
         [EnsureCode("ddf218c3")]
-        private static bool MergeGridInternalPrefix()
+        private static bool MergeGridInternalPrefix(ref bool __state)
         {
             if (!Config.Enabled || !Config.FixGridMerge)
                 return true;
 
             CallDepth.Value++;
 
+            __state = true;
             return true;
         }
 
         // ReSharper disable once UnusedMember.Local
-        // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
         [HarmonyPatch("MergeGridInternal")]
         [EnsureCode("ddf218c3")]
-        private static void MergeGridInternalPostfix(MyCubeGrid __instance)
+        private static void MergeGridInternalPostfix(MyCubeGrid __instance, bool __state)
         {
-            if (!IsInMergeGridInternal)
+            if (!__state)
                 return;
 
             if (--CallDepth.Value > 0)
@@ -49,7 +51,6 @@ namespace Shared.Patches
         }
 
         // ReSharper disable once UnusedMember.Local
-        // ReSharper disable once InconsistentNaming
         // ReSharper disable once RedundantAssignment
         [HarmonyPrefix]
         [HarmonyPatch("PasteBlocksServer")]
@@ -67,7 +68,6 @@ namespace Shared.Patches
         }
 
         // ReSharper disable once UnusedMember.Local
-        // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
         [HarmonyPatch("PasteBlocksServer")]
         [EnsureCode("e7010d51")]

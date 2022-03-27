@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using HarmonyLib;
 using Sandbox.Definitions;
@@ -17,8 +18,6 @@ namespace Shared.Patches
     public static class MyStorageExtensionsPatch
     {
         private static IPluginConfig Config => Common.Config;
-
-        // These patches need restart to be enabled/disabled
         private static bool enabled;
 
         public static void Configure()
@@ -54,6 +53,7 @@ namespace Shared.Patches
             new[] { typeof(IMyStorage), typeof(Vector3I) },
             new[] { ArgumentType.Normal, ArgumentType.Ref })]
         [EnsureCode("d214d704")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool GetMaterialAtVector3IPrefix(IMyStorage self, ref Vector3I voxelCoords, ref MyVoxelMaterialDefinition __result)
         {
             if (!enabled)
