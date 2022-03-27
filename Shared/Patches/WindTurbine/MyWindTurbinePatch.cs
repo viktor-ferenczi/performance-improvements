@@ -42,7 +42,7 @@ namespace Shared.Patches
 #endif
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Clean()
+        public static void Update()
         {
             Cache.Clean();
         }

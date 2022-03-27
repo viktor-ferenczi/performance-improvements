@@ -85,9 +85,10 @@ namespace Shared.Patches
         // Called on every update
         public static void PatchUpdates()
         {
-            MySafeZonePatch.Clean();
-            MyLargeTurretTargetingSystemPatch.Clean();
-            MyWindTurbinePatch.Clean();
+            MySafeZonePatch.Update();
+            MyLargeTurretTargetingSystemPatch.Update();
+            MyWindTurbinePatch.Update();
+            MyDefinitionIdToStringPatch.Update();
 
 #if DEBUG
             if (Common.Plugin.Tick % 1200 == 0)

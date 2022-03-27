@@ -40,7 +40,7 @@ namespace Shared.Patches
         public static string ArrayCacheReport => ArrayCache.Report;
 #endif
 
-        public static void Clean()
+        public static void Update()
         {
             if (!enabled)
                 return;

@@ -31,10 +31,23 @@ namespace Shared.Patches
         }
 
         private static readonly CacheForever<long, string> Cache = new CacheForever<long, string>();
+        private static long tick;
+        private static long nextFill;
+        private const long FillPeriod = 60; // !!! 117 * 60;
 
 #if DEBUG
-        public static string CacheReport => Cache.Report;
+        public static string CacheReport => $"{Cache.ImmutableReport} | {Cache.Report}";
 #endif
+
+        public static void Update()
+        {
+            if ((tick = Common.Plugin.Tick) < nextFill)
+                return;
+
+            nextFill = tick + FillPeriod;
+
+            Cache.FillImmutableCache();
+        }
 
         // ReSharper disable once UnusedMember.Local
         [HarmonyPatch(typeof(MyDefinitionId), nameof(MyDefinitionId.ToString))]
