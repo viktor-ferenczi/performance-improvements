@@ -188,24 +188,24 @@ Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/p
 
 ### Caching the result of wind turbine atmosphere checks
 
-Since the result of MyWindTurbine.IsInAtmosphere does not change often, 
+Since the result of `MyWindTurbine.IsInAtmosphere` does not change often, 
 it can safely be cached for a few seconds.
 
-TODO: Add support ticket
+Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24209-performance-cache-the-result-of-mywindturbine-isinatmosphere)
 
 ### Reducing frequent memory allocations
 
-Strategy is a combination of object pooling and caching where applicable.
-
-- `MyDefinitionId.ToString`
+`MyDefinitionId.ToString` is called frequently, it also allocates memory. 
+There are only 1000-1500 distinct definition IDs to format (depending on mods),
+so these are cacheable without expiration.
 
 StringBuilder pooling was contributed by: zznty
 
-TODO: Add support ticket
+Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24210-performance-pre-calculate-or-cache-mydefinitionid-tostring-results)
 
 ### Havok performance fix
 
 Removed boxing allocation from the Havok.HkShape.HandleEqualityComparer.Equals method.
 Also simplified the logic by not checking y for null, because it does not happen.
 
-TODO: Add support ticket
+Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24211-performance-hkshape-comparison-with-boxing-allocation)
