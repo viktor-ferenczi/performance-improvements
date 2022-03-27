@@ -59,7 +59,7 @@ these patches are expected to be removed anyway, so I did not bother using Torch
 ### Developers
 - Avaness for the client side Plugin Loader
 - Bishbash77 for keeping Torch alive + Torch contributors
-- Z__ (zznty)
+- zznty
 - mkaito
 
 ### Testers
@@ -109,7 +109,7 @@ Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/p
 
 ### GC.Collect calls (both client and server)
 
-Contributed by: `Z__` (zznty)
+Contributed by: zznty
 
 The game makes explicit calls to `GC.Collect`, which may cause long pauses 
 while starting or stopping large worlds. It mostly affects large multiplayer 
@@ -130,7 +130,7 @@ TODO: Add a Keen support ticket after gathering profiling data.
 
 ### Mod API call statistics overhead (both client and server)
 
-Contributed by: `Z__` (zznty)
+Contributed by: zznty
 
 It may be a performance hog if many mods are used. This fix disables the
 `VRage.Scripting.Rewriters.PerfCountingRewriter.Rewrite` method, so the
@@ -142,19 +142,6 @@ no support ticket is needed.
 
 Measured 10% lower simulation CPU load in a heavily modded test world after
 loading it with this fix enabled.
-
-### Thruster grid updates (server and offline game)
-
-Initial solution was contributed by: `mkaito`
-
-When changing thrust values, such as adjusting override or just pressing WASD,
-a lot of time is spent recalculating power and fuel state of all thrusters on
-the grid every tick. This fix allows the recalculation to happen only if there 
-is a relevant change in thrust controls. It also fixes a bug which caused the
-nearby planet's influence calculation to run on every single tick instead of 
-every 100 ticks.
-
-Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/22874-grids-with-hydrogen-thrusters-decrease-simulation-speed-after-warfare-2-update-but-not-before)
 
 ### Lag on grid group changes (server and offline game)
 
@@ -186,11 +173,9 @@ Workaround is to cache the result of MySafeZone.IsSafe for up to 128 simulation
 ticks (~2 seconds). Side effect of the fix is that grid ownership changes are 
 reflected in safe zone behavior only up to 2 seconds later (1 second on average).
 
-The plugin also fixes a related
-[race condition bug](https://support.keenswh.com/spaceengineers/pc/topic/24149-safezone-m_removeentityphantomtasklist-hashset-corruption-due-to-race-condition)
-which would otherwise freeze the game.
-
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24146-performance-mysafezone-issafe-is-called-frequently-but-not-cached)
+
+Also fixes a related [race condition bug](https://support.keenswh.com/spaceengineers/pc/topic/24149-safezone-m_removeentityphantomtasklist-hashset-corruption-due-to-race-condition)
 
 ### Reducing memory allocations in the turret targeting system
 
@@ -200,3 +185,10 @@ causing quite a bit of GC pressure:
 - `MyLargeTurretTargetingSystem.UpdateVisibilityCacheCounters`
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24145-excessive-memory-allocation-in-mylargeturrettargetingsystem)
+
+### Caching the result of wind turbine atmosphere checks
+
+Since the result of MyWindTurbine.IsInAtmosphere does not change often, 
+it can safely be cached for a few seconds.
+
+TODO: Add support ticket

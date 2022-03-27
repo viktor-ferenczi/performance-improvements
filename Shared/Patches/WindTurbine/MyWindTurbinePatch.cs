@@ -15,8 +15,6 @@ namespace Shared.Patches
     public static class MyWindTurbinePatch
     {
         private static IPluginConfig Config => Common.Config;
-
-        // These patches need restart to be enabled/disabled
         private static bool enabled;
 
         public static void Configure()
@@ -37,7 +35,11 @@ namespace Shared.Patches
                 Cache.Clear();
         }
 
-        private static readonly UintCache<long> Cache = new UintCache<long>(293 * 60, 64);
+        private static readonly UintCache<long> Cache = new UintCache<long>(111 * 60);
+
+#if DEBUG
+        public static string CacheReport => Cache.Report;
+#endif
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Clean()
@@ -49,7 +51,8 @@ namespace Shared.Patches
         [HarmonyPrefix]
         [HarmonyPatch("IsInAtmosphere", MethodType.Getter)]
         [EnsureCode("641370cb")]
-        private static bool IsInAtmosphereGetterPrefix(MyWindTurbine __instance, ref bool __result)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool IsInAtmosphereGetterPrefix(MyWindTurbine __instance, ref bool __result, ref bool __state)
         {
             if (!enabled)
                 return true;
@@ -60,6 +63,7 @@ namespace Shared.Patches
                 return false;
             }
 
+            __state = true;
             return true;
         }
 
@@ -67,13 +71,14 @@ namespace Shared.Patches
         [HarmonyPostfix]
         [HarmonyPatch("IsInAtmosphere", MethodType.Getter)]
         [EnsureCode("641370cb")]
-        private static void IsInAtmosphereGetterPostfix(MyWindTurbine __instance, ref bool __result)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void IsInAtmosphereGetterPostfix(MyWindTurbine __instance, ref bool __result, bool __state)
         {
-            if (!enabled)
+            if (!__state)
                 return;
 
             var entityId = __instance.EntityId;
-            Cache.Store(entityId, __result ? 1u : 0u, (uint)(entityId & 31));
+            Cache.Store(entityId, __result ? 1u : 0u, 900u + (uint)(entityId & 63));
         }
     }
 }
