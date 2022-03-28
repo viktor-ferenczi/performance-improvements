@@ -1,5 +1,6 @@
+// #define VERIFY_RESULT
+
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
@@ -62,7 +63,7 @@ namespace Shared.Patches
 
             if (Cache.TryGetValue(__instance.GetHashCodeLong(), out __result))
             {
-#if DEBUG
+#if DEBUG && VERIFY_RESULT
                 var expectedName = Format(__instance);
                 Debug.Assert(__result == expectedName);
 #endif

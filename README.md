@@ -217,3 +217,33 @@ which crashes clients grinding active turrets. Added defensive `null` checks to
 `MyLargeTurretBase.UpdateShooting` just in case the server would not have the fix.  
 
 TBD: Bug ticket with a world to 100% reproduce this issue.
+
+### Less frequent update of block access rights
+
+Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason.
+
+TBD: Bug ticket
+
+### Reduced memory allocation in broadcaster scanning
+
+Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart).
+
+TBD: Bug ticket
+
+### Less frequent sync of block counts for limit checking
+
+Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits.
+
+TBD: Bug ticket
+
+### Cache actions allowed by the safe zone
+
+Caches the result of MySafeZone.IsActionAllowed and MySessionComponentSafeZones.IsActionAllowedForSafezone for 2 seconds.
+
+TBD: Bug ticket
+
+### Less frequent update of PB access to blocks
+
+Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often.
+
+TBD: Bug ticket

@@ -70,6 +70,31 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <!--BOOL_OPTION
             <RowDefinition Height="Auto" />
             BOOL_OPTION-->
@@ -130,43 +155,63 @@
         <CheckBox Grid.Row="18" Grid.Column="0" Name="FixEndShoot" IsChecked="{Binding FixEndShoot}" Margin="5"/>
         <TextBlock Grid.Row="18" Grid.Column="1" Text="Adds a missing call to EndShoot on server side, fixing subsequent issues on client side" VerticalAlignment="Center" Margin="5"/>
 
+        <CheckBox Grid.Row="19" Grid.Column="0" Name="FixAccess" IsChecked="{Binding FixAccess}" Margin="5"/>
+        <TextBlock Grid.Row="19" Grid.Column="1" Text="Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason" VerticalAlignment="Center" Margin="5"/>
+
+        <CheckBox Grid.Row="20" Grid.Column="0" Name="FixBroadcast" IsChecked="{Binding FixBroadcast}" Margin="5"/>
+        <TextBlock Grid.Row="20" Grid.Column="1" Text="Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart)" VerticalAlignment="Center" Margin="5"/>
+
+        <CheckBox Grid.Row="21" Grid.Column="0" Name="FixBlockLimit" IsChecked="{Binding FixBlockLimit}" Margin="5"/>
+        <TextBlock Grid.Row="21" Grid.Column="1" Text="Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits" VerticalAlignment="Center" Margin="5"/>
+
+        <CheckBox Grid.Row="22" Grid.Column="0" Name="FixSafeAction" IsChecked="{Binding FixSafeAction}" Margin="5"/>
+        <TextBlock Grid.Row="22" Grid.Column="1" Text="Caches the result of MySafeZone.IsActionAllowed and MySessionComponentSafeZones.IsActionAllowedForSafezone for 2 seconds" VerticalAlignment="Center" Margin="5"/>
+
+        <CheckBox Grid.Row="23" Grid.Column="0" Name="FixTerminal" IsChecked="{Binding FixTerminal}" Margin="5"/>
+        <TextBlock Grid.Row="23" Grid.Column="1" Text="Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often" VerticalAlignment="Center" Margin="5"/>
+
         <!--BOOL_OPTION
-        <CheckBox Grid.Row="19" Grid.Column="0" Name="OptionName" IsChecked="{Binding OptionName}" Margin="5"/>
-        <TextBlock Grid.Row="19" Grid.Column="1" Text="Option tooltip" VerticalAlignment="Center" Margin="5"/>
+        <CheckBox Grid.Row="24" Grid.Column="0" Name="OptionName" IsChecked="{Binding OptionName}" Margin="5"/>
+        <TextBlock Grid.Row="24" Grid.Column="1" Text="Option tooltip" VerticalAlignment="Center" Margin="5"/>
 
         BOOL_OPTION-->
-        <TextBlock Grid.Row="20" Grid.Column="0" Grid.ColumnSpan="2" Text="Configuration changes are saved automatically. It is safe to change them while the game is running." VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="21" Grid.Column="0" Grid.ColumnSpan="2" Text="Admin commands:" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="22" Grid.Column="1" Text="!help pfi" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="23" Grid.Column="1" Text="!pfi info" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="24" Grid.Column="1" Text="!pfi fix name bool" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="30" Grid.Column="0" Grid.ColumnSpan="2" Text="Configuration changes are saved automatically. It is safe to change them while the game is running." VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="31" Grid.Column="0" Grid.ColumnSpan="2" Text="Admin commands:" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="32" Grid.Column="1" Text="!help pfi" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="33" Grid.Column="1" Text="!pfi info" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="34" Grid.Column="1" Text="!pfi fix name bool" VerticalAlignment="Center" Margin="5" />
 
-        <TextBlock Grid.Row="25" Grid.Column="0" Grid.ColumnSpan="2" Text="Available names:" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="26" Grid.Column="1" Text="grid_merge" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="27" Grid.Column="1" Text="grid_paste" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="28" Grid.Column="1" Text="p2p_stats" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="29" Grid.Column="1" Text="gc" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="30" Grid.Column="1" Text="api_stats" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="31" Grid.Column="1" Text="grid_groups" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="32" Grid.Column="1" Text="grid_groups" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="33" Grid.Column="1" Text="cache_mods" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="34" Grid.Column="1" Text="cache_scripts" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="35" Grid.Column="1" Text="safe_zone" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="36" Grid.Column="1" Text="targeting" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="37" Grid.Column="1" Text="wind_turbine" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="38" Grid.Column="1" Text="voxel" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="39" Grid.Column="1" Text="physics" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="40" Grid.Column="1" Text="entity" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="41" Grid.Column="1" Text="character" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="42" Grid.Column="1" Text="memory" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="43" Grid.Column="1" Text="endshoot" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="35" Grid.Column="0" Grid.ColumnSpan="2" Text="Available names:" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="36" Grid.Column="1" Text="grid_merge" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="37" Grid.Column="1" Text="grid_paste" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="38" Grid.Column="1" Text="p2p_stats" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="39" Grid.Column="1" Text="gc" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="40" Grid.Column="1" Text="api_stats" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="41" Grid.Column="1" Text="grid_groups" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="42" Grid.Column="1" Text="grid_groups" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="43" Grid.Column="1" Text="cache_mods" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="44" Grid.Column="1" Text="cache_scripts" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="45" Grid.Column="1" Text="safe_zone" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="46" Grid.Column="1" Text="targeting" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="47" Grid.Column="1" Text="wind_turbine" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="48" Grid.Column="1" Text="voxel" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="49" Grid.Column="1" Text="physics" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="50" Grid.Column="1" Text="entity" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="51" Grid.Column="1" Text="character" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="52" Grid.Column="1" Text="memory" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="53" Grid.Column="1" Text="endshoot" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="54" Grid.Column="1" Text="access" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="55" Grid.Column="1" Text="broadcast" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="56" Grid.Column="1" Text="block_limit" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="57" Grid.Column="1" Text="safe_action" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="58" Grid.Column="1" Text="terminal" VerticalAlignment="Center" Margin="5" />
         <!--BOOL_OPTION
-        <TextBlock Grid.Row="44" Grid.Column="1" Text="option_name" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="59" Grid.Column="1" Text="option_name" VerticalAlignment="Center" Margin="5" />
         BOOL_OPTION-->
 
-        <TextBlock Grid.Row="50" Grid.Column="0" Grid.ColumnSpan="2" Text="Accepted bool values:" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="51" Grid.Column="1" Text="False: 0 off no n false f" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="52" Grid.Column="1" Text="True: 1 on yes y false f" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="70" Grid.Column="0" Grid.ColumnSpan="2" Text="Accepted bool values:" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="71" Grid.Column="1" Text="False: 0 off no n false f" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="72" Grid.Column="1" Text="True: 1 on yes y false f" VerticalAlignment="Center" Margin="5" />
 
     </Grid>
 </UserControl>

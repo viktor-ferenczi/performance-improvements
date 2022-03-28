@@ -44,7 +44,7 @@ namespace Shared.Patches
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Update()
         {
-            Cache.Clean();
+            Cache.Cleanup();
         }
 
         // ReSharper disable once UnusedMember.Local
@@ -78,7 +78,7 @@ namespace Shared.Patches
                 return;
 
             var entityId = __instance.EntityId;
-            Cache.Store(entityId, __result ? 1u : 0u, 900u + (uint)(entityId & 63));
+            Cache.Store(entityId, __result ? 1u : 0u, 30 * 60 + (uint)(entityId & 2047));
         }
     }
 }

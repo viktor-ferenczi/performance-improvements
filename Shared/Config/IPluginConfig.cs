@@ -61,6 +61,21 @@ namespace Shared.Config
         // Adds a missing call to EndShoot on server side, fixing subsequent issues on client side
         bool FixEndShoot { get; set; }
 
+        // Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason
+        bool FixAccess { get; set; }
+
+        // Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart)
+        bool FixBroadcast { get; set; }
+
+        // Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits
+        bool FixBlockLimit { get; set; }
+
+        // Caches the result of MySafeZone.IsActionAllowed and MySessionComponentSafeZones.IsActionAllowedForSafezone for 2 seconds
+        bool FixSafeAction { get; set; }
+
+        // Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often
+        bool FixTerminal { get; set; }
+
         /*BOOL_OPTION
         // Option tooltip
         bool OptionName { get; set; }

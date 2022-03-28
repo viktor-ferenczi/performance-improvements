@@ -128,7 +128,11 @@ def generate_bool_option(name, command, label, tooltip):
 
 def main():
     pass
-    # generate_bool_option('FixEndShoot', 'endshoot', 'Fix crash on grinding active turrets', 'Adds a missing call to EndShoot on server side, fixing subsequent issues on client side')
+    # generate_bool_option('FixAccess', 'access', 'Less frequent update of block access rights', 'Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason')
+    # generate_bool_option('FixBroadcast', 'broadcast', 'Reduced memory allocation in broadcaster scanning', 'Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart)')
+    # generate_bool_option('FixBlockLimit', 'block_limit', 'Less frequent sync of block counts for limit checking', 'Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits')
+    # generate_bool_option('FixSafeAction', 'safe_action', 'Cache actions allowed by the safe zone', 'Caches the result of MySafeZone.IsActionAllowed and MySessionComponentSafeZones.IsActionAllowedForSafezone for 2 seconds')
+    # generate_bool_option('FixTerminal', 'terminal', 'Less frequent update of PB access to blocks', 'Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often')
 
 
 if __name__ == '__main__':

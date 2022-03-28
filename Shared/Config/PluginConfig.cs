@@ -48,6 +48,11 @@ namespace Shared.Config
         private bool fixCharacter = true;
         private bool fixMemory = true;
         private bool fixEndShoot = true;
+        private bool fixAccess = true;
+        private bool fixBroadcast = true;
+        private bool fixBlockLimit = true;
+        private bool fixSafeAction = true;
+        private bool fixTerminal = true;
         //BOOL_OPTION private bool optionName = true;
 
         public bool Enabled
@@ -162,6 +167,36 @@ namespace Shared.Config
         {
             get => fixEndShoot;
             set => SetValue(ref fixEndShoot, value);
+        }
+
+        public bool FixAccess
+        {
+            get => fixAccess;
+            set => SetValue(ref fixAccess, value);
+        }
+
+        public bool FixBroadcast
+        {
+            get => fixBroadcast;
+            set => SetValue(ref fixBroadcast, value);
+        }
+
+        public bool FixBlockLimit
+        {
+            get => fixBlockLimit;
+            set => SetValue(ref fixBlockLimit, value);
+        }
+
+        public bool FixSafeAction
+        {
+            get => fixSafeAction;
+            set => SetValue(ref fixSafeAction, value);
+        }
+
+        public bool FixTerminal
+        {
+            get => fixTerminal;
+            set => SetValue(ref fixTerminal, value);
         }
 
         /*BOOL_OPTION

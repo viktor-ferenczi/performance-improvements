@@ -45,7 +45,7 @@ namespace Shared.Patches
             if (!enabled)
                 return;
 
-            VisibilityCache.Clean();
+            VisibilityCache.Cleanup();
         }
 
         // ReSharper disable once UnusedMember.Local
@@ -178,7 +178,7 @@ namespace Shared.Patches
             if (!VisibilityCache.TryGetValue(___m_targetReceiver.Entity.EntityId, out var cache))
                 return false;
 
-            cache.Clean();
+            cache.Cleanup();
             return false;
         }
 

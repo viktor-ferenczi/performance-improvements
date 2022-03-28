@@ -67,6 +67,21 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel fixEndShootLabel;
         private MyGuiControlCheckbox fixEndShootCheckbox;
 
+        private MyGuiControlLabel fixAccessLabel;
+        private MyGuiControlCheckbox fixAccessCheckbox;
+
+        private MyGuiControlLabel fixBroadcastLabel;
+        private MyGuiControlCheckbox fixBroadcastCheckbox;
+
+        private MyGuiControlLabel fixBlockLimitLabel;
+        private MyGuiControlCheckbox fixBlockLimitCheckbox;
+
+        private MyGuiControlLabel fixSafeActionLabel;
+        private MyGuiControlCheckbox fixSafeActionCheckbox;
+
+        private MyGuiControlLabel fixTerminalLabel;
+        private MyGuiControlCheckbox fixTerminalCheckbox;
+
         /*BOOL_OPTION
         private MyGuiControlLabel optionNameLabel;
         private MyGuiControlCheckbox optionNameCheckbox;
@@ -78,7 +93,7 @@ namespace ClientPlugin.GUI
         private MyGuiControlMultilineText infoText;
         private MyGuiControlButton closeButton;
 
-        public PluginConfigDialog() : base(new Vector2(0.5f, 0.5f), MyGuiConstants.SCREEN_BACKGROUND_COLOR, new Vector2(0.8f, 0.8f), false, null, MySandboxGame.Config.UIBkOpacity, MySandboxGame.Config.UIOpacity)
+        public PluginConfigDialog() : base(new Vector2(0.5f, 0.5f), MyGuiConstants.SCREEN_BACKGROUND_COLOR, new Vector2(0.9f, 0.9f), false, null, MySandboxGame.Config.UIBkOpacity, MySandboxGame.Config.UIOpacity)
         {
             EnabledBackgroundFade = true;
             m_closeOnEsc = true;
@@ -126,6 +141,11 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out fixCharacterLabel, out fixCharacterCheckbox, config.FixCharacter, value => config.FixCharacter = value, "Fix character performance (needs restart)", "Disables character footprint logic on server side (needs restart)");
             CreateCheckbox(out fixMemoryLabel, out fixMemoryCheckbox, config.FixMemory, value => config.FixMemory = value, "Fix frequent memory allocations", "Optimizes frequent memory allocations in various parts of the game");
             CreateCheckbox(out fixEndShootLabel, out fixEndShootCheckbox, config.FixEndShoot, value => config.FixEndShoot = value, "Fix crash on grinding active turrets", "Adds a missing call to EndShoot on server side, fixing subsequent issues on client side");
+            CreateCheckbox(out fixAccessLabel, out fixAccessCheckbox, config.FixAccess, value => config.FixAccess = value, "Less frequent update of block access rights", "Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason");
+            CreateCheckbox(out fixBroadcastLabel, out fixBroadcastCheckbox, config.FixBroadcast, value => config.FixBroadcast = value, "Reduced memory allocation in broadcaster scanning", "Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart)");
+            CreateCheckbox(out fixBlockLimitLabel, out fixBlockLimitCheckbox, config.FixBlockLimit, value => config.FixBlockLimit = value, "Less frequent sync of block counts for limit checking", "Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits");
+            CreateCheckbox(out fixSafeActionLabel, out fixSafeActionCheckbox, config.FixSafeAction, value => config.FixSafeAction = value, "Cache actions allowed by the safe zone", "Caches the result of MySafeZone.IsActionAllowed and MySessionComponentSafeZones.IsActionAllowedForSafezone for 2 seconds");
+            CreateCheckbox(out fixTerminalLabel, out fixTerminalCheckbox, config.FixTerminal, value => config.FixTerminal = value, "Less frequent update of PB access to blocks", "Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often");
             //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
 
             EnableDisableFixes();
@@ -183,14 +203,19 @@ namespace ClientPlugin.GUI
             fixCharacterCheckbox.Enabled = enabled;
             fixMemoryCheckbox.Enabled = enabled;
             fixEndShootCheckbox.Enabled = enabled;
+            fixAccessCheckbox.Enabled = enabled;
+            fixBroadcastCheckbox.Enabled = enabled;
+            fixBlockLimitCheckbox.Enabled = enabled;
+            fixSafeActionCheckbox.Enabled = enabled;
+            fixTerminalCheckbox.Enabled = enabled;
             //BOOL_OPTION optionNameCheckbox.Enabled = enabled;
         }
 
         private void LayoutControls()
         {
-            layoutTable = new MyLayoutTable(this, new Vector2(-0.35f, -0.3f), new Vector2(0.7f, 0.6f));
+            layoutTable = new MyLayoutTable(this, new Vector2(-0.4f, -0.4f), new Vector2(0.8f, 0.8f));
             layoutTable.SetColumnWidths(60f, 440f, 60f, 440f);
-            layoutTable.SetRowHeights(150f, 60f, 60f, 60f, 60f, 60f, 60f, 60f, 60f, 60f, 150f);
+            layoutTable.SetRowHeights(150f, 60f, 60f, 60f, 60f, 60f, 60f, 60f, 60f, 60f, 60f, 60f, 150f);
 
             layoutTable.Add(enabledCheckbox, MyAlignH.Left, MyAlignV.Center, 0, 0);
             layoutTable.Add(enabledLabel, MyAlignH.Left, MyAlignV.Center, 0, 1);
@@ -231,16 +256,15 @@ namespace ClientPlugin.GUI
 
             layoutTable.Add(fixSafeZoneCheckbox, MyAlignH.Left, MyAlignV.Center, row, 0);
             layoutTable.Add(fixSafeZoneLabel, MyAlignH.Left, MyAlignV.Center, row, 1);
+            row++;
 
+            layoutTable.Add(fixTargetingCheckbox, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(fixTargetingLabel, MyAlignH.Left, MyAlignV.Center, row, 1);
+            row++;
+
+            layoutTable.Add(fixWindTurbineCheckbox, MyAlignH.Left, MyAlignV.Center, row, 0);
+            layoutTable.Add(fixWindTurbineLabel, MyAlignH.Left, MyAlignV.Center, row, 1);
             row = 1;
-
-            layoutTable.Add(fixTargetingCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
-            layoutTable.Add(fixTargetingLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
-            row++;
-
-            layoutTable.Add(fixWindTurbineCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
-            layoutTable.Add(fixWindTurbineLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
-            row++;
 
             layoutTable.Add(fixVoxelCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
             layoutTable.Add(fixVoxelLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
@@ -264,15 +288,36 @@ namespace ClientPlugin.GUI
 
             layoutTable.Add(fixEndShootCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
             layoutTable.Add(fixEndShootLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
-            /*BOOL_OPTION
             row++;
 
+            layoutTable.Add(fixAccessCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixAccessLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            row++;
+
+            layoutTable.Add(fixBroadcastCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixBroadcastLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            row++;
+
+            layoutTable.Add(fixBlockLimitCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixBlockLimitLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            row++;
+
+            layoutTable.Add(fixSafeActionCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixSafeActionLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            row++;
+
+            layoutTable.Add(fixTerminalCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixTerminalLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            row++;
+
+            /*BOOL_OPTION
             layoutTable.Add(optionNameCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
             layoutTable.Add(optionNameLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
-            BOOL_OPTION*/
+            row++;
 
-            layoutTable.Add(infoText, MyAlignH.Left, MyAlignV.Top, 10, 0, colSpan: 2);
-            layoutTable.Add(closeButton, MyAlignH.Center, MyAlignV.Center, 10, 2, colSpan: 2);
+            BOOL_OPTION*/
+            layoutTable.Add(infoText, MyAlignH.Left, MyAlignV.Top, row, 0, colSpan: 2);
+            layoutTable.Add(closeButton, MyAlignH.Center, MyAlignV.Center, row, 2, colSpan: 2);
         }
     }
 }

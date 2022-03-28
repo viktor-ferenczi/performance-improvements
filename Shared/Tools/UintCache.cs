@@ -34,7 +34,7 @@ namespace TorchPlugin.Shared.Tools
 
         // Must be called on every tick to to store the clock, but it does a cleanup only rarely
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Clean()
+        public void Cleanup()
         {
             if ((tick = (ulong)Common.Plugin.Tick << 32) < nextCleanup)
                 return;
