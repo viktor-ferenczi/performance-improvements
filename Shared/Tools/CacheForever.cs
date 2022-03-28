@@ -32,9 +32,9 @@ namespace TorchPlugin.Shared.Tools
             if (immutableCache.Count == cache.Count)
                 return;
 
-            cache.BeginWriting();
+            cache.BeginReading();
             immutableCache = new Dictionary<TK, TV>(cache);
-            cache.FinishWriting();
+            cache.FinishReading();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
