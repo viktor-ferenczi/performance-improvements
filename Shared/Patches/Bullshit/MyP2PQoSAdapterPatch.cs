@@ -12,7 +12,7 @@ namespace Shared.Patches
     {
         private static IPluginConfig Config => Common.Config;
 
-        private static int counter = 60;
+        private static int counter = -5 * 60;
 
         // Replaces most of stats updates with sleeps
         // ReSharper disable once UnusedMember.Local
@@ -21,15 +21,12 @@ namespace Shared.Patches
         [EnsureCode("033ad607")]
         private static bool UpdateStatsPrefix()
         {
-            var config = Config;
-            if (!config.Enabled || !config.FixP2PUpdateStats)
+            if (counter < 0 || !Config.Enabled || !Config.FixP2PUpdateStats)
                 return true;
 
-            // The very first call must pass through,
-            // otherwise the game crashes where it depends on the output data!
-            if (--counter < 0)
+            if (counter++ > 47)
             {
-                counter = 49;
+                counter = 0;
                 return true;
             }
 
