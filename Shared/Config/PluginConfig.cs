@@ -30,6 +30,7 @@ namespace Shared.Config
         }
 
         private bool enabled = true;
+        private bool detectCodeChanges = true;
         private bool fixGridMerge = true;
         private bool fixGridPaste = true;
         private bool fixP2PUpdateStats = true;
@@ -52,6 +53,12 @@ namespace Shared.Config
         {
             get => enabled;
             set => SetValue(ref enabled, value);
+        }
+
+        public bool DetectCodeChanges
+        {
+            get => detectCodeChanges;
+            set => SetValue(ref detectCodeChanges, value);
         }
 
         public bool FixGridMerge

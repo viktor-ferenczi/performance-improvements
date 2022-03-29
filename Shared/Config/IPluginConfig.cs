@@ -7,6 +7,9 @@ namespace Shared.Config
         // Enables the plugin
         bool Enabled { get; set; }
 
+        // Enables checking for code changes (disable this in the XML config file on Proton/Linux)
+        bool DetectCodeChanges { get; set; }
+
         // Disables conveyor updates during grid merge (MyCubeGrid.MergeGridInternal)
         bool FixGridMerge { get; set; }
 

@@ -27,22 +27,27 @@ namespace Shared.Patches
 #endif
 #endif
 
-            log.Debug("Scanning for conflicting code changes");
-            try
+            if (Common.Plugin.Config.DetectCodeChanges)
             {
-                var codeChanges = EnsureCode.Verify().ToList();
-                if (codeChanges.Count != 0)
+                log.Debug("Scanning for conflicting code changes");
+                try
                 {
-                    log.Critical("Detected conflicting code changes:");
-                    foreach (var codeChange in codeChanges)
-                        log.Info(codeChange.ToString());
+                    var codeChanges = EnsureCode.Verify().ToList();
+                    if (codeChanges.Count != 0)
+                    {
+                        log.Critical("Detected conflicting code changes:");
+                        foreach (var codeChange in codeChanges)
+                            log.Info(codeChange.ToString());
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Critical(ex, "Failed to scan for conflicting code changes");
                     return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                log.Critical(ex, "Failed to scan for conflicting code changes");
-                return false;
+            } else {
+                log.Warning("Conflicting code change detection is disabled in plugin configuration");
             }
 
             log.Debug("Applying Harmony patches");
