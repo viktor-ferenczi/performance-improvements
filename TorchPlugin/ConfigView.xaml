@@ -69,6 +69,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <!--BOOL_OPTION
             <RowDefinition Height="Auto" />
             BOOL_OPTION-->
@@ -126,9 +127,12 @@
         <CheckBox Grid.Row="17" Grid.Column="0" Name="FixMemory" IsChecked="{Binding FixMemory}" Margin="5"/>
         <TextBlock Grid.Row="17" Grid.Column="1" Text="Optimizes frequent memory allocations" VerticalAlignment="Center" Margin="5"/>
 
+        <CheckBox Grid.Row="18" Grid.Column="0" Name="FixEndShoot" IsChecked="{Binding FixEndShoot}" Margin="5"/>
+        <TextBlock Grid.Row="18" Grid.Column="1" Text="Adds a missing call to EndShoot on server side, fixing subsequent issues on client side" VerticalAlignment="Center" Margin="5"/>
+
         <!--BOOL_OPTION
-        <CheckBox Grid.Row="18" Grid.Column="0" Name="OptionName" IsChecked="{Binding OptionName}" Margin="5"/>
-        <TextBlock Grid.Row="18" Grid.Column="1" Text="Option tooltip" VerticalAlignment="Center" Margin="5"/>
+        <CheckBox Grid.Row="19" Grid.Column="0" Name="OptionName" IsChecked="{Binding OptionName}" Margin="5"/>
+        <TextBlock Grid.Row="19" Grid.Column="1" Text="Option tooltip" VerticalAlignment="Center" Margin="5"/>
 
         BOOL_OPTION-->
         <TextBlock Grid.Row="20" Grid.Column="0" Grid.ColumnSpan="2" Text="Configuration changes are saved automatically. It is safe to change them while the game is running." VerticalAlignment="Center" Margin="5" />
@@ -155,8 +159,9 @@
         <TextBlock Grid.Row="40" Grid.Column="1" Text="entity" VerticalAlignment="Center" Margin="5" />
         <TextBlock Grid.Row="41" Grid.Column="1" Text="character" VerticalAlignment="Center" Margin="5" />
         <TextBlock Grid.Row="42" Grid.Column="1" Text="memory" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="43" Grid.Column="1" Text="endshoot" VerticalAlignment="Center" Margin="5" />
         <!--BOOL_OPTION
-        <TextBlock Grid.Row="43" Grid.Column="1" Text="option_name" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="44" Grid.Column="1" Text="option_name" VerticalAlignment="Center" Margin="5" />
         BOOL_OPTION-->
 
         <TextBlock Grid.Row="50" Grid.Column="0" Grid.ColumnSpan="2" Text="Accepted bool values:" VerticalAlignment="Center" Margin="5" />

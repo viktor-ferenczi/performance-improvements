@@ -26,6 +26,7 @@ namespace TorchPlugin
         private bool fixEntity = true;
         private bool fixCharacter = true;
         private bool fixMemory = false;
+        private bool fixEndShoot = false;
         //BOOL_OPTION private bool optionName = false;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enable the plugin (all fixes)")]
@@ -152,6 +153,13 @@ namespace TorchPlugin
         {
             get => fixMemory;
             set => SetValue(ref fixMemory, value);
+        }
+
+        [Display(Order = 19, GroupName = "Fixes", Name = "Fixes crash on grinding active turrets", Description = "Adds a missing call to EndShoot on server side, fixing subsequent issues on client side")]
+        public bool FixEndShoot
+        {
+            get => fixEndShoot;
+            set => SetValue(ref fixEndShoot, value);
         }
 
         /*BOOL_OPTION
