@@ -36,7 +36,7 @@ namespace Shared.Patches.Turret
             if (!Config.Enabled || !Config.FixEndShoot)
                 return true;
 
-            return __instance != null && ___m_barrel != null;
+            return __instance != null && ___m_barrel != null && !__instance.Closed && !__instance.MarkedForClose;
         }
     }
 }
