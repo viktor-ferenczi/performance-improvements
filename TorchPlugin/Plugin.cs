@@ -144,13 +144,13 @@ namespace TorchPlugin
 
         public override void Update()
         {
+            if (failed)
+                return;
+
             try
             {
-                if (!failed)
-                {
-                    CustomUpdate();
-                    Tick++;
-                }
+                CustomUpdate();
+                Tick++;
             }
             catch (Exception e)
             {
