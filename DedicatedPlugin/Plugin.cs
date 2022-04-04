@@ -19,6 +19,7 @@ namespace DedicatedPlugin
         public static Plugin Instance { get; private set; }
 
         public long Tick { get; private set; }
+        private static bool failed;
 
         public IPluginLogger Log => Logger;
         private static readonly IPluginLogger Logger = new PluginLogger(Name);
@@ -26,9 +27,6 @@ namespace DedicatedPlugin
         public IPluginConfig Config => config?.Data;
         private PersistentConfig<PluginConfig> config;
         private static readonly string ConfigFileName = $"{Name}.cfg";
-
-        private static bool initialized;
-        private static bool failed;
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public void Init(object gameInstance)
@@ -54,7 +52,19 @@ namespace DedicatedPlugin
                 return;
             }
 
-            Log.Debug("Successfully loaded");
+            Log.Debug("Initializing");
+            try
+            {
+                Initialize();
+            }
+            catch (Exception ex)
+            {
+                Log.Critical(ex, "Failed to initialize");
+                failed = true;
+                return;
+            }
+
+            Log.Debug("Successfully initialized");
         }
 
         public void Dispose()
@@ -74,14 +84,13 @@ namespace DedicatedPlugin
 
         public void Update()
         {
-            EnsureInitialized();
+            if (failed)
+                return;
+
             try
             {
-                if (!failed)
-                {
-                    CustomUpdate();
-                    Tick++;
-                }
+                CustomUpdate();
+                Tick++;
             }
             catch (Exception ex)
             {
@@ -90,33 +99,12 @@ namespace DedicatedPlugin
             }
         }
 
-        private void EnsureInitialized()
-        {
-            if (initialized || failed)
-                return;
-
-            Log.Info("Initializing");
-            try
-            {
-                var gameVersion = MyFinalBuildConstants.APP_VERSION_STRING.ToString();
-                Common.Init(gameVersion, MyFileSystem.UserDataPath);
-                PatchHelpers.PatchInits();
-                Initialize();
-            }
-            catch (Exception ex)
-            {
-                Log.Critical(ex, "Failed to initialize plugin");
-                failed = true;
-                return;
-            }
-
-            Log.Debug("Successfully initialized");
-            initialized = true;
-        }
-
         private void Initialize()
         {
-            // TODO: Put your one time initialization code here. It is executed on first update, not on loading the plugin.
+            var gameVersion = MyFinalBuildConstants.APP_VERSION_STRING.ToString();
+            Common.Init(gameVersion, MyFileSystem.UserDataPath);
+
+            PatchHelpers.PatchInits();
         }
 
         private void CustomUpdate()

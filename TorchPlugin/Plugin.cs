@@ -81,10 +81,6 @@ namespace TorchPlugin
 
             try
             {
-                var gameVersionNumber = MyPerGameSettings.BasicGameInfo.GameVersion ?? 0;
-                var gameVersion = new StringBuilder(MyBuildNumbers.ConvertBuildNumberFromIntToString(gameVersionNumber)).ToString();
-                Common.Init(gameVersion, StoragePath);
-                PatchHelpers.PatchInits();
                 Initialize();
                 initialized = true;
             }
@@ -92,12 +88,19 @@ namespace TorchPlugin
             {
                 Log.Critical(e, "Initialization failed");
                 failed = true;
+                return;
             }
+
+            Log.Debug("Successfully initialized");
         }
 
         private void Initialize()
         {
-            // TODO: Put your one time initialization here
+            var gameVersionNumber = MyPerGameSettings.BasicGameInfo.GameVersion ?? 0;
+            var gameVersion = new StringBuilder(MyBuildNumbers.ConvertBuildNumberFromIntToString(gameVersionNumber)).ToString();
+            Common.Init(gameVersion, StoragePath);
+
+            PatchHelpers.PatchInits();
         }
 
         private void SessionStateChanged(ITorchSession session, TorchSessionState newstate)
