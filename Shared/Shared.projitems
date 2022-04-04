@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyDefinitionIdToStringPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\HkShapePatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Turret\MyLargeTurretBasePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Cache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\CacheForever.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\CacheStat.cs" />

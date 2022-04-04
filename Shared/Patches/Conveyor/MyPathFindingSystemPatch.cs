@@ -16,6 +16,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MyPathFindingSystem<IMyConveyorEndpoint>.Reachable))]
+        [EnsureCode("?")]
         private static bool Reachable()
         {
             calls.Increment();

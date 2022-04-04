@@ -52,9 +52,10 @@ namespace Shared.Patches
         }
 
         // ReSharper disable once UnusedMember.Local
-        // FIXME: It does not work. Add support to Harmony for async methods:
+        // FIXME: The code in the next comment line does not work. Add support to Harmony for async methods.
         // [HarmonyPatch(typeof(MyScriptCompiler), nameof(MyScriptCompiler.Compile), MethodType.Enumerator)]
         [HarmonyTranspiler]
+        // FIXME: Make EnsureCode to work with patches using TargetMethod(s)
         [EnsureCode("")]
         private static IEnumerable<CodeInstruction> CompileTranspiler(IEnumerable<CodeInstruction> instructions)
         {

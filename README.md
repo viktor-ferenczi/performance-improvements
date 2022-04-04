@@ -209,3 +209,11 @@ Removed boxing allocation from the Havok.HkShape.HandleEqualityComparer.Equals m
 Also simplified the logic by not checking y for null, because it does not happen.
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24211-performance-hkshape-comparison-with-boxing-allocation)
+
+### Fixing crash on grinding active turrets
+
+Added missing `EndShoot` call to `MyLargeTurretBase.OnStopWorking` to fix the root cause on server side, 
+which crashes clients grinding active turrets. Added defensive `null` checks to 
+`MyLargeTurretBase.UpdateShooting` just in case the server would not have the fix.  
+
+TBD: Bug ticket with a world to 100% reproduce this issue.

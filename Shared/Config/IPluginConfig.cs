@@ -58,6 +58,9 @@ namespace Shared.Config
         // Optimizes frequent memory allocations
         bool FixMemory { get; set; }
 
+        // Adds a missing call to EndShoot on server side, fixing subsequent issues on client side
+        bool FixEndShoot { get; set; }
+
         /*BOOL_OPTION
         // Option tooltip
         bool OptionName { get; set; }

@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Sandbox.Game.GameSystems.Conveyors;
+using Shared.Tools;
 
 namespace Shared.Patches
 {
@@ -11,6 +12,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MyConveyorLine.UpdateIsWorking))]
+        [EnsureCode("c004bf8f")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool UpdateIsWorkingPrefix()
         {

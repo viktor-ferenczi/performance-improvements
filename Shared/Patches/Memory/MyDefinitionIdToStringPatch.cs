@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Shared.Config;
 using Shared.Plugin;
+using Shared.Tools;
 using TorchPlugin.Shared.Tools;
 using VRage.Game;
 
@@ -52,6 +53,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyPatch(typeof(MyDefinitionId), nameof(MyDefinitionId.ToString))]
         [HarmonyPrefix]
+        [EnsureCode("b404a007")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool MyDefinitionIdToStringPrefix(MyDefinitionId __instance, ref string __result)
         {

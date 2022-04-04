@@ -36,6 +36,7 @@ namespace TorchPlugin
             Respond($"entity: {Format(config.FixEntity)}");
             Respond($"character: {Format(config.FixCharacter)}");
             Respond($"memory: {Format(config.FixMemory)}");
+            Respond($"endshoot: {Format(config.FixEndShoot)}");
             //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
         }
 
@@ -173,6 +174,10 @@ namespace TorchPlugin
                     Config.FixMemory = parsedFlag;
                     break;
 
+                case "endshoot":
+                    Config.FixEndShoot = parsedFlag;
+                    break;
+
                 /*BOOL_OPTION
                 case "option_name":
                     Config.OptionName = parsedFlag;
@@ -199,6 +204,7 @@ namespace TorchPlugin
                     Respond("  entity");
                     Respond("  character");
                     Respond("  memory");
+                    Respond("  endshoot");
                     //BOOL_OPTION Respond("  option_name");
                     return;
             }
