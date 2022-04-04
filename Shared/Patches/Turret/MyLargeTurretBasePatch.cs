@@ -16,6 +16,7 @@ namespace Shared.Patches.Turret
     {
         private static IPluginConfig Config => Common.Config;
 
+        // Triggering OnEndShoot on the server and all clients once the turret becomes non-functional
         [HarmonyPostfix]
         [HarmonyPatch("OnStopWorking")]
         private static void OnStopWorkingPostfix(MyLargeTurretBase __instance)
@@ -27,6 +28,7 @@ namespace Shared.Patches.Turret
                 __instance.EndShoot(MyShootActionEnum.PrimaryAction);
         }
 
+        // Client side crash protection, just in case the server would not have the fix
         [HarmonyPrefix]
         [HarmonyPatch("UpdateShooting")]
         private static bool UpdateShootingPrefix(MyLargeTurretBase __instance, MyLargeBarrelBase ___m_barrel)
