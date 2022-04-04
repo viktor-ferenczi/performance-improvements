@@ -4,6 +4,7 @@ using Sandbox.Game.Weapons;
 using Sandbox.Game.Weapons.Guns.Barrels;
 using Shared.Config;
 using Shared.Plugin;
+using Shared.Tools;
 using VRage.Game.ModAPI;
 
 namespace Shared.Patches.Turret
@@ -19,6 +20,7 @@ namespace Shared.Patches.Turret
         // Triggering OnEndShoot on the server and all clients once the turret becomes non-functional
         [HarmonyPostfix]
         [HarmonyPatch("OnStopWorking")]
+        [EnsureCode("11a9bafc")]
         private static void OnStopWorkingPostfix(MyLargeTurretBase __instance)
         {
             if (!Config.Enabled || !Config.FixEndShoot)
@@ -31,6 +33,7 @@ namespace Shared.Patches.Turret
         // Client side crash protection, just in case the server would not have the fix
         [HarmonyPrefix]
         [HarmonyPatch("UpdateShooting")]
+        [EnsureCode("3d95e342")]
         private static bool UpdateShootingPrefix(MyLargeTurretBase __instance, MyLargeBarrelBase ___m_barrel)
         {
             if (!Config.Enabled || !Config.FixEndShoot)
