@@ -25,8 +25,8 @@ namespace TorchPlugin
         private bool fixPhysics = true;
         private bool fixEntity = true;
         private bool fixCharacter = true;
-        private bool fixMemory = false;
-        private bool fixEndShoot = false;
+        private bool fixMemory = true;
+        private bool fixEndShoot = true;
         //BOOL_OPTION private bool optionName = false;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enable the plugin (all fixes)")]

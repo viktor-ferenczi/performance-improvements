@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using Sandbox.Game.Weapons;
+using Sandbox.Game.Weapons.Guns.Barrels;
 using Shared.Config;
 using Shared.Plugin;
 using VRage.Game.ModAPI;
@@ -24,6 +25,16 @@ namespace Shared.Patches.Turret
 
             if (Sandbox.Game.Multiplayer.Sync.IsServer && __instance.IsShooting)
                 __instance.EndShoot(MyShootActionEnum.PrimaryAction);
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch("UpdateShooting")]
+        private static bool UpdateShootingPrefix(MyLargeTurretBase __instance, MyLargeBarrelBase ___m_barrel)
+        {
+            if (!Config.Enabled || !Config.FixEndShoot)
+                return true;
+
+            return __instance != null && ___m_barrel != null;
         }
     }
 }
