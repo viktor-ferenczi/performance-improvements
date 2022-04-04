@@ -125,7 +125,7 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out fixEntityLabel, out fixEntityCheckbox, config.FixEntity, value => config.FixEntity = value, "Fix entity performance (needs restart)", "Optimizes MyEntity.InScene getter (needs restart)");
             CreateCheckbox(out fixCharacterLabel, out fixCharacterCheckbox, config.FixCharacter, value => config.FixCharacter = value, "Fix character performance (needs restart)", "Disables character footprint logic on server side (needs restart)");
             CreateCheckbox(out fixMemoryLabel, out fixMemoryCheckbox, config.FixMemory, value => config.FixMemory = value, "Fix frequent memory allocations", "Optimizes frequent memory allocations in various parts of the game");
-            CreateCheckbox(out fixEndShootLabel, out fixEndShootCheckbox, config.FixEndShoot, value => config.FixEndShoot = value, "Fixes crash on grinding active turrets", "Adds a missing call to EndShoot on server side, fixing subsequent issues on client side");
+            CreateCheckbox(out fixEndShootLabel, out fixEndShootCheckbox, config.FixEndShoot, value => config.FixEndShoot = value, "Fix crash on grinding active turrets", "Adds a missing call to EndShoot on server side, fixing subsequent issues on client side");
             //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
 
             EnableDisableFixes();

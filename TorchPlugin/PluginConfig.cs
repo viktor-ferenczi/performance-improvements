@@ -155,7 +155,7 @@ namespace TorchPlugin
             set => SetValue(ref fixMemory, value);
         }
 
-        [Display(Order = 19, GroupName = "Fixes", Name = "Fixes crash on grinding active turrets", Description = "Adds a missing call to EndShoot on server side, fixing subsequent issues on client side")]
+        [Display(Order = 19, GroupName = "Fixes", Name = "Fix crash on grinding active turrets", Description = "Adds a missing call to EndShoot on server side, fixing subsequent issues on client side")]
         public bool FixEndShoot
         {
             get => fixEndShoot;

@@ -128,7 +128,7 @@ def generate_bool_option(name, command, label, tooltip):
 
 def main():
     pass
-    # generate_bool_option('FixEndShoot', 'endshoot', 'Fixes crash on grinding active turrets', 'Adds a missing call to EndShoot on server side, fixing subsequent issues on client side')
+    # generate_bool_option('FixEndShoot', 'endshoot', 'Fix crash on grinding active turrets', 'Adds a missing call to EndShoot on server side, fixing subsequent issues on client side')
 
 
 if __name__ == '__main__':
