@@ -27,6 +27,11 @@ namespace TorchPlugin
         private bool fixCharacter = true;
         private bool fixMemory = true;
         private bool fixEndShoot = true;
+        private bool fixAccess = false;
+        private bool fixBroadcast = false;
+        private bool fixBlockLimit = false;
+        private bool fixSafeAction = false;
+        private bool fixTerminal = false;
         //BOOL_OPTION private bool optionName = false;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enable the plugin (all fixes)")]
@@ -160,6 +165,41 @@ namespace TorchPlugin
         {
             get => fixEndShoot;
             set => SetValue(ref fixEndShoot, value);
+        }
+
+        [Display(Order = 19, GroupName = "Fixes", Name = "Less frequent update of block access rights", Description = "Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason")]
+        public bool FixAccess
+        {
+            get => fixAccess;
+            set => SetValue(ref fixAccess, value);
+        }
+
+        [Display(Order = 19, GroupName = "Fixes", Name = "Reduced memory allocation in broadcaster scanning", Description = "Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart)")]
+        public bool FixBroadcast
+        {
+            get => fixBroadcast;
+            set => SetValue(ref fixBroadcast, value);
+        }
+
+        [Display(Order = 19, GroupName = "Fixes", Name = "Less frequent sync of block counts for limit checking", Description = "Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits")]
+        public bool FixBlockLimit
+        {
+            get => fixBlockLimit;
+            set => SetValue(ref fixBlockLimit, value);
+        }
+
+        [Display(Order = 19, GroupName = "Fixes", Name = "Cache actions allowed by the safe zone", Description = "Caches the result of MySafeZone.IsActionAllowed and MySessionComponentSafeZones.IsActionAllowedForSafezone for 2 seconds")]
+        public bool FixSafeAction
+        {
+            get => fixSafeAction;
+            set => SetValue(ref fixSafeAction, value);
+        }
+
+        [Display(Order = 19, GroupName = "Fixes", Name = "Less frequent update of PB access to blocks", Description = "Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often")]
+        public bool FixTerminal
+        {
+            get => fixTerminal;
+            set => SetValue(ref fixTerminal, value);
         }
 
         /*BOOL_OPTION

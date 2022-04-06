@@ -196,21 +196,13 @@ namespace Shared.Patches
                 using (var fileStream = File.OpenWrite(cachePath))
                     assemblyStream.CopyTo(fileStream);
             }
+            catch (IOException e)
+            {
+                Log.Warning("Failed to write compiled script assembly cache file: {0}; Error: {1}", cachePath, e.ToString());
+            }
             catch (Exception e)
             {
                 Log.Error(e, "Failed to write compiled script assembly cache file: {0}", cachePath);
-
-                if (File.Exists(cachePath))
-                {
-                    try
-                    {
-                        File.Delete(cachePath);
-                    }
-                    catch (Exception)
-                    {
-                        // Ignore
-                    }
-                }
             }
             finally
             {

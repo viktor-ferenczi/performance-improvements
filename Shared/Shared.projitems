@@ -9,8 +9,15 @@
     <Import_RootNamespace>Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Block\MyCubeBlockPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Block\MyTerminalBlockPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyPathfindingDataPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyDataReceiverPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyDefinitionIdToStringPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyPlayerCollectionPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\HkShapePatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySessionComponentSafeZonesPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\TerminalSystem\MyGridTerminalSystemPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Turret\MyLargeTurretBasePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Cache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\CacheForever.cs" />
@@ -64,6 +71,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Patches\Character\RigidBody_ContactPointCallback.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Entity\InSceneGetter.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Entity\InSceneGetter.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Memory\UpdateBroadcastersInRange.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Memory\UpdateBroadcastersInRange.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\HkShapeEquals.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\HkShapeEquals.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\RigidBodyGetter.original.il" />

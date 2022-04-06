@@ -37,6 +37,11 @@ namespace TorchPlugin
             Respond($"character: {Format(config.FixCharacter)}");
             Respond($"memory: {Format(config.FixMemory)}");
             Respond($"endshoot: {Format(config.FixEndShoot)}");
+            Respond($"access: {Format(config.FixAccess)}");
+            Respond($"broadcast: {Format(config.FixBroadcast)}");
+            Respond($"block_limit: {Format(config.FixBlockLimit)}");
+            Respond($"safe_action: {Format(config.FixSafeAction)}");
+            Respond($"terminal: {Format(config.FixTerminal)}");
             //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
         }
 
@@ -178,6 +183,26 @@ namespace TorchPlugin
                     Config.FixEndShoot = parsedFlag;
                     break;
 
+                case "access":
+                    Config.FixAccess = parsedFlag;
+                    break;
+
+                case "broadcast":
+                    Config.FixBroadcast = parsedFlag;
+                    break;
+
+                case "block_limit":
+                    Config.FixBlockLimit = parsedFlag;
+                    break;
+
+                case "safe_action":
+                    Config.FixSafeAction = parsedFlag;
+                    break;
+
+                case "terminal":
+                    Config.FixTerminal = parsedFlag;
+                    break;
+
                 /*BOOL_OPTION
                 case "option_name":
                     Config.OptionName = parsedFlag;
@@ -205,6 +230,11 @@ namespace TorchPlugin
                     Respond("  character");
                     Respond("  memory");
                     Respond("  endshoot");
+                    Respond("  access");
+                    Respond("  broadcast");
+                    Respond("  block_limit");
+                    Respond("  safe_action");
+                    Respond("  terminal");
                     //BOOL_OPTION Respond("  option_name");
                     return;
             }

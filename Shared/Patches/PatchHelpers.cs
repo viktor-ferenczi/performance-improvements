@@ -15,16 +15,12 @@ namespace Shared.Patches
     {
         public static bool HarmonyPatchAll(IPluginLogger log, Harmony harmony)
         {
-#if DEBUG
-            Harmony.DEBUG = true;
-
-#if LIST_ALL_TYPES
+#if DEBUG && LIST_ALL_TYPES
             log.Info("All types:");
             foreach (var typ in AccessTools.AllTypes())
             {
                 log.Info(typ.FullName);
             }
-#endif
 #endif
 
             if (Common.Plugin.Config.DetectCodeChanges)
@@ -68,6 +64,7 @@ namespace Shared.Patches
         public static void Configure()
         {
             MySafeZonePatch.Configure();
+            MySessionComponentSafeZonesPatch.Configure();
             MyLargeTurretTargetingSystemPatch.Configure();
             MyPhysicsBodyPatch.Configure();
             HkShapePatch.Configure();
@@ -76,6 +73,9 @@ namespace Shared.Patches
             MyStorageExtensionsPatch.Configure();
             MyWindTurbinePatch.Configure();
             MyDefinitionIdToStringPatch.Configure();
+            MyCubeBlockPatch.Configure();
+            MyTerminalBlockPatch.Configure();
+            MyGridTerminalSystemPatch.Configure();
 
             // FIXME: Make this configurable!
             // PhysicsFixes.SetClusterSize(3000f);
@@ -91,20 +91,29 @@ namespace Shared.Patches
         public static void PatchUpdates()
         {
             MySafeZonePatch.Update();
+            MySessionComponentSafeZonesPatch.Update();
             MyLargeTurretTargetingSystemPatch.Update();
             MyWindTurbinePatch.Update();
             MyDefinitionIdToStringPatch.Update();
+            MyCubeBlockPatch.Update();
+            MyTerminalBlockPatch.Update();
+            MyGridTerminalSystemPatch.Update();
 
 #if DEBUG
             if (Common.Plugin.Tick % 1200 == 0)
             {
                 var log = Common.Plugin.Log;
                 log.Info("Cache hit rates:");
-                log.Info($"- MySafeZonePatch: {MySafeZonePatch.Report}");
+                log.Info($"- MySafeZonePatch IsSafe: {MySafeZonePatch.IsSafeCacheReport}");
+                log.Info($"- MySafeZonePatch IsActionAllowed: {MySafeZonePatch.IsActionAllowedCacheReport}");
+                log.Info($"- MySessionComponentSafeZonesPatch: {MySessionComponentSafeZonesPatch.CacheReport}");
                 log.Info($"- MyLargeTurretTargetingSystemPatch ArrayCache: {MyLargeTurretTargetingSystemPatch.ArrayCacheReport}");
                 log.Info($"- MyLargeTurretTargetingSystemPatch VisibilityCache: {MyLargeTurretTargetingSystemPatch.VisibilityCacheReport}");
                 log.Info($"- MyWindTurbinePatch: {MyWindTurbinePatch.CacheReport}");
                 log.Info($"- MyDefinitionIdToStringPatch: {MyDefinitionIdToStringPatch.CacheReport}");
+                log.Info($"- MyCubeBlockPatch: {MyCubeBlockPatch.CacheReport}");
+                log.Info($"- MyTerminalBlockPatch: {MyTerminalBlockPatch.CacheReport}");
+                log.Info($"- MyGridTerminalSystemPatch: {MyGridTerminalSystemPatch.InhibitorReport}");
             }
 #endif
         }
