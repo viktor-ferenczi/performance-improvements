@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using HarmonyLib;
 using Sandbox.Definitions;
 using Sandbox.Game.Entities.Cube;
@@ -21,24 +22,35 @@ namespace Shared.Patches
         private static IPluginConfig Config => Common.Config;
         private static IPluginLogger Log => Common.Logger;
 
+        private static readonly ThreadLocal<List<KeyValuePair<int, MyBlueprintDefinitionBase>>> Pool = new ThreadLocal<List<KeyValuePair<int, MyBlueprintDefinitionBase>>>();
+
         [HarmonyPrefix]
         [HarmonyPatch("RebuildQueue")]
         [EnsureCode("fcdf9f6e")]
-        private static bool RebuildQueuePrefix(MyRefinery __instance, out bool ___m_queueNeedsRebuild, List<KeyValuePair<int, MyBlueprintDefinitionBase>> ___m_tmpSortedBlueprints, MyRefineryDefinition ___m_refineryDef)
+        private static bool RebuildQueuePrefix(MyRefinery __instance, out bool ___m_queueNeedsRebuild, MyRefineryDefinition ___m_refineryDef)
         {
+            // Pooled list instances, separate once per thread, so calling this method concurrently is safe
+            var tmpSortedBlueprints = Pool.Value;
+            if (tmpSortedBlueprints == null)
+            {
+                tmpSortedBlueprints = new List<KeyValuePair<int, MyBlueprintDefinitionBase>>(64);
+                Pool.Value = tmpSortedBlueprints;
+            }
+
+            // Code of this method is copied from MyRefinery.RebuildQueue, then modified to work as a prefix patch
             ___m_queueNeedsRebuild = false;
             __instance.ClearQueue(false);
-            ___m_tmpSortedBlueprints.Clear();
             var array = __instance.InputInventory.GetItems().ToArray();
             var blueprintClasses = ___m_refineryDef.BlueprintClasses;
             for (var key = 0; key < array.Length; ++key)
             {
-                for (var index1 = 0; index1 < blueprintClasses.Count; ++index1)
+                foreach (var classDefinition in blueprintClasses)
                 {
-                    foreach (var blueprintDefinitionBase in blueprintClasses[index1])
+                    foreach (var blueprintDefinitionBase in classDefinition)
                     {
-                        bool flag = false;
-                        MyDefinitionId other = new MyDefinitionId(array[key].Content.TypeId, array[key].Content.SubtypeId);
+                        var flag = false;
+                        var content = array[key].Content;
+                        var other = new MyDefinitionId(content.TypeId, content.SubtypeId);
                         var prerequisites = blueprintDefinitionBase.Prerequisites;
                         for (var index2 = 0; index2 < prerequisites.Length; ++index2)
                         {
@@ -48,30 +60,21 @@ namespace Shared.Patches
                                 break;
                             }
                         }
+                        if (!flag)
+                            continue;
 
-                        if (flag)
-                        {
-                            ___m_tmpSortedBlueprints.Add(new KeyValuePair<int, MyBlueprintDefinitionBase>(key, blueprintDefinitionBase));
-                            break;
-                        }
+                        tmpSortedBlueprints.Add(new KeyValuePair<int, MyBlueprintDefinitionBase>(key, blueprintDefinitionBase));
                     }
                 }
             }
 
-            if (___m_tmpSortedBlueprints.Count != array.Length)
+            for (var index = 0; index < tmpSortedBlueprints.Count; ++index)
             {
-                Log.Warning($"Mismatch between ___m_tmpSortedBlueprints.Count ({___m_tmpSortedBlueprints.Count}) and __instance.InputInventory.Length ({array.Length})");
-                ___m_tmpSortedBlueprints.Clear();
-                return false;
-            }
-            
-            for (var index = 0; index < ___m_tmpSortedBlueprints.Count; ++index)
-            {
-                MyBlueprintDefinitionBase blueprint = ___m_tmpSortedBlueprints[index].Value;
-                MyFixedPoint myFixedPoint = MyFixedPoint.MaxValue;
-                foreach (MyBlueprintDefinitionBase.Item prerequisite in blueprint.Prerequisites)
+                var blueprint = tmpSortedBlueprints[index].Value;
+                var myFixedPoint = MyFixedPoint.MaxValue;
+                foreach (var prerequisite in blueprint.Prerequisites)
                 {
-                    MyFixedPoint amount = array[index].Amount;
+                    var amount = array[index].Amount;
                     if (amount == 0)
                     {
                         myFixedPoint = 0;
@@ -83,12 +86,12 @@ namespace Shared.Patches
 
                 if (blueprint.Atomic)
                     myFixedPoint = MyFixedPoint.Floor(myFixedPoint);
+
                 if (myFixedPoint > 0 && myFixedPoint != MyFixedPoint.MaxValue)
                     __instance.InsertQueueItemRequest(-1, blueprint, myFixedPoint);
             }
 
-            ___m_tmpSortedBlueprints.Clear();
-
+            tmpSortedBlueprints.Clear();
             return false;
         }
     }
