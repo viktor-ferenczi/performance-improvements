@@ -290,9 +290,9 @@ namespace ClientPlugin.GUI
             layoutTable.Add(fixEndShootLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             row++;
 
-            layoutTable.Add(fixAccessCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
-            layoutTable.Add(fixAccessLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
-            row++;
+            // layoutTable.Add(fixAccessCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            // layoutTable.Add(fixAccessLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            // row++;
 
             layoutTable.Add(fixBroadcastCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
             layoutTable.Add(fixBroadcastLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
@@ -306,9 +306,9 @@ namespace ClientPlugin.GUI
             layoutTable.Add(fixSafeActionLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             row++;
 
-            layoutTable.Add(fixTerminalCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
-            layoutTable.Add(fixTerminalLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
-            row++;
+            // layoutTable.Add(fixTerminalCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            // layoutTable.Add(fixTerminalLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            // row++;
 
             /*BOOL_OPTION
             layoutTable.Add(optionNameCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
@@ -316,8 +316,8 @@ namespace ClientPlugin.GUI
             row++;
 
             BOOL_OPTION*/
-            layoutTable.Add(infoText, MyAlignH.Left, MyAlignV.Top, row, 0, colSpan: 2);
-            layoutTable.Add(closeButton, MyAlignH.Center, MyAlignV.Center, row, 2, colSpan: 2);
+            layoutTable.Add(infoText, MyAlignH.Left, MyAlignV.Top, 12, 0, colSpan: 2);
+            layoutTable.Add(closeButton, MyAlignH.Center, MyAlignV.Center, 12, 2, colSpan: 2);
         }
     }
 }
