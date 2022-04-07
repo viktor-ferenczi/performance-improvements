@@ -4,6 +4,7 @@ using HarmonyLib;
 using Sandbox.Definitions;
 using Sandbox.Game.Entities.Cube;
 using Shared.Config;
+using Shared.Logging;
 using Shared.Plugin;
 using Shared.Tools;
 using VRage;
@@ -18,6 +19,7 @@ namespace Shared.Patches
     public static class MyRefineryPatch
     {
         private static IPluginConfig Config => Common.Config;
+        private static IPluginLogger Log => Common.Logger;
 
         [HarmonyPrefix]
         [HarmonyPatch("RebuildQueue")]
@@ -56,6 +58,13 @@ namespace Shared.Patches
                 }
             }
 
+            if (___m_tmpSortedBlueprints.Count != array.Length)
+            {
+                Log.Warning($"Mismatch between ___m_tmpSortedBlueprints.Count ({___m_tmpSortedBlueprints.Count}) and __instance.InputInventory.Length ({array.Length})");
+                ___m_tmpSortedBlueprints.Clear();
+                return false;
+            }
+            
             for (var index = 0; index < ___m_tmpSortedBlueprints.Count; ++index)
             {
                 MyBlueprintDefinitionBase blueprint = ___m_tmpSortedBlueprints[index].Value;
