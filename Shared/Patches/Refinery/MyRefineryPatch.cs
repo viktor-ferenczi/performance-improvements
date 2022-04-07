@@ -1,14 +1,13 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
 using HarmonyLib;
 using Sandbox.Definitions;
 using Sandbox.Game.Entities.Cube;
 using Shared.Config;
 using Shared.Plugin;
 using Shared.Tools;
+using VRage;
+using VRage.Game;
 
 namespace Shared.Patches
 {
@@ -20,75 +19,68 @@ namespace Shared.Patches
     {
         private static IPluginConfig Config => Common.Config;
 
-        [HarmonyTranspiler]
+        [HarmonyPrefix]
         [HarmonyPatch("RebuildQueue")]
         [EnsureCode("fcdf9f6e")]
-        private static IEnumerable<CodeInstruction> RebuildQueueTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+        private static bool RebuildQueuePrefix(MyRefinery __instance, out bool ___m_queueNeedsRebuild, List<KeyValuePair<int, MyBlueprintDefinitionBase>> ___m_tmpSortedBlueprints, MyRefineryDefinition ___m_refineryDef)
         {
-            // if (!Config.Enabled || !Config.FixBroadcast)
-            //     return instructions;
-
-            var il = instructions.ToList();
-            il.RecordOriginalCode();
-
-            MoveBlueprintClassesIntoLocalVariable(il, generator);
-            MovePrerequisitesIntoLocalVariable(il, generator);
-
-            il.RecordPatchedCode();
-            return il;
-        }
-
-        private static void MoveBlueprintClassesIntoLocalVariable(List<CodeInstruction> il, ILGenerator generator)
-        {
-            // Create new local variable
-            var blueprintClasses = generator.DeclareLocal(typeof(List<MyBlueprintClassDefinition>));
-
-            // Find where m_refineryDef.BlueprintClasses is retrieved and store it without labels
-            var i = il.FindIndex(ci => ci.opcode == OpCodes.Ldfld && ci.operand is FieldInfo fi && fi.Name.Contains("m_refineryDef")) - 1;
-            var getBlueprintClasses = il.Skip(i).Take(3).Select(ci => ci.WithoutLabels()).ToList();
-            getBlueprintClasses.Add(new CodeInstruction(OpCodes.Stloc_S, blueprintClasses));
-
-            // Store m_refineryDef.BlueprintClasses into blueprintClasses before the outermost for loop
-            var j = il.FindIndex(ci => ci.opcode == OpCodes.Stloc_0) + 1;
-            il.InsertRange(j, getBlueprintClasses);
-            j += getBlueprintClasses.Count;
-
-            // Replace all uses of m_refineryDef.BlueprintClasses with local variable blueprintClasses
-            for (;;)
+            ___m_queueNeedsRebuild = false;
+            __instance.ClearQueue(false);
+            ___m_tmpSortedBlueprints.Clear();
+            var array = __instance.InputInventory.GetItems().ToArray();
+            var blueprintClasses = ___m_refineryDef.BlueprintClasses;
+            for (var key = 0; key < array.Length; ++key)
             {
-                i = il.FindLastIndex(ci => ci.opcode == OpCodes.Ldfld && ci.operand is FieldInfo fi && fi.Name.Contains("m_refineryDef")) - 1;
-                if (i < j)
-                    break;
+                for (var index1 = 0; index1 < blueprintClasses.Count; ++index1)
+                {
+                    foreach (var blueprintDefinitionBase in blueprintClasses[index1])
+                    {
+                        bool flag = false;
+                        MyDefinitionId other = new MyDefinitionId(array[key].Content.TypeId, array[key].Content.SubtypeId);
+                        var prerequisites = blueprintDefinitionBase.Prerequisites;
+                        for (var index2 = 0; index2 < prerequisites.Length; ++index2)
+                        {
+                            if (prerequisites[index2].Id.Equals(other))
+                            {
+                                flag = true;
+                                break;
+                            }
+                        }
 
-                var labels = il[i].labels;
-                il.RemoveRange(i, 3);
-                il.Insert(i, new CodeInstruction(OpCodes.Ldloc_S, blueprintClasses));
-                il[i].labels = labels;
+                        if (flag)
+                        {
+                            ___m_tmpSortedBlueprints.Add(new KeyValuePair<int, MyBlueprintDefinitionBase>(key, blueprintDefinitionBase));
+                            break;
+                        }
+                    }
+                }
             }
-        }
 
-        private static void MovePrerequisitesIntoLocalVariable(List<CodeInstruction> il, ILGenerator generator)
-        {
-            // Create new local variable
-            var prerequisites = generator.DeclareLocal(typeof(MyBlueprintDefinitionBase.Item[]));
+            for (var index = 0; index < ___m_tmpSortedBlueprints.Count; ++index)
+            {
+                MyBlueprintDefinitionBase blueprint = ___m_tmpSortedBlueprints[index].Value;
+                MyFixedPoint myFixedPoint = MyFixedPoint.MaxValue;
+                foreach (MyBlueprintDefinitionBase.Item prerequisite in blueprint.Prerequisites)
+                {
+                    MyFixedPoint amount = array[index].Amount;
+                    if (amount == 0)
+                    {
+                        myFixedPoint = 0;
+                        break;
+                    }
 
-            // Find where blueprintDefinitionBase.Prerequisites is retrieved and store it without labels
-            var i = il.FindIndex(ci => ci.opcode == OpCodes.Ldfld && ci.operand is FieldInfo fi && fi.Name.Contains("Prerequisites")) - 1;
-            var labels = il[i].labels;
-            var getPrerequisites = il.Skip(i).Take(2).Select(ci => ci.WithoutLabels()).ToList();
-            getPrerequisites.Add(new CodeInstruction(OpCodes.Stloc_S, prerequisites));
-            var blueprintDefinitionBaseLocalIndex = ((LocalBuilder)getPrerequisites[0].operand).LocalIndex;
+                    myFixedPoint = MyFixedPoint.Min(amount * (1f / (float)prerequisite.Amount), myFixedPoint);
+                }
 
-            // Replace with local variable reference, while keeping the labels
-            il.RemoveRange(i, 2);
-            il.Insert(i, new CodeInstruction(OpCodes.Ldloc_S, prerequisites));
-            il[i].labels = labels;
+                if (blueprint.Atomic)
+                    myFixedPoint = MyFixedPoint.Floor(myFixedPoint);
+                if (myFixedPoint > 0 && myFixedPoint != MyFixedPoint.MaxValue)
+                    __instance.InsertQueueItemRequest(-1, blueprint, myFixedPoint);
+            }
 
-            // Find where blueprintDefinitionBase is set by the foreach loop
-            var j = il.FindIndex(ci => ci.opcode == OpCodes.Stloc_S && ci.operand is LocalBuilder lb && lb.LocalIndex == blueprintDefinitionBaseLocalIndex);
+            ___m_tmpSortedBlueprints.Clear();
 
-            // Store blueprintDefinitionBase.Prerequisites into local variable
-            il.InsertRange(j + 1, getPrerequisites);
+            return false;
         }
     }
 }
