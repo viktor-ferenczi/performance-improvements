@@ -1,3 +1,6 @@
+// May be buggy
+#if BUGGY
+
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
@@ -21,7 +24,7 @@ namespace Shared.Patches
 
         public static void Configure()
         {
-            enabled = Config.Enabled && Config.FixTerminal; // !!!
+            enabled = Config.Enabled && Config.FixTerminal;
             Config.PropertyChanged += OnConfigChanged;
         }
 
@@ -74,3 +77,5 @@ namespace Shared.Patches
         }
     }
 }
+
+#endif

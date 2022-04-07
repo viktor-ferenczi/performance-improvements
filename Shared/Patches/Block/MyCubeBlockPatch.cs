@@ -1,3 +1,6 @@
+// Possibly buggy
+#if BUGGY
+
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
@@ -83,3 +86,5 @@ namespace Shared.Patches
         }
     }
 }
+
+#endif
