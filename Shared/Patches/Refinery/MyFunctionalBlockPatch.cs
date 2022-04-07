@@ -1,15 +1,10 @@
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading;
 using HarmonyLib;
-using Sandbox.Definitions;
 using Sandbox.Game.Entities.Cube;
 using Shared.Config;
 using Shared.Logging;
 using Shared.Plugin;
 using Shared.Tools;
-using VRage;
-using VRage.Game;
 
 namespace Shared.Patches
 {
