@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyDefinitionIdToStringPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyPlayerCollectionPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\HkShapePatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Refinery\MyRefineryPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySessionComponentSafeZonesPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\TerminalSystem\MyGridTerminalSystemPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Cache.cs" />
@@ -78,6 +79,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\RigidBodyGetter.patched.il" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\MyScriptCompilerPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystemPatch.cs" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Refinery\RebuildQueue.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Refinery\RebuildQueue.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\RemoveEntityPhantom.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\RemoveEntityPhantom.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\RemoveEntityPhantomLambda.original.il" />
