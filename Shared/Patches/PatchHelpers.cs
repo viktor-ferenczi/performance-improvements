@@ -76,6 +76,7 @@ namespace Shared.Patches
             // MyCubeBlockPatch.Configure();
             // MyTerminalBlockPatch.Configure();
             MyGridTerminalSystemPatch.Configure();
+            // MyPathFindingSystemPatch.Configure();
 
             // FIXME: Make this configurable!
             // PhysicsFixes.SetClusterSize(3000f);
@@ -98,6 +99,7 @@ namespace Shared.Patches
             // MyCubeBlockPatch.Update();
             // MyTerminalBlockPatch.Update();
             MyGridTerminalSystemPatch.Update();
+            // MyPathFindingSystemPatch.Update();
 
 #if DEBUG
             if (Common.Plugin.Tick % 1200 == 0)
@@ -114,6 +116,7 @@ namespace Shared.Patches
                 // log.Info($"- MyCubeBlockPatch: {MyCubeBlockPatch.CacheReport}");
                 // log.Info($"- MyTerminalBlockPatch: {MyTerminalBlockPatch.CacheReport}");
                 log.Info($"- MyGridTerminalSystemPatch: {MyGridTerminalSystemPatch.InhibitorReport}");
+                // log.Info($"- MyPathFindingSystemPatch: {MyPathFindingSystemPatch.CacheReport}");
             }
 #endif
         }
