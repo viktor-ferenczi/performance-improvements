@@ -1,5 +1,4 @@
-// Possibly buggy
-#if BUGGY
+#if UNTESTED
 
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
