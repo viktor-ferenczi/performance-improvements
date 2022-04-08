@@ -71,7 +71,7 @@ namespace Shared.Patches
             // Detect faulty logic, where more than 1 item added to the tmpSortedBlueprints for one or more items in array
             if (tmpSortedBlueprints.Count > array.Length)
             {
-                Log.Warning("RebuildQueuePrefix: tmpSortedBlueprints.Count > array.Length");
+                Log.Warning($"RebuildQueuePrefix: tmpSortedBlueprints.Count > array.Length; Refinery: {__instance.DebugName}");
                 Log.Warning($"RebuildQueuePrefix: tmpSortedBlueprints.Count = {tmpSortedBlueprints.Count}");
                 Log.Warning($"RebuildQueuePrefix: array.Length = {array.Length}");
 
