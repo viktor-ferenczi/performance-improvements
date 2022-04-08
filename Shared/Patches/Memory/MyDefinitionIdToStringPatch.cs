@@ -35,7 +35,7 @@ namespace Shared.Patches
         private static readonly CacheForever<long, string> Cache = new CacheForever<long, string>();
         private static long tick;
         private static long nextFill;
-        private const long FillPeriod = 60; // !!! 117 * 60;
+        private const long FillPeriod = 47 * 60;
 
 #if DEBUG
         public static string CacheReport => $"{Cache.ImmutableReport} | {Cache.Report}";
