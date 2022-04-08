@@ -26,7 +26,7 @@ namespace Shared.Patches
 
         public static void Configure()
         {
-            enabled = Config.Enabled && Config.FixAccess; // !!!
+            enabled = Config.Enabled && Config.FixAccess;
             Config.PropertyChanged += OnConfigChanged;
         }
 

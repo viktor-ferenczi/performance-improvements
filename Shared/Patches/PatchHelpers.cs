@@ -75,7 +75,7 @@ namespace Shared.Patches
             MyDefinitionIdToStringPatch.Configure();
             // MyCubeBlockPatch.Configure();
             // MyTerminalBlockPatch.Configure();
-            // MyGridTerminalSystemPatch.Configure();
+            MyGridTerminalSystemPatch.Configure();
 
             // FIXME: Make this configurable!
             // PhysicsFixes.SetClusterSize(3000f);
@@ -97,7 +97,7 @@ namespace Shared.Patches
             MyDefinitionIdToStringPatch.Update();
             // MyCubeBlockPatch.Update();
             // MyTerminalBlockPatch.Update();
-            // MyGridTerminalSystemPatch.Update();
+            MyGridTerminalSystemPatch.Update();
 
 #if DEBUG
             if (Common.Plugin.Tick % 1200 == 0)
@@ -113,7 +113,7 @@ namespace Shared.Patches
                 log.Info($"- MyDefinitionIdToStringPatch: {MyDefinitionIdToStringPatch.CacheReport}");
                 // log.Info($"- MyCubeBlockPatch: {MyCubeBlockPatch.CacheReport}");
                 // log.Info($"- MyTerminalBlockPatch: {MyTerminalBlockPatch.CacheReport}");
-                // log.Info($"- MyGridTerminalSystemPatch: {MyGridTerminalSystemPatch.InhibitorReport}");
+                log.Info($"- MyGridTerminalSystemPatch: {MyGridTerminalSystemPatch.InhibitorReport}");
             }
 #endif
         }

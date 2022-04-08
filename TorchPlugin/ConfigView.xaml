@@ -164,8 +164,8 @@
         <CheckBox Grid.Row="22" Grid.Column="0" Name="FixSafeAction" IsChecked="{Binding FixSafeAction}" Margin="5"/>
         <TextBlock Grid.Row="22" Grid.Column="1" Text="Caches the result of MySafeZone.IsActionAllowed and MySessionComponentSafeZones.IsActionAllowedForSafezone for 2 seconds" VerticalAlignment="Center" Margin="5"/>
 
-        <!-- <CheckBox Grid.Row="23" Grid.Column="0" Name="FixTerminal" IsChecked="{Binding FixTerminal}" Margin="5"/> -->
-        <!-- <TextBlock Grid.Row="23" Grid.Column="1" Text="Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often" VerticalAlignment="Center" Margin="5"/> -->
+        <CheckBox Grid.Row="23" Grid.Column="0" Name="FixTerminal" IsChecked="{Binding FixTerminal}" Margin="5"/>
+        <TextBlock Grid.Row="23" Grid.Column="1" Text="Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often" VerticalAlignment="Center" Margin="5"/>
 
         <!--BOOL_OPTION
         <CheckBox Grid.Row="24" Grid.Column="0" Name="OptionName" IsChecked="{Binding OptionName}" Margin="5"/>

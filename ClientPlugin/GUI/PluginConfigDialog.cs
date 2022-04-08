@@ -297,16 +297,15 @@ namespace ClientPlugin.GUI
             layoutTable.Add(fixSafeActionLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             row++;
 
-            // layoutTable.Add(fixTerminalCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
-            // layoutTable.Add(fixTerminalLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
-            // row++;
-
+            layoutTable.Add(fixTerminalCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixTerminalLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             /*BOOL_OPTION
-            layoutTable.Add(optionNameCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
-            layoutTable.Add(optionNameLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             row++;
 
+            layoutTable.Add(optionNameCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(optionNameLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             BOOL_OPTION*/
+
             layoutTable.Add(infoText, MyAlignH.Left, MyAlignV.Top, 12, 0, colSpan: 2);
             layoutTable.Add(closeButton, MyAlignH.Center, MyAlignV.Center, 12, 2, colSpan: 2);
         }
