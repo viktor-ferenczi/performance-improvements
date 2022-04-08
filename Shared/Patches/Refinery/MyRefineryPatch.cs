@@ -68,6 +68,29 @@ namespace Shared.Patches
                 }
             }
 
+            // Detect faulty logic, where more than 1 item added to the tmpSortedBlueprints for one or more items in array
+            if (tmpSortedBlueprints.Count > array.Length)
+            {
+                Log.Warning("RebuildQueuePrefix: tmpSortedBlueprints.Count > array.Length");
+                Log.Warning($"RebuildQueuePrefix: tmpSortedBlueprints.Count = {tmpSortedBlueprints.Count}");
+                Log.Warning($"RebuildQueuePrefix: array.Length = {array.Length}");
+
+                for (var i = 0; i < tmpSortedBlueprints.Count; i++)
+                {
+                    var p = tmpSortedBlueprints[i];
+                    Log.Warning($"RebuildQueuePrefix: tmpSortedBlueprints[{i}] = ({p.Key}, {p.Value})");
+                }
+
+                for (var i = 0; i < array.Length; i++)
+                {
+                    Log.Warning($"RebuildQueuePrefix: array[{i}] = {array[i].ToString()}");
+                }
+
+                // Ignoring the second loop, so it does not crash
+                tmpSortedBlueprints.Clear();
+                return false;
+            }
+
             for (var index = 0; index < tmpSortedBlueprints.Count; ++index)
             {
                 var blueprint = tmpSortedBlueprints[index].Value;
