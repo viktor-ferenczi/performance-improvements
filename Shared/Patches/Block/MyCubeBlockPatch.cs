@@ -70,7 +70,7 @@ namespace Shared.Patches
             }
 
             __state = key;
-            return false;
+            return true;
         }
 
         [HarmonyPostfix]
