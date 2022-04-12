@@ -216,34 +216,36 @@ Added missing `EndShoot` call to `MyLargeTurretBase.OnStopWorking` to fix the ro
 which crashes clients grinding active turrets. Added defensive `null` checks to 
 `MyLargeTurretBase.UpdateShooting` just in case the server would not have the fix.  
 
-TBD: Bug ticket with a world to 100% reproduce this issue.
-
-### Less frequent update of block access rights
-
-Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason.
-
-TBD: Bug ticket
+Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24387-crash-nullreferenceexception-in-onendshoot-on-client-side-on-grinding-an-active-shooting-turret)
 
 ### Reduced memory allocation in broadcaster scanning
 
 Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart).
 
-TBD: Bug ticket
+Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24388-performance-excess-memory-allocation-in-mydatareceiver-updatebroadcastersinrange)
 
 ### Less frequent sync of block counts for limit checking
 
 Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits.
 
-TBD: Bug ticket
+Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24390-performance-myplayercollection-senddirtyblocklimits-is-called-too-frequently)
 
 ### Cache actions allowed by the safe zone
 
 Caches the result of MySafeZone.IsActionAllowed and MySessionComponentSafeZones.IsActionAllowedForSafezone for 2 seconds.
 
-TBD: Bug ticket
+Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24391-performance-safe-zone-isactionallowed)
 
 ### Less frequent update of PB access to blocks
 
 Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often.
+
+Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24389-performance-frequent-update-of-pb-access-rights-to-blocks)
+
+### Less frequent update of block access rights
+
+NOTE: This fix has been disabled in 1.10.0 due to a bug, which has been fixed since. It may be re-enabled once tested carefully.
+
+Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason.
 
 TBD: Bug ticket
