@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyDefinitionIdToStringPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyPlayerCollectionPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\HkShapePatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\SlimeFreezerPhysics.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Refinery\MyFunctionalBlockPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Refinery\MyRefineryPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySessionComponentSafeZonesPatch.cs" />
