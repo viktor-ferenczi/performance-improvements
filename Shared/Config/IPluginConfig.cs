@@ -58,9 +58,6 @@ namespace Shared.Config
         // Optimizes frequent memory allocations
         bool FixMemory { get; set; }
 
-        // Adds a missing call to EndShoot on server side, fixing subsequent issues on client side
-        bool FixEndShoot { get; set; }
-
         // Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason
         bool FixAccess { get; set; }
 
