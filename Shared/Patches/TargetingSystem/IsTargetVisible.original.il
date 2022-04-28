@@ -51,7 +51,7 @@ ldarg.0
 ldfld Sandbox.Game.Weapons.MyPositionPrediction Sandbox.Game.Weapons.MyLargeTurretTargetingSystem::TargetPrediction
 ldloc.0
 ldfld VRage.Game.Entity.MyEntity Sandbox.Game.Weapons.<>c__DisplayClass55_0::target
-callvirt VRageMath.Vector3D Sandbox.Game.Weapons.MyPositionPrediction::GetTargetCoordinates(VRage.ModAPI.IMyEntity currentTarget)
+callvirt VRageMath.Vector3D Sandbox.Game.Weapons.MyPositionPrediction::GetTargetEntityCoordinates(VRage.ModAPI.IMyEntity currentTarget)
 stloc.1
 ldarg.0
 ldfld Sandbox.Game.Weapons.MyPositionPrediction Sandbox.Game.Weapons.MyLargeTurretTargetingSystem::TargetPrediction
