@@ -210,14 +210,6 @@ Also simplified the logic by not checking y for null, because it does not happen
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24211-performance-hkshape-comparison-with-boxing-allocation)
 
-### Fixing crash on grinding active turrets
-
-Added missing `EndShoot` call to `MyLargeTurretBase.OnStopWorking` to fix the root cause on server side, 
-which crashes clients grinding active turrets. Added defensive `null` checks to 
-`MyLargeTurretBase.UpdateShooting` just in case the server would not have the fix.  
-
-Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24387-crash-nullreferenceexception-in-onendshoot-on-client-side-on-grinding-an-active-shooting-turret)
-
 ### Reduced memory allocation in broadcaster scanning
 
 Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart).
@@ -244,8 +236,13 @@ Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/p
 
 ### Less frequent update of block access rights
 
-NOTE: This fix has been disabled in 1.10.0 due to a bug, which has been fixed since. It may be re-enabled once tested carefully.
+NOTE: This fix has been disabled in 1.10.1 due to a bug, which has been fixed since. It may be re-enabled once tested carefully.
 
 Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason.
 
 TBD: Bug ticket
+
+## Bugs fixed by keen
+
+Fixes for these bugs and performance issues have been removed from the plugin:
+* [Crash: NullReferenceException in OnEndShoot on client side on grinding an active (shooting) turret](https://support.keenswh.com/spaceengineers/pc/topic/24387-crash-nullreferenceexception-in-onendshoot-on-client-side-on-grinding-an-active-shooting-turret)

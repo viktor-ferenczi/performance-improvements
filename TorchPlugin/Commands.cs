@@ -36,7 +36,6 @@ namespace TorchPlugin
             Respond($"entity: {Format(config.FixEntity)}");
             Respond($"character: {Format(config.FixCharacter)}");
             Respond($"memory: {Format(config.FixMemory)}");
-            Respond($"endshoot: {Format(config.FixEndShoot)}");
             Respond($"access: {Format(config.FixAccess)}");
             Respond($"broadcast: {Format(config.FixBroadcast)}");
             Respond($"block_limit: {Format(config.FixBlockLimit)}");
@@ -179,10 +178,6 @@ namespace TorchPlugin
                     Config.FixMemory = parsedFlag;
                     break;
 
-                case "endshoot":
-                    Config.FixEndShoot = parsedFlag;
-                    break;
-
                 case "access":
                     Config.FixAccess = parsedFlag;
                     break;
@@ -229,7 +224,6 @@ namespace TorchPlugin
                     Respond("  entity");
                     Respond("  character");
                     Respond("  memory");
-                    Respond("  endshoot");
                     Respond("  access");
                     Respond("  broadcast");
                     Respond("  block_limit");

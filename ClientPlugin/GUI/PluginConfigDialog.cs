@@ -64,9 +64,6 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel fixMemoryLabel;
         private MyGuiControlCheckbox fixMemoryCheckbox;
 
-        private MyGuiControlLabel fixEndShootLabel;
-        private MyGuiControlCheckbox fixEndShootCheckbox;
-
         private MyGuiControlLabel fixAccessLabel;
         private MyGuiControlCheckbox fixAccessCheckbox;
 
@@ -140,7 +137,6 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out fixEntityLabel, out fixEntityCheckbox, config.FixEntity, value => config.FixEntity = value, "Fix entity performance (needs restart)", "Optimizes MyEntity.InScene getter (needs restart)");
             CreateCheckbox(out fixCharacterLabel, out fixCharacterCheckbox, config.FixCharacter, value => config.FixCharacter = value, "Fix character performance (needs restart)", "Disables character footprint logic on server side (needs restart)");
             CreateCheckbox(out fixMemoryLabel, out fixMemoryCheckbox, config.FixMemory, value => config.FixMemory = value, "Fix frequent memory allocations", "Optimizes frequent memory allocations in various parts of the game");
-            CreateCheckbox(out fixEndShootLabel, out fixEndShootCheckbox, config.FixEndShoot, value => config.FixEndShoot = value, "Fix crash on grinding active turrets", "Adds a missing call to EndShoot on server side, fixing subsequent issues on client side");
             CreateCheckbox(out fixAccessLabel, out fixAccessCheckbox, config.FixAccess, value => config.FixAccess = value, "Less frequent update of block access rights", "Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason");
             CreateCheckbox(out fixBroadcastLabel, out fixBroadcastCheckbox, config.FixBroadcast, value => config.FixBroadcast = value, "Reduced memory allocation in broadcaster scanning", "Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart)");
             CreateCheckbox(out fixBlockLimitLabel, out fixBlockLimitCheckbox, config.FixBlockLimit, value => config.FixBlockLimit = value, "Less frequent sync of block counts for limit checking", "Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits");
@@ -202,7 +198,6 @@ namespace ClientPlugin.GUI
             fixEntityCheckbox.Enabled = enabled;
             fixCharacterCheckbox.Enabled = enabled;
             fixMemoryCheckbox.Enabled = enabled;
-            fixEndShootCheckbox.Enabled = enabled;
             fixAccessCheckbox.Enabled = enabled;
             fixBroadcastCheckbox.Enabled = enabled;
             fixBlockLimitCheckbox.Enabled = enabled;
@@ -284,10 +279,6 @@ namespace ClientPlugin.GUI
 
             layoutTable.Add(fixMemoryCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
             layoutTable.Add(fixMemoryLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
-            row++;
-
-            layoutTable.Add(fixEndShootCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
-            layoutTable.Add(fixEndShootLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             row++;
 
             // layoutTable.Add(fixAccessCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);

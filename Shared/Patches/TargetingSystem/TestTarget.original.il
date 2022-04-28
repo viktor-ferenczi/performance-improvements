@@ -28,7 +28,7 @@ stfld System.Boolean Sandbox.Game.Weapons.MyPositionPrediction::UsePrediction
 ldarg.0
 ldfld Sandbox.Game.Weapons.MyPositionPrediction Sandbox.Game.Weapons.MyLargeTurretTargetingSystem::TargetPrediction
 ldarg.1
-callvirt VRageMath.Vector3D Sandbox.Game.Weapons.MyPositionPrediction::GetTargetCoordinates(VRage.ModAPI.IMyEntity currentTarget)
+callvirt VRageMath.Vector3D Sandbox.Game.Weapons.MyPositionPrediction::GetTargetEntityCoordinates(VRage.ModAPI.IMyEntity currentTarget)
 stloc.1
 ldarg.0
 ldfld Sandbox.Game.Weapons.MyPositionPrediction Sandbox.Game.Weapons.MyLargeTurretTargetingSystem::TargetPrediction

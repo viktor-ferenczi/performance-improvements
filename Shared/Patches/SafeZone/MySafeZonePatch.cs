@@ -116,8 +116,10 @@ namespace Shared.Patches
             return il;
         }
 
+        // Class and method name copied from RemoveEntityPhantom IL code, the class name may change on game updates:
+        // IL_0106: ldftn      System.Void Sandbox.Game.Entities.<>c__DisplayClass105_0::<RemoveEntityPhantom>b__0()
         [HarmonyTranspiler]
-        [HarmonyPatch("Sandbox.Game.Entities.MySafeZone+<>c__DisplayClass103_0", "<RemoveEntityPhantom>b__0")]
+        [HarmonyPatch("Sandbox.Game.Entities.MySafeZone+<>c__DisplayClass105_0", "<RemoveEntityPhantom>b__0")] 
         [EnsureCode("b39ccae8")]
         private static IEnumerable<CodeInstruction> RemoveEntityPhantomLambdaTranspiler(IEnumerable<CodeInstruction> instructions)
         {

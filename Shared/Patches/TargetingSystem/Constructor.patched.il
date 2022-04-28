@@ -6,8 +6,8 @@ ldarg.0
 ldc.i4.2
 stfld Sandbox.Game.Weapons.MyTargetingOption Sandbox.Game.Weapons.MyLargeTurretTargetingSystem::m_raycastMode
 ldarg.0
-newobj System.Void System.Collections.Generic.Dictionary`2<System.Int64, VRage.Game.Entity.MyEntity>::.ctor()
-stfld System.Collections.Generic.Dictionary`2<System.Int64, VRage.Game.Entity.MyEntity> Sandbox.Game.Weapons.MyLargeTurretTargetingSystem::m_raycastIgnoredEntities
+newobj System.Void System.Collections.Concurrent.ConcurrentDictionary`2<System.Int64, VRage.Game.Entity.MyEntity>::.ctor()
+stfld System.Collections.Concurrent.ConcurrentDictionary`2<System.Int64, VRage.Game.Entity.MyEntity> Sandbox.Game.Weapons.MyLargeTurretTargetingSystem::m_raycastIgnoredEntities
 ldarg.0
 newobj System.Void System.Collections.Generic.List`1<Sandbox.Engine.Physics.HitInfo>::.ctor()
 stfld System.Collections.Generic.List`1<Sandbox.Engine.Physics.HitInfo> Sandbox.Game.Weapons.MyLargeTurretTargetingSystem::m_hitCollector

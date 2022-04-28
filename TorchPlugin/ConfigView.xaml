@@ -152,11 +152,8 @@
         <CheckBox Grid.Row="17" Grid.Column="0" Name="FixMemory" IsChecked="{Binding FixMemory}" Margin="5"/>
         <TextBlock Grid.Row="17" Grid.Column="1" Text="Optimizes frequent memory allocations" VerticalAlignment="Center" Margin="5"/>
 
-        <CheckBox Grid.Row="18" Grid.Column="0" Name="FixEndShoot" IsChecked="{Binding FixEndShoot}" Margin="5"/>
-        <TextBlock Grid.Row="18" Grid.Column="1" Text="Adds a missing call to EndShoot on server side, fixing subsequent issues on client side" VerticalAlignment="Center" Margin="5"/>
-
-        <!-- <CheckBox Grid.Row="19" Grid.Column="0" Name="FixAccess" IsChecked="{Binding FixAccess}" Margin="5"/> -->
-        <!-- <TextBlock Grid.Row="19" Grid.Column="1" Text="Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason" VerticalAlignment="Center" Margin="5"/> -->
+        <!-- <CheckBox Grid.Row="18" Grid.Column="0" Name="FixAccess" IsChecked="{Binding FixAccess}" Margin="5"/> -->
+        <!-- <TextBlock Grid.Row="18" Grid.Column="1" Text="Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason" VerticalAlignment="Center" Margin="5"/> -->
 
         <CheckBox Grid.Row="20" Grid.Column="0" Name="FixBroadcast" IsChecked="{Binding FixBroadcast}" Margin="5"/>
         <TextBlock Grid.Row="20" Grid.Column="1" Text="Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart)" VerticalAlignment="Center" Margin="5"/>
@@ -199,14 +196,13 @@
         <TextBlock Grid.Row="50" Grid.Column="1" Text="entity" VerticalAlignment="Center" Margin="5" />
         <TextBlock Grid.Row="51" Grid.Column="1" Text="character" VerticalAlignment="Center" Margin="5" />
         <TextBlock Grid.Row="52" Grid.Column="1" Text="memory" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="53" Grid.Column="1" Text="endshoot" VerticalAlignment="Center" Margin="5" />
-        <!-- <TextBlock Grid.Row="54" Grid.Column="1" Text="access" VerticalAlignment="Center" Margin="5" /> -->
-        <TextBlock Grid.Row="55" Grid.Column="1" Text="broadcast" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="56" Grid.Column="1" Text="block_limit" VerticalAlignment="Center" Margin="5" />
-        <TextBlock Grid.Row="57" Grid.Column="1" Text="safe_action" VerticalAlignment="Center" Margin="5" />
-        <!-- <TextBlock Grid.Row="58" Grid.Column="1" Text="terminal" VerticalAlignment="Center" Margin="5" /> -->
+        <!-- <TextBlock Grid.Row="53" Grid.Column="1" Text="access" VerticalAlignment="Center" Margin="5" /> -->
+        <TextBlock Grid.Row="54" Grid.Column="1" Text="broadcast" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="55" Grid.Column="1" Text="block_limit" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="56" Grid.Column="1" Text="safe_action" VerticalAlignment="Center" Margin="5" />
+        <!-- <TextBlock Grid.Row="57" Grid.Column="1" Text="terminal" VerticalAlignment="Center" Margin="5" /> -->
         <!--BOOL_OPTION
-        <TextBlock Grid.Row="59" Grid.Column="1" Text="option_name" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="58" Grid.Column="1" Text="option_name" VerticalAlignment="Center" Margin="5" />
         BOOL_OPTION-->
 
         <TextBlock Grid.Row="70" Grid.Column="0" Grid.ColumnSpan="2" Text="Accepted bool values:" VerticalAlignment="Center" Margin="5" />

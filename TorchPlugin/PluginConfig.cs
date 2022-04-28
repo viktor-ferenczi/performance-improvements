@@ -26,7 +26,6 @@ namespace TorchPlugin
         private bool fixEntity = true;
         private bool fixCharacter = true;
         private bool fixMemory = true;
-        private bool fixEndShoot = true;
         private bool fixAccess = false;
         private bool fixBroadcast = false;
         private bool fixBlockLimit = false;
@@ -160,13 +159,6 @@ namespace TorchPlugin
             set => SetValue(ref fixMemory, value);
         }
 
-        [Display(Order = 19, GroupName = "Fixes", Name = "Fix crash on grinding active turrets", Description = "Adds a missing call to EndShoot on server side, fixing subsequent issues on client side")]
-        public bool FixEndShoot
-        {
-            get => fixEndShoot;
-            set => SetValue(ref fixEndShoot, value);
-        }
-
         [Display(Order = 19, GroupName = "Fixes", Name = "Less frequent update of block access rights", Description = "Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason")]
         public bool FixAccess
         {
@@ -174,28 +166,28 @@ namespace TorchPlugin
             set => SetValue(ref fixAccess, value);
         }
 
-        [Display(Order = 19, GroupName = "Fixes", Name = "Reduced memory allocation in broadcaster scanning", Description = "Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart)")]
+        [Display(Order = 20, GroupName = "Fixes", Name = "Reduced memory allocation in broadcaster scanning", Description = "Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart)")]
         public bool FixBroadcast
         {
             get => fixBroadcast;
             set => SetValue(ref fixBroadcast, value);
         }
 
-        [Display(Order = 19, GroupName = "Fixes", Name = "Less frequent sync of block counts for limit checking", Description = "Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits")]
+        [Display(Order = 21, GroupName = "Fixes", Name = "Less frequent sync of block counts for limit checking", Description = "Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits")]
         public bool FixBlockLimit
         {
             get => fixBlockLimit;
             set => SetValue(ref fixBlockLimit, value);
         }
 
-        [Display(Order = 19, GroupName = "Fixes", Name = "Cache actions allowed by the safe zone", Description = "Caches the result of MySafeZone.IsActionAllowed and MySessionComponentSafeZones.IsActionAllowedForSafezone for 2 seconds")]
+        [Display(Order = 22, GroupName = "Fixes", Name = "Cache actions allowed by the safe zone", Description = "Caches the result of MySafeZone.IsActionAllowed and MySessionComponentSafeZones.IsActionAllowedForSafezone for 2 seconds")]
         public bool FixSafeAction
         {
             get => fixSafeAction;
             set => SetValue(ref fixSafeAction, value);
         }
 
-        [Display(Order = 19, GroupName = "Fixes", Name = "Less frequent update of PB access to blocks", Description = "Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often")]
+        [Display(Order = 23, GroupName = "Fixes", Name = "Less frequent update of PB access to blocks", Description = "Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often")]
         public bool FixTerminal
         {
             get => fixTerminal;
@@ -203,7 +195,7 @@ namespace TorchPlugin
         }
 
         /*BOOL_OPTION
-        [Display(Order = 19, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
+        [Display(Order = 24, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
         public bool OptionName
         {
             get => optionName;
