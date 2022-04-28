@@ -242,7 +242,7 @@ Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasP
 
 TBD: Bug ticket
 
-## Bugs fixed by keen
+## Bugs fixed by Keen
 
 Fixes for these bugs and performance issues have been removed from the plugin:
 * [Crash: NullReferenceException in OnEndShoot on client side on grinding an active (shooting) turret](https://support.keenswh.com/spaceengineers/pc/topic/24387-crash-nullreferenceexception-in-onendshoot-on-client-side-on-grinding-an-active-shooting-turret)
