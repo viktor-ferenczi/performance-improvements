@@ -163,6 +163,13 @@ namespace Shared.Patches
 
             File.WriteAllText(path, text);
         }
+
+        public static CodeInstruction WithoutLabels(this CodeInstruction ci)
+        {
+            var clone = ci.Clone();
+            clone.labels.Clear();
+            return clone;
+        }
     }
 
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
