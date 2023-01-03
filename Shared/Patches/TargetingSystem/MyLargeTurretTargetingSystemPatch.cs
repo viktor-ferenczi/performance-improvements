@@ -45,7 +45,7 @@ namespace Shared.Patches
             if (!enabled)
                 return;
 
-            VisibilityCache.Cleanup();
+            // VisibilityCache.Cleanup();
         }
 
         // ReSharper disable once UnusedMember.Local
@@ -100,7 +100,7 @@ namespace Shared.Patches
             if (targetReceiverEntity.Closed)
             {
                 ArrayCache.Forget(entityId);
-                VisibilityCache.Forget(entityId);
+                // VisibilityCache.Forget(entityId);
                 return Array.Empty<MyEntity>();
             }
 
@@ -130,6 +130,7 @@ namespace Shared.Patches
 
         #endregion
 
+#if false
         #region Visibility cache replacement
 
         // Visibility cache for each turret targeting system instance keyed by the m_targetReceiver.Entity.EntityId
@@ -312,5 +313,6 @@ namespace Shared.Patches
         }
 
         #endregion
+#endif
     }
 }
