@@ -182,7 +182,7 @@ Also fixes a related [race condition bug](https://support.keenswh.com/spaceengin
 There are large memory allocations in some frequently called routines, 
 causing quite a bit of GC pressure:
 - `MyLargeTurretTargetingSystem.SortTargetRoots`
-- `MyLargeTurretTargetingSystem.UpdateVisibilityCacheCounters`
+- `MyLargeTurretTargetingSystem.UpdateVisibilityCacheCounters` (this fix was disabled since 1.10.4 due to reported crashes)
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24145-excessive-memory-allocation-in-mylargeturrettargetingsystem)
 
