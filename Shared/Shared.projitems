@@ -84,15 +84,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\RemoveEntityPhantomLambda.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\Compile.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\Compile.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\Constructor.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\Constructor.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\IsTargetVisible.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\IsTargetVisible.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\SortTargetRoots.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\SortTargetRoots.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\TestPotentialTarget.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\TestPotentialTarget.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\TestTarget.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\TestTarget.patched.il" />
   </ItemGroup>
 </Project>

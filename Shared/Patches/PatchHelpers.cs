@@ -108,7 +108,7 @@ namespace Shared.Patches
                 log.Info($"- MySafeZonePatch IsActionAllowed: {MySafeZonePatch.IsActionAllowedCacheReport}");
                 log.Info($"- MySessionComponentSafeZonesPatch: {MySessionComponentSafeZonesPatch.CacheReport}");
                 log.Info($"- MyLargeTurretTargetingSystemPatch ArrayCache: {MyLargeTurretTargetingSystemPatch.ArrayCacheReport}");
-                log.Info($"- MyLargeTurretTargetingSystemPatch VisibilityCache: {MyLargeTurretTargetingSystemPatch.VisibilityCacheReport}");
+                // log.Info($"- MyLargeTurretTargetingSystemPatch VisibilityCache: {MyLargeTurretTargetingSystemPatch.VisibilityCacheReport}");
                 log.Info($"- MyWindTurbinePatch: {MyWindTurbinePatch.CacheReport}");
                 log.Info($"- MyDefinitionIdToStringPatch: {MyDefinitionIdToStringPatch.CacheReport}");
                 // log.Info($"- MyCubeBlockPatch: {MyCubeBlockPatch.CacheReport}");
