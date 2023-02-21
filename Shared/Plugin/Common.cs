@@ -14,6 +14,7 @@ namespace Shared.Plugin
         public static IPluginConfig Config { get; private set; }
 
         public static string GameVersion;
+        public static bool BetaVersion;
 
         public static string DataDir;
         public static string CacheDir;
@@ -30,6 +31,12 @@ namespace Shared.Plugin
         public static void Init(string gameVersion, string storageDir)
         {
             GameVersion = gameVersion;
+            BetaVersion = string.Compare(GameVersion, "01_202_000", StringComparison.Ordinal) >= 0;
+
+            if (BetaVersion)
+            {
+                Logger.Info("Beta game version detected, optimizing accordingly");
+            }
 
             DataDir = Path.Combine(storageDir, "PerformanceImprovements");
             CacheDir = Path.Combine(DataDir, "Cache");

@@ -12,6 +12,7 @@ using VRage.Game;
 
 namespace Shared.Patches
 {
+    // FIXME: Remove this patch when 1.202 will become a regular game release 
     [HarmonyPatch]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public static class MyDefinitionIdToStringPatch
@@ -21,7 +22,7 @@ namespace Shared.Patches
 
         public static void Configure()
         {
-            enabled = Config.Enabled && Config.FixMemory;
+            enabled = !Common.BetaVersion && Config.Enabled && Config.FixMemory;
             Config.PropertyChanged += OnConfigChanged;
         }
 
@@ -54,7 +55,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyPatch(typeof(MyDefinitionId), nameof(MyDefinitionId.ToString))]
         [HarmonyPrefix]
-        [EnsureCode("b404a007")]
+        [EnsureCode("b404a007|f97ce300")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool MyDefinitionIdToStringPrefix(MyDefinitionId __instance, ref string __result)
         {
