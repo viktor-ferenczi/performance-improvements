@@ -1,7 +1,7 @@
 // 3fdc765f
 ldarg.0
 ldfld Sandbox.Game.Entities.MySafeZone Sandbox.Game.Entities.<>c__DisplayClass105_0::<>4__this
-ldfld System.Collections.Generic.HashSet`1<VRage.ModAPI.IMyEntity> Sandbox.Game.Entities.MySafeZone::m_RemoveEntityPhantomTaskList
+ldfld VRage.Collections.MyConcurrentHashSet`1<VRage.ModAPI.IMyEntity> Sandbox.Game.Entities.MySafeZone::m_RemoveEntityPhantomTaskList
 ldarg.0
 ldfld VRage.ModAPI.IMyEntity Sandbox.Game.Entities.<>c__DisplayClass105_0::entity
 call static System.Boolean Shared.Patches.MySafeZonePatch::PhantomTaskListRemove(System.Collections.Generic.HashSet`1<VRage.Game.ModAPI.Ingame.IMyEntity> map, VRage.Game.ModAPI.Ingame.IMyEntity item)

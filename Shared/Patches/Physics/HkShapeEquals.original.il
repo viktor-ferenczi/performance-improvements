@@ -1,8 +1,9 @@
-// 8933ef75
+// 422e42ca
 ldarga.s 1
 ldflda System.IntPtr Havok.HkShape::m_handle
-ldarg.2
-ldfld System.IntPtr Havok.HkShape::m_handle
-box System.IntPtr
-call virtual System.Boolean System.IntPtr::Equals(System.Object obj)
+call System.Int64 System.IntPtr::ToInt64()
+ldarga.s 2
+ldflda System.IntPtr Havok.HkShape::m_handle
+call System.Int64 System.IntPtr::ToInt64()
+ceq
 ret

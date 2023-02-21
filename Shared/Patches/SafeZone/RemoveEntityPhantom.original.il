@@ -52,18 +52,18 @@ ldc.i4.1
 L4:
 stfld System.Boolean Sandbox.Game.Entities.<>c__DisplayClass105_0::addedOrRemoved
 ldarg.0
-ldfld System.Collections.Generic.HashSet`1<VRage.ModAPI.IMyEntity> Sandbox.Game.Entities.MySafeZone::m_RemoveEntityPhantomTaskList
+ldfld VRage.Collections.MyConcurrentHashSet`1<VRage.ModAPI.IMyEntity> Sandbox.Game.Entities.MySafeZone::m_RemoveEntityPhantomTaskList
 ldloc.0
 ldfld VRage.ModAPI.IMyEntity Sandbox.Game.Entities.<>c__DisplayClass105_0::entity
-callvirt virtual System.Boolean System.Collections.Generic.HashSet`1<VRage.ModAPI.IMyEntity>::Contains(VRage.ModAPI.IMyEntity item)
+callvirt System.Boolean VRage.Collections.MyConcurrentHashSet`1<VRage.ModAPI.IMyEntity>::Contains(VRage.ModAPI.IMyEntity value)
 brfalse.s L5
 ret
 L5:
 ldarg.0
-ldfld System.Collections.Generic.HashSet`1<VRage.ModAPI.IMyEntity> Sandbox.Game.Entities.MySafeZone::m_RemoveEntityPhantomTaskList
+ldfld VRage.Collections.MyConcurrentHashSet`1<VRage.ModAPI.IMyEntity> Sandbox.Game.Entities.MySafeZone::m_RemoveEntityPhantomTaskList
 ldloc.0
 ldfld VRage.ModAPI.IMyEntity Sandbox.Game.Entities.<>c__DisplayClass105_0::entity
-callvirt virtual System.Boolean System.Collections.Generic.HashSet`1<VRage.ModAPI.IMyEntity>::Add(VRage.ModAPI.IMyEntity item)
+callvirt System.Boolean VRage.Collections.MyConcurrentHashSet`1<VRage.ModAPI.IMyEntity>::Add(VRage.ModAPI.IMyEntity instance)
 pop
 ldloc.0
 ldloc.0
