@@ -99,7 +99,7 @@ namespace Shared.Patches
         [EnsureCode("55db36e5")]
         private static IEnumerable<CodeInstruction> RemoveEntityPhantomTranspiler(IEnumerable<CodeInstruction> instructions)
         {
-            if (!enabled)
+            if (!enabled && !Common.BetaVersion)
                 return instructions;
 
             var il = instructions.ToList();
@@ -123,7 +123,7 @@ namespace Shared.Patches
         [EnsureCode("b39ccae8")]
         private static IEnumerable<CodeInstruction> RemoveEntityPhantomLambdaTranspiler(IEnumerable<CodeInstruction> instructions)
         {
-            if (!enabled)
+            if (!enabled && !Common.BetaVersion)
                 return instructions;
 
             var il = instructions.ToList();

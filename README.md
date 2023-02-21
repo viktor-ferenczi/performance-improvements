@@ -177,6 +177,8 @@ Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/p
 
 Also fixes a related [race condition bug](https://support.keenswh.com/spaceengineers/pc/topic/24149-safezone-m_removeentityphantomtasklist-hashset-corruption-due-to-race-condition)
 
+**The race condition was fixed in game version 1.202.048 (Automaton Beta) by using a `MyConcurrentHashSet`.**
+
 ### Reducing memory allocations in the turret targeting system
 
 There are large memory allocations in some frequently called routines, 
@@ -255,6 +257,23 @@ Suboptimal code doing an expensive lookup twice. The C# compiler is not that cle
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/23462-myentity-inscene-is-responsible-for-4-of-main-thread-cpu-load-on-a-large-server)
 
 **Fixed in game version 1.202.048 (Automaton Beta)**
+
+## Not fixed anymore
+
+### Reducing memory allocations in the turret targeting system
+
+There are large memory allocations in some frequently called routines,
+causing quite a bit of GC pressure:
+- `MyLargeTurretTargetingSystem.SortTargetRoots`
+- `MyLargeTurretTargetingSystem.UpdateVisibilityCacheCounters`
+
+Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24145-excessive-memory-allocation-in-mylargeturrettargetingsystem)
+
+Keen changed their logic in game version 1.202.048 (Automaton Beta).
+It is even more complex to patch it now, so I give up on fixing this issue.
+Informed Keen in the ticket that they need to optimize memory allocations
+themselves. They should just read the ticket and its comments again, then
+it should be simple enough.
 
 ## Remarks
 
