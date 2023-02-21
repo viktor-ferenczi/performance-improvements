@@ -203,6 +203,8 @@ StringBuilder pooling was contributed by: zznty
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24210-performance-pre-calculate-or-cache-mydefinitionid-tostring-results)
 
+**Fixed in game version 1.202.048 (Automaton Beta), formatted strings are cached.**
+
 ### Havok performance fix
 
 Removed boxing allocation from the Havok.HkShape.HandleEqualityComparer.Equals method.
@@ -210,11 +212,15 @@ Also simplified the logic by not checking y for null, because it does not happen
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24211-performance-hkshape-comparison-with-boxing-allocation)
 
+**Fixed in game version 1.202.048 (Automaton Beta)**
+
 ### Reduced memory allocation in broadcaster scanning
 
 Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart).
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24388-performance-excess-memory-allocation-in-mydatareceiver-updatebroadcastersinrange)
+
+**Improved code in game version 1.202.048 (Automaton Beta), but no pooling of HashSet instances. Not enough.**
 
 ### Less frequent sync of block counts for limit checking
 
