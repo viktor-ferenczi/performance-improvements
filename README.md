@@ -248,7 +248,16 @@ Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasP
 
 TBD: Bug ticket
 
-## Bugs fixed by Keen
+### Redundant evaluation in MyEntity.InScene getter
 
-Fixes for these bugs and performance issues have been removed from the plugin:
-* [Crash: NullReferenceException in OnEndShoot on client side on grinding an active (shooting) turret](https://support.keenswh.com/spaceengineers/pc/topic/24387-crash-nullreferenceexception-in-onendshoot-on-client-side-on-grinding-an-active-shooting-turret)
+Suboptimal code doing an expensive lookup twice. The C# compiler is not that clever...
+
+Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/23462-myentity-inscene-is-responsible-for-4-of-main-thread-cpu-load-on-a-large-server)
+
+**Fixed in game version 1.202.048 (Automaton Beta)**
+
+## Remarks
+
+Fixes for performance issues or bugs fixed by Keen in the regular public game version
+are removed from this page. Check the older versions of this document if you want to
+recall them.
