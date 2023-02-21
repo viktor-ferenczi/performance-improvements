@@ -36,7 +36,8 @@ namespace Shared.Patches
             var hash = il.HashInstructions().CombineHashCodes().ToString("x8");
 
             var i = il.FindIndex(ci => ci.opcode == OpCodes.Newobj);
-            Debug.Assert(il[i + 2].opcode == OpCodes.Newobj);
+            Debug.Assert(il[i + 1].opcode == OpCodes.Stloc_1);
+            Debug.Assert(il[i + 2].opcode == OpCodes.Ldarg_0);
             
             if (hash == "34748389")
             {
