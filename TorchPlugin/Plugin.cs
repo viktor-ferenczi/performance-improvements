@@ -65,8 +65,9 @@ namespace TorchPlugin
             var configPath = Path.Combine(StoragePath, ConfigFileName);
             config = PersistentConfig<PluginConfig>.Load(Log, configPath);
 
-            Common.SetPlugin(this);
-            PatchHelpers.Configure();
+            var gameVersionNumber = MyPerGameSettings.BasicGameInfo.GameVersion ?? 0;
+            var gameVersion = new StringBuilder(MyBuildNumbers.ConvertBuildNumberFromIntToString(gameVersionNumber)).ToString();
+            Common.SetPlugin(this, gameVersion, StoragePath);
 
 #if USE_HARMONY
             if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
@@ -79,28 +80,7 @@ namespace TorchPlugin
             sessionManager = torch.Managers.GetManager<TorchSessionManager>();
             sessionManager.SessionStateChanged += SessionStateChanged;
 
-            try
-            {
-                Initialize();
-                initialized = true;
-            }
-            catch (Exception e)
-            {
-                Log.Critical(e, "Initialization failed");
-                failed = true;
-                return;
-            }
-
-            Log.Debug("Successfully initialized");
-        }
-
-        private void Initialize()
-        {
-            var gameVersionNumber = MyPerGameSettings.BasicGameInfo.GameVersion ?? 0;
-            var gameVersion = new StringBuilder(MyBuildNumbers.ConvertBuildNumberFromIntToString(gameVersionNumber)).ToString();
-            Common.Init(gameVersion, StoragePath);
-
-            PatchHelpers.PatchInits();
+            initialized = true;
         }
 
         private void SessionStateChanged(ITorchSession session, TorchSessionState newstate)

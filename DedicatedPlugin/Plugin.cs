@@ -43,28 +43,13 @@ namespace DedicatedPlugin
             var configPath = Path.Combine(MyFileSystem.UserDataPath, ConfigFileName);
             config = PersistentConfig<PluginConfig>.Load(Log, configPath);
 
-            Common.SetPlugin(this);
-            PatchHelpers.Configure();
+            var gameVersion = MyFinalBuildConstants.APP_VERSION_STRING.ToString();
+            Common.SetPlugin(this, gameVersion, MyFileSystem.UserDataPath);
 
             if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
             {
                 failed = true;
-                return;
             }
-
-            Log.Debug("Initializing");
-            try
-            {
-                Initialize();
-            }
-            catch (Exception ex)
-            {
-                Log.Critical(ex, "Failed to initialize");
-                failed = true;
-                return;
-            }
-
-            Log.Debug("Successfully initialized");
         }
 
         public void Dispose()
@@ -97,14 +82,6 @@ namespace DedicatedPlugin
                 Log.Critical(ex, "Update failed");
                 failed = true;
             }
-        }
-
-        private void Initialize()
-        {
-            var gameVersion = MyFinalBuildConstants.APP_VERSION_STRING.ToString();
-            Common.Init(gameVersion, MyFileSystem.UserDataPath);
-
-            PatchHelpers.PatchInits();
         }
 
         private void CustomUpdate()

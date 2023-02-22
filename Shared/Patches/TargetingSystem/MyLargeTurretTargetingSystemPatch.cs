@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Sandbox.Game.Entities.Interfaces;
 using Sandbox.Game.Weapons;
@@ -14,8 +12,6 @@ using Shared.Plugin;
 using Shared.Tools;
 using TorchPlugin.Shared.Tools;
 using VRage.Game.Entity;
-using VRage.Library.Utils;
-using VRageMath;
 
 namespace Shared.Patches
 {
@@ -28,7 +24,8 @@ namespace Shared.Patches
 
         public static void Configure()
         {
-            enabled = Config.Enabled && Config.FixTargeting;
+            // FIXME: Disabled for the beta, but the memory alloc issues are still there. We need to update the fix instead to fix their modified code.
+            enabled = !Common.BetaVersion && Config.Enabled && Config.FixTargeting;
         }
 
         #region Reusing arrays in SortTargetRoots
@@ -51,7 +48,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyTranspiler]
         [HarmonyPatch("SortTargetRoots")]
-        [EnsureCode("edfb7619")]
+        [EnsureCode("edfb7619|bf397282")]
         private static IEnumerable<CodeInstruction> SortTargetRootsTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             if (!enabled)

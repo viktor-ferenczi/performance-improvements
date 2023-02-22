@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Shared.Config;
 using Shared.Logging;
+using Shared.Patches;
 
 namespace Shared.Plugin
 {
@@ -14,25 +15,21 @@ namespace Shared.Plugin
         public static IPluginConfig Config { get; private set; }
 
         public static string GameVersion;
-        public static bool BetaVersion;
-
+        
         public static string DataDir;
         public static string CacheDir;
+        public static bool BetaVersion;
 
         private static string CacheGameVersionPath => Path.Combine(CacheDir, "GameVersion.txt");
 
-        public static void SetPlugin(ICommonPlugin plugin)
+        public static void SetPlugin(ICommonPlugin plugin, string gameVersion, string storageDir)
         {
             Plugin = plugin;
             Logger = plugin.Log;
             Config = plugin.Config;
-        }
-
-        public static void Init(string gameVersion, string storageDir)
-        {
+            
             GameVersion = gameVersion;
             BetaVersion = string.Compare(GameVersion, "01_202_000", StringComparison.Ordinal) >= 0;
-
             if (BetaVersion)
             {
                 Logger.Info("Beta game version detected, optimizing accordingly");
@@ -42,6 +39,8 @@ namespace Shared.Plugin
             CacheDir = Path.Combine(DataDir, "Cache");
 
             CleanupCache();
+            
+            PatchHelpers.Configure();
         }
 
         private static void CleanupCache()
