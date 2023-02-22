@@ -1,9 +1,9 @@
 // 7b68e0c9
-newobj System.Void Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::.ctor()
+newobj System.Void Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::.ctor()
 stloc.0
 ldloc.0
 ldarg.0
-stfld Sandbox.Game.Entities.Character.MyCharacter Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::<>4__this
+stfld Sandbox.Game.Entities.Character.MyCharacter Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::<>4__this
 ldarg.0
 call System.Boolean Sandbox.Game.Entities.Character.MyCharacter::get_IsDead()
 brfalse.s L0
@@ -63,29 +63,29 @@ ldarg.0
 call static VRage.ModAPI.IMyEntity Sandbox.Engine.Physics.MyPhysicsExtensions::GetOtherEntity(Havok.HkContactPointEvent eventInfo, VRage.ModAPI.IMyEntity sourceEntity)
 callvirt abstract virtual VRage.Game.Components.MyPhysicsComponentBase VRage.ModAPI.IMyEntity::get_Physics()
 isinst Sandbox.Engine.Voxels.MyVoxelPhysicsBody
-stfld Sandbox.Engine.Voxels.MyVoxelPhysicsBody Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::otherPhysicsBody
+stfld Sandbox.Engine.Voxels.MyVoxelPhysicsBody Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::otherPhysicsBody
 ldloc.0
 ldarg.1
 ldfld Havok.HkContactPoint Havok.HkContactPointEvent::ContactPoint
 stloc.s 24 (Havok.HkContactPoint)
 ldloca.s 24 (Havok.HkContactPoint)
 call VRageMath.Vector3 Havok.HkContactPoint::get_Position()
-stfld VRageMath.Vector3 Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::contactPointPosition
+stfld VRageMath.Vector3 Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::contactPointPosition
 ldloc.0
 ldarg.1
 ldfld Havok.HkContactPoint Havok.HkContactPointEvent::ContactPoint
 stloc.s 24 (Havok.HkContactPoint)
 ldloca.s 24 (Havok.HkContactPoint)
 call VRageMath.Vector3 Havok.HkContactPoint::get_Normal()
-stfld VRageMath.Vector3 Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::contactPointNormal
+stfld VRageMath.Vector3 Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::contactPointNormal
 call static System.Boolean Sandbox.Game.Multiplayer.Sync::get_IsDedicated()
 brtrue L8
 ldloc.0
-ldfld Sandbox.Engine.Voxels.MyVoxelPhysicsBody Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::otherPhysicsBody
+ldfld Sandbox.Engine.Voxels.MyVoxelPhysicsBody Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::otherPhysicsBody
 brfalse L8
 ldsfld Sandbox.MySandboxGame Sandbox.MySandboxGame::Static
 ldloc.0
-ldftn System.Void Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::<RigidBody_ContactPointCallback>b__0()
+ldftn System.Void Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::<RigidBody_ContactPointCallback>b__0()
 newobj System.Void System.Action::.ctor(System.Object object, System.IntPtr method)
 ldstr "MyCharacter.RigidBody_ContactPointCallback.TrySpawnWalkingParticles"
 ldc.i4.m1
@@ -155,7 +155,7 @@ ldloc.0
 ldloc.3
 callvirt VRage.ModAPI.IMyEntity VRage.Game.Components.MyPhysicsComponentBase::get_Entity()
 isinst VRage.Game.Entity.MyEntity
-stfld VRage.Game.Entity.MyEntity Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::other
+stfld VRage.Game.Entity.MyEntity Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::other
 ldloc.1
 stloc.s 6 (Havok.HkRigidBody)
 ldarg.1
@@ -165,7 +165,7 @@ ldloca.s 24 (Havok.HkContactPoint)
 call VRageMath.Vector3 Havok.HkContactPoint::get_Normal()
 stloc.s 7 (VRageMath.Vector3)
 ldloc.0
-ldfld VRage.Game.Entity.MyEntity Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::other
+ldfld VRage.Game.Entity.MyEntity Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::other
 ldarg.0
 bne.un.s L11
 ldc.i4.1
@@ -174,7 +174,7 @@ ldloc.0
 ldloc.s 4 (Sandbox.Engine.Physics.MyPhysicsBody)
 callvirt VRage.ModAPI.IMyEntity VRage.Game.Components.MyPhysicsComponentBase::get_Entity()
 isinst VRage.Game.Entity.MyEntity
-stfld VRage.Game.Entity.MyEntity Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::other
+stfld VRage.Game.Entity.MyEntity Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::other
 ldloc.2
 stloc.s 6 (Havok.HkRigidBody)
 ldloc.s 7 (VRageMath.Vector3)
@@ -182,7 +182,7 @@ call static VRageMath.Vector3 VRageMath.Vector3::op_UnaryNegation(VRageMath.Vect
 stloc.s 7 (VRageMath.Vector3)
 L11:
 ldloc.0
-ldfld VRage.Game.Entity.MyEntity Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::other
+ldfld VRage.Game.Entity.MyEntity Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::other
 isinst Sandbox.Game.Entities.Character.MyCharacter
 stloc.s 8 (Sandbox.Game.Entities.Character.MyCharacter)
 ldloc.s 8 (Sandbox.Game.Entities.Character.MyCharacter)
@@ -215,7 +215,7 @@ L14:
 L16:
 L17:
 ldloc.0
-ldfld VRage.Game.Entity.MyEntity Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::other
+ldfld VRage.Game.Entity.MyEntity Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::other
 isinst Sandbox.Game.Entities.MyCubeGrid
 stloc.s 9 (Sandbox.Game.Entities.MyCubeGrid)
 ldloc.s 9 (Sandbox.Game.Entities.MyCubeGrid)
@@ -387,15 +387,15 @@ ldarg.0
 ldfld System.Single Sandbox.Game.Entities.Character.MyCharacter::m_canPlayImpact
 ldc.r4 0
 bgt.un L38
-newobj System.Void Sandbox.Game.Entities.Character.<>c__DisplayClass452_1::.ctor()
+newobj System.Void Sandbox.Game.Entities.Character.<>c__DisplayClass455_1::.ctor()
 ldarg.0
 ldc.r4 0.3
 stfld System.Single Sandbox.Game.Entities.Character.MyCharacter::m_canPlayImpact
 dup
 ldarg.1
 ldobj Havok.HkContactPointEvent
-stfld Havok.HkContactPointEvent Sandbox.Game.Entities.Character.<>c__DisplayClass452_1::hkContactPointEvent
-ldftn System.Boolean Sandbox.Game.Entities.Character.<>c__DisplayClass452_1::<RigidBody_ContactPointCallback>b__1()
+stfld Havok.HkContactPointEvent Sandbox.Game.Entities.Character.<>c__DisplayClass455_1::hkContactPointEvent
+ldftn System.Boolean Sandbox.Game.Entities.Character.<>c__DisplayClass455_1::<RigidBody_ContactPointCallback>b__1()
 newobj System.Void System.Func`1<System.Boolean>::.ctor(System.Object object, System.IntPtr method)
 stloc.s 35 (System.Func`1[System.Boolean])
 ldarg.0
@@ -521,42 +521,42 @@ ldloc.s 19 (System.Single)
 mul
 ldc.r4 2
 div
-stfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::impact
+stfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::impact
 ldloc.s 14 (System.Single)
 ldc.r4 2
 ble.un.s L48
 ldloc.0
 ldloc.0
-ldfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::impact
+ldfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::impact
 ldc.r4 400
 sub
-stfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::impact
+stfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::impact
 br.s L49
 L48:
 ldloc.s 14 (System.Single)
 ldc.r4 0
 bne.un.s L50
 ldloc.0
-ldfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::impact
+ldfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::impact
 ldc.r4 100
 ble.un.s L51
 ldloc.0
 ldloc.0
-ldfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::impact
+ldfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::impact
 ldc.r4 80
 div
-stfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::impact
+stfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::impact
 L49:
 L50:
 L51:
 ldloc.0
 ldloc.0
-ldfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::impact
+ldfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::impact
 ldc.r4 10
 div
-stfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::impact
+stfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::impact
 ldloc.0
-ldfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::impact
+ldfld System.Single Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::impact
 ldc.r4 1
 blt.un L52
 call static System.Boolean Sandbox.Game.Multiplayer.Sync::get_IsServer()
@@ -594,7 +594,7 @@ callvirt virtual System.Boolean Sandbox.Game.Weapons.MyMissile::IsCharacterIdFri
 brtrue.s L57
 ldsfld Sandbox.MySandboxGame Sandbox.MySandboxGame::Static
 ldloc.0
-ldftn System.Void Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::<RigidBody_ContactPointCallback>b__2()
+ldftn System.Void Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::<RigidBody_ContactPointCallback>b__2()
 newobj System.Void System.Action::.ctor(System.Object object, System.IntPtr method)
 ldstr "MyCharacter.DoDamage"
 ldc.i4.m1
@@ -605,7 +605,7 @@ L55:
 L56:
 ldsfld Sandbox.MySandboxGame Sandbox.MySandboxGame::Static
 ldloc.0
-ldftn System.Void Sandbox.Game.Entities.Character.<>c__DisplayClass452_0::<RigidBody_ContactPointCallback>b__3()
+ldftn System.Void Sandbox.Game.Entities.Character.<>c__DisplayClass455_0::<RigidBody_ContactPointCallback>b__3()
 newobj System.Void System.Action::.ctor(System.Object object, System.IntPtr method)
 ldstr "MyCharacter.DoDamage"
 ldc.i4.m1

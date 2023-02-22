@@ -63,6 +63,7 @@ namespace Shared.Patches
         // Called after loading configuration, but before patching
         public static void Configure()
         {
+            MyScriptCompilerPatch.Configure();
             MySafeZonePatch.Configure();
             MySessionComponentSafeZonesPatch.Configure();
             MyLargeTurretTargetingSystemPatch.Configure();
@@ -79,12 +80,6 @@ namespace Shared.Patches
 
             // FIXME: Make this configurable!
             // PhysicsFixes.SetClusterSize(3000f);
-        }
-
-        // Called after patching is done
-        public static void PatchInits()
-        {
-            MyScriptCompilerPatch.Init();
         }
 
         // Called on every update

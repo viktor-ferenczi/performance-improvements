@@ -175,7 +175,7 @@ reflected in safe zone behavior only up to 2 seconds later (1 second on average)
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24146-performance-mysafezone-issafe-is-called-frequently-but-not-cached)
 
-Also fixes a related [race condition bug](https://support.keenswh.com/spaceengineers/pc/topic/24149-safezone-m_removeentityphantomtasklist-hashset-corruption-due-to-race-condition)
+Also fixes a related [race condition bug](https://support.keenswh.com/spaceengineers/pc/topic/24149-safezone-m_removeentityphantomtasklist-hashset-corruption-due-to-race-condition), which is fixed in game version 1.202.048 (Automaton Beta) by using a `MyConcurrentHashSet`.
 
 ### Reducing memory allocations in the turret targeting system
 
@@ -203,6 +203,8 @@ StringBuilder pooling was contributed by: zznty
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24210-performance-pre-calculate-or-cache-mydefinitionid-tostring-results)
 
+**Fixed in game version 1.202.048 (Automaton Beta), formatted strings are cached.**
+
 ### Havok performance fix
 
 Removed boxing allocation from the Havok.HkShape.HandleEqualityComparer.Equals method.
@@ -210,11 +212,15 @@ Also simplified the logic by not checking y for null, because it does not happen
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24211-performance-hkshape-comparison-with-boxing-allocation)
 
+**Fixed in game version 1.202.048 (Automaton Beta)**
+
 ### Reduced memory allocation in broadcaster scanning
 
 Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart).
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24388-performance-excess-memory-allocation-in-mydatareceiver-updatebroadcastersinrange)
+
+**Improved code in game version 1.202.048 (Automaton Beta), but no pooling of HashSet instances. Not enough.**
 
 ### Less frequent sync of block counts for limit checking
 
@@ -242,7 +248,16 @@ Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasP
 
 TBD: Bug ticket
 
-## Bugs fixed by Keen
+### Redundant evaluation in MyEntity.InScene getter
 
-Fixes for these bugs and performance issues have been removed from the plugin:
-* [Crash: NullReferenceException in OnEndShoot on client side on grinding an active (shooting) turret](https://support.keenswh.com/spaceengineers/pc/topic/24387-crash-nullreferenceexception-in-onendshoot-on-client-side-on-grinding-an-active-shooting-turret)
+Suboptimal code doing an expensive lookup twice. The C# compiler is not that clever...
+
+Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/23462-myentity-inscene-is-responsible-for-4-of-main-thread-cpu-load-on-a-large-server)
+
+**Fixed in game version 1.202.048 (Automaton Beta)**
+
+## Remarks
+
+Fixes for performance issues or bugs fixed by Keen in the regular public game version
+are removed from this page. Check the older versions of this document if you want to
+recall them.

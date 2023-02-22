@@ -10,6 +10,7 @@ using Shared.Tools;
 
 namespace Shared.Patches
 {
+    // FIXME: Remove when 1.202 will become regular SE version
     [HarmonyPatch]
     public static class HkShapePatch
     {
@@ -18,13 +19,13 @@ namespace Shared.Patches
 
         public static void Configure()
         {
-            enabled = Config.Enabled && Config.FixPhysics;
+            enabled = !Common.BetaVersion && Config.Enabled && Config.FixPhysics;
         }
 
         // ReSharper disable once UnusedMember.Local
         [HarmonyTranspiler]
         [HarmonyPatch("Havok.HkShape+HandleEqualityComparer", "Equals")]
-        [EnsureCode("8933ef75")]
+        [EnsureCode("8933ef75|422e42ca")]
         private static IEnumerable<CodeInstruction> HkShapeEqualsTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             if (!enabled)

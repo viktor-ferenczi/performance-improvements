@@ -9,6 +9,7 @@ using VRage.Game.Entity;
 
 namespace Shared.Patches
 {
+    // FIXME: Remove this patch once game version 1.202 is the regular one
     [HarmonyPatch(typeof(MyEntity))]
     public static class MyEntityPatch
     {
@@ -17,13 +18,13 @@ namespace Shared.Patches
 
         public static void Configure()
         {
-            enabled = Config.Enabled && Config.FixEntity;
+            enabled = !Common.BetaVersion && Config.Enabled && Config.FixEntity;
         }
 
         // ReSharper disable once UnusedMember.Local
         [HarmonyTranspiler]
         [HarmonyPatch(nameof(MyEntity.InScene), MethodType.Getter)]
-        [EnsureCode("60f67776")]
+        [EnsureCode("60f67776|097917ea")]
         private static IEnumerable<CodeInstruction> InSceneGetterTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             if (!enabled)

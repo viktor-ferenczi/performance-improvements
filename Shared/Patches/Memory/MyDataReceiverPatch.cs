@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -23,7 +24,7 @@ namespace Shared.Patches
 
         [HarmonyTranspiler]
         [HarmonyPatch(nameof(MyDataReceiver.UpdateBroadcastersInRange))]
-        [EnsureCode("34748389")]
+        [EnsureCode("34748389|17abb432")]
         private static IEnumerable<CodeInstruction> UpdateBroadcastersInRangeTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             if (!Config.Enabled || !Config.FixBroadcast)
@@ -32,31 +33,54 @@ namespace Shared.Patches
             var il = instructions.ToList();
             il.RecordOriginalCode();
 
+            var hash = il.HashInstructions().CombineHashCodes().ToString("x8");
+
             var i = il.FindIndex(ci => ci.opcode == OpCodes.Newobj);
-            Debug.Assert(il[i + 2].opcode == OpCodes.Newobj);
+            Debug.Assert(il[i + 1].opcode == OpCodes.Stloc_1);
+            Debug.Assert(il[i + 2].opcode == OpCodes.Ldarg_0);
+            
+            if (hash == "34748389")
+            {
+                // 1.201.014
+                // Keen is allocating two HashSet instances, total madness...
 
-            var getHashSet = AccessTools.DeclaredMethod(typeof(MyDataReceiverPatch), nameof(GetHashSet));
+                var getHashSet = AccessTools.DeclaredMethod(typeof(MyDataReceiverPatch), nameof(GetHashSetPair));
+                
+                il.RemoveAt(i);
+                il.Insert(i++, new CodeInstruction(OpCodes.Ldc_I4_0));
+                il.Insert(i++, new CodeInstruction(OpCodes.Call, getHashSet));
 
-            il.RemoveAt(i);
-            il.Insert(i++, new CodeInstruction(OpCodes.Ldc_I4_0));
-            il.Insert(i++, new CodeInstruction(OpCodes.Call, getHashSet));
+                i++;
 
-            i++;
+                il.RemoveAt(i);
+                il.Insert(i++, new CodeInstruction(OpCodes.Ldc_I4_1));
+                il.Insert(i, new CodeInstruction(OpCodes.Call, getHashSet));
+            }
+            else if (hash == "17abb432")
+            {
+                // 1.202.048
+                // Keen optimized the code to use only a single HashSet, but they still allocate it all the time...
 
-            il.RemoveAt(i);
-            il.Insert(i++, new CodeInstruction(OpCodes.Ldc_I4_1));
-            il.Insert(i, new CodeInstruction(OpCodes.Call, getHashSet));
+                var getHashSet = AccessTools.DeclaredMethod(typeof(MyDataReceiverPatch), nameof(GetHashSet));
+                
+                il[i] = new CodeInstruction(OpCodes.Call, getHashSet);
+            }
+            else
+            {
+                throw new NotImplementedException(hash);
+            }
 
             il.RecordPatchedCode();
             return il;
         }
 
-        private static readonly ThreadLocal<HashSet<long>[]> Pool = new ThreadLocal<HashSet<long>[]>();
+        private static readonly ThreadLocal<HashSet<long>[]> PairPool = new ThreadLocal<HashSet<long>[]>();
+        private static readonly ThreadLocal<HashSet<long>> Pool = new ThreadLocal<HashSet<long>>();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static HashSet<long> GetHashSet(int i)
+        public static HashSet<long> GetHashSetPair(int i)
         {
-            var hashSets = Pool.Value;
+            var hashSets = PairPool.Value;
             if (hashSets == null)
             {
                 hashSets = new[]
@@ -64,10 +88,24 @@ namespace Shared.Patches
                     new HashSet<long>(),
                     new HashSet<long>()
                 };
-                Pool.Value = hashSets;
+                PairPool.Value = hashSets;
             }
 
             var hashSet = hashSets[i];
+            hashSet.Clear();
+            return hashSet;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static HashSet<long> GetHashSet()
+        {
+            var hashSet = Pool.Value;
+            if (hashSet == null)
+            {
+                hashSet = new HashSet<long>();
+                Pool.Value = hashSet;
+            }
+
             hashSet.Clear();
             return hashSet;
         }

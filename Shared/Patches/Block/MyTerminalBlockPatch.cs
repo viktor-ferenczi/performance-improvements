@@ -1,5 +1,4 @@
-// Possibly buggy
-#if BUGGY
+#if UNTESTED
 
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
@@ -71,7 +70,7 @@ namespace Shared.Patches
             }
 
             __state = key;
-            return false;
+            return true;
         }
 
         [HarmonyPostfix]
