@@ -23,7 +23,7 @@ namespace Shared.Patches
             }
 #endif
 
-            if (Common.Plugin.Config.DetectCodeChanges)
+            if (Common.Plugin.Config.DetectCodeChanges && Environment.GetEnvironmentVariable("SE_PLUGIN_DISABLE_METHOD_VERIFICATION") == null)
             {
                 log.Debug("Scanning for conflicting code changes");
                 try
