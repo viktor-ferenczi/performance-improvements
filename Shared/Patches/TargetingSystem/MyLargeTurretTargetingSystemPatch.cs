@@ -49,7 +49,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyTranspiler]
         [HarmonyPatch("SortTargetRoots")]
-        [EnsureCode("edfb7619|bf397282")]
+        [EnsureCode("bf397282")]
         private static IEnumerable<CodeInstruction> SortTargetRootsTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             if (!enabled)

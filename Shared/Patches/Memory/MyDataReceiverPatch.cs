@@ -24,7 +24,7 @@ namespace Shared.Patches
 
         [HarmonyTranspiler]
         [HarmonyPatch(nameof(MyDataReceiver.UpdateBroadcastersInRange))]
-        [EnsureCode("34748389|17abb432")]
+        [EnsureCode("17abb432")]
         private static IEnumerable<CodeInstruction> UpdateBroadcastersInRangeTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             if (!Config.Enabled || !Config.FixBroadcast)
@@ -33,42 +33,14 @@ namespace Shared.Patches
             var il = instructions.ToList();
             il.RecordOriginalCode();
 
-            var hash = il.HashInstructions().CombineHashCodes().ToString("x8");
-
             var i = il.FindIndex(ci => ci.opcode == OpCodes.Newobj);
             Debug.Assert(il[i + 1].opcode == OpCodes.Stloc_1);
             Debug.Assert(il[i + 2].opcode == OpCodes.Ldarg_0);
             
-            if (hash == "34748389")
-            {
-                // 1.201.014
-                // Keen is allocating two HashSet instances, total madness...
-
-                var getHashSet = AccessTools.DeclaredMethod(typeof(MyDataReceiverPatch), nameof(GetHashSetPair));
-                
-                il.RemoveAt(i);
-                il.Insert(i++, new CodeInstruction(OpCodes.Ldc_I4_0));
-                il.Insert(i++, new CodeInstruction(OpCodes.Call, getHashSet));
-
-                i++;
-
-                il.RemoveAt(i);
-                il.Insert(i++, new CodeInstruction(OpCodes.Ldc_I4_1));
-                il.Insert(i, new CodeInstruction(OpCodes.Call, getHashSet));
-            }
-            else if (hash == "17abb432")
-            {
-                // 1.202.048
-                // Keen optimized the code to use only a single HashSet, but they still allocate it all the time...
-
-                var getHashSet = AccessTools.DeclaredMethod(typeof(MyDataReceiverPatch), nameof(GetHashSet));
-                
-                il[i] = new CodeInstruction(OpCodes.Call, getHashSet);
-            }
-            else
-            {
-                throw new NotImplementedException(hash);
-            }
+            // 1.202.048
+            // Keen optimized the code to use only a single HashSet, but they still allocate it all the time... Pooling is still needed.
+            var getHashSet = AccessTools.DeclaredMethod(typeof(MyDataReceiverPatch), nameof(GetHashSet));
+            il[i] = new CodeInstruction(OpCodes.Call, getHashSet);
 
             il.RecordPatchedCode();
             return il;
