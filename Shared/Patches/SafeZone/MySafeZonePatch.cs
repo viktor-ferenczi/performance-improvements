@@ -91,15 +91,17 @@ namespace Shared.Patches
         }
 
         #endregion
-
+        
         #region "RemoveEntityPhantom fix, see: https://support.keenswh.com/spaceengineers/pc/topic/24149-safezone-m_removeentityphantomtasklist-hashset-corruption-due-to-race-condition"
-
+// Broken in the Automaton release
+#if false 
+        
         [HarmonyTranspiler]
         [HarmonyPatch("RemoveEntityPhantom")]
         [EnsureCode("55db36e5")]
         private static IEnumerable<CodeInstruction> RemoveEntityPhantomTranspiler(IEnumerable<CodeInstruction> instructions)
         {
-            if (!enabled || Common.BetaVersion)
+            if (!enabled)
                 return instructions;
 
             var il = instructions.ToList();
@@ -123,7 +125,7 @@ namespace Shared.Patches
         [EnsureCode("b39ccae8")]
         private static IEnumerable<CodeInstruction> RemoveEntityPhantomLambdaTranspiler(IEnumerable<CodeInstruction> instructions)
         {
-            if (!enabled || Common.BetaVersion)
+            if (!enabled)
                 return instructions;
 
             var il = instructions.ToList();
@@ -155,6 +157,7 @@ namespace Shared.Patches
                 return map.Remove(item);
         }
 
+#endif
         #endregion
 
         #region "IsOutside fix"

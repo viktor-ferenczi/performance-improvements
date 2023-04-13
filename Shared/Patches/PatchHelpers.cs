@@ -66,14 +66,10 @@ namespace Shared.Patches
             MyScriptCompilerPatch.Configure();
             MySafeZonePatch.Configure();
             MySessionComponentSafeZonesPatch.Configure();
-            MyLargeTurretTargetingSystemPatch.Configure();
             MyPhysicsBodyPatch.Configure();
-            HkShapePatch.Configure();
-            MyEntityPatch.Configure();
             MyCharacterPatch.Configure();
             MyStorageExtensionsPatch.Configure();
             MyWindTurbinePatch.Configure();
-            MyDefinitionIdToStringPatch.Configure();
             // MyCubeBlockPatch.Configure();
             // MyTerminalBlockPatch.Configure();
             // MyGridTerminalSystemPatch.Configure();
@@ -87,9 +83,7 @@ namespace Shared.Patches
         {
             MySafeZonePatch.Update();
             MySessionComponentSafeZonesPatch.Update();
-            MyLargeTurretTargetingSystemPatch.Update();
             MyWindTurbinePatch.Update();
-            MyDefinitionIdToStringPatch.Update();
             // MyCubeBlockPatch.Update();
             // MyTerminalBlockPatch.Update();
             // MyGridTerminalSystemPatch.Update();

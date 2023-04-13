@@ -23,7 +23,6 @@ namespace TorchPlugin
         private bool fixWindTurbine = true;
         private bool fixVoxel = true;
         private bool fixPhysics = true;
-        private bool fixEntity = true;
         private bool fixCharacter = true;
         private bool fixMemory = true;
         private bool fixAccess = false;
@@ -110,7 +109,7 @@ namespace TorchPlugin
             set => SetValue(ref fixSafeZone, value);
         }
 
-        [Display(Order = 12, GroupName = "Fixes", Name = "Fix allocations in targeting (needs restart)", Description = "Reduces memory allocations in the turret targeting system (needs restart)")]
+        [Display(Order = 12, Visible = false, GroupName = "Fixes", Name = "Fix allocations in targeting (needs restart)", Description = "Reduces memory allocations in the turret targeting system (needs restart)")]
         public bool FixTargeting
         {
             get => fixTargeting;
@@ -131,18 +130,11 @@ namespace TorchPlugin
             set => SetValue(ref fixVoxel, value);
         }
 
-        [Display(Order = 15, GroupName = "Fixes", Name = "Fix physics performance (needs restart)", Description = "Optimizes the MyPhysicsBody.RigidBody getter and the HkShape comparer (needs restart)")]
+        [Display(Order = 15, GroupName = "Fixes", Name = "Fix physics performance (needs restart)", Description = "Optimizes the 1.10.6 and the HkShape comparer (needs restart)")]
         public bool FixPhysics
         {
             get => fixPhysics;
             set => SetValue(ref fixPhysics, value);
-        }
-
-        [Display(Order = 16, GroupName = "Fixes", Name = "Fix entity performance (needs restart)", Description = "Optimizes MyEntity.InScene getter (needs restart)")]
-        public bool FixEntity
-        {
-            get => fixEntity;
-            set => SetValue(ref fixEntity, value);
         }
 
         [Display(Order = 17, GroupName = "Fixes", Name = "Fix character performance (needs restart)", Description = "Disables character footprint logic on server side (needs restart)")]
@@ -152,7 +144,7 @@ namespace TorchPlugin
             set => SetValue(ref fixCharacter, value);
         }
 
-        [Display(Order = 18, GroupName = "Fixes", Name = "Fix frequent memory allocations", Description = "Optimizes frequent memory allocations")]
+        [Display(Order = 18, Visible = false, GroupName = "Fixes", Name = "Fix frequent memory allocations", Description = "Optimizes frequent memory allocations")]
         public bool FixMemory
         {
             get => fixMemory;

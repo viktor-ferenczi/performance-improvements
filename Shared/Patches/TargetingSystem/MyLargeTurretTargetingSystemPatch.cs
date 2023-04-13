@@ -1,3 +1,4 @@
+#if false
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -25,7 +26,7 @@ namespace Shared.Patches
         public static void Configure()
         {
             // FIXME: Disabled for the beta, but the memory alloc issues are still there. We need to update the fix instead to fix their modified code.
-            enabled = !Common.BetaVersion && Config.Enabled && Config.FixTargeting;
+            enabled = Config.Enabled && Config.FixTargeting;
         }
 
         #region Reusing arrays in SortTargetRoots
@@ -313,3 +314,4 @@ namespace Shared.Patches
 #endif
     }
 }
+#endif
