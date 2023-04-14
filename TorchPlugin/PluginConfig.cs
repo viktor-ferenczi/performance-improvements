@@ -130,7 +130,7 @@ namespace TorchPlugin
             set => SetValue(ref fixVoxel, value);
         }
 
-        [Display(Order = 15, GroupName = "Fixes", Name = "Fix physics performance (needs restart)", Description = "Optimizes the 1.10.6 and the HkShape comparer (needs restart)")]
+        [Display(Order = 15, GroupName = "Fixes", Name = "Fix physics performance (needs restart)", Description = "Optimizes the MyPhysicsBody.RigidBody getter (needs restart)")]
         public bool FixPhysics
         {
             get => fixPhysics;

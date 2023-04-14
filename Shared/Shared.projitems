@@ -72,10 +72,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\RigidBodyGetter.patched.il" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\MyScriptCompilerPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\MyLargeTurretTargetingSystemPatch.cs" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\RemoveEntityPhantom.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\RemoveEntityPhantom.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\RemoveEntityPhantomLambda.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\SafeZone\RemoveEntityPhantomLambda.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\Compile.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\Compile.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\TargetingSystem\SortTargetRoots.original.il" />

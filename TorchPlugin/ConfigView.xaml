@@ -141,7 +141,7 @@
         <TextBlock Grid.Row="13" Grid.Column="1" Text="Reduces memory allocations in IMyStorageExtensions.GetMaterialAt" VerticalAlignment="Center" Margin="5"/>
 
         <CheckBox Grid.Row="14" Grid.Column="0" Name="FixPhysics" IsChecked="{Binding FixPhysics}" Margin="5"/>
-        <TextBlock Grid.Row="14" Grid.Column="1" Text="Optimizes the 1.10.6 and the HkShape comparer (needs restart)" VerticalAlignment="Center" Margin="5"/>
+        <TextBlock Grid.Row="14" Grid.Column="1" Text="Optimizes the MyPhysicsBody.RigidBody getter (needs restart)" VerticalAlignment="Center" Margin="5"/>
 
         <CheckBox Grid.Row="16" Grid.Column="0" Name="FixCharacter" IsChecked="{Binding FixCharacter}" Margin="5"/>
         <TextBlock Grid.Row="16" Grid.Column="1" Text="Disables character footprint logic on server side (needs restart)" VerticalAlignment="Center" Margin="5"/>
