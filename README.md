@@ -229,19 +229,19 @@ TBD: Bug ticket
 
 ### SafeZone m_RemoveEntityPhantomTaskList HashSet corruption due to race condition
 
-Fixed [race condition bug](https://support.keenswh.com/spaceengineers/pc/topic/24149-safezone-m_removeentityphantomtasklist-hashset-corruption-due-to-race-condition) by using a `MyConcurrentHashSet`.
+Fixed the [HashSet corruption](https://support.keenswh.com/spaceengineers/pc/topic/24149-safezone-m_removeentityphantomtasklist-hashset-corruption-due-to-race-condition) by using a `MyConcurrentHashSet`.
 
 ### Redundant evaluation in MyEntity.InScene getter
 
-Fixed [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/23462-myentity-inscene-is-responsible-for-4-of-main-thread-cpu-load-on-a-large-server) by implementing the suggested fix.
+Fixed the [slow InScene getter](https://support.keenswh.com/spaceengineers/pc/topic/23462-myentity-inscene-is-responsible-for-4-of-main-thread-cpu-load-on-a-large-server) by implementing the suggested fix.
 
 ### Reducing frequent memory allocations
 
-Mostly fixed [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24210-performance-pre-calculate-or-cache-mydefinitionid-tostring-results) by caching the formatted strings. Performance needs to be re-evaluated, because their code still allocates some memory.
+Mostly fixed the [excess memory allocation](https://support.keenswh.com/spaceengineers/pc/topic/24210-performance-pre-calculate-or-cache-mydefinitionid-tostring-results) by caching the formatted strings. Performance needs to be re-evaluated, because their code still allocates some memory.
 
 ### Havok performance fix
 
-Fixed [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24211-performance-hkshape-comparison-with-boxing-allocation) by implementing the suggested fix.
+Fixed the [slow implementation](https://support.keenswh.com/spaceengineers/pc/topic/24211-performance-hkshape-comparison-with-boxing-allocation) by implementing the suggested fix.
 
 ## Remarks
 
