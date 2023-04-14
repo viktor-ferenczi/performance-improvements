@@ -26,9 +26,9 @@ namespace TorchPlugin
         private bool fixCharacter = true;
         private bool fixMemory = true;
         private bool fixAccess = false;
-        private bool fixBroadcast = false;
-        private bool fixBlockLimit = false;
-        private bool fixSafeAction = false;
+        private bool fixBroadcast = true;
+        private bool fixBlockLimit = true;
+        private bool fixSafeAction = true;
         private bool fixTerminal = false;
         //BOOL_OPTION private bool optionName = false;
 
