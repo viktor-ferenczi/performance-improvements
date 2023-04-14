@@ -36,7 +36,7 @@ namespace Shared.Patches
         private static IPluginConfig Config => Common.Config;
         private static IPluginLogger Log => Common.Logger;
 
-        public static void Init()
+        public static void Configure()
         {
             Directory.CreateDirectory(InGameScriptCacheDir);
             Directory.CreateDirectory(ModScriptCacheDir);

@@ -175,8 +175,6 @@ reflected in safe zone behavior only up to 2 seconds later (1 second on average)
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24146-performance-mysafezone-issafe-is-called-frequently-but-not-cached)
 
-Also fixes a related [race condition bug](https://support.keenswh.com/spaceengineers/pc/topic/24149-safezone-m_removeentityphantomtasklist-hashset-corruption-due-to-race-condition)
-
 ### Reducing memory allocations in the turret targeting system
 
 There are large memory allocations in some frequently called routines, 
@@ -193,28 +191,13 @@ it can safely be cached for a few seconds.
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24209-performance-cache-the-result-of-mywindturbine-isinatmosphere)
 
-### Reducing frequent memory allocations
-
-`MyDefinitionId.ToString` is called frequently, it also allocates memory. 
-There are only 1000-1500 distinct definition IDs to format (depending on mods),
-so these are cacheable without expiration.
-
-StringBuilder pooling was contributed by: zznty
-
-Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24210-performance-pre-calculate-or-cache-mydefinitionid-tostring-results)
-
-### Havok performance fix
-
-Removed boxing allocation from the Havok.HkShape.HandleEqualityComparer.Equals method.
-Also simplified the logic by not checking y for null, because it does not happen.
-
-Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24211-performance-hkshape-comparison-with-boxing-allocation)
-
 ### Reduced memory allocation in broadcaster scanning
 
 Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart).
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24388-performance-excess-memory-allocation-in-mydatareceiver-updatebroadcastersinrange)
+
+**Improved code in game version 1.202.048 (Automaton Beta), but no pooling of HashSet instances. Not enough.**
 
 ### Less frequent sync of block counts for limit checking
 
@@ -242,7 +225,26 @@ Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasP
 
 TBD: Bug ticket
 
-## Bugs fixed by Keen
+## Bugs fixed by Keen in 1.202.066 Automaton
 
-Fixes for these bugs and performance issues have been removed from the plugin:
-* [Crash: NullReferenceException in OnEndShoot on client side on grinding an active (shooting) turret](https://support.keenswh.com/spaceengineers/pc/topic/24387-crash-nullreferenceexception-in-onendshoot-on-client-side-on-grinding-an-active-shooting-turret)
+### SafeZone m_RemoveEntityPhantomTaskList HashSet corruption due to race condition
+
+Fixed the [HashSet corruption](https://support.keenswh.com/spaceengineers/pc/topic/24149-safezone-m_removeentityphantomtasklist-hashset-corruption-due-to-race-condition) by using a `MyConcurrentHashSet`.
+
+### Redundant evaluation in MyEntity.InScene getter
+
+Fixed the [slow InScene getter](https://support.keenswh.com/spaceengineers/pc/topic/23462-myentity-inscene-is-responsible-for-4-of-main-thread-cpu-load-on-a-large-server) by implementing the suggested fix.
+
+### Reducing frequent memory allocations
+
+Mostly fixed the [excess memory allocation](https://support.keenswh.com/spaceengineers/pc/topic/24210-performance-pre-calculate-or-cache-mydefinitionid-tostring-results) by caching the formatted strings. Performance needs to be re-evaluated, because their code still allocates some memory.
+
+### Havok performance fix
+
+Fixed the [slow implementation](https://support.keenswh.com/spaceengineers/pc/topic/24211-performance-hkshape-comparison-with-boxing-allocation) by implementing the suggested fix.
+
+## Remarks
+
+Fixes for performance issues or bugs fixed by Keen in the regular public game version
+are removed from this page. Check the older versions of this document if you want to
+recall them.

@@ -27,11 +27,10 @@ namespace TorchPlugin
             Respond($"cache_scripts: {Format(config.CacheScripts)}");
             Respond($"api_stats: {Format(config.DisableModApiStatistics)}");
             Respond($"safe_zone: {Format(config.FixSafeZone)}");
-            Respond($"targeting: {Format(config.FixTargeting)}");
+            // Respond($"targeting: {Format(config.FixTargeting)}");
             Respond($"wind_turbine: {Format(config.FixWindTurbine)}");
             Respond($"voxel: {Format(config.FixVoxel)}");
             Respond($"physics: {Format(config.FixPhysics)}");
-            Respond($"entity: {Format(config.FixEntity)}");
             Respond($"character: {Format(config.FixCharacter)}");
             Respond($"memory: {Format(config.FixMemory)}");
             // Respond($"access: {Format(config.FixAccess)}");
@@ -165,9 +164,11 @@ namespace TorchPlugin
                     Config.FixSafeZone = parsedFlag;
                     break;
 
+#if false                
                 case "targeting":
                     Config.FixTargeting = parsedFlag;
                     break;
+#endif
 
                 case "wind_turbine":
                     Config.FixWindTurbine = parsedFlag;
@@ -179,10 +180,6 @@ namespace TorchPlugin
 
                 case "physics":
                     Config.FixPhysics = parsedFlag;
-                    break;
-
-                case "entity":
-                    Config.FixEntity = parsedFlag;
                     break;
 
                 case "character":

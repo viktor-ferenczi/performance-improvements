@@ -44,7 +44,6 @@ namespace Shared.Config
         private bool fixWindTurbine = true;
         private bool fixVoxel = true;
         private bool fixPhysics = true;
-        private bool fixEntity = true;
         private bool fixCharacter = true;
         private bool fixMemory = true;
         private bool fixAccess = true;
@@ -142,12 +141,6 @@ namespace Shared.Config
         {
             get => fixPhysics;
             set => SetValue(ref fixPhysics, value);
-        }
-
-        public bool FixEntity
-        {
-            get => fixEntity;
-            set => SetValue(ref fixEntity, value);
         }
 
         public bool FixCharacter

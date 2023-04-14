@@ -131,8 +131,8 @@
         <CheckBox Grid.Row="10" Grid.Column="0" Name="FixSafeZone" IsChecked="{Binding FixSafeZone}" Margin="5"/>
         <TextBlock Grid.Row="10" Grid.Column="1" Text="Caches frequent recalculations in safe zones" VerticalAlignment="Center" Margin="5"/>
 
-        <CheckBox Grid.Row="11" Grid.Column="0" Name="FixTargeting" IsChecked="{Binding FixTargeting}" Margin="5"/>
-        <TextBlock Grid.Row="11" Grid.Column="1" Text="Reduces memory allocations in the turret targeting system (needs restart)" VerticalAlignment="Center" Margin="5"/>
+        <!-- <CheckBox Grid.Row="11" Grid.Column="0" Name="FixTargeting" IsChecked="{Binding FixTargeting}" Margin="5"/> -->
+        <!-- <TextBlock Grid.Row="11" Grid.Column="1" Text="Reduces memory allocations in the turret targeting system (needs restart)" VerticalAlignment="Center" Margin="5"/> -->
 
         <CheckBox Grid.Row="12" Grid.Column="0" Name="FixWindTurbine" IsChecked="{Binding FixWindTurbine}" Margin="5"/>
         <TextBlock Grid.Row="12" Grid.Column="1" Text="Caches the result of MyWindTurbine.IsInAtmosphere" VerticalAlignment="Center" Margin="5"/>
@@ -141,16 +141,13 @@
         <TextBlock Grid.Row="13" Grid.Column="1" Text="Reduces memory allocations in IMyStorageExtensions.GetMaterialAt" VerticalAlignment="Center" Margin="5"/>
 
         <CheckBox Grid.Row="14" Grid.Column="0" Name="FixPhysics" IsChecked="{Binding FixPhysics}" Margin="5"/>
-        <TextBlock Grid.Row="14" Grid.Column="1" Text="Optimizes the MyPhysicsBody.RigidBody getter and the HkShape comparer (needs restart)" VerticalAlignment="Center" Margin="5"/>
-
-        <CheckBox Grid.Row="15" Grid.Column="0" Name="FixEntity" IsChecked="{Binding FixEntity}" Margin="5"/>
-        <TextBlock Grid.Row="15" Grid.Column="1" Text="Optimizes MyEntity.InScene getter (needs restart)" VerticalAlignment="Center" Margin="5"/>
+        <TextBlock Grid.Row="14" Grid.Column="1" Text="Optimizes the MyPhysicsBody.RigidBody getter (needs restart)" VerticalAlignment="Center" Margin="5"/>
 
         <CheckBox Grid.Row="16" Grid.Column="0" Name="FixCharacter" IsChecked="{Binding FixCharacter}" Margin="5"/>
         <TextBlock Grid.Row="16" Grid.Column="1" Text="Disables character footprint logic on server side (needs restart)" VerticalAlignment="Center" Margin="5"/>
 
-        <CheckBox Grid.Row="17" Grid.Column="0" Name="FixMemory" IsChecked="{Binding FixMemory}" Margin="5"/>
-        <TextBlock Grid.Row="17" Grid.Column="1" Text="Optimizes frequent memory allocations" VerticalAlignment="Center" Margin="5"/>
+        <!-- <CheckBox Grid.Row="17" Grid.Column="0" Name="FixMemory" IsChecked="{Binding FixMemory}" Margin="5"/> -->
+        <!-- <TextBlock Grid.Row="17" Grid.Column="1" Text="Optimizes frequent memory allocations" VerticalAlignment="Center" Margin="5"/> -->
 
         <!-- <CheckBox Grid.Row="18" Grid.Column="0" Name="FixAccess" IsChecked="{Binding FixAccess}" Margin="5"/> -->
         <!-- <TextBlock Grid.Row="18" Grid.Column="1" Text="Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason" VerticalAlignment="Center" Margin="5"/> -->

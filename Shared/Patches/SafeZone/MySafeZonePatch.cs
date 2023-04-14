@@ -91,72 +91,7 @@ namespace Shared.Patches
         }
 
         #endregion
-
-        #region "RemoveEntityPhantom fix, see: https://support.keenswh.com/spaceengineers/pc/topic/24149-safezone-m_removeentityphantomtasklist-hashset-corruption-due-to-race-condition"
-
-        [HarmonyTranspiler]
-        [HarmonyPatch("RemoveEntityPhantom")]
-        [EnsureCode("55db36e5")]
-        private static IEnumerable<CodeInstruction> RemoveEntityPhantomTranspiler(IEnumerable<CodeInstruction> instructions)
-        {
-            if (!enabled)
-                return instructions;
-
-            var il = instructions.ToList();
-            il.RecordOriginalCode();
-
-            var i = il.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo mi && mi.Name.Contains("Contains"));
-            il[i] = new CodeInstruction(OpCodes.Call, AccessTools.DeclaredMethod(typeof(MySafeZonePatch), nameof(PhantomTaskListContains)));
-
-            // Lock around the Add call
-            var j = il.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo mi && mi.Name.Contains("Add"));
-            il[j] = new CodeInstruction(OpCodes.Call, AccessTools.DeclaredMethod(typeof(MySafeZonePatch), nameof(PhantomTaskListAdd)));
-
-            il.RecordPatchedCode();
-            return il;
-        }
-
-        // Class and method name copied from RemoveEntityPhantom IL code, the class name may change on game updates:
-        // IL_0106: ldftn      System.Void Sandbox.Game.Entities.<>c__DisplayClass105_0::<RemoveEntityPhantom>b__0()
-        [HarmonyTranspiler]
-        [HarmonyPatch("Sandbox.Game.Entities.MySafeZone+<>c__DisplayClass105_0", "<RemoveEntityPhantom>b__0")] 
-        [EnsureCode("b39ccae8")]
-        private static IEnumerable<CodeInstruction> RemoveEntityPhantomLambdaTranspiler(IEnumerable<CodeInstruction> instructions)
-        {
-            if (!enabled)
-                return instructions;
-
-            var il = instructions.ToList();
-            il.RecordOriginalCode();
-
-            // Lock around the Remove call
-            var i = il.FindIndex(ci => ci.opcode == OpCodes.Callvirt && ci.operand is MethodInfo mi && mi.Name.Contains("Remove"));
-            il[i] = new CodeInstruction(OpCodes.Call, AccessTools.DeclaredMethod(typeof(MySafeZonePatch), nameof(PhantomTaskListRemove)));
-
-            il.RecordPatchedCode();
-            return il;
-        }
-
-        private static bool PhantomTaskListContains(HashSet<IMyEntity> map, IMyEntity item)
-        {
-            lock(map)
-                return map.Contains(item);
-        }
-
-        private static bool PhantomTaskListAdd(HashSet<IMyEntity> map, IMyEntity item)
-        {
-            lock (map)
-                return map.Add(item);
-        }
-
-        private static bool PhantomTaskListRemove(HashSet<IMyEntity> map, IMyEntity item)
-        {
-            lock (map)
-                return map.Remove(item);
-        }
-
-        #endregion
-
+        
         #region "IsOutside fix"
 
         [HarmonyPrefix]

@@ -63,16 +63,13 @@ namespace Shared.Patches
         // Called after loading configuration, but before patching
         public static void Configure()
         {
+            MyScriptCompilerPatch.Configure();
             MySafeZonePatch.Configure();
             MySessionComponentSafeZonesPatch.Configure();
-            MyLargeTurretTargetingSystemPatch.Configure();
             MyPhysicsBodyPatch.Configure();
-            HkShapePatch.Configure();
-            MyEntityPatch.Configure();
             MyCharacterPatch.Configure();
             MyStorageExtensionsPatch.Configure();
             MyWindTurbinePatch.Configure();
-            MyDefinitionIdToStringPatch.Configure();
             // MyCubeBlockPatch.Configure();
             // MyTerminalBlockPatch.Configure();
             // MyGridTerminalSystemPatch.Configure();
@@ -81,20 +78,12 @@ namespace Shared.Patches
             // PhysicsFixes.SetClusterSize(3000f);
         }
 
-        // Called after patching is done
-        public static void PatchInits()
-        {
-            MyScriptCompilerPatch.Init();
-        }
-
         // Called on every update
         public static void PatchUpdates()
         {
             MySafeZonePatch.Update();
             MySessionComponentSafeZonesPatch.Update();
-            MyLargeTurretTargetingSystemPatch.Update();
             MyWindTurbinePatch.Update();
-            MyDefinitionIdToStringPatch.Update();
             // MyCubeBlockPatch.Update();
             // MyTerminalBlockPatch.Update();
             // MyGridTerminalSystemPatch.Update();
