@@ -25,7 +25,9 @@ namespace Shared.Patches
 
         public static void Configure()
         {
-            // FIXME: Disabled for the beta, but the memory alloc issues are still there. We need to update the fix instead to fix their modified code.
+            // FIXME: Disabled for 1.202.066 Automaton release,
+            // but the memory alloc issues are still there.
+            // We need to update the fix instead to fix their modified code.
             enabled = Config.Enabled && Config.FixTargeting;
         }
 
