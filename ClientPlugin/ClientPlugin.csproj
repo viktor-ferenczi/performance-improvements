@@ -518,6 +518,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="GUI\PluginConfigDialog.cs" />
+        <Compile Include="Patches\MyDefinitionIdToStringPatch.cs" />
         <Compile Include="Plugin.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>

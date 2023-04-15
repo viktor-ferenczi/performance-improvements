@@ -175,6 +175,17 @@ reflected in safe zone behavior only up to 2 seconds later (1 second on average)
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24146-performance-mysafezone-issafe-is-called-frequently-but-not-cached)
 
+### Reducing frequent memory allocations
+
+Game update 1.202.066 (Automaton) attempted to fix [the slowness](https://support.keenswh.com/spaceengineers/pc/topic/24210-performance-pre-calculate-or-cache-mydefinitionid-tostring-results),
+but introduced a [deadlock](https://support.keenswh.com/spaceengineers/pc/topic/27997-servers-deadlocked-on-load) as a result.
+
+So the fix to `MyDefinitionId.ToString` has been put back into the client plugin.
+
+On Torch and Dedicated Server please use the DefIdToStringFix plugin:
+- [Torch](https://torchapi.com/plugins/view/e368127c-0676-4ff0-9e8c-f32207dcb12a)
+- [Dedicated Server](https://github.com/viktor-ferenczi/defid-tostring-fix/releases)
+
 ### Reducing memory allocations in the turret targeting system
 
 There are large memory allocations in some frequently called routines, 
@@ -234,10 +245,6 @@ Fixed the [HashSet corruption](https://support.keenswh.com/spaceengineers/pc/top
 ### Redundant evaluation in MyEntity.InScene getter
 
 Fixed the [slow InScene getter](https://support.keenswh.com/spaceengineers/pc/topic/23462-myentity-inscene-is-responsible-for-4-of-main-thread-cpu-load-on-a-large-server) by implementing the suggested fix.
-
-### Reducing frequent memory allocations
-
-Mostly fixed the [excess memory allocation](https://support.keenswh.com/spaceengineers/pc/topic/24210-performance-pre-calculate-or-cache-mydefinitionid-tostring-results) by caching the formatted strings. Performance needs to be re-evaluated, because their code still allocates some memory.
 
 ### Havok performance fix
 
