@@ -17,7 +17,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySessionComponentSafeZonesPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\TerminalSystem\MyGridTerminalSystemPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Cache.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Tools\CacheForever.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\CacheStat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\MySessionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\IPluginConfig.cs" />
@@ -46,6 +45,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\ObjectPools.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\RwLockHashSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\TwoLayerCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\UintCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\CodeChange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\EnsureCode.cs" />
