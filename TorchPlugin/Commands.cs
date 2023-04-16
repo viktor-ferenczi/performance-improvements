@@ -15,6 +15,49 @@ namespace TorchPlugin
             Context?.Respond(message);
         }
 
+        private void RespondWithHelp()
+        {
+            Respond("Performance Improvements commands:");
+            Respond("  !pfi help");
+            Respond("  !pfi info");
+            Respond("    Prints the current configuration settings.");
+            Respond("  !pfi enable");
+            Respond("    Enables the plugin");
+            Respond("  !pfi disable");
+            Respond("    Disables the plugin");
+            Respond("  !pfi fix <name> <value>");
+            Respond("    Enables or disables a specific fix");
+            RespondWithListOfFixes();
+            Respond("Valid bool values:");
+            Respond("  False: 0 off no n false f");
+            Respond("  True: 1 on yes y false f");
+        }
+
+        private void RespondWithListOfFixes()
+        {
+            Respond("Supported fixes:");
+            Respond("  grid_merge: Fix grid merge");
+            Respond("  grid_paste: Fix grid paste");
+            Respond("  gc: Fix garbage collection");
+            Respond("  grid_groups: Fix grid groups");
+            Respond("  cache_mods: Cache compiled mods");
+            Respond("  cache_scripts: Cache compiled scripts");
+            Respond("  api_stats: Disable Mod API statistics");
+            Respond("  safe_zone: Fix safe zone lag");
+            // Respond("  targeting: Fix allocations in targeting (needs restart)");
+            Respond("  wind_turbine: Fix wind turbine performance");
+            Respond("  voxel: Fix voxel performance");
+            Respond("  physics: Fix physics performance (needs restart)");
+            Respond("  character: Fix character performance (needs restart)");
+            Respond("  memory: Fix frequent memory allocations");
+            // Respond("  access: Less frequent update of block access rights");
+            Respond("  broadcast: Reduced memory allocation in broadcaster scanning");
+            Respond("  block_limit: Less frequent sync of block counts for limit");
+            Respond("  safe_action: Cache actions allowed by the safe zone");
+            // Respond("  terminal: Less frequent update of PB access to blocks");
+            //BOOL_OPTION Respond("  option_name: Option label");
+        }
+
         private void RespondWithInfo()
         {
             var config = Plugin.Instance.Config;
@@ -42,9 +85,11 @@ namespace TorchPlugin
         }
 
         // Custom formatters
+
         private static string Format(bool value) => value ? "Yes" : "No";
 
         // Custom parsers
+
         private static bool TryParseBool(string text, out bool result)
         {
             switch (text.ToLower())
@@ -73,24 +118,12 @@ namespace TorchPlugin
         }
 
         // ReSharper disable once UnusedMember.Global
+
         [Command("pfi help", "Performance Improvements: Help")]
         [Permission(MyPromoteLevel.None)]
         public void Help()
         {
-            Respond("Performance Improvements commands:");
-            Respond("  !pfi help");
-            Respond("  !pfi info");
-            Respond("    Prints the current configuration settings.");
-            Respond("  !pfi enable");
-            Respond("    Enables the plugin");
-            Respond("  !pfi disable");
-            Respond("    Disables the plugin");
-            Respond("  !pfi fix <name> <value>");
-            Respond("    Enables or disables a specific fix");
-            RespondWithListOfFixes();
-            Respond("Valid bool values:");
-            Respond("  False: 0 off no n false f");
-            Respond("  True: 1 on yes y false f");
+            RespondWithHelp();
         }
 
         // ReSharper disable once UnusedMember.Global
@@ -120,7 +153,7 @@ namespace TorchPlugin
         }
 
         // ReSharper disable once UnusedMember.Global
-        [Command("pfi fix", "Performance Improvements: Enables or disables a fix")]
+        [Command("pfi fix", "Performance Improvements: Enables or disables a specific fix")]
         [Permission(MyPromoteLevel.Admin)]
         public void Fix(string name, string flag)
         {
@@ -143,7 +176,7 @@ namespace TorchPlugin
                 case "gc":
                     Config.FixGarbageCollection = parsedFlag;
                     break;
-                
+
                 case "grid_groups":
                     Config.FixGridGroups = parsedFlag;
                     break;
@@ -221,31 +254,6 @@ namespace TorchPlugin
             }
 
             RespondWithInfo();
-        }
-
-        private void RespondWithListOfFixes()
-        {
-            Respond("Supported fixes:");
-            Respond("  grid_merge: Fix grid merge");
-            Respond("  grid_paste: Fix grid paste");
-            Respond("  gc: Fix garbage collection");
-            Respond("  grid_groups: Fix grid groups");
-            Respond("  cache_mods: Cache compiled mods");
-            Respond("  cache_scripts: Cache compiled scripts");
-            Respond("  api_stats: Disable Mod API statistics");
-            Respond("  safe_zone: Fix safe zone lag");
-            // Respond("  targeting: Fix allocations in targeting (needs restart)");
-            Respond("  wind_turbine: Fix wind turbine performance");
-            Respond("  voxel: Fix voxel performance");
-            Respond("  physics: Fix physics performance (needs restart)");
-            Respond("  character: Fix character performance (needs restart)");
-            Respond("  memory: Fix frequent memory allocations");
-            // Respond("  access: Less frequent update of block access rights");
-            Respond("  broadcast: Reduced memory allocation in broadcaster scanning");
-            Respond("  block_limit: Less frequent sync of block counts for limit");
-            Respond("  safe_action: Cache actions allowed by the safe zone");
-            // Respond("  terminal: Less frequent update of PB access to blocks");
-            //BOOL_OPTION Respond("  option_name: Option label");
         }
     }
 }
