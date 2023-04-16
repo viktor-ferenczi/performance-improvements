@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace TorchPlugin.Shared.Tools
+namespace Shared.Tools
 {
     // Not thread safe, since we don't care about super exact results
     public class CacheStat
@@ -11,11 +12,23 @@ namespace TorchPlugin.Shared.Tools
         private int Size { get; set; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void Reset()
+        public void Clear()
+        {
+            Reset(0);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Reset(int size)
         {
             Lookups = 0;
             Hits = 0;
-            Size = 0;
+            Size = size;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void IncreaseSize(int size)
+        {
+            Size = Math.Max(Size, size);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -38,7 +51,7 @@ namespace TorchPlugin.Shared.Tools
             Hits += source.Hits;
             Size += source.Size;
 
-            source.Reset();
+            source.Reset(source.Size);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -59,9 +72,9 @@ namespace TorchPlugin.Shared.Tools
                 if (hits > lookups)
                     hits = lookups;
 
-                Reset();
+                Reset(size);
 
-                var rate = lookups > 0 ? 100.0 * hits / lookups : 0;
+                var rate = lookups > 0 ? 100.0 * hits / lookups : 100.0;
                 return $"HitRate = {rate:0.000}% = {hits}/{lookups}; ItemCount = {size}";
             }
         }

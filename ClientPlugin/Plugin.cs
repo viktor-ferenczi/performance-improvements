@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading;
 using ClientPlugin.GUI;
+using ClientPlugin.Patches;
 using HarmonyLib;
 using Sandbox.Graphics.GUI;
 using Shared.Config;
@@ -89,6 +90,8 @@ namespace ClientPlugin
         private void CustomUpdate()
         {
             PatchHelpers.PatchUpdates();
+            
+            MyDefinitionIdToStringPatch.Update();
         }
 
         // ReSharper disable once UnusedMember.Global
