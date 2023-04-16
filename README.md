@@ -41,32 +41,38 @@ these patches are expected to be removed anyway, so I did not bother using Torch
 
 ## Credits
 
+*In alphabetical order*
+
 ### Patreon
 
 #### Admiral level supporters
 - BetaMark
+- Bishbash777
 - Casinost
+- Dorimanx
 - wafoxxx
 
 #### Captain level supporters
-- Lotan
-- ransomthetoaster
-- Lazul
-- mkaito
 - DontFollowOrders
 - Gabor
+- Lazul
+- Lotan
+- mkaito
+- ransomthetoaster
 
 ### Developers
 - Avaness for the client side Plugin Loader
 - Bishbash77 for keeping Torch alive + Torch contributors
-- zznty
 - mkaito
+- zznty
 
 ### Testers
 - CaveBadgerMan (SG Dimensions, Torch servers)
-- Robot10 (client side)
+- Dorimanx
 - mkaito (testing with his heavy offline world)
-- Multiple server admins for discussion and feedback 
+- Multiple server admins for discussion and feedback
+- Robot10 (client side)
+- zznty
 
 ## Technical details
 
