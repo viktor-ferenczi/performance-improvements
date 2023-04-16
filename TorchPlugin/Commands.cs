@@ -164,11 +164,9 @@ namespace TorchPlugin
                     Config.FixSafeZone = parsedFlag;
                     break;
 
-#if false                
-                case "targeting":
-                    Config.FixTargeting = parsedFlag;
-                    break;
-#endif
+                // case "targeting":
+                //     Config.FixTargeting = parsedFlag;
+                //     break;
 
                 case "wind_turbine":
                     Config.FixWindTurbine = parsedFlag;
@@ -236,11 +234,10 @@ namespace TorchPlugin
             Respond("  cache_scripts: Cache compiled scripts");
             Respond("  api_stats: Disable Mod API statistics");
             Respond("  safe_zone: Fix safe zone lag");
-            Respond("  targeting: Fix allocations in targeting (needs restart)");
+            // Respond("  targeting: Fix allocations in targeting (needs restart)");
             Respond("  wind_turbine: Fix wind turbine performance");
             Respond("  voxel: Fix voxel performance");
             Respond("  physics: Fix physics performance (needs restart)");
-            Respond("  entity: Fix entity performance (needs restart)");
             Respond("  character: Fix character performance (needs restart)");
             Respond("  memory: Fix frequent memory allocations");
             // Respond("  access: Less frequent update of block access rights");
