@@ -1,9 +1,8 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Shared.Plugin;
-using Shared.Tools;
 
-namespace TorchPlugin.Shared.Tools
+namespace Shared.Tools
 {
     public class UintCache<TK>
     {
