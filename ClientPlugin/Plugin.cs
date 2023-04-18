@@ -2,7 +2,6 @@
 using System.IO;
 using System.Threading;
 using ClientPlugin.GUI;
-using ClientPlugin.Patches;
 using HarmonyLib;
 using Sandbox.Graphics.GUI;
 using Shared.Config;

@@ -9,9 +9,8 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Text;
 using HarmonyLib;
-using Shared.Tools;
 
-namespace Shared.Patches
+namespace Shared.Tools
 {
     public static class TranspilerHelpers
     {

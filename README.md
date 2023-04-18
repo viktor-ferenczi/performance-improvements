@@ -41,32 +41,38 @@ these patches are expected to be removed anyway, so I did not bother using Torch
 
 ## Credits
 
+*In alphabetical order*
+
 ### Patreon
 
 #### Admiral level supporters
 - BetaMark
+- Bishbash777
 - Casinost
+- Dorimanx
 - wafoxxx
 
 #### Captain level supporters
-- Lotan
-- ransomthetoaster
-- Lazul
-- mkaito
 - DontFollowOrders
 - Gabor
+- Lazul
+- Lotan
+- mkaito
+- ransomthetoaster
 
 ### Developers
 - Avaness for the client side Plugin Loader
 - Bishbash77 for keeping Torch alive + Torch contributors
-- zznty
 - mkaito
+- zznty
 
 ### Testers
 - CaveBadgerMan (SG Dimensions, Torch servers)
-- Robot10 (client side)
+- Dorimanx
 - mkaito (testing with his heavy offline world)
-- Multiple server admins for discussion and feedback 
+- Multiple server admins for discussion and feedback
+- Robot10 (client side)
+- zznty
 
 ## Technical details
 
@@ -180,11 +186,7 @@ Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/p
 Game update 1.202.066 (Automaton) attempted to fix [the slowness](https://support.keenswh.com/spaceengineers/pc/topic/24210-performance-pre-calculate-or-cache-mydefinitionid-tostring-results),
 but introduced a [deadlock](https://support.keenswh.com/spaceengineers/pc/topic/27997-servers-deadlocked-on-load) as a result.
 
-So the fix to `MyDefinitionId.ToString` has been put back into the client plugin.
-
-On Torch and Dedicated Server please use the DefIdToStringFix plugin:
-- [Torch](https://torchapi.com/plugins/view/e368127c-0676-4ff0-9e8c-f32207dcb12a)
-- [Dedicated Server](https://github.com/viktor-ferenczi/defid-tostring-fix/releases)
+So the fix to `MyDefinitionId.ToString` has been put back into this plugin.
 
 ### Reducing memory allocations in the turret targeting system
 

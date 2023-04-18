@@ -24,7 +24,7 @@ using Shared.Plugin;
 using Shared.Tools;
 using VRage.Game;
 
-namespace ClientPlugin.Patches
+namespace Shared.Patches
 {
     [HarmonyPatch]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -71,30 +71,12 @@ namespace ClientPlugin.Patches
             TwoLayerCache.FillImmutableCache();
         }
 
-        // ReSharper disable once UnusedMember.Local
-        // ReSharper disable once RedundantAssignment
-        [HarmonyPatch(typeof(MyDefinitionId), nameof(MyDefinitionId.DropToStringCache))]
-        [HarmonyPrefix]
-        // Patch this unconditionally, I don't trust Keen to fix this properly
-        // [EnsureCode("16f436d2")]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool DropToStringCachePrefix()
-        {
-            TwoLayerCache.Clear();
-
-#if LOG_STATS
-            Logger.Info("Cache cleared");
-#endif
-            
-            return false;
-        }
-
+        // Patch this unconditionally, Keen's implementation is not called
+        // from this patch and is unlikely to ever change to stay compatible
         // ReSharper disable once UnusedMember.Local
         // ReSharper disable once RedundantAssignment
         [HarmonyPatch(typeof(MyDefinitionId), nameof(MyDefinitionId.ToString))]
         [HarmonyPrefix]
-        // Patch this unconditionally, I don't trust Keen to fix this properly
-        //[EnsureCode("f97ce300")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool ToStringPrefix(MyDefinitionId __instance, ref string __result)
         {

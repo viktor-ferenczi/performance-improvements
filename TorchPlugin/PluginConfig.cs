@@ -39,7 +39,7 @@ namespace TorchPlugin
             set => SetValue(ref enabled, value);
         }
 
-        [Display(Order = 2, GroupName = "General", Name = "Detect code changes", Description = "Disable the plugin if game code changes are detected before patching")]
+        [Display(Order = 2, GroupName = "General", Name = "Detect code changes", Description = "Disable the plugin if any changes to the game code are detected before patching")]
         public bool DetectCodeChanges
         {
             get => detectCodeChanges;

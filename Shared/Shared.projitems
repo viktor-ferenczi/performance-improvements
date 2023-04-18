@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Block\MyCubeBlockPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Block\MyTerminalBlockPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyPathfindingDataPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyDefinitionIdToStringPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyDataReceiverPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyPlayerCollectionPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySessionComponentSafeZonesPatch.cs" />
