@@ -146,8 +146,8 @@
         <CheckBox Grid.Row="16" Grid.Column="0" Name="FixCharacter" IsChecked="{Binding FixCharacter}" Margin="5"/>
         <TextBlock Grid.Row="16" Grid.Column="1" Text="Disables character footprint logic on server side (needs restart)" VerticalAlignment="Center" Margin="5"/>
 
-        <!-- <CheckBox Grid.Row="17" Grid.Column="0" Name="FixMemory" IsChecked="{Binding FixMemory}" Margin="5"/> -->
-        <!-- <TextBlock Grid.Row="17" Grid.Column="1" Text="Optimizes frequent memory allocations" VerticalAlignment="Center" Margin="5"/> -->
+        <CheckBox Grid.Row="17" Grid.Column="0" Name="FixMemory" IsChecked="{Binding FixMemory}" Margin="5"/>
+        <TextBlock Grid.Row="17" Grid.Column="1" Text="Optimizes frequent memory allocations" VerticalAlignment="Center" Margin="5"/>
 
         <!-- <CheckBox Grid.Row="18" Grid.Column="0" Name="FixAccess" IsChecked="{Binding FixAccess}" Margin="5"/> -->
         <!-- <TextBlock Grid.Row="18" Grid.Column="1" Text="Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason" VerticalAlignment="Center" Margin="5"/> -->

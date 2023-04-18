@@ -186,11 +186,7 @@ Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/p
 Game update 1.202.066 (Automaton) attempted to fix [the slowness](https://support.keenswh.com/spaceengineers/pc/topic/24210-performance-pre-calculate-or-cache-mydefinitionid-tostring-results),
 but introduced a [deadlock](https://support.keenswh.com/spaceengineers/pc/topic/27997-servers-deadlocked-on-load) as a result.
 
-So the fix to `MyDefinitionId.ToString` has been put back into the client plugin.
-
-On Torch and Dedicated Server please use the DefIdToStringFix plugin:
-- [Torch](https://torchapi.com/plugins/view/e368127c-0676-4ff0-9e8c-f32207dcb12a)
-- [Dedicated Server](https://github.com/viktor-ferenczi/defid-tostring-fix/releases)
+So the fix to `MyDefinitionId.ToString` has been put back into this plugin.
 
 ### Reducing memory allocations in the turret targeting system
 

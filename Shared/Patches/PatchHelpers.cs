@@ -70,6 +70,7 @@ namespace Shared.Patches
             MyCharacterPatch.Configure();
             MyStorageExtensionsPatch.Configure();
             MyWindTurbinePatch.Configure();
+            MyDefinitionIdToStringPatch.Configure();
             // MyCubeBlockPatch.Configure();
             // MyTerminalBlockPatch.Configure();
             // MyGridTerminalSystemPatch.Configure();
