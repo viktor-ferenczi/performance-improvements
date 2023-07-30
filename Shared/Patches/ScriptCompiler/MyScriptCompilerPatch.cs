@@ -214,6 +214,13 @@ namespace Shared.Patches
         {
             if (!Config.Enabled ||
                 target == MyApiTarget.None ||
+#if CLIENT
+                // 1.10.9 (2023-07-30): Disabled mod compilation on client
+                // as per request of avaness. Reason:
+                // "Plugin loader added compilation symbols to mods, so it breaks
+                //  build info in really weird ways because it uses that symbol"
+                target == MyApiTarget.Mod ||
+#endif
                 target == MyApiTarget.Ingame && !Config.CacheScripts ||
                 target == MyApiTarget.Mod && !Config.CacheMods)
             {
