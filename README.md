@@ -169,7 +169,9 @@ advanced single player worlds affected by slow world loading.
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/23906-performance-cache-compiled-mods-and-in-game-scripts)
 
-### Caching the result of MySafeZone.IsSafe
+### MySafeZone caching and optimizations
+
+#### Caching the result of MySafeZone.IsSafe
 
 `MySafeZone.IsSafe` is called very frequently for entities inside safe zones. 
 This is quite a bit of overhead in multiplayer worlds with many small grids and
@@ -186,7 +188,7 @@ Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/p
 expensive check frequently without caching it. Therefore the caching
 implemented by this plugin is still required.
 
-### Optimized MySafeZone.IsOutside
+#### Optimized MySafeZone.IsOutside
 
 `MySafeZone.IsOutside()` is implemented in a convoluted way. Replaced it with
 an optimized implementation which does not instantiate any new bounding boxes.
@@ -197,7 +199,12 @@ other two overrides were not significant, either they are used less or they
 could be fully optimized by the JIT compiler eliminating the bounding box
 objects.
 
-No bug ticket.
+#### Caching the result of MySafeZone.IsActionAllowed
+
+Due to the high call counts of busy servers this method benefits from caching.
+The results is cached for 2 seconds, therefore the effect of changes in
+Safe Zone  configuration or grid safe-zone containment is delayed by up to
+2 seconds, which is acceptable considering the overall performance benefits.
 
 ### Reducing frequent memory allocations
 

@@ -135,7 +135,7 @@ namespace Shared.Patches
 
         [HarmonyPrefix]
         [HarmonyPatch("IsActionAllowed", typeof(MyEntity), typeof(MySafeZoneAction), typeof(long))]
-        [EnsureCode("3d352c69")]
+        [EnsureCode("9bd446ec")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsActionAllowedPrefix(MySafeZone __instance, MyEntity entity, MySafeZoneAction action, long sourceEntityId, ref bool __result, ref long __state)
         {
@@ -170,7 +170,7 @@ namespace Shared.Patches
 
         [HarmonyPostfix]
         [HarmonyPatch("IsActionAllowed", typeof(MyEntity), typeof(MySafeZoneAction), typeof(long))]
-        [EnsureCode("3d352c69")]
+        [EnsureCode("9bd446ec")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void IsActionAllowedPostfix(MyEntity entity, bool __result, long __state)
         {
