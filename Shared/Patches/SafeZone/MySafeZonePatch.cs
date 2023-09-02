@@ -96,7 +96,7 @@ namespace Shared.Patches
 
         [HarmonyPrefix]
         [HarmonyPatch("IsOutside", typeof(BoundingBoxD))]
-        [EnsureCode("0d1a5386")]
+        [EnsureCode("fe4efdc4")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsOutsidePrefix(MySafeZone __instance, BoundingBoxD aabb, ref bool __result)
         {

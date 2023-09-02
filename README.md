@@ -186,6 +186,19 @@ Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/p
 expensive check frequently without caching it. Therefore the caching
 implemented by this plugin is still required.
 
+### Optimized MySafeZone.IsOutside
+
+`MySafeZone.IsOutside()` is implemented in a convoluted way. Replaced it with
+an optimized implementation which does not instantiate any new bounding boxes.
+
+Replaced only the `MySafeZone.IsOutside(BoundingBoxD aabb)` override, because
+it caused issues with many grids around safe zones. The time spent in the
+other two overrides were not significant, either they are used less or they
+could be fully optimized by the JIT compiler eliminating the bounding box
+objects.
+
+No bug ticket.
+
 ### Reducing frequent memory allocations
 
 Game update 1.202.066 (Automaton) attempted to fix [the slowness](https://support.keenswh.com/spaceengineers/pc/topic/24210-performance-pre-calculate-or-cache-mydefinitionid-tostring-results),
