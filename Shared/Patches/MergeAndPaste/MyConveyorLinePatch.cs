@@ -12,7 +12,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MyConveyorLine.UpdateIsWorking))]
-        [EnsureCode("c004bf8f")]
+        [EnsureCode("6a58a31c")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool UpdateIsWorkingPrefix()
         {
