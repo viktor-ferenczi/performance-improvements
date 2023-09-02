@@ -7,11 +7,11 @@ SET p7z="C:\Program Files\7-Zip\7z.exe"
 mkdir %version%
 cd %version%
 
-SET harmony=C:\Torch\Plugins\%name%\0Harmony.dll
+SET harmony=Torch\Plugins\%name%\0Harmony.dll
 
-SET client_bin=C:\Program Files (x86)\Steam\steamapps\common\SpaceEngineers\Bin64\Plugins\Local\%name%.dll
-SET ds_bin=C:\Torch\DedicatedServer64\Plugins\%name%.dll
-SET torch_dir=C:\Torch\Plugins\%name%
+SET client_bin=Bin64\Plugins\Local\%name%.dll
+SET ds_bin=Torch\DedicatedServer64\Plugins\%name%.dll
+SET torch_dir=Torch\Plugins\%name%
 
 SET client_pkg=%name%-Client-%version%
 SET ds_pkg=%name%-DedicatedServer-%version%
