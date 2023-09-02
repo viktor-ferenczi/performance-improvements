@@ -60,7 +60,7 @@ namespace Shared.Patches
 
         [HarmonyPrefix]
         [HarmonyPatch("IsSafe")]
-        [EnsureCode("98164fe2")]
+        [EnsureCode("96f8cf56")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsSafePrefix(MyEntity entity, ref bool __result, ref bool __state)
         {
@@ -79,7 +79,7 @@ namespace Shared.Patches
 
         [HarmonyPostfix]
         [HarmonyPatch("IsSafe")]
-        [EnsureCode("98164fe2")]
+        [EnsureCode("96f8cf56")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void IsSafePostfix(MyEntity entity, bool __result, bool __state)
         {

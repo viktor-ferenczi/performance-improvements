@@ -181,6 +181,11 @@ reflected in safe zone behavior only up to 2 seconds later (1 second on average)
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24146-performance-mysafezone-issafe-is-called-frequently-but-not-cached)
 
+**1.203.022**: While Keen reduced the GC pressure (memory allocations) by using a 
+`ReuseCollection`, it is not enough. The main issue is repeating this 
+expensive check frequently without caching it. Therefore the caching
+implemented by this plugin is still required.
+
 ### Reducing frequent memory allocations
 
 Game update 1.202.066 (Automaton) attempted to fix [the slowness](https://support.keenswh.com/spaceengineers/pc/topic/24210-performance-pre-calculate-or-cache-mydefinitionid-tostring-results),
