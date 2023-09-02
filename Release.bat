@@ -1,11 +1,9 @@
+@echo off
 if [%1]==[] goto usage
 
 SET name=PerformanceImprovements
 SET version=%1
 SET p7z="C:\Program Files\7-Zip\7z.exe"
-
-mkdir %version%
-cd %version%
 
 SET harmony=Torch\Plugins\%name%\0Harmony.dll
 
@@ -39,7 +37,11 @@ cd "%torch_pkg%"
 %p7z% a -tzip ..\%name%.zip *.*
 cd ..
 
-echo "Done"
+rd /s /q "%client_pkg%"
+rd /s /q "%ds_pkg%"
+rd /s /q "%torch_pkg%"
+
+echo Done
 goto :eof
 
 :usage
@@ -47,4 +49,3 @@ goto :eof
 
 :eof
 cd ..
-pause
