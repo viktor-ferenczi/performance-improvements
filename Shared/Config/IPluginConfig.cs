@@ -58,9 +58,6 @@ namespace Shared.Config
         // Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason
         bool FixAccess { get; set; }
 
-        // Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart)
-        bool FixBroadcast { get; set; }
-
         // Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits
         bool FixBlockLimit { get; set; }
 

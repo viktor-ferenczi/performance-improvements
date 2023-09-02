@@ -26,7 +26,6 @@ namespace TorchPlugin
         private bool fixCharacter = true;
         private bool fixMemory = true;
         private bool fixAccess = false;
-        private bool fixBroadcast = true;
         private bool fixBlockLimit = true;
         private bool fixSafeAction = true;
         private bool fixTerminal = false;
@@ -156,13 +155,6 @@ namespace TorchPlugin
         {
             get => fixAccess;
             set => SetValue(ref fixAccess, value);
-        }
-
-        [Display(Order = 20, GroupName = "Fixes", Name = "Reduced memory allocation in broadcaster scanning", Description = "Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart)")]
-        public bool FixBroadcast
-        {
-            get => fixBroadcast;
-            set => SetValue(ref fixBroadcast, value);
         }
 
         [Display(Order = 21, GroupName = "Fixes", Name = "Less frequent sync of block counts for limit checking", Description = "Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits")]

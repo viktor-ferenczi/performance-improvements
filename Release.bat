@@ -1,17 +1,15 @@
+@echo off
 if [%1]==[] goto usage
 
 SET name=PerformanceImprovements
 SET version=%1
 SET p7z="C:\Program Files\7-Zip\7z.exe"
 
-mkdir %version%
-cd %version%
+SET harmony=Torch\Plugins\%name%\0Harmony.dll
 
-SET harmony=C:\Torch\Plugins\%name%\0Harmony.dll
-
-SET client_bin=C:\Program Files (x86)\Steam\steamapps\common\SpaceEngineers\Bin64\Plugins\Local\%name%.dll
-SET ds_bin=C:\Torch\DedicatedServer64\Plugins\%name%.dll
-SET torch_dir=C:\Torch\Plugins\%name%
+SET client_bin=Bin64\Plugins\Local\%name%.dll
+SET ds_bin=Torch\DedicatedServer64\Plugins\%name%.dll
+SET torch_dir=Torch\Plugins\%name%
 
 SET client_pkg=%name%-Client-%version%
 SET ds_pkg=%name%-DedicatedServer-%version%
@@ -39,7 +37,11 @@ cd "%torch_pkg%"
 %p7z% a -tzip ..\%name%.zip *.*
 cd ..
 
-echo "Done"
+rd /s /q "%client_pkg%"
+rd /s /q "%ds_pkg%"
+rd /s /q "%torch_pkg%"
+
+echo Done
 goto :eof
 
 :usage
@@ -47,4 +49,3 @@ goto :eof
 
 :eof
 cd ..
-pause

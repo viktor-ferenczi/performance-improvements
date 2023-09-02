@@ -169,7 +169,9 @@ advanced single player worlds affected by slow world loading.
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/23906-performance-cache-compiled-mods-and-in-game-scripts)
 
-### Caching the result of MySafeZone.IsSafe
+### MySafeZone caching and optimizations
+
+#### Caching the result of MySafeZone.IsSafe
 
 `MySafeZone.IsSafe` is called very frequently for entities inside safe zones. 
 This is quite a bit of overhead in multiplayer worlds with many small grids and
@@ -180,6 +182,29 @@ ticks (~2 seconds). Side effect of the fix is that grid ownership changes are
 reflected in safe zone behavior only up to 2 seconds later (1 second on average).
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24146-performance-mysafezone-issafe-is-called-frequently-but-not-cached)
+
+**1.203.022**: While Keen reduced the GC pressure (memory allocations) by using a 
+`ReuseCollection`, it is not enough. The main issue is repeating this 
+expensive check frequently without caching it. Therefore the caching
+implemented by this plugin is still required.
+
+#### Optimized MySafeZone.IsOutside
+
+`MySafeZone.IsOutside()` is implemented in a convoluted way. Replaced it with
+an optimized implementation which does not instantiate any new bounding boxes.
+
+Replaced only the `MySafeZone.IsOutside(BoundingBoxD aabb)` override, because
+it caused issues with many grids around safe zones. The time spent in the
+other two overrides were not significant, either they are used less or they
+could be fully optimized by the JIT compiler eliminating the bounding box
+objects.
+
+#### Caching the result of MySafeZone.IsActionAllowed
+
+Due to the high call counts of busy servers this method benefits from caching.
+The results is cached for 2 seconds, therefore the effect of changes in
+Safe Zone  configuration or grid safe-zone containment is delayed by up to
+2 seconds, which is acceptable considering the overall performance benefits.
 
 ### Reducing frequent memory allocations
 
@@ -203,14 +228,6 @@ Since the result of `MyWindTurbine.IsInAtmosphere` does not change often,
 it can safely be cached for a few seconds.
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24209-performance-cache-the-result-of-mywindturbine-isinatmosphere)
-
-### Reduced memory allocation in broadcaster scanning
-
-Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart).
-
-Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24388-performance-excess-memory-allocation-in-mydatareceiver-updatebroadcastersinrange)
-
-**Improved code in game version 1.202.048 (Automaton Beta), but no pooling of HashSet instances. Not enough.**
 
 ### Less frequent sync of block counts for limit checking
 
@@ -251,6 +268,16 @@ Fixed the [slow InScene getter](https://support.keenswh.com/spaceengineers/pc/to
 ### Havok performance fix
 
 Fixed the [slow implementation](https://support.keenswh.com/spaceengineers/pc/topic/24211-performance-hkshape-comparison-with-boxing-allocation) by implementing the suggested fix.
+
+### Reduced memory allocation in broadcaster scanning
+
+Keen significantly changed `MyDataReceiver.UpdateBroadcastersInRange`, 
+it is using a single `MyUtils.ReuseCollection`. I consider this fixed,
+but performance testing will be needed to confirm.
+
+Original [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24388-performance-excess-memory-allocation-in-mydatareceiver-updatebroadcastersinrange)
+
+**Improved code in game version 1.202.048 (Automaton Beta), but no pooling of HashSet instances. Not enough.**
 
 ## Remarks
 

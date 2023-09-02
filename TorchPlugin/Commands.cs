@@ -51,7 +51,6 @@ namespace TorchPlugin
             Respond("  character: Fix character performance (needs restart)");
             Respond("  memory: Fix frequent memory allocations");
             // Respond("  access: Less frequent update of block access rights");
-            Respond("  broadcast: Reduced memory allocation in broadcaster scanning");
             Respond("  block_limit: Less frequent sync of block counts for limit");
             Respond("  safe_action: Cache actions allowed by the safe zone");
             // Respond("  terminal: Less frequent update of PB access to blocks");
@@ -77,7 +76,6 @@ namespace TorchPlugin
             Respond($"character: {Format(config.FixCharacter)}");
             Respond($"memory: {Format(config.FixMemory)}");
             // Respond($"access: {Format(config.FixAccess)}");
-            Respond($"broadcast: {Format(config.FixBroadcast)}");
             Respond($"block_limit: {Format(config.FixBlockLimit)}");
             Respond($"safe_action: {Format(config.FixSafeAction)}");
             // Respond($"terminal: {Format(config.FixTerminal)}");
@@ -223,10 +221,6 @@ namespace TorchPlugin
 
                 case "access":
                     Config.FixAccess = parsedFlag;
-                    break;
-
-                case "broadcast":
-                    Config.FixBroadcast = parsedFlag;
                     break;
 
                 case "block_limit":
