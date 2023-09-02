@@ -47,7 +47,6 @@ namespace Shared.Config
         private bool fixCharacter = true;
         private bool fixMemory = true;
         private bool fixAccess = true;
-        private bool fixBroadcast = true;
         private bool fixBlockLimit = true;
         private bool fixSafeAction = true;
         private bool fixTerminal = true;
@@ -159,12 +158,6 @@ namespace Shared.Config
         {
             get => fixAccess;
             set => SetValue(ref fixAccess, value);
-        }
-
-        public bool FixBroadcast
-        {
-            get => fixBroadcast;
-            set => SetValue(ref fixBroadcast, value);
         }
 
         public bool FixBlockLimit

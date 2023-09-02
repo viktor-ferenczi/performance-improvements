@@ -204,14 +204,6 @@ it can safely be cached for a few seconds.
 
 Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24209-performance-cache-the-result-of-mywindturbine-isinatmosphere)
 
-### Reduced memory allocation in broadcaster scanning
-
-Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart).
-
-Please vote on the [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24388-performance-excess-memory-allocation-in-mydatareceiver-updatebroadcastersinrange)
-
-**Improved code in game version 1.202.048 (Automaton Beta), but no pooling of HashSet instances. Not enough.**
-
 ### Less frequent sync of block counts for limit checking
 
 Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits.
@@ -251,6 +243,16 @@ Fixed the [slow InScene getter](https://support.keenswh.com/spaceengineers/pc/to
 ### Havok performance fix
 
 Fixed the [slow implementation](https://support.keenswh.com/spaceengineers/pc/topic/24211-performance-hkshape-comparison-with-boxing-allocation) by implementing the suggested fix.
+
+### Reduced memory allocation in broadcaster scanning
+
+Keen significantly changed `MyDataReceiver.UpdateBroadcastersInRange`, 
+it is using a single `MyUtils.ReuseCollection`. I consider this fixed,
+but performance testing will be needed to confirm.
+
+Original [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24388-performance-excess-memory-allocation-in-mydatareceiver-updatebroadcastersinrange)
+
+**Improved code in game version 1.202.048 (Automaton Beta), but no pooling of HashSet instances. Not enough.**
 
 ## Remarks
 

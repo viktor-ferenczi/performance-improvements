@@ -64,9 +64,6 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel fixAccessLabel;
         private MyGuiControlCheckbox fixAccessCheckbox;
 
-        private MyGuiControlLabel fixBroadcastLabel;
-        private MyGuiControlCheckbox fixBroadcastCheckbox;
-
         private MyGuiControlLabel fixBlockLimitLabel;
         private MyGuiControlCheckbox fixBlockLimitCheckbox;
 
@@ -140,7 +137,6 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out fixCharacterLabel, out fixCharacterCheckbox, config.FixCharacter, value => config.FixCharacter = value, "Fix character performance (needs restart)", "Disables character footprint logic on server side (needs restart)");
             CreateCheckbox(out fixMemoryLabel, out fixMemoryCheckbox, config.FixMemory, value => config.FixMemory = value, "Fix frequent memory allocations", "Optimizes frequent memory allocations in various parts of the game");
             CreateCheckbox(out fixAccessLabel, out fixAccessCheckbox, config.FixAccess, value => config.FixAccess = value, "Less frequent update of block access rights", "Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason");
-            CreateCheckbox(out fixBroadcastLabel, out fixBroadcastCheckbox, config.FixBroadcast, value => config.FixBroadcast = value, "Reduced memory allocation in broadcaster scanning", "Reduces memory allocations in MyDataReceiver.UpdateBroadcastersInRange (needs restart)");
             CreateCheckbox(out fixBlockLimitLabel, out fixBlockLimitCheckbox, config.FixBlockLimit, value => config.FixBlockLimit = value, "Less frequent sync of block counts for limit checking", "Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits");
             CreateCheckbox(out fixSafeActionLabel, out fixSafeActionCheckbox, config.FixSafeAction, value => config.FixSafeAction = value, "Cache actions allowed by the safe zone", "Caches the result of MySafeZone.IsActionAllowed and MySessionComponentSafeZones.IsActionAllowedForSafezone for 2 seconds");
             CreateCheckbox(out fixTerminalLabel, out fixTerminalCheckbox, config.FixTerminal, value => config.FixTerminal = value, "Less frequent update of PB access to blocks", "Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often");
@@ -209,7 +205,6 @@ namespace ClientPlugin.GUI
             fixCharacterCheckbox.Enabled = enabled;
             fixMemoryCheckbox.Enabled = enabled;
             fixAccessCheckbox.Enabled = enabled;
-            fixBroadcastCheckbox.Enabled = enabled;
             fixBlockLimitCheckbox.Enabled = enabled;
             fixSafeActionCheckbox.Enabled = enabled;
             fixTerminalCheckbox.Enabled = enabled;
@@ -290,10 +285,6 @@ namespace ClientPlugin.GUI
             // layoutTable.Add(fixAccessCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
             // layoutTable.Add(fixAccessLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             // row++;
-
-            layoutTable.Add(fixBroadcastCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
-            layoutTable.Add(fixBroadcastLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
-            row++;
 
             layoutTable.Add(fixBlockLimitCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
             layoutTable.Add(fixBlockLimitLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
