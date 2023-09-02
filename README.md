@@ -277,8 +277,6 @@ but performance testing will be needed to confirm.
 
 Original [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24388-performance-excess-memory-allocation-in-mydatareceiver-updatebroadcastersinrange)
 
-**Improved code in game version 1.202.048 (Automaton Beta), but no pooling of HashSet instances. Not enough.**
-
 ## Remarks
 
 Fixes for performance issues or bugs fixed by Keen in the regular public game version
