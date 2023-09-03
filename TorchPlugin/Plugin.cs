@@ -64,7 +64,7 @@ namespace TorchPlugin
 
             Log.Info("Init");
 
-            PrioritizedScheduler.EnableSignalsForWorkCounter = false;
+            // PrioritizedScheduler.EnableSignalsForWorkCounter = false;
 
             Log.Info($"OptimalHavokThreadCount = {MyVRage.Platform.System.OptimalHavokThreadCount ?? -1}");
 
