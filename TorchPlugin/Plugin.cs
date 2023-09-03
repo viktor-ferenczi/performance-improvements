@@ -64,6 +64,8 @@ namespace TorchPlugin
 
             Log.Info("Init");
 
+            // Uncomment this line if you have problems with the priority scheduler introduced in 1.203.022,
+            // this will disable the new scheduler and use the old algorithm without priorities.
             // PrioritizedScheduler.EnableSignalsForWorkCounter = false;
 
             Log.Info($"OptimalHavokThreadCount = {MyVRage.Platform.System.OptimalHavokThreadCount ?? -1}");
