@@ -253,7 +253,7 @@ NOTE: This fix has been disabled in 1.10.1 due to a bug, which has been fixed si
 
 Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason.
 
-### Fixed Havok core count in MyPhysics
+### Fixed Havok thread count in MyPhysics
 
 Keen introduced `MyVRage.Platform.System.OptimalHavokThreadCount`, but it is set to `null`.
 
