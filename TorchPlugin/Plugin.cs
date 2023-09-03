@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Controls;
 using HarmonyLib;
+using ParallelTasks;
 using Sandbox.Game;
 using Shared.Config;
 using Shared.Logging;
@@ -17,6 +18,7 @@ using Torch.API.Managers;
 using Torch.API.Plugins;
 using Torch.API.Session;
 using Torch.Session;
+using VRage;
 using VRage.Utils;
 
 namespace TorchPlugin
@@ -61,6 +63,10 @@ namespace TorchPlugin
             Instance = this;
 
             Log.Info("Init");
+
+            PrioritizedScheduler.EnableSignalsForWorkCounter = false;
+
+            Log.Info($"OptimalHavokThreadCount = {MyVRage.Platform.System.OptimalHavokThreadCount ?? -1}");
 
             var configPath = Path.Combine(StoragePath, ConfigFileName);
             config = PersistentConfig<PluginConfig>.Load(Log, configPath);
