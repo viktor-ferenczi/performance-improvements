@@ -66,6 +66,7 @@ namespace Shared.Patches
             MyScriptCompilerPatch.Configure();
             MySafeZonePatch.Configure();
             MySessionComponentSafeZonesPatch.Configure();
+            MyPhysicsPatch.Configure();
             MyPhysicsBodyPatch.Configure();
             MyCharacterPatch.Configure();
             MyStorageExtensionsPatch.Configure();
