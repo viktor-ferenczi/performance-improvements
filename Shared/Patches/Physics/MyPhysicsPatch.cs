@@ -11,7 +11,7 @@ using Shared.Tools;
 
 namespace Shared.Patches
 {
-    [HarmonyPatch]
+    [HarmonyPatch(typeof(MyPhysics))]
     public static class MyPhysicsPatch
     {
         private static IPluginConfig Config => Common.Config;
@@ -22,18 +22,10 @@ namespace Shared.Patches
             enabled = Config.Enabled && Config.FixPhysics;
         }
 
-        // Just a quick and dirty transpiler to set a thread number explicitly in MyPhysics.LoadData:
-        // int? havokThreadCount = MyVRage.Platform.System.OptimalHavokThreadCount;
-
-        static IEnumerable<MethodBase> TargetMethods()
-        {
-            var declaredMethod = AccessTools.DeclaredMethod(typeof(MyPhysics), nameof(MyPhysics.LoadData));
-            yield return declaredMethod;
-        }
-
         // ReSharper disable once UnusedMember.Local
         [HarmonyTranspiler]
-        // [EnsureCode("fc347f5d")]
+        [HarmonyPatch(nameof(MyPhysics.LoadData))]
+        [EnsureCode("2bb5480c")]
         private static IEnumerable<CodeInstruction> LoadDataTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             if (!enabled)
@@ -42,7 +34,6 @@ namespace Shared.Patches
             var il = instructions.ToList();
             il.RecordOriginalCode();
 
-            // This PC has a i9-12900HK, which has 6 performance cores
             var havokThreadCount = Math.Min(16, Environment.ProcessorCount);
             var i = il.FindIndex(ci => ci.opcode == OpCodes.Stloc_0);
             il.Insert(++i, new CodeInstruction(OpCodes.Ldc_I4, havokThreadCount));
