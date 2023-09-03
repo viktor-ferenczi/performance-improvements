@@ -253,7 +253,14 @@ NOTE: This fix has been disabled in 1.10.1 due to a bug, which has been fixed si
 
 Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason.
 
-TBD: Bug ticket
+### Fixed Havok thread count in MyPhysics
+
+Keen introduced `MyVRage.Platform.System.OptimalHavokThreadCount`, but it is set to `null`.
+
+The new logic in `MyPhysics.LoadData` falls back to the call it made before: `HkJobThreadPool()`
+
+But inside Havok (C++ code) they apparently changed it to default to a single thread
+in this case, so all the physics is running on a single thread (main thread).
 
 ## Bugs fixed by Keen in 1.202.066 Automaton
 

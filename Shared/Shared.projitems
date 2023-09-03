@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyPathfindingDataPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyDefinitionIdToStringPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyPlayerCollectionPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\MyPhysicsPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySessionComponentSafeZonesPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\TerminalSystem\MyGridTerminalSystemPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Cache.cs" />
@@ -66,6 +67,8 @@
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)Patches\Character\RigidBody_ContactPointCallback.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Character\RigidBody_ContactPointCallback.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\LoadData.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\LoadData.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\RigidBodyGetter.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\RigidBodyGetter.patched.il" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\ScriptCompiler\MyScriptCompilerPatch.cs" />
