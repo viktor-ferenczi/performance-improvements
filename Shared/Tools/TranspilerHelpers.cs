@@ -20,6 +20,8 @@ namespace Shared.Tools
 
         public delegate bool FieldInfoPredicate(FieldInfo fi);
 
+        public delegate bool PropertyInfoPredicatePredicate(PropertyInfo pi);
+
         public static List<int> FindAllIndex(this IEnumerable<CodeInstruction> il, CodeInstructionPredicate predicate)
         {
             return il.Select((instruction, index) => new { Instruction = instruction, Index = index })
@@ -57,22 +59,23 @@ namespace Shared.Tools
                 var localVarIndex = ci.GetLocalVarIndex();
                 if (localVarIndex >= 0)
                 {
-                    if (!localMap.TryGetValue(localVarIndex, out var localVar))
+                    if (!localMap.TryGetValue(localVarIndex, out var localVariable))
                     {
                         var type = sourceVariables.First(v => v.LocalIndex == localVarIndex).LocalType
-                                   ?? throw new Exception($"Cannot find local variable {localVarIndex} in the target method");
-                        localVar = gen.DeclareLocal(type);
-                        localMap[localVarIndex] = localVar;
+                                   ?? throw new Exception($"Cannot find local variable {localVarIndex} in the source method");
+                        type = typeMap.GetValueOrDefault(type.Name, type);
+                        localVariable = gen.DeclareLocal(type);
+                        localMap[localVarIndex] = localVariable;
                     }
 
-                    ReplaceWithLocalVar(ci, localVar);
+                    ReplaceWithLocalVar(ci, localVariable);
                 }
 
                 var argIndex = ci.GetArgumentIndex();
                 if (argIndex >= 0)
                 {
-                    var localBuilder = argMap[argIndex];
-                    ReplaceWithLocalVar(ci, localBuilder);
+                    var targetVariable = argMap[argIndex];
+                    ReplaceWithLocalVar(ci, targetVariable);
                 }
             }
 
@@ -93,42 +96,49 @@ namespace Shared.Tools
             return beforeIndex + code.Count;
         }
 
-        private static void ReplaceWithLocalVar(CodeInstruction ci, LocalVariableInfo localBuilder)
+        private static void ReplaceWithLocalVar(CodeInstruction ci, LocalVariableInfo varInfo)
         {
-            var i = localBuilder.LocalIndex;
+            var i = varInfo.LocalIndex;
+            object box = i < 256 ? (object)(byte)i : (object)(short)i;
 
             switch (ci.opcode.Name)
             {
                 case "ldloc.0":
                 case "ldarg.0":
-                    ci.opcode = OpCodes.Ldloc_0;
-                    ci.operand = null;
-                    break;
-
                 case "ldloc.1":
                 case "ldarg.1":
-                    ci.opcode = OpCodes.Ldloc_1;
-                    ci.operand = null;
-                    break;
-
                 case "ldloc.2":
                 case "ldarg.2":
-                    ci.opcode = OpCodes.Ldloc_2;
-                    ci.operand = null;
-                    break;
-
                 case "ldloc.3":
                 case "ldarg.3":
-                    ci.opcode = OpCodes.Ldloc_3;
-                    ci.operand = null;
-                    break;
-
                 case "ldloc":
                 case "ldarg":
                 case "ldloc.s":
                 case "ldarg.s":
-                    ci.opcode = i < 256 ? OpCodes.Ldloc_S : OpCodes.Ldloc;
-                    ci.operand = i < 256 ? (byte)i : (short)i;
+                    switch (i)
+                    {
+                        case 0:
+                            ci.opcode = OpCodes.Ldloc_0;
+                            ci.operand = null;
+                            break;
+                        case 1:
+                            ci.opcode = OpCodes.Ldloc_1;
+                            ci.operand = null;
+                            break;
+                        case 2:
+                            ci.opcode = OpCodes.Ldloc_2;
+                            ci.operand = null;
+                            break;
+                        case 3:
+                            ci.opcode = OpCodes.Ldloc_3;
+                            ci.operand = null;
+                            break;
+                        default:
+                            ci.opcode = i < 256 ? OpCodes.Ldloc_S : OpCodes.Ldloc;
+                            ci.operand = box;
+                            break;
+                    }
+
                     break;
 
                 case "ldloca":
@@ -136,39 +146,45 @@ namespace Shared.Tools
                 case "ldloca.s":
                 case "ldarga.s":
                     ci.opcode = i < 256 ? OpCodes.Ldloca_S : OpCodes.Ldloca;
-                    ci.operand = i < 256 ? (byte)i : (short)i;
+                    ci.operand = box;
                     break;
 
                 case "stloc.0":
                 case "starg.0":
-                    ci.opcode = OpCodes.Stloc_0;
-                    ci.operand = null;
-                    break;
-
                 case "stloc.1":
                 case "starg.1":
-                    ci.opcode = OpCodes.Stloc_1;
-                    ci.operand = null;
-                    break;
-
                 case "stloc.2":
                 case "starg.2":
-                    ci.opcode = OpCodes.Stloc_2;
-                    ci.operand = null;
-                    break;
-
                 case "stloc.3":
                 case "starg.3":
-                    ci.opcode = OpCodes.Stloc_3;
-                    ci.operand = null;
-                    break;
-
                 case "stloc":
                 case "starg":
                 case "stloc.s":
                 case "starg.s":
-                    ci.opcode = localBuilder.LocalIndex < 256 ? OpCodes.Stloc_S : OpCodes.Stloc;
-                    ci.operand = i < 256 ? (byte)i : (short)i;
+                    switch (i)
+                    {
+                        case 0:
+                            ci.opcode = OpCodes.Stloc_0;
+                            ci.operand = null;
+                            break;
+                        case 1:
+                            ci.opcode = OpCodes.Stloc_1;
+                            ci.operand = null;
+                            break;
+                        case 2:
+                            ci.opcode = OpCodes.Stloc_2;
+                            ci.operand = null;
+                            break;
+                        case 3:
+                            ci.opcode = OpCodes.Stloc_3;
+                            ci.operand = null;
+                            break;
+                        default:
+                            ci.opcode = i < 256 ? OpCodes.Stloc_S : OpCodes.Stloc;
+                            ci.operand = box;
+                            break;
+                    }
+
                     break;
             }
         }
@@ -330,6 +346,24 @@ namespace Shared.Tools
                 throw new CodeInstructionNotFound("No code instruction found loading or storing a field matching the given predicate");
 
             return (FieldInfo)ci.operand;
+        }
+
+        public static MethodInfo FindPropertyGetter(this List<CodeInstruction> il, string name)
+        {
+            var ci = il.Find(i => i.opcode == OpCodes.Call && i.operand is MethodInfo fi && fi.Name == $"get_{name}");
+            if (ci == null)
+                throw new CodeInstructionNotFound("No code instruction found getting or setting a property matching the given predicate");
+
+            return (MethodInfo)ci.operand;
+        }
+
+        public static MethodInfo FindPropertySetter(this List<CodeInstruction> il, string name)
+        {
+            var ci = il.Find(i => i.opcode == OpCodes.Call && i.operand is MethodInfo fi && fi.Name == $"set_{name}");
+            if (ci == null)
+                throw new CodeInstructionNotFound("No code instruction found getting or setting a property matching the given predicate");
+
+            return (MethodInfo)ci.operand;
         }
 
         public static Label GetLabel(this List<CodeInstruction> il, OpcodePredicate predicate)

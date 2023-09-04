@@ -44,13 +44,12 @@ namespace Shared.Patches
 
         static MyClusterTreePatch()
         {
-            Debug.Assert(typeof(HashSet<>) != null, "1");
-            Debug.Assert(typeof(Dictionary<,>) != null, "2");
-            Debug.Assert(NestedLoopMethodInfo != null, "3");
-            Debug.Assert(ResultList != null, "4");
-            Debug.Assert(MyObjectDataType != null, "5");
-            Debug.Assert(HashSetMyObjectDataType != null, "6");
-            Debug.Assert(DictionaryUlongMyObjectDataType != null, "7");
+            Debug.Assert(TargetMethodInfo != null, "TargetMethodInfo");
+            Debug.Assert(NestedLoopMethodInfo != null, "NestedLoopMethodInfo");
+            Debug.Assert(ResultList != null, "ResultList");
+            Debug.Assert(MyObjectDataType != null, "MyObjectDataType");
+            Debug.Assert(HashSetMyObjectDataType != null, "HashSetMyObjectDataType");
+            Debug.Assert(DictionaryUlongMyObjectDataType != null, "DictionaryUlongMyObjectDataType");
         }
 
         public static void Configure()
@@ -70,37 +69,49 @@ namespace Shared.Patches
             var il = instructions.ToList();
             il.RecordOriginalCode();
 
-            // Jump over the original nested loops
-            var i = il.FindIndex(ci => ci.opcode == OpCodes.Ldloc_S && ci.operand is LocalBuilder lb && lb.LocalIndex == 15) - 1;
-            Debug.Assert(il[i].opcode == OpCodes.Br_S);
+            // Skip the outer nested loop
+            var outerLoop = il.FindAllIndex(ci => ci.opcode == OpCodes.Ldloca_S && ci.operand is LocalBuilder lb && lb.LocalIndex == 13)[1];
+            for (var j = outerLoop; j < outerLoop + 3; j++)
+            {
+                il[j].opcode = OpCodes.Nop;
+                il[j].operand = null;
+            }
+
+            // Find the insertion point for the replacement code
+            var i = il.FindAllIndex(ci => ci.opcode == OpCodes.Ldloc_2)[1];
+            while (i < il.Count && il[i].opcode != OpCodes.Pop) i++;
+            i++;
+
+            // Make m_objectsData available as a local variable
+            var resultListGetter = il.FindPropertyGetter("m_resultList");
+            var resultListVariable = gen.DeclareLocal(ResultList.PropertyType);
+            il.Insert(i++, new CodeInstruction(OpCodes.Call, resultListGetter)); // static MyClusterTree.m_resultList
+            il.Insert(i++, new CodeInstruction(OpCodes.Stloc_S, resultListVariable));
 
             // Make m_objectsData available as a local variable
             var objectsDataField = il.GetField(fi => fi.Name == "m_objectsData");
-            var localObjectsDataField = gen.DeclareLocal(objectsDataField.FieldType);
+            var localObjectsVariable = gen.DeclareLocal(objectsDataField.FieldType);
             il.Insert(i++, new CodeInstruction(OpCodes.Ldloc_0)); // this
             il.Insert(i++, new CodeInstruction(OpCodes.Ldfld, objectsDataField)); // this.m_objectsData
-            il.Insert(i++, new CodeInstruction(OpCodes.Stloc_S, localObjectsDataField));
+            il.Insert(i++, new CodeInstruction(OpCodes.Stloc_S, localObjectsVariable));
 
             // Insert replacement code from method
             var sourceLocalVariable = TargetMethodInfo.GetMethodBody()?.LocalVariables.First(v => v.LocalIndex == 2) ?? throw new Exception("Cannot find source variable");
             var inflated1LocalVariable = TargetMethodInfo.GetMethodBody()?.LocalVariables.First(v => v.LocalIndex == 1) ?? throw new Exception("Cannot find inflated1 variable");
-            var argMap = new LocalVariableInfo[]
+            var argMap = new[]
             {
-                localObjectsDataField, // Dictionary<ulong, MyObjectData> this.m_objectsData
+                resultListVariable, // List<MyClusterTree.MyCluster> MyClusterTree.m_resultList
+                localObjectsVariable, // Dictionary<ulong, MyObjectData> this.m_objectsData
                 sourceLocalVariable, // HashSet<MyObjectData> source
                 inflated1LocalVariable, // ref BoundingBoxD inflated1
             };
-            var typeMap = new Dictionary<string, Type>()
+            var typeMap = new Dictionary<string, Type>
             {
                 { nameof(MyObjectData), MyObjectDataType },
                 { nameof(HashSet<MyObjectData>), HashSetMyObjectDataType },
                 { nameof(Dictionary<ulong, MyObjectData>), DictionaryUlongMyObjectDataType },
             };
-            i = il.InsertCodeFromMethod(gen, TargetMethodInfo, i, NestedLoopMethodInfo, argMap, typeMap);
-
-            var leave = il.FindAllIndex(ci => ci.opcode == OpCodes.Ldloc_S && ci.operand is LocalBuilder lb && lb.LocalIndex == 15)[1] + 3;
-            Debug.Assert(il[leave].opcode == OpCodes.Leave_S, "Leave_S");
-            il.Insert(i++, new CodeInstruction(OpCodes.Leave_S, il[leave].operand));
+            il.InsertCodeFromMethod(gen, TargetMethodInfo, i, NestedLoopMethodInfo, argMap, typeMap);
 
             // FIXME: VerifyCallStack does not work properly
             // var callStackImbalance = il.VerifyCallStack();
@@ -110,10 +121,8 @@ namespace Shared.Patches
             return il;
         }
 
-        private static void NestedLoop(Dictionary<ulong, MyObjectData> m_objectsData, HashSet<MyObjectData> source, BoundingBoxD inflated1)
+        private static void NestedLoop(List<MyClusterTree.MyCluster> m_resultList, Dictionary<ulong, MyObjectData> m_objectsData, HashSet<MyObjectData> source, BoundingBoxD inflated1)
         {
-            var m_resultList = (List<MyClusterTree.MyCluster>)ResultList.GetValue(null);
-
             // Original:
             // foreach (MyClusterTree.MyCluster mResult in m_resultList)
             // {
@@ -149,18 +158,4 @@ namespace Shared.Patches
             }
         }
     }
-
-    // FIXME: !!! DELETE !!!
-    [HarmonyPatch(typeof(MyVoxelPhysicsBody))]
-    public static class MyVoxelPhysicsBodyPatch
-    {
-        [HarmonyPrefix]
-        [HarmonyPatch(MethodType.Constructor, typeof(MyVoxelBase), typeof(float), typeof(float), typeof(bool))]
-        private static bool ConstructorPrefix(ref bool ___m_staticForCluster)
-        {
-            ___m_staticForCluster = true;
-            return true;
-        }
-    }
-
 }
