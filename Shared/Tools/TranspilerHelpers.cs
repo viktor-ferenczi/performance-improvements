@@ -71,8 +71,8 @@ namespace Shared.Tools
                 var argIndex = ci.GetArgumentIndex();
                 if (argIndex >= 0)
                 {
-                    var localVar = argMap[argIndex];
-                    ReplaceWithLocalVar(ci, localVar);
+                    var localBuilder = argMap[argIndex];
+                    ReplaceWithLocalVar(ci, localBuilder);
                 }
             }
 
@@ -93,92 +93,82 @@ namespace Shared.Tools
             return beforeIndex + code.Count;
         }
 
-        private static void ReplaceWithLocalVar(CodeInstruction ci, LocalVariableInfo localVar)
+        private static void ReplaceWithLocalVar(CodeInstruction ci, LocalVariableInfo localBuilder)
         {
+            var i = localBuilder.LocalIndex;
+
             switch (ci.opcode.Name)
             {
                 case "ldloc.0":
-                case "ldloc.1":
-                case "ldloc.2":
-                case "ldloc.3":
-                case "ldloc":
-                case "ldloc.s":
                 case "ldarg.0":
-                case "ldarg.1":
-                case "ldarg.2":
-                case "ldarg.3":
-                case "ldarg":
-                case "ldarg.s":
-                    switch (localVar.LocalIndex)
-                    {
-                        case 0:
-                            ci.opcode = OpCodes.Ldloc_0;
-                            ci.operand = null;
-                            break;
-                        case 1:
-                            ci.opcode = OpCodes.Ldloc_1;
-                            ci.operand = null;
-                            break;
-                        case 2:
-                            ci.opcode = OpCodes.Ldloc_2;
-                            ci.operand = null;
-                            break;
-                        case 3:
-                            ci.opcode = OpCodes.Ldloc_3;
-                            ci.operand = null;
-                            break;
-                        default:
-                            ci.opcode = localVar.LocalIndex < 256 ? OpCodes.Ldloc_S : OpCodes.Ldloc;
-                            ci.operand = localVar;
-                            break;
-                    }
+                    ci.opcode = OpCodes.Ldloc_0;
+                    ci.operand = null;
+                    break;
 
+                case "ldloc.1":
+                case "ldarg.1":
+                    ci.opcode = OpCodes.Ldloc_1;
+                    ci.operand = null;
+                    break;
+
+                case "ldloc.2":
+                case "ldarg.2":
+                    ci.opcode = OpCodes.Ldloc_2;
+                    ci.operand = null;
+                    break;
+
+                case "ldloc.3":
+                case "ldarg.3":
+                    ci.opcode = OpCodes.Ldloc_3;
+                    ci.operand = null;
+                    break;
+
+                case "ldloc":
+                case "ldarg":
+                case "ldloc.s":
+                case "ldarg.s":
+                    ci.opcode = i < 256 ? OpCodes.Ldloc_S : OpCodes.Ldloc;
+                    ci.operand = i < 256 ? (byte)i : (short)i;
                     break;
 
                 case "ldloca":
-                case "ldloca.s":
                 case "ldarga":
+                case "ldloca.s":
                 case "ldarga.s":
-                    ci.opcode = localVar.LocalIndex < 256 ? OpCodes.Ldloca_S : OpCodes.Ldloca;
-                    ci.operand = localVar;
+                    ci.opcode = i < 256 ? OpCodes.Ldloca_S : OpCodes.Ldloca;
+                    ci.operand = i < 256 ? (byte)i : (short)i;
                     break;
 
                 case "stloc.0":
-                case "stloc.1":
-                case "stloc.2":
-                case "stloc.3":
-                case "stloc":
-                case "stloc.s":
                 case "starg.0":
-                case "starg.1":
-                case "starg.2":
-                case "starg.3":
-                case "starg":
-                case "starg.s":
-                    switch (localVar.LocalIndex)
-                    {
-                        case 0:
-                            ci.opcode = OpCodes.Stloc_0;
-                            ci.operand = null;
-                            break;
-                        case 1:
-                            ci.opcode = OpCodes.Stloc_1;
-                            ci.operand = null;
-                            break;
-                        case 2:
-                            ci.opcode = OpCodes.Stloc_2;
-                            ci.operand = null;
-                            break;
-                        case 3:
-                            ci.opcode = OpCodes.Stloc_3;
-                            ci.operand = null;
-                            break;
-                        default:
-                            ci.opcode = localVar.LocalIndex < 256 ? OpCodes.Stloc_S : OpCodes.Stloc;
-                            ci.operand = localVar;
-                            break;
-                    }
+                    ci.opcode = OpCodes.Stloc_0;
+                    ci.operand = null;
+                    break;
 
+                case "stloc.1":
+                case "starg.1":
+                    ci.opcode = OpCodes.Stloc_1;
+                    ci.operand = null;
+                    break;
+
+                case "stloc.2":
+                case "starg.2":
+                    ci.opcode = OpCodes.Stloc_2;
+                    ci.operand = null;
+                    break;
+
+                case "stloc.3":
+                case "starg.3":
+                    ci.opcode = OpCodes.Stloc_3;
+                    ci.operand = null;
+                    break;
+
+                case "stloc":
+                case "starg":
+                case "stloc.s":
+                case "starg.s":
+                    ci.opcode = localBuilder.LocalIndex < 256 ? OpCodes.Stloc_S : OpCodes.Stloc;
+                    ci.operand = i < 256 ? (byte)i : (short)i;
                     break;
             }
         }
@@ -199,13 +189,19 @@ namespace Shared.Tools
                 case "ldloc.3":
                 case "stloc.3":
                     return 3;
-                case "ldloc":
                 case "ldloc.s":
-                case "stloc":
                 case "stloc.s":
-                case "ldloca":
                 case "ldloca.s":
-                    return ((LocalBuilder)ci.operand).LocalIndex;
+                case "ldloc":
+                case "stloc":
+                case "ldloca":
+                    if (ci.operand is LocalBuilder lb)
+                        return lb.LocalIndex;
+                    if (ci.operand is byte b)
+                        return b;
+                    if (ci.operand is short s)
+                        return s;
+                    break;
             }
 
             return -1;
@@ -227,13 +223,19 @@ namespace Shared.Tools
                 case "ldarg.3":
                 case "starg.3":
                     return 3;
-                case "ldarg":
                 case "ldarg.s":
-                case "starg":
                 case "starg.s":
-                case "ldarga":
                 case "ldarga.s":
-                    return ((LocalBuilder)ci.operand).LocalIndex;
+                case "ldarg":
+                case "starg":
+                case "ldarga":
+                    if (ci.operand is LocalBuilder lb)
+                        return lb.LocalIndex;
+                    if (ci.operand is byte b)
+                        return b;
+                    if (ci.operand is short s)
+                        return s;
+                    break;
             }
 
             return -1;

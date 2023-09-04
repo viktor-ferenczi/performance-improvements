@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Reflection.Metadata;
 using HarmonyLib;
 using Sandbox.Engine.Voxels;
+using Sandbox.Game.Entities;
 using Shared.Config;
 using Shared.Plugin;
 using Shared.Tools;
@@ -56,15 +56,6 @@ namespace Shared.Patches
         public static void Configure()
         {
             enabled = Config.Enabled && Config.FixPhysics;
-
-            if (enabled)
-            {
-                // The default value of MyVoxelPhysicsBody.m_staticForCluster
-                // was cleared from true to the default false in 1.203.022.
-                // FIXME: Revert it just in case. Test whether it has any effect.
-                // var field = AccessTools.Field(typeof(MyVoxelPhysicsBody), "m_staticForCluster");
-                // field.SetValue(null, true);
-            }
         }
 
         // ReSharper disable once UnusedMember.Local
@@ -91,13 +82,13 @@ namespace Shared.Patches
             il.Insert(i++, new CodeInstruction(OpCodes.Stloc_S, localObjectsDataField));
 
             // Insert replacement code from method
-            var targetVariables = TargetMethodInfo.GetMethodBody()?.LocalVariables;
-            Debug.Assert(targetVariables != null, "localVariables");
+            var sourceLocalVariable = TargetMethodInfo.GetMethodBody()?.LocalVariables.First(v => v.LocalIndex == 2) ?? throw new Exception("Cannot find source variable");
+            var inflated1LocalVariable = TargetMethodInfo.GetMethodBody()?.LocalVariables.First(v => v.LocalIndex == 1) ?? throw new Exception("Cannot find inflated1 variable");
             var argMap = new LocalVariableInfo[]
             {
                 localObjectsDataField, // Dictionary<ulong, MyObjectData> this.m_objectsData
-                targetVariables.First(v => v.LocalIndex == 2), // HashSet<MyObjectData> source
-                targetVariables.First(v => v.LocalIndex == 1), // ref BoundingBoxD inflated1
+                sourceLocalVariable, // HashSet<MyObjectData> source
+                inflated1LocalVariable, // ref BoundingBoxD inflated1
             };
             var typeMap = new Dictionary<string, Type>()
             {
@@ -119,7 +110,7 @@ namespace Shared.Patches
             return il;
         }
 
-        private static void NestedLoop(Dictionary<ulong, MyObjectData> m_objectsData, HashSet<MyObjectData> source, ref BoundingBoxD inflated1)
+        private static void NestedLoop(Dictionary<ulong, MyObjectData> m_objectsData, HashSet<MyObjectData> source, BoundingBoxD inflated1)
         {
             var m_resultList = (List<MyClusterTree.MyCluster>)ResultList.GetValue(null);
 
@@ -158,4 +149,18 @@ namespace Shared.Patches
             }
         }
     }
+
+    // FIXME: !!! DELETE !!!
+    [HarmonyPatch(typeof(MyVoxelPhysicsBody))]
+    public static class MyVoxelPhysicsBodyPatch
+    {
+        [HarmonyPrefix]
+        [HarmonyPatch(MethodType.Constructor, typeof(MyVoxelBase), typeof(float), typeof(float), typeof(bool))]
+        private static bool ConstructorPrefix(ref bool ___m_staticForCluster)
+        {
+            ___m_staticForCluster = true;
+            return true;
+        }
+    }
+
 }
