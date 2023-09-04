@@ -68,6 +68,7 @@ namespace Shared.Patches
             MySessionComponentSafeZonesPatch.Configure();
             MyPhysicsPatch.Configure();
             MyPhysicsBodyPatch.Configure();
+            MyClusterTreePatch.Configure();
             MyCharacterPatch.Configure();
             MyStorageExtensionsPatch.Configure();
             MyWindTurbinePatch.Configure();
