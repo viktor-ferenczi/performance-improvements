@@ -262,6 +262,10 @@ The new logic in `MyPhysics.LoadData` falls back to the call it made before: `Hk
 But inside Havok (C++ code) they apparently changed it to default to a single thread
 in this case, so all the physics is running on a single thread (main thread).
 
+### Fixed serious slowness of Physics clusters
+
+Reverted the default value of `MyVoxelPhysicsBody.m_staticForCluster` to true.
+
 ## Bugs fixed by Keen in 1.202.066 Automaton
 
 ### SafeZone m_RemoveEntityPhantomTaskList HashSet corruption due to race condition
