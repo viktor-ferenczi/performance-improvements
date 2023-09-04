@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading;
 using System.Windows.Controls;
 using HarmonyLib;
-using ParallelTasks;
 using Sandbox.Game;
 using Shared.Config;
 using Shared.Logging;
