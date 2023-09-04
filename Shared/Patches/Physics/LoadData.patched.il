@@ -1,4 +1,4 @@
-// 2444a1b4
+// 06ea6ea2
 call static System.Boolean Sandbox.Game.Multiplayer.Sync::get_IsServer()
 brtrue.s L0
 ldc.i4 25002
@@ -121,7 +121,7 @@ call static VRage.IVRagePlatform VRage.MyVRage::get_Platform()
 callvirt abstract virtual VRage.IVRageSystem VRage.IVRagePlatform::get_System()
 callvirt abstract virtual System.Nullable`1<System.Int32> VRage.IVRageSystem::get_OptimalHavokThreadCount()
 stloc.0
-ldc.i4 6
+ldc.i4 16
 stloc.0
 ldloca.s 0 (System.Nullable`1[System.Int32])
 call System.Boolean System.Nullable`1<System.Int32>::get_HasValue()
