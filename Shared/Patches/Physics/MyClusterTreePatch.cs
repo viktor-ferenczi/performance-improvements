@@ -69,18 +69,23 @@ namespace Shared.Patches
             var il = instructions.ToList();
             il.RecordOriginalCode();
 
-            // Skip the outer nested loop
-            var outerLoop = il.FindAllIndex(ci => ci.opcode == OpCodes.Ldloca_S && ci.operand is LocalBuilder lb && lb.LocalIndex == 13)[1];
-            for (var j = outerLoop; j < outerLoop + 3; j++)
-            {
-                il[j].opcode = OpCodes.Nop;
-                il[j].operand = null;
-            }
-
             // Find the insertion point for the replacement code
             var i = il.FindAllIndex(ci => ci.opcode == OpCodes.Ldloc_2)[1];
             while (i < il.Count && il[i].opcode != OpCodes.Pop) i++;
             i++;
+
+            // Remove the original nested loops
+            var j = il.FindAllIndex(ci => ci.opcode == OpCodes.Endfinally)[1];
+            // for (var k = i; k <= j; k++)
+            // {
+            //     il[k].opcode = OpCodes.Nop;
+            //     il[k].operand = null;
+            //     il[k].blocks.Clear();
+            // }
+            var nop = new CodeInstruction(OpCodes.Nop);
+            nop.labels = il.Skip(i).Take(j + 1 - i).Select(ci => ci.labels).SelectMany(l => l).ToList();
+            il.RemoveRange(i, j + 1 - i);
+            il.Insert(i++, nop);
 
             // Make m_objectsData available as a local variable
             var resultListGetter = il.FindPropertyGetter("m_resultList");
@@ -91,7 +96,7 @@ namespace Shared.Patches
             // Make m_objectsData available as a local variable
             var objectsDataField = il.GetField(fi => fi.Name == "m_objectsData");
             var localObjectsVariable = gen.DeclareLocal(objectsDataField.FieldType);
-            il.Insert(i++, new CodeInstruction(OpCodes.Ldloc_0)); // this
+            il.Insert(i++, new CodeInstruction(OpCodes.Ldarg_0)); // this
             il.Insert(i++, new CodeInstruction(OpCodes.Ldfld, objectsDataField)); // this.m_objectsData
             il.Insert(i++, new CodeInstruction(OpCodes.Stloc_S, localObjectsVariable));
 
@@ -124,38 +129,38 @@ namespace Shared.Patches
         private static void NestedLoop(List<MyClusterTree.MyCluster> m_resultList, Dictionary<ulong, MyObjectData> m_objectsData, HashSet<MyObjectData> source, BoundingBoxD inflated1)
         {
             // Original:
-            // foreach (MyClusterTree.MyCluster mResult in m_resultList)
-            // {
-            //     foreach (MyObjectData myObjectData
-            //              in m_objectsData
-            //                  .Where(x => mResult.Objects.Contains(x.Key))
-            //                  .Select(x => x.Value))
-            //     {
-            //         source.Add(myObjectData);
-            //         inflated1.Include(myObjectData.AABB.GetInflated(MyClusterTree.IdealClusterSize / 2f));
-            //     }
-            // }
-
-            // Optimized
-            HashSet<ulong> collidedObjectKeys = new HashSet<ulong>(256); // FIXME: Reuse a single HashSet per thread (thread local)
-            foreach (MyClusterTree.MyCluster collidedCluster in m_resultList)
+            foreach (MyClusterTree.MyCluster mResult in m_resultList)
             {
-                foreach (var key in collidedCluster.Objects)
+                foreach (MyObjectData myObjectData
+                         in m_objectsData
+                             .Where(x => mResult.Objects.Contains(x.Key))
+                             .Select(x => x.Value))
                 {
-                    collidedObjectKeys.Add(key);
+                    source.Add(myObjectData);
+                    inflated1.Include(myObjectData.AABB.GetInflated(MyClusterTree.IdealClusterSize / 2f));
                 }
             }
 
-            var relevantObjectData = m_objectsData
-                .Where(x => collidedObjectKeys.Contains(x.Key))
-                .Select(x => x.Value);
-
-            foreach (var ob in relevantObjectData)
-            {
-                Counter++;
-                source.Add(ob);
-                inflated1.Include(ob.AABB.GetInflated(MyClusterTree.IdealClusterSize / 2f));
-            }
+            // // Optimized
+            // HashSet<ulong> collidedObjectKeys = new HashSet<ulong>(256); // FIXME: Reuse a single HashSet per thread (thread local)
+            // foreach (MyClusterTree.MyCluster collidedCluster in m_resultList)
+            // {
+            //     foreach (var key in collidedCluster.Objects)
+            //     {
+            //         collidedObjectKeys.Add(key);
+            //     }
+            // }
+            //
+            // var relevantObjectData = m_objectsData
+            //     .Where(x => collidedObjectKeys.Contains(x.Key))
+            //     .Select(x => x.Value);
+            //
+            // foreach (var ob in relevantObjectData)
+            // {
+            //     Counter++;
+            //     source.Add(ob);
+            //     inflated1.Include(ob.AABB.GetInflated(MyClusterTree.IdealClusterSize / 2f));
+            // }
         }
     }
 }
