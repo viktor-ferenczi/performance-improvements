@@ -52,12 +52,12 @@ namespace TorchPlugin
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public override void Init(ITorchBase torch)
         {
+            base.Init(torch);
+
 #if DEBUG
             // Allow the debugger some time to connect once the plugin assembly is loaded
-            Thread.Sleep(100);
+            Thread.Sleep(1000);
 #endif
-
-            base.Init(torch);
 
             Instance = this;
 
