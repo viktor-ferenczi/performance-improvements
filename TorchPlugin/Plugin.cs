@@ -1,7 +1,6 @@
 ﻿#define USE_HARMONY
 
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -144,11 +143,6 @@ namespace TorchPlugin
             {
                 Log.Critical(e, "Update failed");
                 failed = true;
-            }
-
-            if (Tick % 300 == 0)
-            {
-                Log.Info($"!!! MyClusterTreePatch.Counter = {MyClusterTreePatch.Counter}");
             }
         }
 

@@ -55,7 +55,7 @@ ldarg.0
 ldfld System.Collections.Generic.Dictionary`2<System.UInt64, VRageMath.Spatial.MyObjectData> VRageMath.Spatial.MyClusterTree::m_objectsData
 ldloc.2
 ldloca.s 1
-call static System.Void Shared.Patches.MyClusterTreePatch::NestedLoop(System.Collections.Generic.List`1<VRageMath.Spatial.MyCluster> resultList, System.Object objectsDataAsObject, System.Object sourceAsObject, VRageMath.BoundingBoxD& inflated1)
+call static System.Void Shared.Patches.MyClusterTreePatch::OptimizedImplementation(System.Collections.Generic.List`1<VRageMath.Spatial.MyCluster> resultList, System.Object objectsDataAsObject, System.Object sourceAsObject, VRageMath.BoundingBoxD& inflated1)
 L10:
 call static System.Collections.Generic.List`1<VRageMath.Spatial.MyCluster> VRageMath.Spatial.MyClusterTree::get_m_resultList()
 callvirt virtual System.Int32 System.Collections.Generic.List`1<VRageMath.Spatial.MyCluster>::get_Count()
