@@ -56,7 +56,7 @@ namespace TorchPlugin
 
 #if DEBUG
             // Allow the debugger some time to connect once the plugin assembly is loaded
-            Thread.Sleep(1000);
+            Thread.Sleep(100);
 #endif
 
             Instance = this;
