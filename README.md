@@ -266,6 +266,13 @@ in this case, so all the physics is running on a single thread (main thread).
 
 Reverted the default value of `MyVoxelPhysicsBody.m_staticForCluster` to true.
 
+### Optimized MyClusterTree.ReorderClusters
+
+Replaced an O(N*M) algorithm with one of better time complexity.
+
+Improves the load time of servers with many grids.
+Potentially reduce lag as ships move around.
+
 ## Bugs fixed by Keen in 1.202.066 Automaton
 
 ### SafeZone m_RemoveEntityPhantomTaskList HashSet corruption due to race condition
