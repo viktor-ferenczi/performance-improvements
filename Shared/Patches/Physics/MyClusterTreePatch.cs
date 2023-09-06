@@ -138,7 +138,7 @@ namespace Shared.Patches
             HashSet<ulong> collidedObjectKeys = new HashSet<ulong>(); // FIXME: Reuse a single HashSet per thread (thread local)
             foreach (MyClusterTree.MyCluster collidedCluster in resultList)
             {
-                MyLog.Default.WriteLine($"!!! NestedLoop 1b: collidedCluster.Objects count {collidedCluster.Objects.Count}");
+                // MyLog.Default.WriteLine($"!!! NestedLoop 1b: collidedCluster.Objects count {collidedCluster.Objects.Count}");
                 foreach (var key in collidedCluster.Objects)
                 {
                     collidedObjectKeys.Add(key);
@@ -146,18 +146,16 @@ namespace Shared.Patches
             }
 
             MyLog.Default.WriteLine($"!!! NestedLoop 2: collidedObjectKeys count {collidedObjectKeys.Count}");
-
-            var relevantObjectData = objectsData
-                .Where(x => collidedObjectKeys.Contains(x.Key))
-                .Select(x => x.Value);
-
             MyLog.Default.WriteLine($"!!! NestedLoop 3: Counter {Counter}");
 
-            foreach (var ob in relevantObjectData)
+            foreach (var pair in objectsData)
             {
-                Counter++;
-                source.Add(ob);
-                inflated1.Include(ob.AABB.GetInflated(MyClusterTree.IdealClusterSize / 2f));
+                if (collidedObjectKeys.Contains(pair.Key))
+                {
+                    Counter++;
+                    source.Add(pair.Value);
+                    inflated1.Include(pair.Value.AABB.GetInflated(MyClusterTree.IdealClusterSize / 2f));
+                }
             }
 
             MyLog.Default.WriteLine($"!!! NestedLoop 4: Counter {Counter}");
