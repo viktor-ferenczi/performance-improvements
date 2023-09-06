@@ -12,7 +12,7 @@ namespace Shared.Patches
         private static bool ConstructorPrefix(ref bool ___m_staticForCluster)
         {
             // Reverting to the 1.202 default
-            ___m_staticForCluster = true;
+            // ___m_staticForCluster = true;
 
             return true;
         }

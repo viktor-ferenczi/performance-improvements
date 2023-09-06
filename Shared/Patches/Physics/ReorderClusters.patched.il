@@ -1,4 +1,4 @@
-// 4d16ef3a
+// a3ee3358
 ldarg.0
 ldfld VRage.FastResourceLock VRageMath.Spatial.MyClusterTree::m_clustersReorderLock
 call static VRage.MyExclusiveLock VRage.FastResourceLockExtensions::AcquireExclusiveUsing(VRage.FastResourceLock lockObject)
@@ -51,106 +51,11 @@ L2:
 L7:
 nop
 call static System.Collections.Generic.List`1<VRageMath.Spatial.MyCluster> VRageMath.Spatial.MyClusterTree::get_m_resultList()
-stloc.s 66 (System.Collections.Generic.List`1[VRageMath.Spatial.MyClusterTree+MyCluster])
 ldarg.0
 ldfld System.Collections.Generic.Dictionary`2<System.UInt64, VRageMath.Spatial.MyObjectData> VRageMath.Spatial.MyClusterTree::m_objectsData
-stloc.s 67 (System.Collections.Generic.Dictionary`2[System.UInt64,VRageMath.Spatial.MyClusterTree+MyObjectData])
-nop
-nop
-ldloc.s 66
-callvirt System.Collections.Generic.Enumerator<VRageMath.Spatial.MyCluster> System.Collections.Generic.List`1<VRageMath.Spatial.MyCluster>::GetEnumerator()
-stloc.s 68
-[EX_BeginException]
-br L120
-L113:
-newobj System.Void Shared.Patches.<>c__DisplayClass13_0::.ctor()
-stloc.s 69
-ldloc.s 69
-ldloca.s 68
-call virtual VRageMath.Spatial.MyCluster System.Collections.Generic.Enumerator<VRageMath.Spatial.MyCluster>::get_Current()
-stfld VRageMath.Spatial.MyCluster Shared.Patches.<>c__DisplayClass13_0::mResult
-nop
-nop
-ldloc.s 67
-ldloc.s 69
-ldfld System.Func`2<System.Collections.Generic.KeyValuePair`2<System.UInt64, Shared.Patches.MyObjectData>, System.Boolean> Shared.Patches.<>c__DisplayClass13_0::<>9__0
-dup
-brtrue.s L114
-pop
-ldloc.s 69
-ldloc.s 69
-ldftn System.Boolean Shared.Patches.<>c__DisplayClass13_0::<NestedLoop>b__0(System.Collections.Generic.KeyValuePair`2<System.UInt64, Shared.Patches.MyObjectData> x)
-newobj System.Void System.Func`2<System.Collections.Generic.KeyValuePair`2<System.UInt64, Shared.Patches.MyObjectData>, System.Boolean>::.ctor(System.Object object, System.IntPtr method)
-dup
-stloc.s 70
-stfld System.Func`2<System.Collections.Generic.KeyValuePair`2<System.UInt64, Shared.Patches.MyObjectData>, System.Boolean> Shared.Patches.<>c__DisplayClass13_0::<>9__0
-ldloc.s 70
-L114:
-call static System.Collections.Generic.IEnumerable`1<System.Collections.Generic.KeyValuePair`2<System.UInt64, Shared.Patches.MyObjectData>> System.Linq.Enumerable::Where(System.Collections.Generic.IEnumerable`1<System.Collections.Generic.KeyValuePair`2<System.UInt64, Shared.Patches.MyObjectData>> source, System.Func`2<System.Collections.Generic.KeyValuePair`2<System.UInt64, Shared.Patches.MyObjectData>, System.Boolean> predicate)
-ldsfld System.Func`2<System.Collections.Generic.KeyValuePair`2<System.UInt64, Shared.Patches.MyObjectData>, Shared.Patches.MyObjectData> Shared.Patches.<>c::<>9__13_1
-dup
-brtrue.s L115
-pop
-ldsfld Shared.Patches.<>c Shared.Patches.<>c::<>9
-ldftn Shared.Patches.MyObjectData Shared.Patches.<>c::<NestedLoop>b__13_1(System.Collections.Generic.KeyValuePair`2<System.UInt64, Shared.Patches.MyObjectData> x)
-newobj System.Void System.Func`2<System.Collections.Generic.KeyValuePair`2<System.UInt64, Shared.Patches.MyObjectData>, Shared.Patches.MyObjectData>::.ctor(System.Object object, System.IntPtr method)
-dup
-stsfld System.Func`2<System.Collections.Generic.KeyValuePair`2<System.UInt64, Shared.Patches.MyObjectData>, Shared.Patches.MyObjectData> Shared.Patches.<>c::<>9__13_1
-L115:
-call static System.Collections.Generic.IEnumerable`1<Shared.Patches.MyObjectData> System.Linq.Enumerable::Select(System.Collections.Generic.IEnumerable`1<System.Collections.Generic.KeyValuePair`2<System.UInt64, Shared.Patches.MyObjectData>> source, System.Func`2<System.Collections.Generic.KeyValuePair`2<System.UInt64, Shared.Patches.MyObjectData>, Shared.Patches.MyObjectData> selector)
-callvirt abstract virtual System.Collections.Generic.IEnumerator`1<Shared.Patches.MyObjectData> System.Collections.Generic.IEnumerable`1<Shared.Patches.MyObjectData>::GetEnumerator()
-stloc.s 71
-[EX_BeginException]
-br.s L117
-L116:
-ldloc.s 71
-callvirt abstract virtual Shared.Patches.MyObjectData System.Collections.Generic.IEnumerator`1<Shared.Patches.MyObjectData>::get_Current()
-stloc.s 72
-nop
 ldloc.2
-ldloc.s 72
-callvirt virtual System.Boolean System.Collections.Generic.HashSet`1<Shared.Patches.MyObjectData>::Add(Shared.Patches.MyObjectData item)
-pop
 ldloca.s 1
-ldloc.s 72
-ldflda VRageMath.BoundingBoxD Shared.Patches.MyObjectData::AABB
-ldsfld VRageMath.Vector3 VRageMath.Spatial.MyClusterTree::IdealClusterSize
-ldc.r4 2
-call static VRageMath.Vector3 VRageMath.Vector3::op_Division(VRageMath.Vector3 value, System.Single divider)
-call VRageMath.BoundingBoxD VRageMath.BoundingBoxD::GetInflated(VRageMath.Vector3 size)
-call VRageMath.BoundingBoxD VRageMath.BoundingBoxD::Include(VRageMath.BoundingBoxD box)
-pop
-nop
-L117:
-ldloc.s 71
-callvirt abstract virtual System.Boolean System.Collections.IEnumerator::MoveNext()
-brtrue.s L116
-leave.s L119
-[EX_BeginFinally]
-ldloc.s 71
-brfalse.s L118
-ldloc.s 71
-callvirt abstract virtual System.Void System.IDisposable::Dispose()
-nop
-L118:
-[EX_EndException]
-endfinally
-L119:
-nop
-L120:
-ldloca.s 68
-call virtual System.Boolean System.Collections.Generic.Enumerator<VRageMath.Spatial.MyCluster>::MoveNext()
-brtrue L113
-leave.s L121
-[EX_BeginFinally]
-ldloca.s 68
-constrained. System.Collections.Generic.List`1+Enumerator[VRageMath.Spatial.MyClusterTree+MyCluster]
-callvirt abstract virtual System.Void System.IDisposable::Dispose()
-nop
-[EX_EndException]
-endfinally
-L121:
-nop
+call static System.Void Shared.Patches.MyClusterTreePatch::NestedLoop(System.Collections.Generic.List`1<VRageMath.Spatial.MyCluster> resultList, System.Object objectsDataAsObject, System.Object sourceAsObject, VRageMath.BoundingBoxD& inflated1)
 L10:
 call static System.Collections.Generic.List`1<VRageMath.Spatial.MyCluster> VRageMath.Spatial.MyClusterTree::get_m_resultList()
 callvirt virtual System.Int32 System.Collections.Generic.List`1<VRageMath.Spatial.MyCluster>::get_Count()
