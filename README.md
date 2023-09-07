@@ -262,10 +262,6 @@ The new logic in `MyPhysics.LoadData` falls back to the call it made before: `Hk
 But inside Havok (C++ code) they apparently changed it to default to a single thread
 in this case, so all the physics is running on a single thread (main thread).
 
-### Fixed serious slowness of Physics clusters
-
-Reverted the default value of `MyVoxelPhysicsBody.m_staticForCluster` to true.
-
 ### Optimized MyClusterTree.ReorderClusters
 
 Replaced an O(N*M) algorithm with one of better time complexity.
@@ -294,6 +290,11 @@ it is using a single `MyUtils.ReuseCollection`. I consider this fixed,
 but performance testing will be needed to confirm.
 
 Original [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24388-performance-excess-memory-allocation-in-mydatareceiver-updatebroadcastersinrange)
+
+### Slowness of Physics clusters
+
+Keen reverted the default value of `MyVoxelPhysicsBody.m_staticForCluster` 
+to true in the 1.203.023 hotfix update.
 
 ## Remarks
 
