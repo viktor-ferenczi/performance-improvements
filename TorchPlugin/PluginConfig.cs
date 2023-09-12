@@ -179,7 +179,7 @@ namespace TorchPlugin
             set => SetValue(ref fixTerminal, value);
         }
 
-        [Display(Order = 24, GroupName = "Fixes", Name = "Text panel performance fixes", Description = "Disables UpdateHideableScreenVisibility on multiplayer server")]
+        [Display(Order = 24, GroupName = "Fixes", Name = "Text panel performance fixes", Description = "Disables some LCD update code on multiplayer servers")]
         public bool FixTextPanel
         {
             get => fixTextPanel;

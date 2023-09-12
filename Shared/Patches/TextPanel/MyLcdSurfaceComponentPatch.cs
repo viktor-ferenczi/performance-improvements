@@ -14,6 +14,14 @@ namespace Shared.Patches.TextPanel
         private static IPluginConfig Config => Common.Config;
 
         [HarmonyPrefix]
+        [HarmonyPatch("UpdateVisibility")]
+        [EnsureCode("3e177a11")]
+        private static bool UpdateVisibilityPrefix()
+        {
+            return !Config.FixTextPanel;
+        }
+
+        [HarmonyPrefix]
         [HarmonyPatch("UpdateHideableScreenVisibility")]
         [EnsureCode("44504995")]
         private static bool UpdateHideableScreenVisibilityPrefix()
