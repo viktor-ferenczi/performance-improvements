@@ -22,7 +22,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MyPathFindingSystem<IMyConveyorEndpoint>.Enumerator.MoveNext))]
-        [EnsureCode("xxx")]
+        [EnsureCode("05a0ee2c")]
         private static bool MoveNextPrefix(
             // object __instance,
             // ref bool __result,

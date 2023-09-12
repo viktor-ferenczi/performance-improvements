@@ -22,7 +22,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MyPathFindingSystem<IMyConveyorEndpoint>.Reachable))]
-        [EnsureCode("xxx")]
+        [EnsureCode("d804599b")]
         private static bool ReachablePrefix()
         {
 #if DEBUG
@@ -35,7 +35,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
         [HarmonyPatch(nameof(MyPathFindingSystem<IMyConveyorEndpoint>.Reachable))]
-        [EnsureCode("xxx")]
+        [EnsureCode("d804599b")]
         private static void ReachablePostfix(bool __result)
         {
 #if DEBUG
