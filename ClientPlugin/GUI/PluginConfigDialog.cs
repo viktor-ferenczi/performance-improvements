@@ -73,6 +73,9 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel fixTerminalLabel;
         private MyGuiControlCheckbox fixTerminalCheckbox;
 
+        private MyGuiControlLabel fixTextPanelLabel;
+        private MyGuiControlCheckbox fixTextPanelCheckbox;
+
         /*BOOL_OPTION
         private MyGuiControlLabel optionNameLabel;
         private MyGuiControlCheckbox optionNameCheckbox;
@@ -140,6 +143,7 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out fixBlockLimitLabel, out fixBlockLimitCheckbox, config.FixBlockLimit, value => config.FixBlockLimit = value, "Less frequent sync of block counts for limit checking", "Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits");
             CreateCheckbox(out fixSafeActionLabel, out fixSafeActionCheckbox, config.FixSafeAction, value => config.FixSafeAction = value, "Cache actions allowed by the safe zone", "Caches the result of MySafeZone.IsActionAllowed and MySessionComponentSafeZones.IsActionAllowedForSafezone for 2 seconds");
             CreateCheckbox(out fixTerminalLabel, out fixTerminalCheckbox, config.FixTerminal, value => config.FixTerminal = value, "Less frequent update of PB access to blocks", "Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often");
+            CreateCheckbox(out fixTextPanelLabel, out fixTextPanelCheckbox, config.FixTextPanel, value => config.FixTextPanel = value, "Text panel performance fixes", "Disables UpdateHideableScreenVisibility on multiplayer server");
             //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
 
             EnableDisableFixes();
@@ -208,6 +212,7 @@ namespace ClientPlugin.GUI
             fixBlockLimitCheckbox.Enabled = enabled;
             fixSafeActionCheckbox.Enabled = enabled;
             fixTerminalCheckbox.Enabled = enabled;
+            fixTextPanelCheckbox.Enabled = enabled;
             //BOOL_OPTION optionNameCheckbox.Enabled = enabled;
         }
 
@@ -297,6 +302,10 @@ namespace ClientPlugin.GUI
             // layoutTable.Add(fixTerminalCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
             // layoutTable.Add(fixTerminalLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             // row++;
+
+            layoutTable.Add(fixTextPanelCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixTextPanelLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            row++;
 
             /*BOOL_OPTION
             layoutTable.Add(optionNameCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);

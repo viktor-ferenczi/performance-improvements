@@ -29,6 +29,7 @@ namespace TorchPlugin
         private bool fixBlockLimit = true;
         private bool fixSafeAction = true;
         private bool fixTerminal = false;
+        private bool fixTextPanel = false;
         //BOOL_OPTION private bool optionName = false;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enable the plugin (all fixes)")]
@@ -178,8 +179,15 @@ namespace TorchPlugin
             set => SetValue(ref fixTerminal, value);
         }
 
+        [Display(Order = 24, GroupName = "Fixes", Name = "Text panel performance fixes", Description = "Disables UpdateHideableScreenVisibility on multiplayer server")]
+        public bool FixTextPanel
+        {
+            get => fixTextPanel;
+            set => SetValue(ref fixTextPanel, value);
+        }
+
         /*BOOL_OPTION
-        [Display(Order = 24, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
+        [Display(Order = 25, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
         public bool OptionName
         {
             get => optionName;

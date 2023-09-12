@@ -50,6 +50,7 @@ namespace Shared.Config
         private bool fixBlockLimit = true;
         private bool fixSafeAction = true;
         private bool fixTerminal = true;
+        private bool fixTextPanel = true;
         //BOOL_OPTION private bool optionName = true;
 
         public bool Enabled
@@ -176,6 +177,12 @@ namespace Shared.Config
         {
             get => fixTerminal;
             set => SetValue(ref fixTerminal, value);
+        }
+
+        public bool FixTextPanel
+        {
+            get => fixTextPanel;
+            set => SetValue(ref fixTextPanel, value);
         }
 
         /*BOOL_OPTION

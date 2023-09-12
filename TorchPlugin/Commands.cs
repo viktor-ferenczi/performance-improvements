@@ -54,6 +54,7 @@ namespace TorchPlugin
             Respond("  block_limit: Less frequent sync of block counts for limit");
             Respond("  safe_action: Cache actions allowed by the safe zone");
             // Respond("  terminal: Less frequent update of PB access to blocks");
+            Respond("  text_panel: Text panel performance fixes");
             //BOOL_OPTION Respond("  option_name: Option label");
         }
 
@@ -79,6 +80,7 @@ namespace TorchPlugin
             Respond($"block_limit: {Format(config.FixBlockLimit)}");
             Respond($"safe_action: {Format(config.FixSafeAction)}");
             // Respond($"terminal: {Format(config.FixTerminal)}");
+            Respond($"text_panel: {Format(config.FixTextPanel)}");
             //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
         }
 
@@ -233,6 +235,10 @@ namespace TorchPlugin
 
                 case "terminal":
                     Config.FixTerminal = parsedFlag;
+                    break;
+
+                case "text_panel":
+                    Config.FixTextPanel = parsedFlag;
                     break;
 
                 /*BOOL_OPTION

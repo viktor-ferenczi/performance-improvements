@@ -67,6 +67,9 @@ namespace Shared.Config
         // Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often
         bool FixTerminal { get; set; }
 
+        // Disables UpdateHideableScreenVisibility on multiplayer server
+        bool FixTextPanel { get; set; }
+
         /*BOOL_OPTION
         // Option tooltip
         bool OptionName { get; set; }

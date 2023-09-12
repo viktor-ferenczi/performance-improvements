@@ -132,6 +132,7 @@ def main():
     # generate_bool_option('FixBlockLimit', 'block_limit', 'Less frequent sync of block counts for limit checking', 'Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits')
     # generate_bool_option('FixSafeAction', 'safe_action', 'Cache actions allowed by the safe zone', 'Caches the result of MySafeZone.IsActionAllowed and MySessionComponentSafeZones.IsActionAllowedForSafezone for 2 seconds')
     # generate_bool_option('FixTerminal', 'terminal', 'Less frequent update of PB access to blocks', 'Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often')
+    # generate_bool_option('FixTextPanel', 'text_panel', 'Text panel performance fixes', 'Disables UpdateHideableScreenVisibility on multiplayer server')
 
 
 if __name__ == '__main__':
