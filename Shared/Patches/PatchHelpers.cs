@@ -7,6 +7,7 @@ using HarmonyLib;
 using Shared.Logging;
 using Shared.Plugin;
 using Shared.Tools;
+using SpaceEngineers.Game.EntityComponents.Blocks;
 
 namespace Shared.Patches
 {
@@ -84,6 +85,7 @@ namespace Shared.Patches
         // Called on every update
         public static void PatchUpdates()
         {
+            MyDefinitionIdToStringPatch.Update();
             MySafeZonePatch.Update();
             MySessionComponentSafeZonesPatch.Update();
             MyWindTurbinePatch.Update();
@@ -92,7 +94,8 @@ namespace Shared.Patches
             // MyGridTerminalSystemPatch.Update();
 
 #if DEBUG
-            if (Common.Plugin.Tick % 1200 == 0)
+            const int period = 1200;
+            if (Common.Plugin.Tick % period == 0)
             {
                 var log = Common.Plugin.Log;
                 log.Info("Cache hit rates:");
@@ -104,6 +107,8 @@ namespace Shared.Patches
                 // log.Info($"- MyCubeBlockPatch: {MyCubeBlockPatch.CacheReport}");
                 // log.Info($"- MyTerminalBlockPatch: {MyTerminalBlockPatch.CacheReport}");
                 // log.Info($"- MyGridTerminalSystemPatch: {MyGridTerminalSystemPatch.InhibitorReport}");
+                log.Info($"- MyPathFindingSystemPatch: {MyPathFindingSystemPatch.Report(period)}");
+                log.Info($"- MyPathFindingSystemEnumeratorPatch: {MyPathFindingSystemPatch.Report(period)}");
             }
 #endif
         }

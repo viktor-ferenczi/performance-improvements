@@ -1,7 +1,8 @@
-#if UNTESTED
-
 using HarmonyLib;
 using Sandbox.Game.GameSystems.Conveyors;
+using Shared.Config;
+using Shared.Plugin;
+using Shared.Tools;
 using VRage.Algorithms;
 
 namespace Shared.Patches
@@ -10,32 +11,39 @@ namespace Shared.Patches
     [HarmonyPatch(typeof(MyPathFindingSystem<IMyConveyorEndpoint>))]
     public static class MyPathFindingSystemPatch
     {
-        private static Stats calls;
+        private static IPluginConfig Config => Common.Config;
+
+#if DEBUG
+        private static readonly ConveyorStat Stat = new ConveyorStat();
+        public static string Report(int period) => Stat.FullReport(period);
+#endif
 
         // ReSharper disable once UnusedMember.Local
         // ReSharper disable once InconsistentNaming
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MyPathFindingSystem<IMyConveyorEndpoint>.Reachable))]
-        [EnsureCode("?")]
-        private static bool Reachable()
+        [EnsureCode("xxx")]
+        private static bool ReachablePrefix()
         {
-            calls.Increment();
+#if DEBUG
+            Stat.CountCall();
+#endif
             return true;
         }
 
-        public static void LogStats(int period)
+        // ReSharper disable once UnusedMember.Local
+        // ReSharper disable once InconsistentNaming
+        [HarmonyPostfix]
+        [HarmonyPatch(nameof(MyPathFindingSystem<IMyConveyorEndpoint>.Reachable))]
+        [EnsureCode("xxx")]
+        private static void ReachablePostfix(bool __result)
         {
-            if (Plugin.Tick % period != 0)
-                return;
-
-            var seconds = period / 60;
-
-            // There can be some minimal inconsistency, but that's okay for logging purposes
-            Plugin.Log.Debug("Reachable {0}", calls.Format(seconds));
-
-            calls.Reset();
+#if DEBUG
+            if (!__result)
+            {
+                Stat.CountFailure();
+            }
+#endif
         }
     }
 }
-
-#endif
