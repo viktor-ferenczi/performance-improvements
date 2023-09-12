@@ -60,7 +60,7 @@ namespace Shared.Tools
 
             Reset();
 
-            return $"Count = {callCount} ({callFrequency:F1}/s); Failed = {FailureCount} ({100.0 * failureRate:F2}%)";
+            return $"Count = {callCount} ({callFrequency:F1}/s); Failed = {failureCount} ({100.0 * failureRate:F2}%)";
         }
 
         public string CountReport(int period)
