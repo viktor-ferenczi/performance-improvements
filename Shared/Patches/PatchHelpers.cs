@@ -108,7 +108,7 @@ namespace Shared.Patches
                 // log.Info($"- MyTerminalBlockPatch: {MyTerminalBlockPatch.CacheReport}");
                 // log.Info($"- MyGridTerminalSystemPatch: {MyGridTerminalSystemPatch.InhibitorReport}");
                 log.Info($"- MyPathFindingSystemPatch: {MyPathFindingSystemPatch.Report(period)}");
-                log.Info($"- MyPathFindingSystemEnumeratorPatch: {MyPathFindingSystemPatch.Report(period)}");
+                log.Info($"- MyPathFindingSystemEnumeratorPatch: {MyPathFindingSystemEnumeratorPatch.Report(period)}");
             }
 #endif
         }
