@@ -67,7 +67,9 @@ namespace TorchPlugin
             // this will disable the new scheduler and use the old algorithm without priorities.
             // PrioritizedScheduler.EnableSignalsForWorkCounter = false;
 
-            Log.Info($"OptimalHavokThreadCount = {MyVRage.Platform.System.OptimalHavokThreadCount ?? -1}");
+#if DEBUG
+            Log.Debug($"OptimalHavokThreadCount = {MyVRage.Platform.System.OptimalHavokThreadCount ?? -1}");
+#endif
 
             var configPath = Path.Combine(StoragePath, ConfigFileName);
             config = PersistentConfig<PluginConfig>.Load(Log, configPath);
