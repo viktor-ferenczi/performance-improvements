@@ -89,6 +89,7 @@ namespace Shared.Patches
             MySafeZonePatch.Update();
             MySessionComponentSafeZonesPatch.Update();
             MyWindTurbinePatch.Update();
+            MyGridConveyorSystemPatch.Update();
             // MyCubeBlockPatch.Update();
             // MyTerminalBlockPatch.Update();
             // MyGridTerminalSystemPatch.Update();
@@ -102,15 +103,15 @@ namespace Shared.Patches
                 log.Info($"- MySafeZonePatch IsSafe: {MySafeZonePatch.IsSafeCacheReport}");
                 log.Info($"- MySafeZonePatch IsActionAllowed: {MySafeZonePatch.IsActionAllowedCacheReport}");
                 log.Info($"- MySessionComponentSafeZonesPatch: {MySessionComponentSafeZonesPatch.CacheReport}");
-                // log.Info($"- MyLargeTurretTargetingSystemPatch VisibilityCache: {MyLargeTurretTargetingSystemPatch.VisibilityCacheReport}");
                 log.Info($"- MyWindTurbinePatch: {MyWindTurbinePatch.CacheReport}");
-                // log.Info($"- MyCubeBlockPatch: {MyCubeBlockPatch.CacheReport}");
-                // log.Info($"- MyTerminalBlockPatch: {MyTerminalBlockPatch.CacheReport}");
-                // log.Info($"- MyGridTerminalSystemPatch: {MyGridTerminalSystemPatch.InhibitorReport}");
                 log.Info($"- MyPathFindingSystemPatch: {MyPathFindingSystemPatch.Report(period)}");
                 log.Info($"- MyPathFindingSystemEnumeratorPatch: {MyPathFindingSystemEnumeratorPatch.Report(period)}");
                 log.Info($"- MyGridConveyorSystemPatch.ReachablePlayerItemCache: {MyGridConveyorSystemPatch.ReachablePlayerItemCache.Report}");
                 log.Info($"- MyGridConveyorSystemPatch.ReachableSimpleCache: {MyGridConveyorSystemPatch.ReachableSimpleCache.Report}");
+                // log.Info($"- MyLargeTurretTargetingSystemPatch VisibilityCache: {MyLargeTurretTargetingSystemPatch.VisibilityCacheReport}");
+                // log.Info($"- MyCubeBlockPatch: {MyCubeBlockPatch.CacheReport}");
+                // log.Info($"- MyTerminalBlockPatch: {MyTerminalBlockPatch.CacheReport}");
+                // log.Info($"- MyGridTerminalSystemPatch: {MyGridTerminalSystemPatch.InhibitorReport}");
             }
 #endif
         }

@@ -21,6 +21,12 @@ namespace Shared.Patches
         public static readonly UintCache<ulong> ReachablePlayerItemCache = new UintCache<ulong>(179 * 60, 2048);
         public static readonly UintCache<ulong> ReachableSimpleCache = new UintCache<ulong>(217 * 60, 2048);
 
+        public static void Update()
+        {
+            ReachablePlayerItemCache.Cleanup();
+            ReachableSimpleCache.Cleanup();
+        }
+
         // ReSharper disable once UnusedMember.Local
         // ReSharper disable once InconsistentNaming
         [HarmonyPrefix]
