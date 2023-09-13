@@ -43,7 +43,9 @@ namespace Shared.Patches
                     log.Critical(ex, "Failed to scan for conflicting code changes");
                     return false;
                 }
-            } else {
+            }
+            else
+            {
                 log.Warning("Conflicting code change detection is disabled in plugin configuration");
             }
 
@@ -106,8 +108,7 @@ namespace Shared.Patches
                 log.Info($"- MyWindTurbinePatch: {MyWindTurbinePatch.CacheReport}");
                 log.Info($"- MyPathFindingSystemPatch: {MyPathFindingSystemPatch.Report(period)}");
                 log.Info($"- MyPathFindingSystemEnumeratorPatch: {MyPathFindingSystemEnumeratorPatch.Report(period)}");
-                log.Info($"- MyGridConveyorSystemPatch.ReachablePlayerItemCache: {MyGridConveyorSystemPatch.ReachablePlayerItemCache.Report}");
-                log.Info($"- MyGridConveyorSystemPatch.ReachableSimpleCache: {MyGridConveyorSystemPatch.ReachableSimpleCache.Report}");
+                log.Info($"- MyGridConveyorSystemPatch.Reachable: {MyGridConveyorSystemPatch.ReachableCache.Report}");
                 // log.Info($"- MyLargeTurretTargetingSystemPatch VisibilityCache: {MyLargeTurretTargetingSystemPatch.VisibilityCacheReport}");
                 // log.Info($"- MyCubeBlockPatch: {MyCubeBlockPatch.CacheReport}");
                 // log.Info($"- MyTerminalBlockPatch: {MyTerminalBlockPatch.CacheReport}");

@@ -269,6 +269,11 @@ Replaced an O(N*M) algorithm with one of better time complexity.
 Improves the load time of servers with many grids.
 Potentially reduce lag as ships move around.
 
+### Optimized MyGridConveyorSystem.Reachable
+
+Cached the result of the simpler `Reachable` override for 3 seconds.
+It helps reducing lag when players enters/leave a cockpit or cryopod.
+
 ## Bugs fixed by Keen in 1.202.066 Automaton
 
 ### SafeZone m_RemoveEntityPhantomTaskList HashSet corruption due to race condition
@@ -290,6 +295,8 @@ it is using a single `MyUtils.ReuseCollection`. I consider this fixed,
 but performance testing will be needed to confirm.
 
 Original [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24388-performance-excess-memory-allocation-in-mydatareceiver-updatebroadcastersinrange)
+
+## Bugs fixed by Keen in 1.202.023
 
 ### Slowness of Physics clusters
 

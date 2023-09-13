@@ -1,3 +1,5 @@
+#if DEBUG
+
 using HarmonyLib;
 using Sandbox.Game.GameSystems.Conveyors;
 using Shared.Config;
@@ -40,3 +42,5 @@ namespace Shared.Patches
         }
     }
 }
+
+#endif
