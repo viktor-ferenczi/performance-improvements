@@ -18,8 +18,8 @@ namespace Shared.Patches
 
         private static IPluginConfig Config => Common.Config;
 
-        private static readonly UintCache<ulong> ReachablePlayerItemCache = new UintCache<ulong>(179 * 60, 2048);
-        private static readonly UintCache<ulong> ReachableSimpleCache = new UintCache<ulong>(217 * 60, 2048);
+        public static readonly UintCache<ulong> ReachablePlayerItemCache = new UintCache<ulong>(179 * 60, 2048);
+        public static readonly UintCache<ulong> ReachableSimpleCache = new UintCache<ulong>(217 * 60, 2048);
 
         // ReSharper disable once UnusedMember.Local
         // ReSharper disable once InconsistentNaming

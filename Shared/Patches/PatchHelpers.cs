@@ -109,6 +109,8 @@ namespace Shared.Patches
                 // log.Info($"- MyGridTerminalSystemPatch: {MyGridTerminalSystemPatch.InhibitorReport}");
                 log.Info($"- MyPathFindingSystemPatch: {MyPathFindingSystemPatch.Report(period)}");
                 log.Info($"- MyPathFindingSystemEnumeratorPatch: {MyPathFindingSystemEnumeratorPatch.Report(period)}");
+                log.Info($"- MyGridConveyorSystemPatch.ReachablePlayerItemCache: {MyGridConveyorSystemPatch.ReachablePlayerItemCache.Report}");
+                log.Info($"- MyGridConveyorSystemPatch.ReachableSimpleCache: {MyGridConveyorSystemPatch.ReachableSimpleCache.Report}");
             }
 #endif
         }
