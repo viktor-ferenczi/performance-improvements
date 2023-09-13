@@ -14,12 +14,13 @@ namespace Shared.Patches
     public static class MyGridConveyorSystemPatch
     {
         private const uint VerificationMask = 0xfffffffeU;
-        private const int CachedItemLifetime = 300; // Frames
+        private const int CachedItemLifetime = 5 * 60; // Ticks
 
         private static IPluginConfig Config => Common.Config;
 
-        public static readonly UintCache<ulong> ReachablePlayerItemCache = new UintCache<ulong>(179 * 60, 2048);
-        public static readonly UintCache<ulong> ReachableSimpleCache = new UintCache<ulong>(217 * 60, 2048);
+        // These caches can contain millions of items
+        public static readonly UintCache<ulong> ReachablePlayerItemCache = new UintCache<ulong>(217 * 60, 16384, 1048576);
+        public static readonly UintCache<ulong> ReachableSimpleCache = new UintCache<ulong>(179 * 60, 16384, 1048576);
 
         public static void Update()
         {
