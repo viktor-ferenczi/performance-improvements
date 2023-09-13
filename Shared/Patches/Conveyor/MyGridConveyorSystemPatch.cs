@@ -38,8 +38,8 @@ namespace Shared.Patches
             if (!Config.FixConveyor)
                 return true;
 
-            var sourceKey = (ulong)source.GetHashCode();
-            var key = sourceKey | ((ulong)endPoint.GetHashCode() << 32) ^ (ulong)playerId ^ (ulong)itemId.GetHashCode() ^ ((ulong)(endpointFilter?.GetHashCode() ?? 0) << 32);
+            var sourceKey = (ulong)(source?.GetHashCode() ?? 0);
+            var key = sourceKey | ((ulong)(endPoint?.GetHashCode() ?? 0) << 32) ^ (ulong)playerId ^ (ulong)itemId.GetHashCode() ^ ((ulong)(endpointFilter?.GetHashCode() ?? 0) << 32);
 
             if (ReachablePlayerItemCache.TryGetValue(key, out var value) && (value ^ (uint)sourceKey) >> 1 == 0u)
             {
@@ -80,8 +80,8 @@ namespace Shared.Patches
             if (!Config.FixConveyor)
                 return true;
 
-            var fromKey = (ulong)from.GetHashCode();
-            var key = fromKey | ((ulong)to.GetHashCode() << 32);
+            var fromKey = (ulong)(from?.GetHashCode() ?? 0);
+            var key = fromKey | ((ulong)(to?.GetHashCode() ?? 0) << 32);
 
             if (ReachableSimpleCache.TryGetValue(key, out var value) && (value ^ (uint)fromKey) >> 1 == 0u)
             {
