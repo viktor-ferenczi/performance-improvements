@@ -39,7 +39,7 @@ namespace Shared.Patches
                 return true;
 
             var sourceKey = (ulong)source.GetHashCode();
-            var key = sourceKey | ((ulong)endPoint.GetHashCode() << 32) ^ (ulong)playerId ^ (ulong)itemId.GetHashCode() ^ ((ulong)endpointFilter.GetHashCode() << 32);
+            var key = sourceKey | ((ulong)endPoint.GetHashCode() << 32) ^ (ulong)playerId ^ (ulong)itemId.GetHashCode() ^ ((ulong)(endpointFilter?.GetHashCode() ?? 0) << 32);
 
             if (ReachablePlayerItemCache.TryGetValue(key, out var value) && (value ^ (uint)sourceKey) >> 1 == 0u)
             {
