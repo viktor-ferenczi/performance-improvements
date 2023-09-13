@@ -30,25 +30,24 @@ namespace Shared.Patches
         [HarmonyPrefix]
         [HarmonyPatch("Reachable", typeof(IMyConveyorEndpoint), typeof(IMyConveyorEndpoint))]
         [EnsureCode("73bf029a")]
-        private static bool ReachableSimplePrefix(
+        private static bool ReachablePrefix(
             IMyConveyorEndpoint from,
             IMyConveyorEndpoint to,
             ref bool __result,
-            ref (ulong, uint) __state)
+            ref ulong __state)
         {
             if (!Config.FixConveyor)
                 return true;
 
-            var fromKey = (ulong)(from?.GetHashCode() ?? 0);
-            var key = fromKey | ((ulong)(to?.GetHashCode() ?? 0) << 32);
+            var key = (ulong)(from?.CubeBlock.EntityId ?? 0) ^ (ulong)(to?.CubeBlock.EntityId ?? 0);
 
-            if (ReachableCache.TryGetValue(key, out var value) && (value ^ (uint)fromKey) >> 1 == 0u)
+            if (ReachableCache.TryGetValue(key, out var value))
             {
-                __result = (value & 1ul) != 0;
+                __result = value != 0;
                 return false;
             }
 
-            __state = (key, (uint)fromKey);
+            __state = key;
             return true;
         }
 
@@ -57,14 +56,14 @@ namespace Shared.Patches
         [HarmonyPostfix]
         [HarmonyPatch("Reachable", typeof(IMyConveyorEndpoint), typeof(IMyConveyorEndpoint))]
         [EnsureCode("73bf029a")]
-        private static void ReachableSimplePostfix(
+        private static void ReachablePostfix(
             bool __result,
-            ref (ulong, uint) __state)
+            ref ulong __state)
         {
             if (!Config.FixConveyor)
                 return;
 
-            ReachableCache.Store(__state.Item1, (__state.Item2 & VerificationMask) | (__result ? 1u : 0u), CachedItemLifetime);
+            ReachableCache.Store(__state, __result ? 1u : 0u, CachedItemLifetime);
         }
     }
 }
