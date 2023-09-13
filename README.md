@@ -271,7 +271,7 @@ Potentially reduce lag as ships move around.
 
 ### Optimized MyGridConveyorSystem.Reachable
 
-Cached the result of the simpler `Reachable` override for 3 seconds.
+Cached the result of the simpler `Reachable` override for 5 seconds.
 It helps reducing lag when players enters/leave a cockpit or cryopod.
 
 ## Bugs fixed by Keen in 1.202.066 Automaton
