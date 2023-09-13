@@ -11,7 +11,6 @@ namespace Shared.Patches
     [HarmonyPatch(typeof(MyGridConveyorSystem))]
     public static class MyGridConveyorSystemPatch
     {
-        private const uint VerificationMask = 0xfffffffeU;
         private const int CachedItemLifetime = 3 * 60; // Ticks
 
         private static IPluginConfig Config => Common.Config;
