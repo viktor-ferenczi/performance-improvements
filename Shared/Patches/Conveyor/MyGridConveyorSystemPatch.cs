@@ -17,7 +17,7 @@ namespace Shared.Patches
 
         // TODO: Maybe using an array with a collision strategy and accepting some overlap would be faster. Benchmark this idea.
         // These caches can contain millions of items
-        public static readonly UintCache<ulong> ReachableCache = new UintCache<ulong>(179 * 60, 65536, 1048576);
+        public static readonly UintCache<ulong> ReachableCache = new UintCache<ulong>(179 * 60, 16 * 1024, 256 * 1024);
 
         public static void Update()
         {
