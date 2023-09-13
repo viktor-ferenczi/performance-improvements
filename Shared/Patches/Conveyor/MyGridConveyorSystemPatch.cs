@@ -25,7 +25,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         [HarmonyPrefix]
         [HarmonyPatch("Reachable", typeof(IMyConveyorEndpoint), typeof(IMyConveyorEndpoint), typeof(long), typeof(MyDefinitionId), typeof(Predicate<IMyConveyorEndpoint>))]
-        [EnsureCode("xxx")]
+        [EnsureCode("b3bebe51")]
         private static bool ReachablePlayerItemPrefix(
             IMyConveyorEndpoint source,
             IMyConveyorEndpoint endPoint,
@@ -55,7 +55,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
         [HarmonyPatch("Reachable", typeof(IMyConveyorEndpoint), typeof(IMyConveyorEndpoint), typeof(long), typeof(MyDefinitionId), typeof(Predicate<IMyConveyorEndpoint>))]
-        [EnsureCode("xxx")]
+        [EnsureCode("b3bebe51")]
         private static void ReachablePlayerItemPostfix(
             bool __result,
             ref (ulong, uint) __state)
@@ -70,7 +70,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         [HarmonyPrefix]
         [HarmonyPatch("Reachable", typeof(IMyConveyorEndpoint), typeof(IMyConveyorEndpoint))]
-        [EnsureCode("xxx")]
+        [EnsureCode("73bf029a")]
         private static bool ReachableSimplePrefix(
             IMyConveyorEndpoint from,
             IMyConveyorEndpoint to,
@@ -97,7 +97,7 @@ namespace Shared.Patches
         // ReSharper disable once InconsistentNaming
         [HarmonyPostfix]
         [HarmonyPatch("Reachable", typeof(IMyConveyorEndpoint), typeof(IMyConveyorEndpoint))]
-        [EnsureCode("xxx")]
+        [EnsureCode("73bf029a")]
         private static void ReachableSimplePostfix(
             bool __result,
             ref (ulong, uint) __state)
