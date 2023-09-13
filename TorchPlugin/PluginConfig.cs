@@ -30,6 +30,7 @@ namespace TorchPlugin
         private bool fixSafeAction = true;
         private bool fixTerminal = false;
         private bool fixTextPanel = false;
+        private bool fixConveyor = false;
         //BOOL_OPTION private bool optionName = false;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enable the plugin (all fixes)")]
@@ -186,8 +187,15 @@ namespace TorchPlugin
             set => SetValue(ref fixTextPanel, value);
         }
 
+        [Display(Order = 25, GroupName = "Fixes", Name = "Conveyor network performance fixes", Description = "Caches conveyor network lookups")]
+        public bool FixConveyor
+        {
+            get => fixConveyor;
+            set => SetValue(ref fixConveyor, value);
+        }
+
         /*BOOL_OPTION
-        [Display(Order = 25, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
+        [Display(Order = 26, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
         public bool OptionName
         {
             get => optionName;

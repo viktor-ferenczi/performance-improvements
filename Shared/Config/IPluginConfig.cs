@@ -70,6 +70,9 @@ namespace Shared.Config
         // Disables some LCD update code on multiplayer servers
         bool FixTextPanel { get; set; }
 
+        // Caches conveyor network lookups
+        bool FixConveyor { get; set; }
+
         /*BOOL_OPTION
         // Option tooltip
         bool OptionName { get; set; }

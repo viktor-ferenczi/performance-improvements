@@ -35,6 +35,9 @@ namespace Shared.Patches
             ref bool __result,
             ref (ulong, uint) __state)
         {
+            if (!Config.FixConveyor)
+                return true;
+
             var sourceKey = (ulong)source.GetHashCode();
             var key = sourceKey | ((ulong)endPoint.GetHashCode() << 32) ^ (ulong)playerId ^ (ulong)itemId.GetHashCode() ^ ((ulong)endpointFilter.GetHashCode() << 32);
 
@@ -57,6 +60,9 @@ namespace Shared.Patches
             bool __result,
             ref (ulong, uint) __state)
         {
+            if (!Config.FixConveyor)
+                return;
+
             ReachablePlayerItemCache.Store(__state.Item1, (__state.Item2 & VerificationMask) | (__result ? 1u : 0u), CachedItemLifetime);
         }
 
@@ -71,6 +77,9 @@ namespace Shared.Patches
             ref bool __result,
             ref (ulong, uint) __state)
         {
+            if (!Config.FixConveyor)
+                return true;
+
             var fromKey = (ulong)from.GetHashCode();
             var key = fromKey | ((ulong)to.GetHashCode() << 32);
 
@@ -93,6 +102,9 @@ namespace Shared.Patches
             bool __result,
             ref (ulong, uint) __state)
         {
+            if (!Config.FixConveyor)
+                return;
+
             ReachableSimpleCache.Store(__state.Item1, (__state.Item2 & VerificationMask) | (__result ? 1u : 0u), CachedItemLifetime);
         }
     }

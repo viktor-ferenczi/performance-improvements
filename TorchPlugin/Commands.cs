@@ -55,6 +55,7 @@ namespace TorchPlugin
             Respond("  safe_action: Cache actions allowed by the safe zone");
             // Respond("  terminal: Less frequent update of PB access to blocks");
             Respond("  text_panel: Text panel performance fixes");
+            Respond("  conveyor: Conveyor network performance fixes");
             //BOOL_OPTION Respond("  option_name: Option label");
         }
 
@@ -81,6 +82,7 @@ namespace TorchPlugin
             Respond($"safe_action: {Format(config.FixSafeAction)}");
             // Respond($"terminal: {Format(config.FixTerminal)}");
             Respond($"text_panel: {Format(config.FixTextPanel)}");
+            Respond($"conveyor: {Format(config.FixConveyor)}");
             //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
         }
 
@@ -239,6 +241,10 @@ namespace TorchPlugin
 
                 case "text_panel":
                     Config.FixTextPanel = parsedFlag;
+                    break;
+
+                case "conveyor":
+                    Config.FixConveyor = parsedFlag;
                     break;
 
                 /*BOOL_OPTION
