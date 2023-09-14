@@ -312,9 +312,9 @@ namespace ClientPlugin.GUI
             layoutTable.Add(fixSafeActionLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             row++;
 
-            // layoutTable.Add(fixTerminalCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
-            // layoutTable.Add(fixTerminalLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
-            // row++;
+            layoutTable.Add(fixTerminalCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixTerminalLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            row++;
 
             // layoutTable.Add(fixTextPanelCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
             // layoutTable.Add(fixTextPanelLabel, MyAlignH.Left, MyAlignV.Center, row, 3);

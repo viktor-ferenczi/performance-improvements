@@ -9,7 +9,6 @@ using Sandbox.Game.Entities.Cube;
 using Shared.Config;
 using Shared.Plugin;
 using Shared.Tools;
-using TorchPlugin.Shared.Tools;
 using VRage.Game;
 
 namespace Shared.Patches
@@ -25,7 +24,7 @@ namespace Shared.Patches
 
         public static void Configure()
         {
-            enabled = Config.Enabled && Config.FixAccess; // !!!
+            enabled = Config.Enabled && Config.FixAccess;
             Config.PropertyChanged += OnConfigChanged;
         }
 
