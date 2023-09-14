@@ -9,7 +9,6 @@ using Sandbox.Game.GameSystems;
 using Shared.Config;
 using Shared.Plugin;
 using Shared.Tools;
-using TorchPlugin.Shared.Tools;
 
 namespace Shared.Patches
 {

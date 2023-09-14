@@ -118,6 +118,7 @@ namespace Shared.Patches
                 // log.Info($"- MyCubeBlockPatch: {MyCubeBlockPatch.CacheReport}");
                 // log.Info($"- MyTerminalBlockPatch: {MyTerminalBlockPatch.CacheReport}");
                 // log.Info($"- MyGridTerminalSystemPatch: {MyGridTerminalSystemPatch.InhibitorReport}");
+                // log.Info($"- MyPathFindingSystemPatch: {MyPathFindingSystemPatch.CacheReport}");
             }
 #endif
         }
