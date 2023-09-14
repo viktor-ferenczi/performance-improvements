@@ -97,7 +97,7 @@ namespace Shared.Patches
             // MyGridTerminalSystemPatch.Update();
 
 #if DEBUG
-            const int period = 1200;
+            const int period = 10 * 60; // Ticks
             if (Common.Plugin.Tick % period == 0)
             {
                 var log = Common.Plugin.Log;
@@ -108,7 +108,11 @@ namespace Shared.Patches
                 log.Info($"- MyWindTurbinePatch: {MyWindTurbinePatch.CacheReport}");
                 log.Info($"- MyPathFindingSystemPatch: {MyPathFindingSystemPatch.Report(period)}");
                 log.Info($"- MyPathFindingSystemEnumeratorPatch: {MyPathFindingSystemEnumeratorPatch.Report(period)}");
-                log.Info($"- MyGridConveyorSystemPatch.Reachable: {MyGridConveyorSystemPatch.ReachableCache.Report}");
+                log.Info($"- MyGridConveyorSystemPatch: {MyGridConveyorSystemPatch.PullItemReports}");
+                foreach (var report in MyGridConveyorSystemPatch.CacheReports)
+                {
+                    log.Info($"- MyGridConveyorSystemPatch: {report}");
+                }
                 // log.Info($"- MyLargeTurretTargetingSystemPatch VisibilityCache: {MyLargeTurretTargetingSystemPatch.VisibilityCacheReport}");
                 // log.Info($"- MyCubeBlockPatch: {MyCubeBlockPatch.CacheReport}");
                 // log.Info($"- MyTerminalBlockPatch: {MyTerminalBlockPatch.CacheReport}");

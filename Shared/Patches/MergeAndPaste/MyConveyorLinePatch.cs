@@ -18,7 +18,7 @@ namespace Shared.Patches
         {
             // For better performance the configuration is done in MyCubeGridPatch.MergeGridInternalPrefix
             // This is because UpdateIsWorking is called frequently, so we should not recall the plugin config here.
-            return !MyCubeGridPatch.IsInMergeGridInternal;
+            return !MyCubeGridPatchForMergeAndPaste.IsInMergeGridInternal;
         }
     }
 }

@@ -145,8 +145,8 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out fixAccessLabel, out fixAccessCheckbox, config.FixAccess, value => config.FixAccess = value, "Less frequent update of block access rights", "Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason");
             CreateCheckbox(out fixBlockLimitLabel, out fixBlockLimitCheckbox, config.FixBlockLimit, value => config.FixBlockLimit = value, "Less frequent sync of block counts for limit checking", "Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits");
             CreateCheckbox(out fixSafeActionLabel, out fixSafeActionCheckbox, config.FixSafeAction, value => config.FixSafeAction = value, "Cache actions allowed by the safe zone", "Caches the result of MySafeZone.IsActionAllowed and MySessionComponentSafeZones.IsActionAllowedForSafezone for 2 seconds");
-            CreateCheckbox(out fixTerminalLabel, out fixTerminalCheckbox, config.FixTerminal, value => config.FixTerminal = value, "Less frequent update of PB access to blocks", "Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often");
-            CreateCheckbox(out fixTextPanelLabel, out fixTextPanelCheckbox, config.FixTextPanel, value => config.FixTextPanel = value, "Text panel performance fixes", "Disables some LCD update code on multiplayer servers");
+            // CreateCheckbox(out fixTerminalLabel, out fixTerminalCheckbox, config.FixTerminal, value => config.FixTerminal = value, "Less frequent update of PB access to blocks", "Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often");
+            // CreateCheckbox(out fixTextPanelLabel, out fixTextPanelCheckbox, config.FixTextPanel, value => config.FixTextPanel = value, "Text panel performance fixes", "Disables some LCD update code on multiplayer servers");
             CreateCheckbox(out fixConveyorLabel, out fixConveyorCheckbox, config.FixConveyor, value => config.FixConveyor = value, "Conveyor network performance fixes", "Caches conveyor network lookups");
             //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
 
@@ -215,8 +215,8 @@ namespace ClientPlugin.GUI
             fixAccessCheckbox.Enabled = enabled;
             fixBlockLimitCheckbox.Enabled = enabled;
             fixSafeActionCheckbox.Enabled = enabled;
-            fixTerminalCheckbox.Enabled = enabled;
-            fixTextPanelCheckbox.Enabled = enabled;
+            // fixTerminalCheckbox.Enabled = enabled;
+            // fixTextPanelCheckbox.Enabled = enabled;
             fixConveyorCheckbox.Enabled = enabled;
             //BOOL_OPTION optionNameCheckbox.Enabled = enabled;
         }
@@ -308,9 +308,9 @@ namespace ClientPlugin.GUI
             // layoutTable.Add(fixTerminalLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             // row++;
 
-            layoutTable.Add(fixTextPanelCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
-            layoutTable.Add(fixTextPanelLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
-            row++;
+            // layoutTable.Add(fixTextPanelCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            // layoutTable.Add(fixTextPanelLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            // row++;
 
             layoutTable.Add(fixConveyorCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
             layoutTable.Add(fixConveyorLabel, MyAlignH.Left, MyAlignV.Center, row, 3);

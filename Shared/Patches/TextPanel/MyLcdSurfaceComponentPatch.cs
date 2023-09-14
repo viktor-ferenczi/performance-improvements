@@ -1,5 +1,6 @@
 ﻿#if !CLIENT
 
+using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using Shared.Config;
 using Shared.Plugin;
@@ -8,6 +9,8 @@ using SpaceEngineers.Game.EntityComponents.Blocks;
 
 namespace Shared.Patches.TextPanel
 {
+    [SuppressMessage("ReSharper", "UnusedType.Global")]
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
     [HarmonyPatch(typeof(MyLcdSurfaceComponent))]
     public static class MyLcdSurfaceComponentPatch
     {
