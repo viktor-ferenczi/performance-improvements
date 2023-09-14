@@ -11,14 +11,15 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Block\MyCubeBlockPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Block\MyTerminalBlockPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyGridConveyorSystemPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyPathfindingDataPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyDefinitionIdToStringPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyPlayerCollectionPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\MyClusterTreePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\MyPhysicsPatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\MyVoxelPhysicsBodyPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySessionComponentSafeZonesPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\TerminalSystem\MyGridTerminalSystemPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\TextPanel\MyLcdSurfaceComponentPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Cache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\CacheStat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\MySessionExtensions.cs" />
@@ -48,6 +49,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\ObjectPools.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\RwLockHashSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\ConveyorStat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\TwoLayerCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\UintCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\CodeChange.cs" />

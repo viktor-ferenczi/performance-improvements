@@ -89,8 +89,6 @@ namespace ClientPlugin
         private void CustomUpdate()
         {
             PatchHelpers.PatchUpdates();
-            
-            MyDefinitionIdToStringPatch.Update();
         }
 
         // ReSharper disable once UnusedMember.Global

@@ -1,7 +1,10 @@
-#if UNTESTED
+#if DEBUG
 
 using HarmonyLib;
 using Sandbox.Game.GameSystems.Conveyors;
+using Shared.Config;
+using Shared.Plugin;
+using Shared.Tools;
 using VRage.Algorithms;
 
 namespace Shared.Patches
@@ -10,14 +13,18 @@ namespace Shared.Patches
     [HarmonyPatch(typeof(MyPathFindingSystem<IMyConveyorEndpoint>.Enumerator))]
     public static class MyPathFindingSystemEnumeratorPatch
     {
-        private static Stats calls;
+        private static IPluginConfig Config => Common.Config;
+
+#if DEBUG
+        private static readonly ConveyorStat Stat = new ConveyorStat();
+        public static string Report(int period) => Stat.CountReport(period);
+#endif
 
         // ReSharper disable once UnusedMember.Local
         // ReSharper disable once InconsistentNaming
         [HarmonyPrefix]
         [HarmonyPatch(nameof(MyPathFindingSystem<IMyConveyorEndpoint>.Enumerator.MoveNext))]
-        [EnsureCode("")]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [EnsureCode("05a0ee2c")]
         private static bool MoveNextPrefix(
             // object __instance,
             // ref bool __result,
@@ -26,24 +33,14 @@ namespace Shared.Patches
             // object ___m_vertexFilter,
             // object ___m_vertexTraversable,
             // object ___m_edgeTraversable
-            )
+        )
         {
-            calls.Increment();
+#if DEBUG
+            Stat.CountCall();
+#endif
             return true;
-        }
-
-        public static void LogStats(int period)
-        {
-            if (Plugin.Tick % period != 0)
-                return;
-
-            var seconds = period / 60;
-
-            // There can be some minimal inconsistency, but that's okay for logging purposes
-            Plugin.Log.Debug("MoveNext {0}", calls.Format(seconds));
-
-            calls.Reset();
         }
     }
 }
+
 #endif

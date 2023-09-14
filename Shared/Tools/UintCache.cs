@@ -6,7 +6,9 @@ namespace Shared.Tools
 {
     public class UintCache<TK>
     {
-        // Tick counter in the upper 32 bits
+        private readonly int cleanupAbove;
+
+        // The tick counter is in the upper 32 bits of these values
         private readonly ulong cleanupPeriod;
         private ulong tick;
         private ulong nextCleanup;
@@ -22,7 +24,7 @@ namespace Shared.Tools
         public string Report => Stat.Report;
 #endif
 
-        public UintCache(uint cleanupPeriod, uint maxDeleteCount = 64)
+        public UintCache(uint cleanupPeriod, uint maxDeleteCount = 64, int cleanupAbove = 0)
         {
             this.cleanupPeriod = (ulong)cleanupPeriod << 32;
             this.maxDeleteCount = maxDeleteCount;
@@ -35,6 +37,11 @@ namespace Shared.Tools
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Cleanup()
         {
+            // We expect reading the number of items to be atomic.
+            // Getting a wrong value sometimes does not break anything anyway.
+            if (cache.Count <= cleanupAbove)
+                return;
+
             if ((tick = (ulong)Common.Plugin.Tick << 32) < nextCleanup)
                 return;
 

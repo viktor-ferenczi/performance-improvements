@@ -7,6 +7,7 @@ using HarmonyLib;
 using Shared.Logging;
 using Shared.Plugin;
 using Shared.Tools;
+using SpaceEngineers.Game.EntityComponents.Blocks;
 
 namespace Shared.Patches
 {
@@ -42,7 +43,9 @@ namespace Shared.Patches
                     log.Critical(ex, "Failed to scan for conflicting code changes");
                     return false;
                 }
-            } else {
+            }
+            else
+            {
                 log.Warning("Conflicting code change detection is disabled in plugin configuration");
             }
 
@@ -84,23 +87,29 @@ namespace Shared.Patches
         // Called on every update
         public static void PatchUpdates()
         {
+            MyDefinitionIdToStringPatch.Update();
             MySafeZonePatch.Update();
             MySessionComponentSafeZonesPatch.Update();
             MyWindTurbinePatch.Update();
+            MyGridConveyorSystemPatch.Update();
             // MyCubeBlockPatch.Update();
             // MyTerminalBlockPatch.Update();
             // MyGridTerminalSystemPatch.Update();
 
 #if DEBUG
-            if (Common.Plugin.Tick % 1200 == 0)
+            const int period = 1200;
+            if (Common.Plugin.Tick % period == 0)
             {
                 var log = Common.Plugin.Log;
                 log.Info("Cache hit rates:");
                 log.Info($"- MySafeZonePatch IsSafe: {MySafeZonePatch.IsSafeCacheReport}");
                 log.Info($"- MySafeZonePatch IsActionAllowed: {MySafeZonePatch.IsActionAllowedCacheReport}");
                 log.Info($"- MySessionComponentSafeZonesPatch: {MySessionComponentSafeZonesPatch.CacheReport}");
-                // log.Info($"- MyLargeTurretTargetingSystemPatch VisibilityCache: {MyLargeTurretTargetingSystemPatch.VisibilityCacheReport}");
                 log.Info($"- MyWindTurbinePatch: {MyWindTurbinePatch.CacheReport}");
+                log.Info($"- MyPathFindingSystemPatch: {MyPathFindingSystemPatch.Report(period)}");
+                log.Info($"- MyPathFindingSystemEnumeratorPatch: {MyPathFindingSystemEnumeratorPatch.Report(period)}");
+                log.Info($"- MyGridConveyorSystemPatch.Reachable: {MyGridConveyorSystemPatch.ReachableCache.Report}");
+                // log.Info($"- MyLargeTurretTargetingSystemPatch VisibilityCache: {MyLargeTurretTargetingSystemPatch.VisibilityCacheReport}");
                 // log.Info($"- MyCubeBlockPatch: {MyCubeBlockPatch.CacheReport}");
                 // log.Info($"- MyTerminalBlockPatch: {MyTerminalBlockPatch.CacheReport}");
                 // log.Info($"- MyGridTerminalSystemPatch: {MyGridTerminalSystemPatch.InhibitorReport}");

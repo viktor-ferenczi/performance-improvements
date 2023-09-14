@@ -1,4 +1,7 @@
-using System.Collections.Generic;
+// New version based on ThreadLocal, but it is not faster
+// than the original (about the same performance)
+#if DISABLED
+
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -23,25 +26,16 @@ namespace Shared.Patches.Conveyor
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void TimestampCtorPostfix(out object ___m_lockObject)
         {
-            ___m_lockObject = new RwLockCounter();
+            ___m_lockObject = new ThreadLocal<long>(() => 0L);
         }
 
         [HarmonyPrefix]
         [HarmonyPatch("Timestamp", MethodType.Setter)]
         [EnsureCode("af65d019")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool TimestampSetterPrefix(object ___m_lockObject, Dictionary<Thread, long> ___threadedTimestamp, long value)
+        private static bool TimestampSetterPrefix(object ___m_lockObject, long value)
         {
-            if (!(___m_lockObject is RwLockCounter rwLock))
-            {
-                // ReSharper disable once RedundantAssignment
-                ___m_lockObject = rwLock = new RwLockCounter();
-            }
-
-            rwLock.AcquireForWriting();
-            ___threadedTimestamp[Thread.CurrentThread] = value;
-            rwLock.ReleaseAfterWriting();
-
+            ((ThreadLocal<long>)___m_lockObject).Value = value;
             return false;
         }
 
@@ -49,19 +43,12 @@ namespace Shared.Patches.Conveyor
         [HarmonyPatch("Timestamp", MethodType.Getter)]
         [EnsureCode("8e608197")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool TimestampGetterPrefix(object ___m_lockObject, Dictionary<Thread, long> ___threadedTimestamp, out long __result)
+        private static bool TimestampGetterPrefix(object ___m_lockObject, out long __result)
         {
-            if (!(___m_lockObject is RwLockCounter rwLock))
-            {
-                // ReSharper disable once RedundantAssignment
-                ___m_lockObject = rwLock = new RwLockCounter();
-            }
-
-            rwLock.AcquireForReading();
-            ___threadedTimestamp.TryGetValue(Thread.CurrentThread, out __result);
-            rwLock.ReleaseAfterReading();
-
+            __result = ((ThreadLocal<long>)___m_lockObject).Value;
             return false;
         }
     }
 }
+
+#endif
