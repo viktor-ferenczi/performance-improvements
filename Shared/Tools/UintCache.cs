@@ -21,29 +21,31 @@ namespace Shared.Tools
 
 #if DEBUG
         public readonly CacheStat Stat = new CacheStat();
+        public bool HasItems => cache.Count != 0;
         public string Report => Stat.Report;
 #endif
 
-        public UintCache(uint cleanupPeriod, uint maxDeleteCount = 64, int cleanupAbove = 0)
+        public UintCache(uint cleanupPeriod, uint maxDeleteCount = 64)
         {
             this.cleanupPeriod = (ulong)cleanupPeriod << 32;
             this.maxDeleteCount = maxDeleteCount;
 
+            // FIXME: Reuse arrays of the same size (get them from a thread local pool on demand)
             keysToDelete = new TK[this.maxDeleteCount];
             nextCleanup = tick + cleanupPeriod;
         }
 
         // Must be called on every tick to to store the clock, but it does a cleanup only rarely
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Cleanup()
+        public bool Cleanup()
         {
             // We expect reading the number of items to be atomic.
             // Getting a wrong value sometimes does not break anything anyway.
             if (cache.Count <= cleanupAbove)
-                return;
+                return false;
 
             if ((tick = (ulong)Common.Plugin.Tick << 32) < nextCleanup)
-                return;
+                return false;
 
             nextCleanup = tick + cleanupPeriod;
 
@@ -61,12 +63,14 @@ namespace Shared.Tools
 
             cache.FinishReading();
             if (count == 0)
-                return;
+                return false;
 
             cache.BeginWriting();
             for (var i = 0; i < count; i++)
                 cache.Remove(keysToDelete[i]);
             cache.FinishWriting();
+
+            return true;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

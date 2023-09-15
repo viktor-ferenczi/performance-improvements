@@ -12,7 +12,7 @@ namespace Shared.Patches
     // ReSharper disable once UnusedType.Global
     [HarmonyPatch(typeof(MyCubeGrid))]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public static class MyCubeGridPatch
+    public static class MyCubeGridPatchForMergeAndPaste
     {
         private static IPluginConfig Config => Common.Config;
 

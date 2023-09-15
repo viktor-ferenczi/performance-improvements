@@ -180,7 +180,7 @@ namespace TorchPlugin
             set => SetValue(ref fixTerminal, value);
         }
 
-        [Display(Order = 24, GroupName = "Fixes", Name = "Text panel performance fixes", Description = "Disables some LCD update code on multiplayer servers")]
+        [Display(Order = 24, GroupName = "Fixes", Name = "Text panel performance fixes", Description = "Disables some LCD update code on multiplayer servers (disable this if LCDs flicker on clients)")]
         public bool FixTextPanel
         {
             get => fixTextPanel;

@@ -11,8 +11,13 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Block\MyCubeBlockPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Block\MyTerminalBlockPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Connector\MyShipConnectorPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyAssemblerPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyCubeBlockPatchForConveyor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyCubeGridPatchForConveyor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyGridConveyorSystemPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyPathfindingDataPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\PullItemStats.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyDefinitionIdToStringPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyPlayerCollectionPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\MyClusterTreePatch.cs" />
@@ -36,7 +41,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyPathFindingSystemEnumeratorPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyPathFindingSystemPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyConveyorLinePatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyCubeGridPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyCubeGridPatchForMergeAndPaste.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyGroupsPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MergeAndPaste\MyResourceDistributorComponentPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\PatchHelpers.cs" />

@@ -50,6 +50,7 @@ namespace Shared.Tools
             this.cleanupPeriod = cleanupPeriod;
             this.maxDeleteCount = maxDeleteCount;
 
+            // FIXME: Reuse arrays of the same size (get them from a thread local pool on demand)
             keysToDelete = new TK[this.maxDeleteCount];
             nextCleanup = tick + cleanupPeriod;
         }
