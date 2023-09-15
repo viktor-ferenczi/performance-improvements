@@ -188,7 +188,7 @@ namespace Shared.Config
 
         public bool FixConveyor
         {
-            get => fixConveyor;
+            get => false;  // fixConveyor;
             set => SetValue(ref fixConveyor, value);
         }
 

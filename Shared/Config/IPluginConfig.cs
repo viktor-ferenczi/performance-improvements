@@ -67,7 +67,7 @@ namespace Shared.Config
         // Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often
         bool FixTerminal { get; set; }
 
-        // Disables some LCD update code on multiplayer servers
+        // Disables UpdateVisibility of LCD surfaces on multiplayer servers
         bool FixTextPanel { get; set; }
 
         // Caches conveyor network lookups

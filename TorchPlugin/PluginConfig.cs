@@ -180,17 +180,17 @@ namespace TorchPlugin
             set => SetValue(ref fixTerminal, value);
         }
 
-        [Display(Order = 24, GroupName = "Fixes", Name = "Text panel performance fixes", Description = "Disables some LCD update code on multiplayer servers (disable this if LCDs flicker on clients)")]
+        [Display(Order = 24, GroupName = "Fixes", Name = "Text panel performance fixes", Description = "Disables UpdateVisibility of LCD surfaces on multiplayer servers (disable this if LCDs flicker on clients)")]
         public bool FixTextPanel
         {
             get => fixTextPanel;
             set => SetValue(ref fixTextPanel, value);
         }
 
-        [Display(Order = 25, GroupName = "Fixes", Name = "Conveyor network performance fixes", Description = "Caches conveyor network lookups")]
+        // [Display(Order = 25, GroupName = "Fixes", Name = "Conveyor network performance fixes", Description = "Caches conveyor network lookups")]
         public bool FixConveyor
         {
-            get => fixConveyor;
+            get => false;  // fixConveyor;
             set => SetValue(ref fixConveyor, value);
         }
 
