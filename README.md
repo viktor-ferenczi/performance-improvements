@@ -269,10 +269,26 @@ Replaced an O(N*M) algorithm with one of better time complexity.
 Improves the load time of servers with many grids.
 Potentially reduce lag as ships move around.
 
-### Optimized MyGridConveyorSystem.Reachable
+### Cached MyGridConveyorSystem.Reachable
 
-Cached the result of the simpler `Reachable` override for 5 seconds.
-It helps reducing lag when players enters/leave a cockpit or cryopod.
+Cached the result of `Reachable` calls, because they are very numerous
+in case of grids with long conveyor networks (capital ships, production bases). 
+
+There is a separate cache per logical grid group.
+
+Cache invalidation conditions:
+- block added/removed to/from grid if the block has conveyor ports
+- grid split/merge
+- grid ownership change
+- connector lock/unlock or config change
+- grid added/remove to/from logical group
+
+It eliminates most of the lag when players enter/leave cockpits or cryopods.
+It also reduces the conveyor overhead while loading large production grids.
+
+It may have a slight impact on simple grids with short conveyor systems
+due to the additional overhead of building and using the cache for little
+benefit in that case, however this overhead should be negligible.
 
 ## Bugs fixed by Keen in 1.202.066 Automaton
 

@@ -23,14 +23,6 @@ namespace Shared.Patches.TextPanel
         {
             return !Config.FixTextPanel;
         }
-
-        [HarmonyPrefix]
-        [HarmonyPatch("UpdateHideableScreenVisibility")]
-        [EnsureCode("44504995")]
-        private static bool UpdateHideableScreenVisibilityPrefix()
-        {
-            return !Config.FixTextPanel;
-        }
     }
 }
 
