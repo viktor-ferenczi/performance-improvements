@@ -55,7 +55,7 @@ namespace TorchPlugin
             Respond("  safe_action: Cache actions allowed by the safe zone");
             // Respond("  terminal: Less frequent update of PB access to blocks");
             Respond("  text_panel: Text panel performance fixes");
-            // Respond("  conveyor: Conveyor network performance fixes");
+            Respond("  conveyor: Conveyor network performance fixes");
             //BOOL_OPTION Respond("  option_name: Option label");
         }
 
