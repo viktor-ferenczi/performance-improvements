@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using Sandbox.Game.Entities;
+using Sandbox.Game.Entities.Blocks;
 using Sandbox.Game.Entities.Cube;
 using Sandbox.Game.GameSystems.Conveyors;
 using Shared.Config;
@@ -16,19 +17,6 @@ namespace Shared.Patches
     public static class MyCubeGridPatchForConveyor
     {
         private static IPluginConfig Config => Common.Config;
-
-        [HarmonyPatch("ScheduleDirtyRegion")]
-        [HarmonyPrefix]
-        [EnsureCode("2d84dd69")]
-        private static bool ScheduleDirtyRegionPrefix(MyCubeGrid __instance, bool ___m_dirtyRegionScheduled)
-        {
-            if (Config.FixConveyor && !___m_dirtyRegionScheduled)
-            {
-                MyGridConveyorSystemPatch.InvalidateCache(__instance);
-            }
-
-            return true;
-        }
 
         [HarmonyPatch("AddCubeBlock")]
         [HarmonyPostfix]
@@ -72,6 +60,22 @@ namespace Shared.Patches
             {
                 MyGridConveyorSystemPatch.DropCache(__instance);
                 MyGridConveyorSystemPatch.DropCache(gridToMerge);
+            }
+        }
+
+        [HarmonyPatch("MechanicalConnectionBlockAttachUpdateStatusChanged")]
+        [HarmonyPostfix]
+        [EnsureCode("b0648511")]
+        private static void MechanicalConnectionBlockAttachUpdateStatusChangedPostfix(MyCubeGrid __instance, MyMechanicalConnectionBlockBase mechConBlock)
+        {
+            if (Config.FixConveyor)
+            {
+                MyGridConveyorSystemPatch.DropCache(__instance);
+                var topGrid = mechConBlock?.TopGrid;
+                if (topGrid != null)
+                {
+                    MyGridConveyorSystemPatch.DropCache(topGrid);
+                }
             }
         }
 
