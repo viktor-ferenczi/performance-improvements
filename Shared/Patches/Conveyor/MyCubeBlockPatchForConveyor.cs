@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using Sandbox.Game.Entities;
-using Sandbox.Game.Entities.Cube;
 using Sandbox.Game.GameSystems.Conveyors;
 using Shared.Config;
 using Shared.Plugin;
