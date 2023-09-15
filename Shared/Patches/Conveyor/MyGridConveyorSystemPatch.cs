@@ -36,7 +36,7 @@ namespace Shared.Patches
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static UintCache<ulong> CreateCache()
         {
-            return new UintCache<ulong>(999999999);
+            return new UintCache<ulong>(999999999, 16);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
