@@ -187,10 +187,10 @@ namespace TorchPlugin
             set => SetValue(ref fixTextPanel, value);
         }
 
-        // [Display(Order = 25, GroupName = "Fixes", Name = "Conveyor network performance fixes", Description = "Caches conveyor network lookups")]
+        [Display(Order = 25, GroupName = "Fixes", Name = "Conveyor network performance fixes", Description = "Caches conveyor network lookups")]
         public bool FixConveyor
         {
-            get => false;  // fixConveyor;
+            get => fixConveyor;
             set => SetValue(ref fixConveyor, value);
         }
 
