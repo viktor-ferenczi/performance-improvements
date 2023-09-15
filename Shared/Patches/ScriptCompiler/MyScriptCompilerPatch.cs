@@ -11,6 +11,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using HarmonyLib;
+using Sandbox.Game.Multiplayer;
 using Shared.Config;
 using Shared.Logging;
 using Shared.Plugin;
@@ -152,7 +153,6 @@ namespace Shared.Patches
                     Log.Debug("Loaded compiled script assembly from cache file: {0}", cachePath);
 #endif
                     return assembly;
-
                 }
                 catch (IOException)
                 {
@@ -172,6 +172,7 @@ namespace Shared.Patches
                     {
                         Log.Error(e2, "Error renaming broken compiled script assembly cache file: {0}", cachePath);
                     }
+
                     break;
                 }
 
@@ -214,15 +215,9 @@ namespace Shared.Patches
         {
             if (!Config.Enabled ||
                 target == MyApiTarget.None ||
-#if CLIENT
-                // 1.10.9 (2023-07-30): Disabled mod compilation on client
-                // as per request of avaness. Reason:
-                // "Plugin loader added compilation symbols to mods, so it breaks
-                //  build info in really weird ways because it uses that symbol"
-                target == MyApiTarget.Mod ||
-#endif
                 target == MyApiTarget.Ingame && !Config.CacheScripts ||
-                target == MyApiTarget.Mod && !Config.CacheMods)
+                target == MyApiTarget.Mod && !Config.CacheMods ||
+                target == MyApiTarget.Mod && !Sync.IsDedicated // Requested by Avaness because PL is adding compilation symbols to mods which breaks by this)
             {
                 cachePath = null;
                 return false;

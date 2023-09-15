@@ -1,7 +1,8 @@
-﻿#if !CLIENT
+﻿#if TORCH || DEDICATED
 
 using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
+using Sandbox.Game.Multiplayer;
 using Shared.Config;
 using Shared.Plugin;
 using Shared.Tools;
@@ -21,6 +22,9 @@ namespace Shared.Patches.TextPanel
         [EnsureCode("3e177a11")]
         private static bool UpdateVisibilityPrefix()
         {
+            if (!Sync.IsDedicated)
+                return true;
+
             return !Config.FixTextPanel;
         }
     }
