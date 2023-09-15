@@ -217,7 +217,7 @@ namespace Shared.Patches
                 target == MyApiTarget.None ||
                 target == MyApiTarget.Ingame && !Config.CacheScripts ||
                 target == MyApiTarget.Mod && !Config.CacheMods ||
-                target == MyApiTarget.Mod && !Sync.IsDedicated // Requested by Avaness because PL is adding compilation symbols to mods which breaks by this)
+                target == MyApiTarget.Mod && !Sync.IsDedicated)
             {
                 cachePath = null;
                 return false;
