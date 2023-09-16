@@ -76,8 +76,8 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel fixTextPanelLabel;
         private MyGuiControlCheckbox fixTextPanelCheckbox;
 
-        // private MyGuiControlLabel fixConveyorLabel;
-        // private MyGuiControlCheckbox fixConveyorCheckbox;
+        private MyGuiControlLabel fixConveyorLabel;
+        private MyGuiControlCheckbox fixConveyorCheckbox;
 
         /*BOOL_OPTION
         private MyGuiControlLabel optionNameLabel;
@@ -126,13 +126,7 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out fixP2PUpdateStatsLabel, out fixP2PUpdateStatsCheckbox, config.FixP2PUpdateStats, value => config.FixP2PUpdateStats = value, "Fix P2P update stats", "Eliminate 98% of EOS P2P network statistics updates (VRage.EOS.MyP2PQoSAdapter.UpdateStats)");
             CreateCheckbox(out fixGarbageCollectionLabel, out fixGarbageCollectionCheckbox, config.FixGarbageCollection, value => config.FixGarbageCollection = value, "Fix garbage collection", "Eliminate long pauses on starting and stopping large worlds by disabling selected GC.Collect calls");
             CreateCheckbox(out fixGridGroupsLabel, out fixGridGroupsCheckbox, config.FixGridGroups, value => config.FixGridGroups = value, "Fix grid groups", "Disable resource updates while grids are being moved between groups");
-
-            // 1.10.9 (2023-07-30): Disabled mod compilation on client
-            // as per request of avaness. Reason:
-            // "Plugin loader added compilation symbols to mods, so it breaks
-            //  build info in really weird ways because it uses that symbol"
-            CreateCheckbox(out cacheModsLabel, out cacheModsCheckbox, false, value => config.CacheMods = value, "Cache compiled mods", "Caches compiled mods for faster world load" + "\n\n1.10.9 (2023-07-30): Disabled mod compilation on client\nas per request of avaness. Reason:\n\"Plugin loader added compilation symbols to mods, so it breaks\nbuild info in really weird ways because it uses that symbol.\"", false);
-
+            CreateCheckbox(out cacheModsLabel, out cacheModsCheckbox, config.CacheMods, value => config.CacheMods = value, "Cache compiled mods", "Caches compiled mods for faster world load");
             CreateCheckbox(out cacheScriptsLabel, out cacheScriptsCheckbox, config.CacheScripts, value => config.CacheScripts = value, "Cache compiled scripts", "Caches compiled in-game scripts (PB programs) to reduce lag");
             CreateCheckbox(out disableModApiStatisticsLabel, out disableModApiStatisticsCheckbox, config.DisableModApiStatistics, value => config.DisableModApiStatistics = value, "Disable Mod API statistics", "Disable the collection of Mod API call statistics to eliminate the overhead (affects only world loading)");
             CreateCheckbox(out fixSafeZoneLabel, out fixSafeZoneCheckbox, config.FixSafeZone, value => config.FixSafeZone = value, "Fix safe zone lag", "Caches frequent recalculations in safe zones");
@@ -147,7 +141,7 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out fixSafeActionLabel, out fixSafeActionCheckbox, config.FixSafeAction, value => config.FixSafeAction = value, "Cache actions allowed by the safe zone", "Caches the result of MySafeZone.IsActionAllowed and MySessionComponentSafeZones.IsActionAllowedForSafezone for 2 seconds");
             // CreateCheckbox(out fixTerminalLabel, out fixTerminalCheckbox, config.FixTerminal, value => config.FixTerminal = value, "Less frequent update of PB access to blocks", "Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often");
             // CreateCheckbox(out fixTextPanelLabel, out fixTextPanelCheckbox, config.FixTextPanel, value => config.FixTextPanel = value, "Text panel performance fixes", "Disables UpdateVisibility of LCD surfaces on multiplayer servers");
-            // CreateCheckbox(out fixConveyorLabel, out fixConveyorCheckbox, config.FixConveyor, value => config.FixConveyor = value, "Conveyor network performance fixes", "Caches conveyor network lookups");
+            CreateCheckbox(out fixConveyorLabel, out fixConveyorCheckbox, config.FixConveyor, value => config.FixConveyor = value, "Conveyor network performance fixes", "Caches conveyor network lookups");
             //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
 
             EnableDisableFixes();
@@ -217,7 +211,7 @@ namespace ClientPlugin.GUI
             fixSafeActionCheckbox.Enabled = enabled;
             // fixTerminalCheckbox.Enabled = enabled;
             // fixTextPanelCheckbox.Enabled = enabled;
-            // fixConveyorCheckbox.Enabled = enabled;
+            fixConveyorCheckbox.Enabled = enabled;
             //BOOL_OPTION optionNameCheckbox.Enabled = enabled;
         }
 
@@ -312,9 +306,9 @@ namespace ClientPlugin.GUI
             // layoutTable.Add(fixTextPanelLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             // row++;
 
-            // layoutTable.Add(fixConveyorCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
-            // layoutTable.Add(fixConveyorLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
-            // row++;
+            layoutTable.Add(fixConveyorCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixConveyorLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            row++;
 
             /*BOOL_OPTION
             layoutTable.Add(optionNameCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);

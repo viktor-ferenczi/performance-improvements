@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyCubeGridPatchForConveyor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyGridConveyorSystemPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyPathfindingDataPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyShipConnectorPatchForConveyor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\PullItemStats.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyDefinitionIdToStringPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyPlayerCollectionPatch.cs" />
