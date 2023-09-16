@@ -11,7 +11,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using HarmonyLib;
-using Sandbox.Game.Multiplayer;
 using Shared.Config;
 using Shared.Logging;
 using Shared.Plugin;
@@ -74,6 +73,7 @@ namespace Shared.Patches
 
             var j = il.FindIndex(i => i.opcode == OpCodes.Ldfld && i.operand is FieldInfo fi && fi.Name.Contains("loadPDBs")) - 1;
             Debug.Assert(il[j].opcode == OpCodes.Ldarg_0);
+            il.Insert(j++, new CodeInstruction(OpCodes.Ldloc_1));
             il.Insert(j++, new CodeInstruction(OpCodes.Ldarg_0));
             il.Insert(j++, new CodeInstruction(OpCodes.Ldfld, target));
             il.Insert(j++, new CodeInstruction(OpCodes.Ldarg_0));
@@ -82,8 +82,9 @@ namespace Shared.Patches
             il.Insert(j++, new CodeInstruction(OpCodes.Ldfld, assemblyStream));
             il.Insert(j, new CodeInstruction(OpCodes.Call, StoreIntoCacheInfo));
 
-            var k = il.FindIndex(i => i.opcode == OpCodes.Stloc_0) + 1;
-            Debug.Assert(il[k].opcode == OpCodes.Ldarg_0);
+            var k = il.FindIndex(i => i.opcode == OpCodes.Stloc_1) + 1;
+            Debug.Assert(il[k].opcode == OpCodes.Ldloc_0);
+            il.Insert(k++, new CodeInstruction(OpCodes.Ldloc_1));
             il.Insert(k++, new CodeInstruction(OpCodes.Ldarg_0));
             il.Insert(k++, new CodeInstruction(OpCodes.Ldfld, target));
             il.Insert(k++, new CodeInstruction(OpCodes.Ldarg_0));
@@ -112,12 +113,12 @@ namespace Shared.Patches
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
-        private static Assembly RecallFromCache(MyApiTarget target, ref IEnumerable<Script> scripts, string friendlyName)
+        private static Assembly RecallFromCache(MyScriptCompiler myScriptCompiler, MyApiTarget target, ref IEnumerable<Script> scripts, string friendlyName)
         {
             var scriptList = new ScriptList(scripts);
             scripts = scriptList;
 
-            if (!GetCachePath(target, scriptList, out var cachePath))
+            if (!GetCachePath(myScriptCompiler, target, scriptList, out var cachePath))
                 return null;
 
             if (!File.Exists(cachePath))
@@ -183,10 +184,10 @@ namespace Shared.Patches
             return null;
         }
 
-        private static void StoreIntoCache(MyApiTarget target, IEnumerable<Script> scripts, MemoryStream assemblyStream)
+        private static void StoreIntoCache(MyScriptCompiler myScriptCompiler, MyApiTarget target, IEnumerable<Script> scripts, MemoryStream assemblyStream)
         {
             var scriptList = (ScriptList)scripts;
-            if (!GetCachePath(target, scriptList.Scripts, out var cachePath))
+            if (!GetCachePath(myScriptCompiler, target, scriptList.Scripts, out var cachePath))
                 return;
 
 #if DEBUG
@@ -211,43 +212,54 @@ namespace Shared.Patches
             }
         }
 
-        private static bool GetCachePath(MyApiTarget target, IEnumerable<Script> scripts, out string cachePath)
+        private static bool GetCachePath(MyScriptCompiler myScriptCompiler, MyApiTarget target, IEnumerable<Script> scripts, out string cachePath)
         {
             if (!Config.Enabled ||
                 target == MyApiTarget.None ||
-                target == MyApiTarget.Ingame && !Config.CacheScripts ||
                 target == MyApiTarget.Mod && !Config.CacheMods ||
-                target == MyApiTarget.Mod && !Sync.IsDedicated)
+                target == MyApiTarget.Ingame && !Config.CacheScripts)
             {
                 cachePath = null;
                 return false;
             }
 
             // NOTE: Called twice for new script compilations, a bit of wasted work, but no need to keep state
-            var scriptsHash = GetScriptsHash(scripts);
+            var scriptsHash = GetScriptsHash(myScriptCompiler, scripts);
             var cacheFileName = $"{scriptsHash}.cache";
             var cacheDir = target == MyApiTarget.Ingame ? InGameScriptCacheDir : ModScriptCacheDir;
             cachePath = Path.Combine(cacheDir, cacheFileName);
             return true;
         }
 
-        private static string GetScriptsHash(IEnumerable<Script> scripts)
+        private static string GetScriptsHash(MyScriptCompiler myScriptCompiler, IEnumerable<Script> scripts)
         {
             const int size = 20;
-            var hexHash = new StringBuilder();
+            var hash = new byte[size];
+
             using (var sha1 = SHA1.Create())
             {
-                var hash = new byte[size];
+                var reader = myScriptCompiler.ConditionalCompilationSymbols;
+                if (reader.IsValid)
+                {
+                    foreach (var symbol in reader)
+                    {
+                        var result = sha1.ComputeHash(Encoding.UTF8.GetBytes(symbol));
+                        for (var i = 0; i < size; i++)
+                            hash[i] ^= result[i];
+                    }
+                }
+
                 foreach (var script in scripts)
                 {
                     var result = sha1.ComputeHash(Encoding.UTF8.GetBytes(script.Code));
                     for (var i = 0; i < size; i++)
                         hash[i] ^= result[i];
                 }
-
-                for (var i = 0; i < size; i++)
-                    hexHash.Append(hash[i].ToString("x2"));
             }
+
+            var hexHash = new StringBuilder();
+            for (var i = 0; i < size; i++)
+                hexHash.Append(hash[i].ToString("x2"));
 
             return hexHash.ToString();
         }

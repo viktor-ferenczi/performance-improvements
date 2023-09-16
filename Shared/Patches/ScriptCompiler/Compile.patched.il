@@ -1,20 +1,21 @@
-// 59bd1c0b
+// f0c1c3d6
 ldarg.0
 ldfld System.Int32 VRage.Scripting.<Compile>d__37::<>1__state
 stloc.0
+ldarg.0
+ldfld VRage.Scripting.MyScriptCompiler VRage.Scripting.<Compile>d__37::<>4__this
+stloc.1
+ldloc.1
 ldarg.0
 ldfld VRage.Scripting.MyApiTarget VRage.Scripting.<Compile>d__37::target
 ldarg.0
 ldflda System.Collections.Generic.IEnumerable`1<VRage.Scripting.Script> VRage.Scripting.<Compile>d__37::scripts
 ldarg.0
 ldfld System.String VRage.Scripting.<Compile>d__37::friendlyName
-call static System.Reflection.Assembly Shared.Patches.MyScriptCompilerPatch::RecallFromCache(VRage.Scripting.MyApiTarget target, System.Collections.Generic.IEnumerable`1& scripts, System.String friendlyName)
+call static System.Reflection.Assembly Shared.Patches.MyScriptCompilerPatch::RecallFromCache(VRage.Scripting.MyScriptCompiler myScriptCompiler, VRage.Scripting.MyApiTarget target, System.Collections.Generic.IEnumerable`1& scripts, System.String friendlyName)
 dup
 stloc.2
 brtrue.s L35
-ldarg.0
-ldfld VRage.Scripting.MyScriptCompiler VRage.Scripting.<Compile>d__37::<>4__this
-stloc.1
 [EX_BeginException]
 ldloc.0
 switch L0, L1, L2, L3, L4, L5
@@ -570,13 +571,14 @@ brtrue L40
 ldarg.0
 ldfld System.Boolean VRage.Scripting.<Compile>d__37::<success>5__10
 brfalse.s L41
+ldloc.1
 ldarg.0
 ldfld VRage.Scripting.MyApiTarget VRage.Scripting.<Compile>d__37::target
 ldarg.0
 ldfld System.Collections.Generic.IEnumerable`1<VRage.Scripting.Script> VRage.Scripting.<Compile>d__37::scripts
 ldarg.0
 ldfld System.IO.MemoryStream VRage.Scripting.<Compile>d__37::<assemblyStream>5__8
-call static System.Void Shared.Patches.MyScriptCompilerPatch::StoreIntoCache(VRage.Scripting.MyApiTarget target, System.Collections.Generic.IEnumerable`1<VRage.Scripting.Script> scripts, System.IO.MemoryStream assemblyStream)
+call static System.Void Shared.Patches.MyScriptCompilerPatch::StoreIntoCache(VRage.Scripting.MyScriptCompiler myScriptCompiler, VRage.Scripting.MyApiTarget target, System.Collections.Generic.IEnumerable`1<VRage.Scripting.Script> scripts, System.IO.MemoryStream assemblyStream)
 ldarg.0
 ldfld System.Boolean VRage.Scripting.<Compile>d__37::<loadPDBs>5__9
 brfalse.s L42
