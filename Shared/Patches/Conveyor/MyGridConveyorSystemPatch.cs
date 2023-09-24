@@ -9,7 +9,6 @@ using Sandbox.Game;
 using Sandbox.Game.Entities;
 using Sandbox.Game.GameSystems;
 using Sandbox.Game.GameSystems.Conveyors;
-using Sandbox.ModAPI;
 using Shared.Config;
 using Shared.Plugin;
 using Shared.Tools;

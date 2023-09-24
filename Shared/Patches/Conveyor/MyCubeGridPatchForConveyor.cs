@@ -79,6 +79,17 @@ namespace Shared.Patches
             }
         }
 
+        [HarmonyPatch("OnAddedToScene")]
+        [HarmonyPostfix]
+        [EnsureCode("3a7fe2cd")]
+        private static void OnAddedToScenePostfix(MyCubeGrid __instance)
+        {
+            if (Config.FixConveyor)
+            {
+                MyGridConveyorSystemPatch.InvalidateCache(__instance);
+            }
+        }
+
         [HarmonyPatch("OnRemovedFromScene")]
         [HarmonyPostfix]
         [EnsureCode("7ff2585f")]
@@ -87,6 +98,63 @@ namespace Shared.Patches
             if (Config.FixConveyor)
             {
                 MyGridConveyorSystemPatch.DropCache(__instance);
+            }
+        }
+
+        [HarmonyPatch("OnAddedToGroup", typeof(MyGridLogicalGroupData))]
+        [HarmonyPostfix]
+        [EnsureCode("9ad2772a")]
+        private static void OnAddedToGroupPostfix(MyCubeGrid __instance)
+        {
+            if (Config.FixConveyor)
+            {
+                MyGridConveyorSystemPatch.InvalidateCache(__instance);
+            }
+        }
+
+        [HarmonyPatch("OnRemovedFromGroup", typeof(MyGridLogicalGroupData))]
+        [HarmonyPostfix]
+        [EnsureCode("805f7bc7")]
+        private static void OnRemovedFromGroupPostfix(MyCubeGrid __instance)
+        {
+            if (Config.FixConveyor)
+            {
+                MyGridConveyorSystemPatch.InvalidateCache(__instance);
+            }
+        }
+
+        [HarmonyPatch("NotifyBlockAdded")]
+        [HarmonyPostfix]
+        [EnsureCode("d33dc30a")]
+        private static void NotifyBlockAddedPostfix(MyCubeGrid __instance, MySlimBlock block)
+        {
+            if (Config.FixConveyor && block?.FatBlock is IMyConveyorEndpointBlock)
+            {
+                MyGridConveyorSystemPatch.InvalidateCache(__instance);
+            }
+        }
+
+        [HarmonyPatch("NotifyBlockRemoved")]
+        [HarmonyPostfix]
+        [EnsureCode("9705f749")]
+        private static void NotifyBlockRemovedPostfix(MyCubeGrid __instance, MySlimBlock block)
+        {
+            if (Config.FixConveyor && block?.FatBlock is IMyConveyorEndpointBlock)
+            {
+                MyGridConveyorSystemPatch.InvalidateCache(__instance);
+            }
+        }
+
+        [HarmonyPatch("NotifyBlockOwnershipChange")]
+        [HarmonyPostfix]
+        [EnsureCode("19a731ee")]
+        private static void NotifyBlockOwnershipChangePostfix(MyCubeGrid __instance)
+        {
+            // Suboptimal, because the block is not passed in here,
+            // therefore it cannot be checked whether it is a conveyor one
+            if (Config.FixConveyor)
+            {
+                MyGridConveyorSystemPatch.InvalidateCache(__instance);
             }
         }
 
