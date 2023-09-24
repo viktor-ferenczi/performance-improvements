@@ -51,6 +51,8 @@ namespace Shared.Tools
 
         private IEnumerable<CodeChange> VerifyMethod(MethodInfo patchMethod)
         {
+            Plugin.Common.Logger.Debug($"Verifying patch method: {patchMethod.DeclaringType.Name}.{patchMethod.Name}");
+
             var methodPatch = patchMethod.GetCustomAttributes<HarmonyPatch>().FirstOrDefault();
             if (methodPatch == null)
                 yield break;
