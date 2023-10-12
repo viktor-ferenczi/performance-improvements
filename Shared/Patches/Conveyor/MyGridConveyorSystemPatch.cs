@@ -167,7 +167,7 @@ namespace Shared.Patches
                 }
 
                 __state = (cache, key);
-            } catch (NullReferenceException)
+            } catch (ArgumentNullException)
             {
                 Log.Warning("Safely suppressed a crash in MyGridConveyorSystemPatch.ReachablePrefix (from={0}, to={1})", from?.CubeBlock.EntityId ?? 0, to?.CubeBlock.EntityId ?? 0);
                 __state = (null, 0);
