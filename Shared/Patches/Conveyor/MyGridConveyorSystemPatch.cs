@@ -10,6 +10,7 @@ using Sandbox.Game.Entities;
 using Sandbox.Game.GameSystems;
 using Sandbox.Game.GameSystems.Conveyors;
 using Shared.Config;
+using Shared.Logging;
 using Shared.Plugin;
 using Shared.Tools;
 using VRage;
@@ -24,6 +25,7 @@ namespace Shared.Patches
     [SuppressMessage("ReSharper", "UnusedMember.Local")]
     public static class MyGridConveyorSystemPatch
     {
+        private static IPluginLogger Log => Common.Logger;
         private static IPluginConfig Config => Common.Config;
 
         private static readonly RwLockDictionary<TLogicalGroup, UintCache<ulong>> ReachableCaches = new RwLockDictionary<TLogicalGroup, UintCache<ulong>>();
@@ -147,22 +149,30 @@ namespace Shared.Patches
                 return true;
             }
 
-            var cache = GetCache(from, to);
-            if (cache == null)
+            try
             {
-                __result = false;
-                return false;
+                var cache = GetCache(from, to);
+                if (cache == null)
+                {
+                    __result = false;
+                    return false;
+                }
+
+                var key = (ulong)(from?.CubeBlock.EntityId ?? 0) ^ (ulong)(to?.CubeBlock.EntityId ?? 0);
+
+                if (cache.TryGetValue(key, out var value))
+                {
+                    __result = value != 0;
+                    return false;
+                }
+
+                __state = (cache, key);
+            } catch (NullReferenceException)
+            {
+                Log.Warning("Safely suppressed a crash in MyGridConveyorSystemPatch.ReachablePrefix (from={0}, to={1})", from?.CubeBlock.EntityId ?? 0, to?.CubeBlock.EntityId ?? 0);
+                __state = (null, 0);
             }
 
-            var key = (ulong)(from?.CubeBlock.EntityId ?? 0) ^ (ulong)(to?.CubeBlock.EntityId ?? 0);
-
-            if (cache.TryGetValue(key, out var value))
-            {
-                __result = value != 0;
-                return false;
-            }
-
-            __state = (cache, key);
             return true;
         }
 
@@ -187,22 +197,28 @@ namespace Shared.Patches
             if (!Config.FixConveyor)
                 return true;
 
-            var cache = GetCache(source, endPoint);
-            if (cache == null)
+            try
             {
-                __result = false;
-                return false;
-            }
+                var cache = GetCache(source, endPoint);
+                if (cache == null)
+                {
+                    __result = false;
+                    return false;
+                }
 
-            var key = (ulong)(source?.CubeBlock.EntityId ?? 0) ^ (ulong)(endPoint?.CubeBlock.EntityId ?? 0);
+                var key = (ulong)(source?.CubeBlock.EntityId ?? 0) ^ (ulong)(endPoint?.CubeBlock.EntityId ?? 0);
 
-            if (cache.TryGetValue(key, out var value) && value == 0)
+                if (cache.TryGetValue(key, out var value) && value == 0)
+                {
+                    // We already know that this pair of endpoints are not reachable,
+                    // therefore we can skip the rest of the check regardless
+                    // of the value of the rest of the parameters
+                    __result = false;
+                    return false;
+                }
+            } catch (NullReferenceException)
             {
-                // We already know that this pair of endpoints are not reachable,
-                // therefore we can skip the rest of the check regardless
-                // of the value of the rest of the parameters
-                __result = false;
-                return false;
+                Log.Warning("Safely suppressed a crash in MyGridConveyorSystemPatch.ReachableByPlayerPrefix (source={0}, endPoint={1})", source?.CubeBlock.EntityId ?? 0, endPoint?.CubeBlock.EntityId ?? 0);
             }
 
             return true;
