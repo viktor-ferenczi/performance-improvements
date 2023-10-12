@@ -216,7 +216,7 @@ namespace Shared.Patches
                     __result = false;
                     return false;
                 }
-            } catch (NullReferenceException)
+            } catch (ArgumentNullException)
             {
                 Log.Warning("Safely suppressed a crash in MyGridConveyorSystemPatch.ReachableByPlayerPrefix (source={0}, endPoint={1})", source?.CubeBlock.EntityId ?? 0, endPoint?.CubeBlock.EntityId ?? 0);
             }
