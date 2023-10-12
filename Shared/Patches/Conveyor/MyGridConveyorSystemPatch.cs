@@ -120,7 +120,12 @@ namespace Shared.Patches
             if (cache == null)
             {
                 ReachableCaches.BeginWriting();
-                ReachableCaches[group] = cache = CreateCache();
+                cache = ReachableCaches.GetValueOrDefault(group);
+                if (cache == null)
+                {
+                    cache = CreateCache();
+                    ReachableCaches[group] = cache;
+                }
                 ReachableCaches.FinishWriting();
             }
 
