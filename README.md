@@ -312,6 +312,14 @@ but performance testing will be needed to confirm.
 
 Original [support ticket](https://support.keenswh.com/spaceengineers/pc/topic/24388-performance-excess-memory-allocation-in-mydatareceiver-updatebroadcastersinrange)
 
+### Rate limited excessive logging 
+
+Rate limited excessive logging from `MyDefinitionManager.GetBlueprintDefinition`.
+
+For example it caused 11000 of the "No blueprint with Id" messages logged every minute
+while players were running Isy's Inventory Manager PB script. In addition to the extra
+CPU load it risked running out of disk space if left unchecked.
+
 ## Bugs fixed by Keen in 1.202.023
 
 ### Slowness of Physics clusters

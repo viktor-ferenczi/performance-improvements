@@ -52,6 +52,7 @@ namespace Shared.Config
         private bool fixTerminal = true;
         private bool fixTextPanel = true;
         private bool fixConveyor = true;
+        private bool fixLogFlooding = true;
         //BOOL_OPTION private bool optionName = true;
 
         public bool Enabled
@@ -190,6 +191,12 @@ namespace Shared.Config
         {
             get => fixConveyor;
             set => SetValue(ref fixConveyor, value);
+        }
+
+        public bool FixLogFlooding
+        {
+            get => fixLogFlooding;
+            set => SetValue(ref fixLogFlooding, value);
         }
 
         /*BOOL_OPTION
