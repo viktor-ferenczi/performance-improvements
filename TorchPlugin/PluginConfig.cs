@@ -31,6 +31,7 @@ namespace TorchPlugin
         private bool fixTerminal = false;
         private bool fixTextPanel = false;
         private bool fixConveyor = false;
+        private bool fixLogFlooding = false;
         //BOOL_OPTION private bool optionName = false;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enable the plugin (all fixes)")]
@@ -194,8 +195,15 @@ namespace TorchPlugin
             set => SetValue(ref fixConveyor, value);
         }
 
+        [Display(Order = 26, GroupName = "Fixes", Name = "Rate limit logs with flooding potential", Description = "Rate limited excessive logging from MyDefinitionManager.GetBlueprintDefinition")]
+        public bool FixLogFlooding
+        {
+            get => fixLogFlooding;
+            set => SetValue(ref fixLogFlooding, value);
+        }
+
         /*BOOL_OPTION
-        [Display(Order = 26, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
+        [Display(Order = 27, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
         public bool OptionName
         {
             get => optionName;

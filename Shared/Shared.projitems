@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyPathfindingDataPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyShipConnectorPatchForConveyor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\PullItemStats.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Logging\MyDefinitionManagerPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyDefinitionIdToStringPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyPlayerCollectionPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\MyClusterTreePatch.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\ICommonPlugin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\ObjectPools.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\RateLimiter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\RwLockHashSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\ConveyorStat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\TwoLayerCache.cs" />
@@ -77,6 +79,8 @@
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)Patches\Character\RigidBody_ContactPointCallback.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Character\RigidBody_ContactPointCallback.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Logging\GetBlueprintDefinition.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Logging\GetBlueprintDefinition.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\LoadData.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\LoadData.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\ReorderClusters.original.il" />

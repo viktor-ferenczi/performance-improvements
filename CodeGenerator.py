@@ -128,6 +128,7 @@ def generate_bool_option(name, command, label, tooltip):
 
 def main():
     pass
+    # generate_bool_option('FixLogFlooding', 'log_flooding', 'Rate limit logs with flooding potential', 'Rate limited excessive logging from MyDefinitionManager.GetBlueprintDefinition')
     # generate_bool_option('FixAccess', 'access', 'Less frequent update of block access rights', 'Caches the result of MyCubeBlock.GetUserRelationToOwner and MyTerminalBlock.HasPlayerAccessReason')
     # generate_bool_option('FixBlockLimit', 'block_limit', 'Less frequent sync of block counts for limit checking', 'Suppresses frequent calls to MyPlayerCollection.SendDirtyBlockLimits')
     # generate_bool_option('FixSafeAction', 'safe_action', 'Cache actions allowed by the safe zone', 'Caches the result of MySafeZone.IsActionAllowed and MySessionComponentSafeZones.IsActionAllowedForSafezone for 2 seconds')

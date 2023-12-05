@@ -7,7 +7,6 @@ using HarmonyLib;
 using Shared.Logging;
 using Shared.Plugin;
 using Shared.Tools;
-using SpaceEngineers.Game.EntityComponents.Blocks;
 
 namespace Shared.Patches
 {
@@ -76,6 +75,7 @@ namespace Shared.Patches
             MyStorageExtensionsPatch.Configure();
             MyWindTurbinePatch.Configure();
             MyDefinitionIdToStringPatch.Configure();
+            MyDefinitionManagerPatch.Configure();
             // MyCubeBlockPatch.Configure();
             // MyTerminalBlockPatch.Configure();
             // MyGridTerminalSystemPatch.Configure();
@@ -92,6 +92,7 @@ namespace Shared.Patches
             MySessionComponentSafeZonesPatch.Update();
             MyWindTurbinePatch.Update();
             MyGridConveyorSystemPatch.Update();
+            MyDefinitionManagerPatch.Update();
             // MyCubeBlockPatch.Update();
             // MyTerminalBlockPatch.Update();
             // MyGridTerminalSystemPatch.Update();

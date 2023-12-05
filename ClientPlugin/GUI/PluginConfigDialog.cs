@@ -79,6 +79,9 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel fixConveyorLabel;
         private MyGuiControlCheckbox fixConveyorCheckbox;
 
+        private MyGuiControlLabel fixLogFloodingLabel;
+        private MyGuiControlCheckbox fixLogFloodingCheckbox;
+
         /*BOOL_OPTION
         private MyGuiControlLabel optionNameLabel;
         private MyGuiControlCheckbox optionNameCheckbox;
@@ -142,6 +145,7 @@ namespace ClientPlugin.GUI
             // CreateCheckbox(out fixTerminalLabel, out fixTerminalCheckbox, config.FixTerminal, value => config.FixTerminal = value, "Less frequent update of PB access to blocks", "Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often");
             // CreateCheckbox(out fixTextPanelLabel, out fixTextPanelCheckbox, config.FixTextPanel, value => config.FixTextPanel = value, "Text panel performance fixes", "Disables UpdateVisibility of LCD surfaces on multiplayer servers");
             CreateCheckbox(out fixConveyorLabel, out fixConveyorCheckbox, config.FixConveyor, value => config.FixConveyor = value, "Conveyor network performance fixes", "Caches conveyor network lookups");
+            CreateCheckbox(out fixLogFloodingLabel, out fixLogFloodingCheckbox, config.FixLogFlooding, value => config.FixLogFlooding = value, "Rate limit logs with flooding potential", "Rate limited excessive logging from MyDefinitionManager.GetBlueprintDefinition");
             //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
 
             EnableDisableFixes();
@@ -212,6 +216,7 @@ namespace ClientPlugin.GUI
             // fixTerminalCheckbox.Enabled = enabled;
             // fixTextPanelCheckbox.Enabled = enabled;
             fixConveyorCheckbox.Enabled = enabled;
+            fixLogFloodingCheckbox.Enabled = enabled;
             //BOOL_OPTION optionNameCheckbox.Enabled = enabled;
         }
 
@@ -308,6 +313,10 @@ namespace ClientPlugin.GUI
 
             layoutTable.Add(fixConveyorCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
             layoutTable.Add(fixConveyorLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            row++;
+
+            layoutTable.Add(fixLogFloodingCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixLogFloodingLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             row++;
 
             /*BOOL_OPTION

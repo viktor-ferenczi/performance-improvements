@@ -6,7 +6,6 @@ using Shared.Config;
 using Shared.Plugin;
 using Shared.Tools;
 using SpaceEngineers.Game.Entities.Blocks;
-using TorchPlugin.Shared.Tools;
 
 namespace Shared.Patches
 {

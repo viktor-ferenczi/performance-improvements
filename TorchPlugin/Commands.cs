@@ -56,6 +56,7 @@ namespace TorchPlugin
             // Respond("  terminal: Less frequent update of PB access to blocks");
             Respond("  text_panel: Text panel performance fixes");
             Respond("  conveyor: Conveyor network performance fixes");
+            Respond("  log_flooding: Rate limit logs with flooding potential");
             //BOOL_OPTION Respond("  option_name: Option label");
         }
 
@@ -83,6 +84,7 @@ namespace TorchPlugin
             // Respond($"terminal: {Format(config.FixTerminal)}");
             Respond($"text_panel: {Format(config.FixTextPanel)}");
             Respond($"conveyor: {Format(config.FixConveyor)}");
+            Respond($"log_flooding: {Format(config.FixLogFlooding)}");
             //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
         }
 
@@ -245,6 +247,10 @@ namespace TorchPlugin
 
                 case "conveyor":
                     Config.FixConveyor = parsedFlag;
+                    break;
+
+                case "log_flooding":
+                    Config.FixLogFlooding = parsedFlag;
                     break;
 
                 /*BOOL_OPTION

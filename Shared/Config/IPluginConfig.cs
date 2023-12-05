@@ -73,6 +73,9 @@ namespace Shared.Config
         // Caches conveyor network lookups
         bool FixConveyor { get; set; }
 
+        // Rate limited excessive logging from MyDefinitionManager.GetBlueprintDefinition
+        bool FixLogFlooding { get; set; }
+
         /*BOOL_OPTION
         // Option tooltip
         bool OptionName { get; set; }
