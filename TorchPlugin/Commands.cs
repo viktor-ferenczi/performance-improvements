@@ -57,6 +57,7 @@ namespace TorchPlugin
             Respond("  text_panel: Text panel performance fixes");
             Respond("  conveyor: Conveyor network performance fixes");
             Respond("  log_flooding: Rate limit logs with flooding potential");
+            Respond("  wheel_trail: Disable tracking of wheel trails on server");
             //BOOL_OPTION Respond("  option_name: Option label");
         }
 
@@ -85,6 +86,7 @@ namespace TorchPlugin
             Respond($"text_panel: {Format(config.FixTextPanel)}");
             Respond($"conveyor: {Format(config.FixConveyor)}");
             Respond($"log_flooding: {Format(config.FixLogFlooding)}");
+            Respond($"wheel_trail: {Format(config.FixWheelTrail)}");
             //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
         }
 
@@ -251,6 +253,10 @@ namespace TorchPlugin
 
                 case "log_flooding":
                     Config.FixLogFlooding = parsedFlag;
+                    break;
+
+                case "wheel_trail":
+                    Config.FixWheelTrail = parsedFlag;
                     break;
 
                 /*BOOL_OPTION

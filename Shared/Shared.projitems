@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySessionComponentSafeZonesPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\TerminalSystem\MyGridTerminalSystemPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\TextPanel\MyLcdSurfaceComponentPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Wheel\MyWheelPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\Cache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\CacheStat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\MySessionExtensions.cs" />
