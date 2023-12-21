@@ -8,7 +8,7 @@ using Shared.Plugin;
 using Shared.Tools;
 using SpaceEngineers.Game.EntityComponents.Blocks;
 
-namespace Shared.Patches.TextPanel
+namespace Shared.Patches
 {
     [SuppressMessage("ReSharper", "UnusedType.Global")]
     [SuppressMessage("ReSharper", "UnusedMember.Local")]
