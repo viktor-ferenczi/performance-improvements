@@ -32,6 +32,7 @@ namespace TorchPlugin
         private bool fixTextPanel = false;
         private bool fixConveyor = false;
         private bool fixLogFlooding = false;
+        private bool fixWheelTrail = false;
         //BOOL_OPTION private bool optionName = false;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enable the plugin (all fixes)")]
@@ -202,8 +203,15 @@ namespace TorchPlugin
             set => SetValue(ref fixLogFlooding, value);
         }
 
+        [Display(Order = 27, GroupName = "Fixes", Name = "Disable tracking of wheel trails on server", Description = "Disable the tracking of wheel trails on server, where they are not needed at all (trails are only visual elements)")]
+        public bool FixWheelTrail
+        {
+            get => fixWheelTrail;
+            set => SetValue(ref fixWheelTrail, value);
+        }
+
         /*BOOL_OPTION
-        [Display(Order = 27, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
+        [Display(Order = 28, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
         public bool OptionName
         {
             get => optionName;

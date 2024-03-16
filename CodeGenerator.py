@@ -135,6 +135,7 @@ def main():
     # generate_bool_option('FixTerminal', 'terminal', 'Less frequent update of PB access to blocks', 'Suppresses frequent calls to MyGridTerminalSystem.UpdateGridBlocksOwnership updating IsAccessibleForProgrammableBlock unnecessarily often')
     # generate_bool_option('FixTextPanel', 'text_panel', 'Text panel performance fixes', 'Disables UpdateVisibility of LCD surfaces on multiplayer servers')
     # generate_bool_option('FixConveyor', 'conveyor', 'Conveyor network performance fixes', 'Caches conveyor network lookups')
+    # generate_bool_option('FixWheelTrail', 'wheel_trail', 'Disable the tracking of wheel trails on server', 'Disable the tracking of wheel trails on server, where they are not needed at all (trails are only visual elements)')
 
 
 if __name__ == '__main__':

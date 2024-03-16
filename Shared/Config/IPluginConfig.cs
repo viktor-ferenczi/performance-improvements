@@ -76,6 +76,9 @@ namespace Shared.Config
         // Rate limited excessive logging from MyDefinitionManager.GetBlueprintDefinition
         bool FixLogFlooding { get; set; }
 
+        // Disable the tracking of wheel trails on server, where they are not needed at all (trails are only visual elements)
+        bool FixWheelTrail { get; set; }
+
         /*BOOL_OPTION
         // Option tooltip
         bool OptionName { get; set; }

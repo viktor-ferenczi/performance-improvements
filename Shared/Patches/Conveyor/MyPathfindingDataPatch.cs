@@ -9,7 +9,7 @@ using HarmonyLib;
 using Shared.Tools;
 using VRage.Algorithms;
 
-namespace Shared.Patches.Conveyor
+namespace Shared.Patches
 {
     [HarmonyPatch(typeof(MyPathfindingData))]
     [SuppressMessage("ReSharper", "InconsistentNaming")]

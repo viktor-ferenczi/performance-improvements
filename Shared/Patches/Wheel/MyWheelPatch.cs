@@ -2,30 +2,30 @@
 
 using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
+using Sandbox.Game.Entities.Blocks;
 using Sandbox.Game.Multiplayer;
 using Shared.Config;
 using Shared.Plugin;
 using Shared.Tools;
-using SpaceEngineers.Game.EntityComponents.Blocks;
 
 namespace Shared.Patches
 {
     [SuppressMessage("ReSharper", "UnusedType.Global")]
     [SuppressMessage("ReSharper", "UnusedMember.Local")]
-    [HarmonyPatch(typeof(MyLcdSurfaceComponent))]
-    public static class MyLcdSurfaceComponentPatch
+    [HarmonyPatch(typeof(MyWheel))]
+    public static class MyWheelPatch
     {
         private static IPluginConfig Config => Common.Config;
 
         [HarmonyPrefix]
-        [HarmonyPatch("UpdateVisibility")]
-        [EnsureCode("3e177a11")]
-        private static bool UpdateVisibilityPrefix()
+        [HarmonyPatch("CheckTrail")]
+        [EnsureCode("b3d278e9")]
+        private static bool CheckTrailPrefix()
         {
             if (!Sync.IsDedicated)
                 return true;
 
-            return !Config.FixTextPanel;
+            return !Config.FixWheelTrail;
         }
     }
 }
