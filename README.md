@@ -61,17 +61,17 @@ these patches are expected to be removed anyway, so I did not bother using Torch
 - ransomthetoaster
 
 ### Developers
-- Avaness for the client side Plugin Loader
-- Bishbash77 for keeping Torch alive + Torch contributors
-- mkaito
-- zznty
+- Avaness: client side Plugin Loader
+- Bishbash77: testing and keeping Torch alive
+- mkaito: testing and design discussions
+- zznty: contributed patches
 
 ### Testers
-- CaveBadgerMan (SG Dimensions, Torch servers)
-- Dorimanx
-- mkaito (testing with his heavy offline world)
-- Multiple server admins for discussion and feedback
-- Robot10 (client side)
+- CaveBadgerMan: SG Dimensions, Torch servers
+- Dorimanx: contributed patches
+- mkaito: testing with his heavy offline world
+- Robot10: client side
+- Multiple server admins for testing and feedback
 - zznty
 
 ## Technical details
@@ -319,6 +319,30 @@ Rate limited excessive logging from `MyDefinitionManager.GetBlueprintDefinition`
 For example it caused 11000 of the "No blueprint with Id" messages logged every minute
 while players were running Isy's Inventory Manager PB script. In addition to the extra
 CPU load it risked running out of disk space if left unchecked.
+
+### Disabled functional blocks in projected grids
+
+Projected functional blocks are updated, which is a waste of time. Also due to bugs
+some of them can even function, for example projected welders can weld in creative
+mode if they are enabled in the blueprint.
+
+In order to fixe these functional blocks have to be disabled on grids with no physics.
+These should only be the projected functional blocks. It happens only once when the
+functional block is added to the scene in order to avoid a constant CPU overhead.
+
+Testing `functionalBlock.CubeGrid?.Projector` instead would be more correct,
+but it is not set when the projected block is added to the scene. 
+Setting NeedsUpdate to NONE does not work either. Solving it differently
+would have more overhead.
+
+This fix may have side-effects should a plugin provide physics-less subgrids.
+In such a case disable this fix and use the Multigrid Projector plugin
+to fix this specific case only for the welders in a different way.
+
+This fix has the visual side-effect of all functional blocks showing up as disabled
+in the projection, so the players don't know in advance whether they will be enabled
+once welded. The fix does not affect the welded state, only the visual feedback.
+This applies only of this plugin is installed on the client side.
 
 ## Bugs fixed by Keen in 1.202.023
 

@@ -54,6 +54,7 @@ namespace Shared.Config
         private bool fixConveyor = true;
         private bool fixLogFlooding = true;
         private bool fixWheelTrail = true;
+        private bool fixProjection = true;
         //BOOL_OPTION private bool optionName = true;
 
         public bool Enabled
@@ -204,6 +205,12 @@ namespace Shared.Config
         {
             get => fixWheelTrail;
             set => SetValue(ref fixWheelTrail, value);
+        }
+
+        public bool FixProjection
+        {
+            get => fixProjection;
+            set => SetValue(ref fixProjection, value);
         }
 
         /*BOOL_OPTION
