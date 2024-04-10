@@ -12,7 +12,7 @@ namespace ClientPlugin.GUI
     public class PluginConfigDialog : MyGuiScreenBase
     {
         private const string Caption = "Performance Improvements Configuration";
-        public override string GetFriendlyName() => "MyPluginConfigDialog";
+        public override string GetFriendlyName() => "PerformanceImprovementsConfigDialog";
 
         private MyLayoutTable layoutTable;
 
@@ -82,6 +82,9 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel fixLogFloodingLabel;
         private MyGuiControlCheckbox fixLogFloodingCheckbox;
 
+        private MyGuiControlLabel fixProjectionLabel;
+        private MyGuiControlCheckbox fixProjectionCheckbox;
+
         /*BOOL_OPTION
         private MyGuiControlLabel optionNameLabel;
         private MyGuiControlCheckbox optionNameCheckbox;
@@ -146,6 +149,7 @@ namespace ClientPlugin.GUI
             // CreateCheckbox(out fixTextPanelLabel, out fixTextPanelCheckbox, config.FixTextPanel, value => config.FixTextPanel = value, "Text panel performance fixes", "Disables UpdateVisibility of LCD surfaces on multiplayer servers");
             CreateCheckbox(out fixConveyorLabel, out fixConveyorCheckbox, config.FixConveyor, value => config.FixConveyor = value, "Conveyor network performance fixes", "Caches conveyor network lookups");
             CreateCheckbox(out fixLogFloodingLabel, out fixLogFloodingCheckbox, config.FixLogFlooding, value => config.FixLogFlooding = value, "Rate limit logs with flooding potential", "Rate limited excessive logging from MyDefinitionManager.GetBlueprintDefinition");
+            CreateCheckbox(out fixProjectionLabel, out fixProjectionCheckbox, config.FixProjection, value => config.FixProjection = value, "Disable functional blocks in projected grids (does not affect welding)", "Disable functional blocks in projected grids without affecting the blocks built from the projection");
             //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
 
             EnableDisableFixes();
@@ -217,6 +221,7 @@ namespace ClientPlugin.GUI
             // fixTextPanelCheckbox.Enabled = enabled;
             fixConveyorCheckbox.Enabled = enabled;
             fixLogFloodingCheckbox.Enabled = enabled;
+            fixProjectionCheckbox.Enabled = enabled;
             //BOOL_OPTION optionNameCheckbox.Enabled = enabled;
         }
 
@@ -317,6 +322,10 @@ namespace ClientPlugin.GUI
 
             layoutTable.Add(fixLogFloodingCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
             layoutTable.Add(fixLogFloodingLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            row++;
+
+            layoutTable.Add(fixProjectionCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixProjectionLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             row++;
 
             /*BOOL_OPTION

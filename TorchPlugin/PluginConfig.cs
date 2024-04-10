@@ -33,6 +33,7 @@ namespace TorchPlugin
         private bool fixConveyor = false;
         private bool fixLogFlooding = false;
         private bool fixWheelTrail = false;
+        private bool fixProjection = false;
         //BOOL_OPTION private bool optionName = false;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enable the plugin (all fixes)")]
@@ -210,8 +211,15 @@ namespace TorchPlugin
             set => SetValue(ref fixWheelTrail, value);
         }
 
+        [Display(Order = 28, GroupName = "Fixes", Name = "Disable functional blocks in projected grids (does not affect welding)", Description = "Disable functional blocks in projected grids without affecting the blocks built from the projection")]
+        public bool FixProjection
+        {
+            get => fixProjection;
+            set => SetValue(ref fixProjection, value);
+        }
+
         /*BOOL_OPTION
-        [Display(Order = 28, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
+        [Display(Order = 29, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
         public bool OptionName
         {
             get => optionName;

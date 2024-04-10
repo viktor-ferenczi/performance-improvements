@@ -58,6 +58,7 @@ namespace TorchPlugin
             Respond("  conveyor: Conveyor network performance fixes");
             Respond("  log_flooding: Rate limit logs with flooding potential");
             Respond("  wheel_trail: Disable tracking of wheel trails on server");
+            Respond("  projection: Disable functional blocks in projected grids (does not affect welding)");
             //BOOL_OPTION Respond("  option_name: Option label");
         }
 
@@ -87,6 +88,7 @@ namespace TorchPlugin
             Respond($"conveyor: {Format(config.FixConveyor)}");
             Respond($"log_flooding: {Format(config.FixLogFlooding)}");
             Respond($"wheel_trail: {Format(config.FixWheelTrail)}");
+            Respond($"projection: {Format(config.FixProjection)}");
             //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
         }
 
@@ -257,6 +259,10 @@ namespace TorchPlugin
 
                 case "wheel_trail":
                     Config.FixWheelTrail = parsedFlag;
+                    break;
+
+                case "projection":
+                    Config.FixProjection = parsedFlag;
                     break;
 
                 /*BOOL_OPTION

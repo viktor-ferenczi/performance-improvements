@@ -79,6 +79,9 @@ namespace Shared.Config
         // Disable the tracking of wheel trails on server, where they are not needed at all (trails are only visual elements)
         bool FixWheelTrail { get; set; }
 
+        // Disable functional blocks in projected grids without affecting the blocks built from the projection
+        bool FixProjection { get; set; }
+
         /*BOOL_OPTION
         // Option tooltip
         bool OptionName { get; set; }

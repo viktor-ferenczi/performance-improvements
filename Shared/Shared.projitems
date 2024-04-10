@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\MyClusterTreePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\MyPhysicsPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\SafeZone\MySessionComponentSafeZonesPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Projection\MyEntityPatchForProjection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\TerminalSystem\MyGridTerminalSystemPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\TextPanel\MyLcdSurfaceComponentPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Wheel\MyWheelPatch.cs" />
