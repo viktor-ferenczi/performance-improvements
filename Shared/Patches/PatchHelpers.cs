@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using Shared.Logging;
+using Shared.Patches.Grid;
 using Shared.Plugin;
 using Shared.Tools;
 
@@ -93,6 +94,7 @@ namespace Shared.Patches
             MyWindTurbinePatch.Update();
             MyGridConveyorSystemPatch.Update();
             MyDefinitionManagerPatch.Update();
+            MyCubeGridPatchForDeformation.Update();
             // MyCubeBlockPatch.Update();
             // MyTerminalBlockPatch.Update();
             // MyGridTerminalSystemPatch.Update();
