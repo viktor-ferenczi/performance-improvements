@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Block\MyCubeBlockPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Block\MySlimBlockDoDamagePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Block\MyTerminalBlockPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Connector\MyShipConnectorPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyAssemblerPatch.cs" />
@@ -19,7 +20,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyPathfindingDataPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyShipConnectorPatchForConveyor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\PullItemStats.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\Grid\MyCubeGridPatchForDeformation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Logging\MyDefinitionManagerPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyDefinitionIdToStringPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyPlayerCollectionPatch.cs" />

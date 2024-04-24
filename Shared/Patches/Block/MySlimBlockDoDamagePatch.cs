@@ -3,12 +3,14 @@ using HarmonyLib;
 using Sandbox.Game.Entities;
 using Sandbox.Game.Entities.Cube;
 using Shared.Plugin;
+using VRage.Game.ModAPI;
+using VRage.Utils;
 
 namespace Shared.Patches.Grid
 {
     // ReSharper disable once UnusedType.Global
-    [HarmonyPatch(typeof(MyCubeGrid))]
-    public static class MyCubeGridPatchForDeformation
+    [HarmonyPatch(typeof(MySlimBlock))]
+    public static class MySlimBlockDoDamagePatch
     {
         private static readonly Dictionary<long, int> DamageCounters = new Dictionary<long, int>();
 
@@ -16,13 +18,20 @@ namespace Shared.Patches.Grid
         // ReSharper disable once UnusedMember.Local
         // ReSharper disable once SuggestBaseTypeForParameter
         [HarmonyPrefix]
-        [HarmonyPatch(nameof(MyCubeGrid.ApplyDestructionDeformation))]
-        private static bool ApplyDestructionDeformationPrefix(MyCubeGrid __instance, MySlimBlock block, ref float damage, long attackerId)
+        [HarmonyPatch(nameof(MySlimBlock.DoDamage), typeof(float), typeof(MyStringHash), typeof(MyHitInfo?), typeof(bool), typeof(long))]
+        private static bool DoDamagePrefix(MySlimBlock __instance, ref float damage, long attackerId)
         {
-            if (!MyEntities.TryGetEntityById(attackerId, out var attacker) || !(attacker is MyVoxelBase))
+            var grid = __instance.CubeGrid;
+            if (grid == null)
+                return false;
+
+            if (!MyEntities.TryGetEntityById(attackerId, out var attacker))
                 return true;
 
-            var key = __instance.EntityId ^ block.Position.X ^ (long) block.Position.Y << 21 ^ (long) block.Position.Z << 42;
+            // if (!(attacker is MyVoxelBase))
+            //     return true;
+
+            var key = grid.EntityId ^ __instance.Position.X ^ (long) __instance.Position.Y << 21 ^ (long) __instance.Position.Z << 42;
 
             int collisionCount;
             lock (DamageCounters)

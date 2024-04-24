@@ -94,7 +94,7 @@ namespace Shared.Patches
             MyWindTurbinePatch.Update();
             MyGridConveyorSystemPatch.Update();
             MyDefinitionManagerPatch.Update();
-            MyCubeGridPatchForDeformation.Update();
+            MySlimBlockDoDamagePatch.Update();
             // MyCubeBlockPatch.Update();
             // MyTerminalBlockPatch.Update();
             // MyGridTerminalSystemPatch.Update();
