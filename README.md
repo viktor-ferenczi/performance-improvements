@@ -7,14 +7,20 @@
 
 For support please [join the SE Mods Discord](https://discord.gg/PYPFPGf3Ca).
 
-Please consider [supporting my work on Patreon](https://www.patreon.com/semods).
+Please consider supporting my work on [Patreon](https://www.patreon.com/semods) or one time via [PayPal](https://www.paypal.com/paypalme/vferenczi/).
 
-Thank you!
+*Thank you and enjoy!*
 
 ## Available for
+
 - [Space Engineers](https://store.steampowered.com/app/244850/Space_Engineers/) with [Plugin Loader](https://steamcommunity.com/sharedfiles/filedetails/?id=2407984968)
 - [Torch Server](https://torchapi.net/)
 - [Dedicated Server](https://www.spaceengineersgame.com/dedicated-servers/)
+
+## Want to know more?
+
+- [SE Mods Discord](https://discord.gg/PYPFPGf3Ca) FAQ, Troubleshooting, Support, Bug Reports, Discussion
+- [Plugin Loader Discord](https://discord.gg/6ETGRU3CzR) Everything about plugins
 
 ## Installation
 
