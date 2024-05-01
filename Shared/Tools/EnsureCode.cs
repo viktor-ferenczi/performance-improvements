@@ -51,7 +51,9 @@ namespace Shared.Tools
 
         private IEnumerable<CodeChange> VerifyMethod(MethodInfo patchMethod)
         {
+#if DEBUG
             Plugin.Common.Logger.Debug($"Verifying patch method: {patchMethod.DeclaringType.Name}.{patchMethod.Name}");
+#endif
 
             var methodPatch = patchMethod.GetCustomAttributes<HarmonyPatch>().FirstOrDefault();
             if (methodPatch == null)
