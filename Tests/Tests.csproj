@@ -101,30 +101,6 @@
         <Reference Include="Sandbox.RenderDirect, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Bin64\Sandbox.RenderDirect.dll</HintPath>
         </Reference>
-        <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
-          <HintPath>..\Bin64\SharpDX.dll</HintPath>
-        </Reference>
-        <Reference Include="SharpDX.D3DCompiler, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
-          <HintPath>..\Bin64\SharpDX.D3DCompiler.dll</HintPath>
-        </Reference>
-        <Reference Include="SharpDX.Desktop, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
-          <HintPath>..\Bin64\SharpDX.Desktop.dll</HintPath>
-        </Reference>
-        <Reference Include="SharpDX.Direct3D11, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
-          <HintPath>..\Bin64\SharpDX.Direct3D11.dll</HintPath>
-        </Reference>
-        <Reference Include="SharpDX.DirectInput, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
-          <HintPath>..\Bin64\SharpDX.DirectInput.dll</HintPath>
-        </Reference>
-        <Reference Include="SharpDX.DXGI, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
-          <HintPath>..\Bin64\SharpDX.DXGI.dll</HintPath>
-        </Reference>
-        <Reference Include="SharpDX.XAudio2, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
-          <HintPath>..\Bin64\SharpDX.XAudio2.dll</HintPath>
-        </Reference>
-        <Reference Include="SharpDX.XInput, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1">
-          <HintPath>..\Bin64\SharpDX.XInput.dll</HintPath>
-        </Reference>
         <Reference Include="SixLabors.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Bin64\SixLabors.Core.dll</HintPath>
         </Reference>
