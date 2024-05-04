@@ -55,6 +55,7 @@ namespace Shared.Config
         private bool fixLogFlooding = true;
         private bool fixWheelTrail = true;
         private bool fixProjection = true;
+        private bool fixAirtight = true;
         //BOOL_OPTION private bool optionName = true;
 
         public bool Enabled
@@ -211,6 +212,12 @@ namespace Shared.Config
         {
             get => fixProjection;
             set => SetValue(ref fixProjection, value);
+        }
+
+        public bool FixAirtight
+        {
+            get => fixAirtight;
+            set => SetValue(ref fixAirtight, value);
         }
 
         /*BOOL_OPTION

@@ -100,6 +100,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <!--BOOL_OPTION
             <RowDefinition Height="Auto" />
             BOOL_OPTION-->
@@ -183,9 +184,12 @@
         <CheckBox Grid.Row="25" Grid.Column="0" Name="FixProjection" IsChecked="{Binding FixProjection}" Margin="5"/>
         <TextBlock Grid.Row="25" Grid.Column="1" Text="Disable functional blocks in projected grids without affecting the blocks built from the projection" VerticalAlignment="Center" Margin="5"/>
 
+        <CheckBox Grid.Row="26" Grid.Column="0" Name="FixAirtight" IsChecked="{Binding FixAirtight}" Margin="5"/>
+        <TextBlock Grid.Row="26" Grid.Column="1" Text="Reuses collections in the air tightness calculations to reduce GC pressure on opening/closing doors (needs restart)" VerticalAlignment="Center" Margin="5"/>
+
         <!--BOOL_OPTION
-        <CheckBox Grid.Row="26" Grid.Column="0" Name="OptionName" IsChecked="{Binding OptionName}" Margin="5"/>
-        <TextBlock Grid.Row="26" Grid.Column="1" Text="Option tooltip" VerticalAlignment="Center" Margin="5"/>
+        <CheckBox Grid.Row="27" Grid.Column="0" Name="OptionName" IsChecked="{Binding OptionName}" Margin="5"/>
+        <TextBlock Grid.Row="27" Grid.Column="1" Text="Option tooltip" VerticalAlignment="Center" Margin="5"/>
 
         BOOL_OPTION-->
         <TextBlock Grid.Row="30" Grid.Column="0" Grid.ColumnSpan="2" Text="Configuration changes are saved automatically. It is safe to change them while the game is running." VerticalAlignment="Center" Margin="5" />
@@ -219,8 +223,9 @@
         <TextBlock Grid.Row="58" Grid.Column="1" Text="log_flooding" VerticalAlignment="Center" Margin="5" />
         <TextBlock Grid.Row="59" Grid.Column="1" Text="wheel_trail" VerticalAlignment="Center" Margin="5" />
         <TextBlock Grid.Row="60" Grid.Column="1" Text="projection" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="61" Grid.Column="1" Text="airtight" VerticalAlignment="Center" Margin="5" />
         <!--BOOL_OPTION
-        <TextBlock Grid.Row="61" Grid.Column="1" Text="option_name" VerticalAlignment="Center" Margin="5" />
+        <TextBlock Grid.Row="62" Grid.Column="1" Text="option_name" VerticalAlignment="Center" Margin="5" />
         BOOL_OPTION-->
 
         <TextBlock Grid.Row="70" Grid.Column="0" Grid.ColumnSpan="2" Text="Valid bool values:" VerticalAlignment="Center" Margin="5" />

@@ -82,6 +82,9 @@ namespace Shared.Config
         // Disable functional blocks in projected grids without affecting the blocks built from the projection
         bool FixProjection { get; set; }
 
+        // Reuses collections in the air tightness calculations to reduce GC pressure on opening/closing doors (needs restart)
+        bool FixAirtight { get; set; }
+
         /*BOOL_OPTION
         // Option tooltip
         bool OptionName { get; set; }

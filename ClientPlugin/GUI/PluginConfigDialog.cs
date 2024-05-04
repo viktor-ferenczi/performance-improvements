@@ -87,6 +87,9 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel fixProjectionLabel;
         private MyGuiControlCheckbox fixProjectionCheckbox;
 
+        private MyGuiControlLabel fixAirtightLabel;
+        private MyGuiControlCheckbox fixAirtightCheckbox;
+
         /*BOOL_OPTION
         private MyGuiControlLabel optionNameLabel;
         private MyGuiControlCheckbox optionNameCheckbox;
@@ -152,6 +155,7 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out fixConveyorLabel, out fixConveyorCheckbox, config.FixConveyor, value => config.FixConveyor = value, "Conveyor network performance fixes", "Caches conveyor network lookups");
             CreateCheckbox(out fixLogFloodingLabel, out fixLogFloodingCheckbox, config.FixLogFlooding, value => config.FixLogFlooding = value, "Rate limit logs with flooding potential", "Rate limited excessive logging from MyDefinitionManager.GetBlueprintDefinition");
             CreateCheckbox(out fixProjectionLabel, out fixProjectionCheckbox, config.FixProjection, value => config.FixProjection = value, "Disable functional blocks in projected grids (does not affect welding)", "Disable functional blocks in projected grids without affecting the blocks built from the projection");
+            CreateCheckbox(out fixAirtightLabel, out fixAirtightCheckbox, config.FixAirtight, value => config.FixAirtight = value, "Reduce the GC pressure of air tightness (needs restart)", "Reuses collections in the air tightness calculations to reduce GC pressure on opening/closing doors (needs restart)");
             //BOOL_OPTION CreateCheckbox(out optionNameLabel, out optionNameCheckbox, config.OptionName, value => config.OptionName = value, "Option label", "Option tooltip");
 
             EnableDisableFixes();
@@ -224,6 +228,7 @@ namespace ClientPlugin.GUI
             fixConveyorCheckbox.Enabled = enabled;
             fixLogFloodingCheckbox.Enabled = enabled;
             fixProjectionCheckbox.Enabled = enabled;
+            fixAirtightCheckbox.Enabled = enabled;
             //BOOL_OPTION optionNameCheckbox.Enabled = enabled;
         }
 
@@ -330,6 +335,10 @@ namespace ClientPlugin.GUI
 
             layoutTable.Add(fixProjectionCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
             layoutTable.Add(fixProjectionLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
+            row++;
+
+            layoutTable.Add(fixAirtightCheckbox, MyAlignH.Left, MyAlignV.Center, row, 2);
+            layoutTable.Add(fixAirtightLabel, MyAlignH.Left, MyAlignV.Center, row, 3);
             row++;
 
             /*BOOL_OPTION

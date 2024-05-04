@@ -137,6 +137,7 @@ def main():
     # generate_bool_option('FixConveyor', 'conveyor', 'Conveyor network performance fixes', 'Caches conveyor network lookups')
     # generate_bool_option('FixWheelTrail', 'wheel_trail', 'Disable the tracking of wheel trails on server', 'Disable the tracking of wheel trails on server, where they are not needed at all (trails are only visual elements)')
     # generate_bool_option('FixProjection', 'projection', 'Disable functional blocks in projected grids (does not affect welding)', 'Disable functional blocks in projected grids without affecting the blocks built from the projection')
+    # generate_bool_option('FixAirtight', 'airtight', 'Reduce the GC pressure of air tightness (needs restart)', 'Reuses collections in the air tightness calculations to reduce GC pressure on opening/closing doors (needs restart)')
 
 
 if __name__ == '__main__':

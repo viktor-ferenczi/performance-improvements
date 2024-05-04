@@ -59,6 +59,7 @@ namespace TorchPlugin
             Respond("  log_flooding: Rate limit logs with flooding potential");
             Respond("  wheel_trail: Disable tracking of wheel trails on server");
             Respond("  projection: Disable functional blocks in projected grids (does not affect welding)");
+            Respond("  airtight: Reduce the GC pressure of air tightness (needs restart)");
             //BOOL_OPTION Respond("  option_name: Option label");
         }
 
@@ -89,6 +90,7 @@ namespace TorchPlugin
             Respond($"log_flooding: {Format(config.FixLogFlooding)}");
             Respond($"wheel_trail: {Format(config.FixWheelTrail)}");
             Respond($"projection: {Format(config.FixProjection)}");
+            Respond($"airtight: {Format(config.FixAirtight)}");
             //BOOL_OPTION Respond($"option_name: {Format(config.OptionName)}");
         }
 
@@ -265,6 +267,10 @@ namespace TorchPlugin
 
                 case "projection":
                     Config.FixProjection = parsedFlag;
+                    break;
+
+                case "airtight":
+                    Config.FixAirtight = parsedFlag;
                     break;
 
                 /*BOOL_OPTION

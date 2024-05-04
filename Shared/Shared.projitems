@@ -56,7 +56,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\WindTurbine\MyWindTurbinePatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\ICommonPlugin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Plugin\Common.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Tools\ObjectPools.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\RateLimiter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\RwLockHashSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\ConveyorStat.cs" />
@@ -79,6 +78,15 @@
     <Content Include="$(MSBuildThisFileDirectory)..\README.md">
       <Link>README.md</Link>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Airtight\GetRoomBlocks.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Airtight\GetRoomBlocks.patched.il" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\Airtight\MyGridGasSystemPatch.cs" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Airtight\RefreshRoomBlocks.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Airtight\RefreshRoomBlocks.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Airtight\RemoveBlock.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Airtight\RemoveBlock.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Airtight\ShrinkData.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\Airtight\ShrinkData.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Character\RigidBody_ContactPointCallback.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Character\RigidBody_ContactPointCallback.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Logging\GetBlueprintDefinition.original.il" />

@@ -34,6 +34,7 @@ namespace TorchPlugin
         private bool fixLogFlooding = false;
         private bool fixWheelTrail = false;
         private bool fixProjection = false;
+        private bool fixAirtight = false;
         //BOOL_OPTION private bool optionName = false;
 
         [Display(Order = 1, GroupName = "General", Name = "Enable plugin", Description = "Enable the plugin (all fixes)")]
@@ -219,8 +220,15 @@ namespace TorchPlugin
             set => SetValue(ref fixProjection, value);
         }
 
+        [Display(Order = 29, GroupName = "Fixes", Name = "Reduce the GC pressure of air tightness (needs restart)", Description = "Reuses collections in the air tightness calculations to reduce GC pressure on opening/closing doors (needs restart)")]
+        public bool FixAirtight
+        {
+            get => fixAirtight;
+            set => SetValue(ref fixAirtight, value);
+        }
+
         /*BOOL_OPTION
-        [Display(Order = 29, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
+        [Display(Order = 30, GroupName = "Fixes", Name = "Option label", Description = "Option tooltip")]
         public bool OptionName
         {
             get => optionName;
