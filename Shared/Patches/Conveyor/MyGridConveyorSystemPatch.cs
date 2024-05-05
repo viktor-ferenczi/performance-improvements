@@ -269,7 +269,7 @@ namespace Shared.Patches
 
         [HarmonyPatch("PullItems")]
         [HarmonyPrefix]
-        [EnsureCode("88b06393")]
+        [EnsureCode("877cc74b")]
         private static bool PullItemsPrefix(
             MyGridConveyorSystem __instance,
             MyInventoryConstraint inventoryConstraint,
@@ -290,7 +290,7 @@ namespace Shared.Patches
 
         [HarmonyPatch("PullItems")]
         [HarmonyPostfix]
-        [EnsureCode("88b06393")]
+        [EnsureCode("877cc74b")]
         private static void PullItemsPostfix(
             ref MyFixedPoint __result)
         {
