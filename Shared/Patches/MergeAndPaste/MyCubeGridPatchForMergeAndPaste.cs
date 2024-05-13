@@ -53,7 +53,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
         [HarmonyPatch("PasteBlocksServer")]
-        [EnsureCode("e7010d51")]
+        [EnsureCode("abb0d7f4")]
         private static bool PasteBlocksServerPrefix(ref bool? __state)
         {
             if (!Config.Enabled || !Config.FixGridPaste)
@@ -69,7 +69,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyPostfix]
         [HarmonyPatch("PasteBlocksServer")]
-        [EnsureCode("e7010d51")]
+        [EnsureCode("abb0d7f4")]
         private static void PasteBlocksServerPostfix(bool? __state)
         {
             if (__state == null)
