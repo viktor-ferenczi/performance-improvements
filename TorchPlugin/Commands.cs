@@ -69,7 +69,7 @@ namespace TorchPlugin
             Respond($"grid_merge: {Format(config.FixGridMerge)}");
             Respond($"grid_paste: {Format(config.FixGridPaste)}");
             Respond($"gc: {Format(config.FixGarbageCollection)}");
-            Respond($"grid_groups: {Format(config.FixGridGroups)}");
+            // Respond($"grid_groups: {Format(config.FixGridGroups)}");
             Respond($"cache_mods: {Format(config.CacheMods)}");
             Respond($"cache_scripts: {Format(config.CacheScripts)}");
             Respond($"api_stats: {Format(config.DisableModApiStatistics)}");
@@ -185,9 +185,11 @@ namespace TorchPlugin
                     Config.FixGarbageCollection = parsedFlag;
                     break;
 
+                /* Disabled due to inability to patch generics (methods of MyGroups)
                 case "grid_groups":
                     Config.FixGridGroups = parsedFlag;
                     break;
+                */
 
                 case "cache_mods":
                     Config.CacheMods = parsedFlag;

@@ -78,7 +78,8 @@ namespace TorchPlugin
             set => SetValue(ref fixGarbageCollection, value);
         }
 
-        [Display(Order = 7, GroupName = "Fixes", Name = "Fix grid groups", Description = "Disable resource updates while grids are being moved between groups")]
+        // Disabled due to inability to patch generics (methods of MyGroups)
+        [Display(Order = 7, GroupName = "Fixes", Name = "Fix grid groups", Description = "Disable resource updates while grids are being moved between groups", Enabled = false)]
         public bool FixGridGroups
         {
             get => fixGridGroups;
