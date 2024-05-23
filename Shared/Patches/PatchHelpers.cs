@@ -107,8 +107,8 @@ namespace Shared.Patches
                 log.Info($"- MySafeZonePatch IsActionAllowed: {MySafeZonePatch.IsActionAllowedCacheReport}");
                 log.Info($"- MySessionComponentSafeZonesPatch: {MySessionComponentSafeZonesPatch.CacheReport}");
                 log.Info($"- MyWindTurbinePatch: {MyWindTurbinePatch.CacheReport}");
-                log.Info($"- MyPathFindingSystemPatch: {MyPathFindingSystemPatch.Report(period)}");
-                log.Info($"- MyPathFindingSystemEnumeratorPatch: {MyPathFindingSystemEnumeratorPatch.Report(period)}");
+                // log.Info($"- MyPathFindingSystemPatch: {MyPathFindingSystemPatch.Report(period)}");
+                // log.Info($"- MyPathFindingSystemEnumeratorPatch: {MyPathFindingSystemEnumeratorPatch.Report(period)}");
                 log.Info($"- MyGridConveyorSystemPatch: {MyGridConveyorSystemPatch.PullItemReports}");
                 foreach (var report in MyGridConveyorSystemPatch.CacheReports)
                 {

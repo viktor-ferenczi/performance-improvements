@@ -1,5 +1,8 @@
 #if DEBUG
 
+// Patching generics does not work anymore
+#if DISABLED
+
 using HarmonyLib;
 using Sandbox.Game.GameSystems.Conveyors;
 using Shared.Config;
@@ -15,10 +18,8 @@ namespace Shared.Patches
     {
         private static IPluginConfig Config => Common.Config;
 
-#if DEBUG
         private static readonly ConveyorStat Stat = new ConveyorStat();
         public static string Report(int period) => Stat.FullReport(period);
-#endif
 
         // ReSharper disable once UnusedMember.Local
         // ReSharper disable once InconsistentNaming
@@ -27,9 +28,7 @@ namespace Shared.Patches
         [EnsureCode("d804599b")]
         private static bool ReachablePrefix()
         {
-#if DEBUG
             Stat.CountCall();
-#endif
             return true;
         }
 
@@ -40,14 +39,13 @@ namespace Shared.Patches
         [EnsureCode("d804599b")]
         private static void ReachablePostfix(bool __result)
         {
-#if DEBUG
             if (!__result)
             {
                 Stat.CountFailure();
             }
-#endif
         }
     }
 }
 
+#endif
 #endif
