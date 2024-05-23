@@ -31,8 +31,10 @@ namespace ClientPlugin.GUI
         private MyGuiControlLabel fixGarbageCollectionLabel;
         private MyGuiControlCheckbox fixGarbageCollectionCheckbox;
 
+        /* Disabled due to inability to patch generics (methods of MyGroups)
         private MyGuiControlLabel fixGridGroupsLabel;
         private MyGuiControlCheckbox fixGridGroupsCheckbox;
+        */
 
         private MyGuiControlLabel cacheModsLabel;
         private MyGuiControlCheckbox cacheModsCheckbox;
@@ -131,7 +133,7 @@ namespace ClientPlugin.GUI
             CreateCheckbox(out fixGridPasteLabel, out fixGridPasteCheckbox, config.FixGridPaste, value => config.FixGridPaste = value, "Fix grid paste", "Disable updates during grid paste (MyCubeGrid.PasteBlocksServer)");
             CreateCheckbox(out fixP2PUpdateStatsLabel, out fixP2PUpdateStatsCheckbox, config.FixP2PUpdateStats, value => config.FixP2PUpdateStats = value, "Fix P2P update stats", "Eliminate 98% of EOS P2P network statistics updates (VRage.EOS.MyP2PQoSAdapter.UpdateStats)");
             CreateCheckbox(out fixGarbageCollectionLabel, out fixGarbageCollectionCheckbox, config.FixGarbageCollection, value => config.FixGarbageCollection = value, "Fix garbage collection", "Eliminate long pauses on starting and stopping large worlds by disabling selected GC.Collect calls");
-            CreateCheckbox(out fixGridGroupsLabel, out fixGridGroupsCheckbox, config.FixGridGroups, value => config.FixGridGroups = value, "Fix grid groups", "Disable resource updates while grids are being moved between groups");
+            // CreateCheckbox(out fixGridGroupsLabel, out fixGridGroupsCheckbox, config.FixGridGroups, value => config.FixGridGroups = value, "Fix grid groups", "Disable resource updates while grids are being moved between groups");
             CreateCheckbox(out cacheModsLabel, out cacheModsCheckbox, config.CacheMods, value => config.CacheMods = value, "Cache compiled mods", "Caches compiled mods for faster world load");
             CreateCheckbox(out cacheScriptsLabel, out cacheScriptsCheckbox, config.CacheScripts, value => config.CacheScripts = value, "Cache compiled scripts", "Caches compiled in-game scripts (PB programs) to reduce lag");
             CreateCheckbox(out disableModApiStatisticsLabel, out disableModApiStatisticsCheckbox, config.DisableModApiStatistics, value => config.DisableModApiStatistics = value, "Disable Mod API statistics", "Disable the collection of Mod API call statistics to eliminate the overhead (affects only world loading)");
@@ -203,7 +205,7 @@ namespace ClientPlugin.GUI
             fixGridPasteCheckbox.Enabled = enabled;
             fixP2PUpdateStatsCheckbox.Enabled = enabled;
             fixGarbageCollectionCheckbox.Enabled = enabled;
-            fixGridGroupsCheckbox.Enabled = enabled;
+            // fixGridGroupsCheckbox.Enabled = enabled;
             cacheModsCheckbox.Enabled = enabled;
             cacheScriptsCheckbox.Enabled = enabled;
             disableModApiStatisticsCheckbox.Enabled = enabled;
@@ -252,9 +254,11 @@ namespace ClientPlugin.GUI
             layoutTable.Add(fixGarbageCollectionLabel, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
 
+            /* Disabled due to inability to patch generics (methods of MyGroups)
             layoutTable.Add(fixGridGroupsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 0);
             layoutTable.Add(fixGridGroupsLabel, MyAlignH.Left, MyAlignV.Center, row, 1);
             row++;
+            */
 
             layoutTable.Add(cacheModsCheckbox, MyAlignH.Left, MyAlignV.Center, row, 0);
             layoutTable.Add(cacheModsLabel, MyAlignH.Left, MyAlignV.Center, row, 1);

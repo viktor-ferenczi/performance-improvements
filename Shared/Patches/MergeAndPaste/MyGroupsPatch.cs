@@ -1,3 +1,6 @@
+// Disabled due to inability to patch generics (methods of MyGroups)
+#if DISABLED
+
 using System.Runtime.CompilerServices;
 using System.Threading;
 using HarmonyLib;
@@ -61,3 +64,5 @@ namespace Shared.Patches
         }
     }
 }
+
+#endif

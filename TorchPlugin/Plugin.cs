@@ -86,7 +86,7 @@ namespace TorchPlugin
             }
 #endif
 
-            sessionManager = torch.Managers.GetManager<TorchSessionManager>();
+            sessionManager = (TorchSessionManager) torch.Managers.GetManager(typeof(TorchSessionManager));
             sessionManager.SessionStateChanged += SessionStateChanged;
 
             initialized = true;

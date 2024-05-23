@@ -1,3 +1,6 @@
+// Disabled due to inability to patch generics (methods of MyGroups)
+#if DISABLED
+
 using HarmonyLib;
 using Sandbox.Game.EntityComponents;
 using Shared.Config;
@@ -30,3 +33,5 @@ namespace Shared.Patches
         }
     }
 }
+
+#endif
