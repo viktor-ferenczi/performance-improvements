@@ -67,15 +67,10 @@ namespace Shared.Patches
             }
 
             ReachableCaches.BeginReading();
-            if (!ReachableCaches.TryGetValue(group, out var cache))
-            {
-                ReachableCaches.FinishReading();
-                return;
-            }
-
+            var cache = ReachableCaches.GetValueOrDefault(group);
             ReachableCaches.FinishReading();
 
-            cache.Clear();
+            cache?.Clear();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
