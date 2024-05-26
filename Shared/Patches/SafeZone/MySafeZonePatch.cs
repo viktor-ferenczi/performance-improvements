@@ -1,9 +1,5 @@
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Sandbox.Common.ObjectBuilders;
@@ -11,9 +7,7 @@ using Sandbox.Game.Entities;
 using Shared.Config;
 using Shared.Plugin;
 using Shared.Tools;
-using TorchPlugin.Shared.Tools;
 using VRage.Game.Entity;
-using VRage.Game.ModAPI.Ingame;
 using VRage.Game.ObjectBuilders.Components;
 using VRageMath;
 
@@ -60,7 +54,7 @@ namespace Shared.Patches
 
         [HarmonyPrefix]
         [HarmonyPatch("IsSafe")]
-        [EnsureCode("cb625e06|bd58699d")]
+        [EnsureCode("bd58699d")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsSafePrefix(MyEntity entity, ref bool __result, ref bool __state)
         {
@@ -79,7 +73,7 @@ namespace Shared.Patches
 
         [HarmonyPostfix]
         [HarmonyPatch("IsSafe")]
-        [EnsureCode("cb625e06|bd58699d")]
+        [EnsureCode("bd58699d")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void IsSafePostfix(MyEntity entity, bool __result, bool __state)
         {
@@ -87,11 +81,11 @@ namespace Shared.Patches
                 return;
 
             var entityId = entity.EntityId;
-            IsSafeCache.Store(entityId, __result ? 1u : 0u, 120u + (uint)(entityId & 15));
+            IsSafeCache.Store(entityId, __result ? 1u : 0u, 120u + (uint) (entityId & 15));
         }
 
         #endregion
-        
+
         #region "IsOutside fix"
 
         [HarmonyPrefix]
@@ -152,11 +146,11 @@ namespace Shared.Patches
             }
 
             var entityId = entity.EntityId;
-            var key = __instance.EntityId ^ entityId ^ sourceEntityId ^ (long)action;
+            var key = __instance.EntityId ^ entityId ^ sourceEntityId ^ (long) action;
             if (IsActionAllowedCache.TryGetValue(key, out var value))
             {
                 // In case of very rare key collision just run the original
-                value ^= (uint)entityId;
+                value ^= (uint) entityId;
                 if (value > 1)
                     return true;
 
@@ -177,7 +171,7 @@ namespace Shared.Patches
             if (__state == 0)
                 return;
 
-            var entityIdLow32Bits = (uint)entity.EntityId;
+            var entityIdLow32Bits = (uint) entity.EntityId;
             IsActionAllowedCache.Store(__state, (__result ? 1u : 0u) ^ entityIdLow32Bits, 120u + (entityIdLow32Bits & 15));
         }
 

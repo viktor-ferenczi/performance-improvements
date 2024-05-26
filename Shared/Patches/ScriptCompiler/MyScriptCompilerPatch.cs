@@ -56,7 +56,7 @@ namespace Shared.Patches
         // [HarmonyPatch(typeof(MyScriptCompiler), nameof(MyScriptCompiler.Compile), MethodType.Enumerator)]
         [HarmonyTranspiler]
         // FIXME: Make EnsureCode to work with patches using TargetMethod(s)
-        [EnsureCode("")]
+        // [EnsureCode("")]
         private static IEnumerable<CodeInstruction> CompileTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             // See MyScriptCompiler.Compile.il
