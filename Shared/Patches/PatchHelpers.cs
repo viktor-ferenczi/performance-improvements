@@ -26,6 +26,7 @@ namespace Shared.Patches
             if (Common.Plugin.Config.DetectCodeChanges && Environment.GetEnvironmentVariable("SE_PLUGIN_DISABLE_METHOD_VERIFICATION") == null)
             {
                 log.Debug("Scanning for conflicting code changes");
+                var throwOnFailedVerification = Environment.GetEnvironmentVariable("SE_PLUGIN_THROW_ON_FAILED_METHOD_VERIFICATION") != null;
                 try
                 {
                     var codeChanges = EnsureCode.Verify().ToList();
@@ -34,12 +35,24 @@ namespace Shared.Patches
                         log.Critical("Detected conflicting code changes:");
                         foreach (var codeChange in codeChanges)
                             log.Info(codeChange.ToString());
+                        
+                        if (throwOnFailedVerification)
+                        {
+                            throw new Exception("Detected conflicting code changes");
+                        }
+                        
                         return false;
                     }
                 }
                 catch (Exception ex)
                 {
                     log.Critical(ex, "Failed to scan for conflicting code changes");
+                    
+                    if (throwOnFailedVerification)
+                    {
+                        throw;
+                    }
+                    
                     return false;
                 }
             }
