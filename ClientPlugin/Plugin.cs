@@ -48,9 +48,11 @@ namespace ClientPlugin
             var gameVersion = MyFinalBuildConstants.APP_VERSION_STRING.ToString();
             Common.SetPlugin(this, gameVersion, MyFileSystem.UserDataPath);
 
-            if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
+            // Should HarmonyPatchAll throw an exception the failed flag will remain true
+            failed = true;
+            if (PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name), false))
             {
-                failed = true;
+                failed = false;
             }
         }
 

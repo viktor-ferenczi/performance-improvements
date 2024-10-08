@@ -13,7 +13,7 @@ namespace Shared.Patches
     // ReSharper disable once UnusedType.Global
     public static class PatchHelpers
     {
-        public static bool HarmonyPatchAll(IPluginLogger log, Harmony harmony)
+        public static bool HarmonyPatchAll(IPluginLogger log, Harmony harmony, bool handleExceptions = true)
         {
 #if DEBUG && LIST_ALL_TYPES
             log.Info("All types:");
@@ -26,7 +26,7 @@ namespace Shared.Patches
             if (Common.Plugin.Config.DetectCodeChanges && Environment.GetEnvironmentVariable("SE_PLUGIN_DISABLE_METHOD_VERIFICATION") == null)
             {
                 log.Debug("Scanning for conflicting code changes");
-                var throwOnFailedVerification = Environment.GetEnvironmentVariable("SE_PLUGIN_THROW_ON_FAILED_METHOD_VERIFICATION") != null;
+                var throwOnFailedVerification = !handleExceptions || Environment.GetEnvironmentVariable("SE_PLUGIN_THROW_ON_FAILED_METHOD_VERIFICATION") != null;
                 try
                 {
                     var codeChanges = EnsureCode.Verify().ToList();
