@@ -53,7 +53,7 @@ namespace Shared.Patches
 
         [HarmonyPatch("MergeGridInternal")]
         [HarmonyPostfix]
-        [EnsureCode("ddf218c3")]
+        [EnsureCode("a2674a04")]
         private static void MergeGridInternalPostfix(MyCubeGrid __instance, MyCubeGrid gridToMerge)
         {
             if (Config.FixConveyor)
@@ -65,7 +65,7 @@ namespace Shared.Patches
 
         [HarmonyPatch("MechanicalConnectionBlockAttachUpdateStatusChanged")]
         [HarmonyPostfix]
-        [EnsureCode("b0648511")]
+        [EnsureCode("bda9b059")]
         private static void MechanicalConnectionBlockAttachUpdateStatusChangedPostfix(MyCubeGrid __instance, MyMechanicalConnectionBlockBase mechConBlock)
         {
             if (Config.FixConveyor)
@@ -81,7 +81,7 @@ namespace Shared.Patches
 
         [HarmonyPatch("OnAddedToScene")]
         [HarmonyPostfix]
-        [EnsureCode("3a7fe2cd")]
+        [EnsureCode("b5021de4")]
         private static void OnAddedToScenePostfix(MyCubeGrid __instance)
         {
             if (Config.FixConveyor)
@@ -125,7 +125,7 @@ namespace Shared.Patches
 
         [HarmonyPatch("NotifyBlockAdded")]
         [HarmonyPostfix]
-        [EnsureCode("d33dc30a")]
+        [EnsureCode("2c18b95e")]
         private static void NotifyBlockAddedPostfix(MyCubeGrid __instance, MySlimBlock block)
         {
             if (Config.FixConveyor && block?.FatBlock is IMyConveyorEndpointBlock)
@@ -136,7 +136,7 @@ namespace Shared.Patches
 
         [HarmonyPatch("NotifyBlockRemoved")]
         [HarmonyPostfix]
-        [EnsureCode("9705f749")]
+        [EnsureCode("d0b27a63")]
         private static void NotifyBlockRemovedPostfix(MyCubeGrid __instance, MySlimBlock block)
         {
             if (Config.FixConveyor && block?.FatBlock is IMyConveyorEndpointBlock)
