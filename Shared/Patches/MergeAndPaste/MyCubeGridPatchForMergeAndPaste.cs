@@ -22,7 +22,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyPrefix]
         [HarmonyPatch("MergeGridInternal")]
-        [EnsureCode("ddf218c3")]
+        [EnsureCode("a2674a04")]
         private static bool MergeGridInternalPrefix(ref bool __state)
         {
             if (!Config.Enabled || !Config.FixGridMerge)
@@ -37,7 +37,7 @@ namespace Shared.Patches
         // ReSharper disable once UnusedMember.Local
         [HarmonyPostfix]
         [HarmonyPatch("MergeGridInternal")]
-        [EnsureCode("ddf218c3")]
+        [EnsureCode("a2674a04")]
         private static void MergeGridInternalPostfix(MyCubeGrid __instance, bool __state)
         {
             if (!__state)
