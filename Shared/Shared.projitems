@@ -68,6 +68,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Tools\RwLock.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\RwLockDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\TranspilerHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools\WineDetector.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)..\CodeGenerator.py">
