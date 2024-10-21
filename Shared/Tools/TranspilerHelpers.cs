@@ -9,6 +9,7 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Text;
 using HarmonyLib;
+using Shared.Plugin;
 
 namespace Shared.Tools
 {
@@ -160,36 +161,51 @@ namespace Shared.Tools
 
         public static void RecordOriginalCode(this List<CodeInstruction> il, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string callerMemberName = "")
         {
-#if DEBUG
             RecordCode(il, callerFilePath, callerMemberName, "original");
-#endif
         }
 
         public static void RecordPatchedCode(this List<CodeInstruction> il, [CallerFilePath] string callerFilePath = "", [CallerMemberName] string callerMemberName = "")
         {
-#if DEBUG
             RecordCode(il, callerFilePath, callerMemberName, "patched");
-#endif
         }
 
         private static void RecordCode(List<CodeInstruction> il, string callerFilePath, string callerMemberName, string suffix)
         {
+            Debug.Assert(callerFilePath.Length > 0);
+            
+#if DEBUG
             if (!File.Exists(callerFilePath))
                 return;
 
-            var text = il.FormatCode();
-
-            Debug.Assert(callerFilePath.Length > 0);
             var dir = Path.GetDirectoryName(callerFilePath);
             Debug.Assert(dir != null);
+
+            var prefix = "";
+#else
+            var dir = Common.DebugDir;
+            
+            var prefix = $"{Path.GetFileNameWithoutExtension(callerFilePath)}.";
+            if (string.IsNullOrEmpty(callerFilePath))
+                return;
+#endif
 
             const string expectedMemberNameSuffix = "Transpiler";
             Debug.Assert(callerMemberName.Length > expectedMemberNameSuffix.Length);
             Debug.Assert(callerMemberName.EndsWith(expectedMemberNameSuffix));
             var name = callerMemberName.Substring(0, callerMemberName.Length - expectedMemberNameSuffix.Length);
 
-            var path = Path.Combine(dir, $"{name}.{suffix}.il");
-
+            var path = Path.Combine(dir, $"{prefix}{name}.{suffix}.il");
+            
+#if !DEBUG
+            if (File.Exists(path))
+                return;
+#endif
+            
+            var text = il.FormatCode();
+            
+            if (File.Exists(path) && File.ReadAllText(path) == text)
+                return;
+            
             File.WriteAllText(path, text);
         }
 
