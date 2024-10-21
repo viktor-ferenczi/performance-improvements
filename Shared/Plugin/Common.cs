@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Reflection;
 using Shared.Config;
 using Shared.Logging;
 using Shared.Patches;
@@ -16,7 +15,7 @@ namespace Shared.Plugin
         public static IPluginConfig Config { get; private set; }
 
         public static string GameVersion { get; private set; }
-        public static string PluginVersion { get; private set; }
+        public const string PluginVersion = "1.11.13.0";
 
         public static string DataDir { get; private set; }
         public static string CacheDir { get; private set; }
@@ -32,7 +31,6 @@ namespace Shared.Plugin
             Config = plugin.Config;
 
             GameVersion = gameVersion;
-            PluginVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(Assembly.GetCallingAssembly().Location).FileVersion;
 
             DataDir = Path.Combine(storageDir, "PerformanceImprovements");
             CacheDir = Path.Combine(DataDir, "Cache");
