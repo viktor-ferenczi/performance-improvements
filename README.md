@@ -65,6 +65,7 @@ these patches are expected to be removed anyway, so I did not bother using Torch
 - Lotan
 - mkaito
 - ransomthetoaster
+- Raidfire
 
 ### Developers
 - Avaness: client side Plugin Loader
