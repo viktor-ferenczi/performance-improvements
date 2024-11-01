@@ -23,7 +23,9 @@ namespace Shared.Patches
             }
 #endif
 
-            if (Common.Plugin.Config.DetectCodeChanges && 
+            var isOldDotNetFramework = Environment.Version.Major < 5;
+            if (isOldDotNetFramework &&
+                Common.Plugin.Config.DetectCodeChanges &&
                 Environment.GetEnvironmentVariable("SE_PLUGIN_DISABLE_METHOD_VERIFICATION") == null &&
                 !WineDetector.IsRunningInWineOrProton())
             {
