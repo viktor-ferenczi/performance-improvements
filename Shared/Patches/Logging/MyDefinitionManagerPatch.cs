@@ -34,6 +34,9 @@ namespace Shared.Patches
         [EnsureCode("0a2a4cf1")]
         private static IEnumerable<CodeInstruction> GetBlueprintDefinitionTranspiler(IEnumerable<CodeInstruction> instructions)
         {
+            if (!enabled) 
+                return instructions;
+            
             var il = instructions.ToList();
             il.RecordOriginalCode();
 
