@@ -15,6 +15,7 @@ using Shared.Config;
 using Shared.Logging;
 using Shared.Plugin;
 using Shared.Tools;
+using VRage.Collections;
 using VRage.Scripting;
 
 namespace Shared.Patches
@@ -24,6 +25,8 @@ namespace Shared.Patches
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public static class MyScriptCompilerPatch
     {
+        private static readonly FieldInfo ConditionalCompilationSymbolsField = AccessTools.DeclaredField(typeof(MyScriptCompiler), "m_conditionalCompilationSymbols"); 
+        
         private static readonly MethodInfo RecallFromCacheInfo = AccessTools.DeclaredMethod(typeof(MyScriptCompilerPatch), nameof(RecallFromCache));
         private static readonly MethodInfo StoreIntoCacheInfo = AccessTools.DeclaredMethod(typeof(MyScriptCompilerPatch), nameof(StoreIntoCache));
 
@@ -38,6 +41,13 @@ namespace Shared.Patches
 
         public static void Configure()
         {
+            if (ConditionalCompilationSymbolsField == null ||
+                RecallFromCacheInfo == null ||
+                StoreIntoCacheInfo == null)
+            {
+                throw new Exception("MyScriptCompilerPatch: Reflection error");
+            }
+                
             Directory.CreateDirectory(InGameScriptCacheDir);
             Directory.CreateDirectory(ModScriptCacheDir);
         }
@@ -238,10 +248,10 @@ namespace Shared.Patches
 
             using (var sha1 = SHA1.Create())
             {
-                var reader = myScriptCompiler.ConditionalCompilationSymbols;
-                if (reader.IsValid)
+                var conditionalCompilationSymbols = (HashSet<string>)ConditionalCompilationSymbolsField.GetValue(myScriptCompiler); 
+                if (conditionalCompilationSymbols != null)
                 {
-                    foreach (var symbol in reader)
+                    foreach (var symbol in conditionalCompilationSymbols)
                     {
                         var result = sha1.ComputeHash(Encoding.UTF8.GetBytes(symbol));
                         for (var i = 0; i < size; i++)
