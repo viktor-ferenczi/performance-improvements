@@ -19,7 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyPathfindingDataPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\MyShipConnectorPatchForConveyor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Conveyor\PullItemStats.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\Logging\MyDefinitionManagerPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\DefinitionManager\MyDefinitionManagerPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyDefinitionIdToStringPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Memory\MyPlayerCollectionPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\Physics\MyClusterTreePatch.cs" />
@@ -82,8 +82,8 @@
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)Patches\Character\RigidBody_ContactPointCallback.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Character\RigidBody_ContactPointCallback.patched.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\Logging\GetBlueprintDefinition.original.il" />
-    <Content Include="$(MSBuildThisFileDirectory)Patches\Logging\GetBlueprintDefinition.patched.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\DefinitionManager\GetBlueprintDefinition.original.il" />
+    <Content Include="$(MSBuildThisFileDirectory)Patches\DefinitionManager\GetBlueprintDefinition.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\LoadData.original.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\LoadData.patched.il" />
     <Content Include="$(MSBuildThisFileDirectory)Patches\Physics\ReorderClusters.original.il" />
