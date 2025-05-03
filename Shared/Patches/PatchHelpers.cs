@@ -50,7 +50,7 @@ namespace Shared.Patches
                 }
                 catch (Exception ex)
                 {
-                    log.Critical(ex, "Failed to scan for conflicting code changes");
+                    log.Error(ex, "Failed to scan for conflicting code changes");
                     
                     if (throwOnFailedVerification)
                     {
