@@ -15,7 +15,7 @@ namespace Shared.Plugin
         public static IPluginConfig Config { get; private set; }
 
         public static string GameVersion { get; private set; }
-        public const string PluginVersion = "1.11.15.0";
+        public const string PluginVersion = "1.11.16.0";
 
         public static string DataDir { get; private set; }
         public static string CacheDir { get; private set; }
