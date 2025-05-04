@@ -59,9 +59,11 @@ these patches are expected to be removed anyway, so I did not bother using Torch
 - wafoxxx
 
 #### Captain level supporters
+- CaptFacepalm
 - DontFollowOrders
 - Gabor
 - Lazul
+- Linux123
 - Lotan
 - mkaito
 - ransomthetoaster
